@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 """
-Charge les dernières CVE depuis l'API CVE CIRCL et les convertit en RDF/TTL.
+Charge les dernières CVE depuis l'API CIRCL v2 (sans clé API).
 Usage: python load_cve_feed.py > cve_data.ttl
 """
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 
-# API CVE CIRCL (gratuit, pas besoin de clé)
-CVE_API_URL = "https://cve.circl.lu/api/last"
+# API CIRCL v2 (limite : 100 requêtes/jour sans clé)
+CIRCL_API_URL = "https://cve.circl.lu/api/last/120"  # Dernières 120 CVE
 
-def fetch_recent_cves(days=7):
-    """Récupère les CVE des derniers `days` jours."""
-    end_date = datetime.now().strftime("%Y-%m-%d")
-    start_date = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
-    url = f"{CVE_API_URL}/{start_date}/{end_date}"
-    response = requests.get(url)
-    response.raise_for_status()
-    return response.json()
+def fetch_recent_cves():
+    """Récupère les dernières CVE (120 max)."""
+    try:
+        response = requests.get(CIRCL_API_URL)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.HTTPError as e:
+        print(f"Erreur HTTP : {e}")
+        return []
 
 def cve_to_ttl(cve):
     """Convertit une CVE en format TTL."""
-    cve_id = cve["id"]
+    cve_id = cve.get("id", "unknown")
     cvss = cve.get("cvss", 0)
-    description = cve.get("summary", "").replace('"', '\\"').replace("\n", " ")
+    summary = cve.get("summary", "").replace('"', '\\"').replace("\n", " ")
     return f"""
 @prefix cve: <https://cve.mitre.org/> .
 @prefix : <http://example.org/cyber-ontology#> .
@@ -30,15 +31,19 @@ def cve_to_ttl(cve):
 cve:{cve_id} a :Vulnerability ;
     foaf:name "{cve_id}" ;
     :cvssScore {cvss} ;
-    :description "{description}" .
+    :description "{summary}" .
 """
 
 def main():
-    cves = fetch_recent_cves(days=30)  # Dernières CVE des 30 jours
+    cves = fetch_recent_cves()
+    if not cves:
+        print("Aucune CVE récupérée.")
+        return
+
     print("@prefix : <http://example.org/cyber-ontology#> .")
     print("@prefix cve: <https://cve.mitre.org/> .")
     print("@prefix foaf: <http://xmlns.com/foaf/0.1/> .")
-    print("\n# Généré le " + datetime.now().isoformat() + "\n")
+    print(f"\n# Généré le {datetime.now().isoformat()}\n")
     for cve in cves:
         print(cve_to_ttl(cve))
 
