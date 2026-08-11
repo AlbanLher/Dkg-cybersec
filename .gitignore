@@ -26,3 +26,10 @@ neo4j-*
 # OS
 .DS_Store
 Thumbs.db
+
+# Zone confidentielle
+.private/
+*.secret
+*.key
+*.enc
+!*.md  # On garde les README dans .private/
