@@ -1,0 +1,33 @@
+@prefix : <http://example.org/cyber-ontology#> .
+@prefix cve: <https://cve.mitre.org/> .
+@prefix mitre: <https://attack.mitre.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Device a owl:Class ; rdfs:label "Appareil" .
+:Software a owl:Class ; rdfs:label "Logiciel" .
+:Vulnerability a owl:Class ; rdfs:label "Vulnérabilité" .
+:Rule a owl:Class ; rdfs:label "Règle de sécurité" .
+
+:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Vulnerability ;
+    rdfs:label "a pour vulnérabilité" .
+
+:hasSoftware a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Software ;
+    rdfs:label "a pour logiciel" .
+
+:appliesTo a owl:ObjectProperty ;
+    rdfs:domain :Rule ;
+    rdfs:range :Device ;
+    rdfs:label "s'applique à" .
+
+:cvssScore a owl:DatatypeProperty ;
+    rdfs:domain :Vulnerability ;
+    rdfs:range xsd:float ;
+    rdfs:label "score CVSS" .
