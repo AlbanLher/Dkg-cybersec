@@ -6,6 +6,7 @@ Usage: python generate_inventory.py > inventory.json
 import json
 from faker import Faker
 import random
+from datetime import datetime
 
 fake = Faker()
 
@@ -19,7 +20,8 @@ SOFTWARES = {
 def generate_inventory(num_devices=3):
     inventory = {
         "devices": [],
-        "timestamp": fake.iso8601()
+        # "timestamp": fake.iso8601()
+        "timestamp" : datetime.now().isoformat() 
     }
     for _ in range(num_devices):
         device_type = random.choice(DEVICES)
