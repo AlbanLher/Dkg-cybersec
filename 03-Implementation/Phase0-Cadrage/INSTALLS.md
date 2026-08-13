@@ -14,7 +14,8 @@ jupyter:
     name: python3
 ---
 
-# Installation Neo4j avec Podman (Fedora 44)
+# Neo4j & apoc & n10s
+## Installation Neo4j avec Podman (Fedora 44)
 
 ### Prérequis
 - Podman installé : `sudo dnf install podman`
@@ -22,18 +23,6 @@ jupyter:
 
 
 ### Commande de Lancement
-```bash
-mkdir -p /data/neo4j/{data,logs,conf}
-podman run -d \
-  --name neo4j \
-  --userns=keep-id \
-  -p 7474:7474 -p 7687:7687 \
-  -v /data/neo4j/data:/data\:Z \
-  -v /data/neo4j/logs:/logs\:Z \
-  -v /data/neo4j/conf:/var/lib/neo4j/conf\:Z \
-  -e NEO4J_AUTH=neo4j/Acad26DKG! \
-  neo4j\:latest
-```
 
 ```bash
 podman run -d
@@ -45,10 +34,21 @@ podman run -d
    -v /data/neo4j/logs:/logs:Z   
    -v /data/neo4j/conf:/var/lib/neo4j/conf:Z   
    -v /data/neo4j/plugins:/var/lib/neo4j/plugins:Z 
-   -e NEO4J_PLUGINS='["apoc","n10s"]]' 
+   -v /data/SyncData/Projets/T2C_1/Workspace/ImportNeo4J:/var/lib/neo4j/import:z 
+   -e NEO4J_PLUGINS='["apoc"]' 
    -e NEO4J_AUTH=neo4j/Acad26DKG!   
    neo4j:latest
 ```
+REX
+- ne pas renseigner dans `NEO4J_PLUGINS='["apoc","n10s"]'`  la mise en place du jar n10s dans le repertoire /plugins/ suffit
+- pour charger les fichiers dans neo4j ils doisent être placé dans le volume local `/var/lib/neo4j/import'
+  et la commande `CALL n10s.rdf.import.fetch("file:///var/lib/neo4j/import/cve_data.ttl", "Turtle");`
+- rappel podman :
+	- pour naviguer dans le repertoire interne au docker : `podman exec -it neo4j ls -la /var/lib/neo4j/import`
+	- copies directes `podman cp /chemin/vers/cve_data.ttl neo4j:/var/lib/neo4j/import/cve_data.ttl`
+
+
+
 
 f02fcd2414af958313eda1e618f471ce499ba574f5f27b9c87ee9ca42cb82fe8
 
@@ -90,7 +90,7 @@ RETURN apoc.version() AS version;
 
 
 
-# conf neo4j {APOC, }
+## conf neo4j {APOC, }
 Configuration d’APOC pour Neo4j 5.x+
 ⚠️ Important Depuis **Neo4j 5.x**, les paramètres APOC **doivent** être dans un fichier **`apoc.conf` séparé**. Ne les placez **plus** dans `neo4j.conf` !``
 
@@ -107,6 +107,25 @@ dbms.security.procedures.unrestricted=apoc.*,apoc.meta.*
 dbms.security.procedures.allowlist=apoc.*
 server.directories.logs=/logs
 ```
+
+
+
+```
+# Configuration réseau & mémoire
+server.memory.pagecache.size=512M
+server.default_listen_address=0.0.0.0
+
+# Autorisations pour APOC et n10s (sans restriction)
+dbms.security.procedures.unrestricted=apoc.*,n10s.*
+
+# Liste autorisée (inclut APOC et n10s)
+dbms.security.procedures.allowlist=apoc.*,n10s.*
+server.directories.logs=/logs
+```
+
+
+
+
 
 **`apoc.conf`**
 ```
@@ -125,19 +144,12 @@ apoc.import.file.allow_read_from_filesystem=true
 # Autorise l'accès au système de fichiers
 apoc.export.file.enabled=true
 apoc.load.json.enabled=true
-apoc.load.csv.enabled=true
+apoc.load.csv.enabled=true      
 ```
 
 
 
-
-
-
-
-
-
-
-# Connexion neo4j  depuis Python
+## Connexion neo4j  depuis Python
 ```python
 from neo4j import GraphDatabase
 
@@ -158,6 +170,7 @@ driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Acad26DKG
 ```
 
 
+## Quelques exemple de commande CYPHER
 `// Supprimez d'abord les données de test (si nécessaire)
 ```cypher
 MATCH (n) DETACH DELETE n
@@ -173,3 +186,9 @@ CREATE (d:Device { id: device.id, type: device.type, ip: device.ip })
 FOREACH (sw IN device.software | MERGE (s:Software {name: sw.name, version: sw.version}) CREATE (d)-[:HAS_SOFTWARE]->(s) ) 
 RETURN count(d) AS devices_created
 ```
+
+
+## liens utiles
+
+[cheatsheets_neo4j](https://github.com/cherkavi/cheat-sheet/blob/master/neo4j.md)
+[GitHub_neosemantic(n10s)](https://github.com/neo4j-labs/neosemantics/releases)
