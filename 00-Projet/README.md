@@ -14,6 +14,9 @@ Il est **Important** prendre en compte le lexique comme référence sémantique 
 
 # Cas d'Usage
 Détection et correction de vulnérabilités (CVE, MITRE ATT&CK).
+## 📖 Histoire du Use Case
+Pour comprendre **pourquoi et comment** ce projet a évolué, lisez :
+→ [Histoire d'Alban et la Gestion des Vulnérabilités](01-CasUsage/DESCRIPTION.md)
 
 # Données :
   - Publiques : CVE, MITRE, OWASP.
