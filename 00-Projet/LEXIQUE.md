@@ -54,4 +54,4 @@ graph TD
 | RDF  | Resource Description Framework<br> **modèle de données** pour représenter des informations sous forme de **triplets**                                         |
 | n10s | **Neo4j Semantics**.   _(plugin Neo4j)_<br>permettant l'intégration RDF/OWL dans Neo4j pour le stockage, la validation et l'inférence de données sémantiques. |
 | APOC | **Awesome Procedures on Cypher**  _(plugin Neo4j)_<br>étendant ses capacités en manipulation de données, graphes et transformations complexes                 |
-|      |                                                                                                                                                               |
+|    FOAG  |Friend Of A Friend - est un vocabulaire sémantique utilisé dans les graphes de connaissances pour décrire les personnes et leurs relations, facilitant ainsi l'interconnexion des données structurées.                                                                                                                                                     |
