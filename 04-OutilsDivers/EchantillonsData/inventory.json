@@ -1,0 +1,50 @@
+{
+  "devices": [
+    {
+      "id": "Router-71948bb5",
+      "type": "Router",
+      "software": [
+        {
+          "name": "OpenSSL",
+          "version": "3.0.8"
+        },
+        {
+          "name": "Apache",
+          "version": "2.4.57"
+        }
+      ],
+      "ip": "172.23.84.218"
+    },
+    {
+      "id": "Laptop-2235c68e",
+      "type": "Laptop",
+      "software": [
+        {
+          "name": "OpenSSL",
+          "version": "3.0.8"
+        },
+        {
+          "name": "Apache",
+          "version": "2.4.57"
+        }
+      ],
+      "ip": "192.168.69.196"
+    },
+    {
+      "id": "PC-7030d2ca",
+      "type": "PC",
+      "software": [
+        {
+          "name": "OpenSSL",
+          "version": "1.1.1"
+        },
+        {
+          "name": "Python",
+          "version": "3.9.16"
+        }
+      ],
+      "ip": "192.168.107.203"
+    }
+  ],
+  "timestamp": "2026-08-11T18:57:04.635132"
+}

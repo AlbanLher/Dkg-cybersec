@@ -1,0 +1,70 @@
+@prefix : <http://example.org/cyber-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# === Classes existantes (Phase 0 + 1) ===
+:Device a owl:Class .
+:InternalDevice a owl:Class ; rdfs:subClassOf :Device .
+:ExternalDevice a owl:Class ; rdfs:subClassOf :Device .
+:Software a owl:Class .
+:Vulnerability a owl:Class ; rdfs:subClassOf :Threat .
+:Threat a owl:Class .
+:Rule a owl:Class .
+:ComplianceRule a owl:Class ; rdfs:subClassOf :Rule .
+:Action a owl:Class .
+:ComplianceStatus a owl:Class .
+
+# === NOUVELLES Classes de Phase 2 ===
+:Context a owl:Class ;
+    rdfs:label "Contexte" ;
+    rdfs:comment "Contexte dans lequel une règle s'applique (ex: Production, Test, ClientExterne)." .
+
+:ProductionContext a owl:NamedIndividual , :Context ;
+    rdfs:label "Contexte Production" ;
+    rdfs:comment "Environnement de production (règles strictes)." .
+
+:TestContext a owl:NamedIndividual , :Context ;
+    rdfs:label "Contexte Test" ;
+    rdfs:comment "Environnement de test (règles relâchées)." .
+
+:ExternalContext a owl:NamedIndividual , :Context ;
+    rdfs:label "Contexte Externe" ;
+    rdfs:comment "Contexte pour les devices externes (ex: clients)." .
+
+:Waiver a owl:Class ;
+    rdfs:label "Dérogeance" ;
+    rdfs:comment "Exception temporaire à une règle de conformité." .
+
+# === NOUVELLES Propriétés de Phase 2 ===
+:inContext a owl:ObjectProperty ;
+    rdfs:domain :Rule ;
+    rdfs:range :Context ;
+    rdfs:label "s'applique dans le contexte" .
+
+:hasWaiver a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Waiver ;
+    rdfs:label "a une dérogation" .
+
+:justifiedBy a owl:ObjectProperty ;
+    rdfs:domain :Waiver ;
+    rdfs:range xsd:string ;
+    rdfs:label "est justifiée par" .
+
+# === Propriétés existantes ===
+:hasSoftware a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Software .
+
+:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Vulnerability .
+
+:hasComplianceStatus a owl:ObjectProperty ;
+    rdfs:domain :InternalDevice ;
+    rdfs:range :ComplianceStatus .
+
+:appliesTo a owl:ObjectProperty ;
+    rdfs:domain :ComplianceRule ;
+    rdfs:range :InternalDevice .

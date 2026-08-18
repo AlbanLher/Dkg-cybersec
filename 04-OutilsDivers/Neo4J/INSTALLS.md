@@ -18,7 +18,7 @@ jupyter:
 ## Installation Neo4j avec Podman (Fedora 44)
 
 ### Prérequis
-- Podman installé : `sudo dnf install podman`
+- Podman installé :                                                      **`sudo dnf install podman`**
 - SELinux activé (par défaut sur Fedora)
 
 
@@ -48,18 +48,14 @@ REX
 	- copies directes `podman cp /chemin/vers/cve_data.ttl neo4j:/var/lib/neo4j/import/cve_data.ttl`
 
 
-
-
-f02fcd2414af958313eda1e618f471ce499ba574f5f27b9c87ee9ca42cb82fe8
-
 ### Explications
 
-- `--userns=keep-id` : Évite les erreurs de permissions (utilise votre UID).
-- `:Z` : Autorise SELinux à accéder aux volumes montés.
-- `/data/neo4j/...` : Données stockées dans `/data/` (et non `/var/lib/`).
+- `--userns=keep-id`                             : Évite les erreurs de permissions (utilise votre UID).
+- `:Z`                                                       : Autorise SELinux à accéder aux volumes montés.
+- `/data/neo4j/...`                               : Données stockées dans `/data/` (et non `/var/lib/`).
 - -e NEO4J_PLUGINS : (
 	- apoc:chargement de données  
-	- n10s: Le plugin **neosemantics (n10s)** permet d'importer, exporter et manipuler des données RDF (Turtle, JSON-LD, RDF/XML) directement dans Neo4j via Cypher sans passer par un script de conversion intermédiaire.
+	- n10s: Le plugin **neosemantics (n10s)** permet d'importer, exporter et manipuler des données RDF (Turtle, JSON-LD, RDF/XML) directement dans Neo4j via Cypher sans passer par un script de conversion intermédiaire.     /!\ ne pas utiliser
 
 ### Accès
 

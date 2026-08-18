@@ -1,0 +1,29 @@
+@prefix : <http://example.org/cyber-ontology#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# Règles existantes
+:UpdateOpenSSL a :Action ;
+    foaf:name "Mettre à jour OpenSSL" ;
+    :description "Mettre à jour OpenSSL vers la version 3.0.8." .
+
+:Rule-001 a :Rule ;
+    foaf:name "Règle de mise à jour OpenSSL" ;
+    :description "Tous les devices avec OpenSSL < 3.0 doivent être mis à jour." ;
+    :requiresAction :UpdateOpenSSL .
+
+:Compliance-CVSS-Low a :ComplianceRule ;
+    foaf:name "CVSS < 5 pour les serveurs" ;
+    :description "Tous les InternalDevice doivent avoir un score CVSS maximal de 5." ;
+    :appliesTo :InternalDevice ;
+    :inContext :ProductionContext .  # ← NOUVEAU : Contexte Production
+
+:UpdatePostgreSQL a :Action ;
+    foaf:name "Mettre à jour PostgreSQL" ;
+    :description "Mettre à jour PostgreSQL vers la version 15.4." .
+
+# NOUVELLES Règles de Phase2
+:ExternalCVSS_Rule a :ComplianceRule ;
+    foaf:name "CVSS < 7 pour les clients externes" ;
+    :description "Les ExternalDevice peuvent avoir un CVSS jusqu'à 7 (tolérance pour les clients)." ;
+    :appliesTo :ExternalDevice ;
+    :inContext :ExternalContext .  # ← NOUVEAU : Contexte Externe
