@@ -79,6 +79,47 @@ Le developpement de graph de connaissance interessent beaucoup d'organisation po
 > ⚠️ **Note** : Dans ce POC, les données **pseudo-privées** sont publiques pour faciliter la collaboration.
 > **En production**, elles seraient déplacées dans `.private/` et exclues de Git.
 
+
+## 🗺️ Guide d'Orientation & Démarrage Rapide
+
+Bienvenue sur le projet DKG Cybersec. L'arborescence est structurée selon le rôle de chaque intervenant :
+
+---
+
+### 👥 Profil 1 : Métier / SecOps / Analyste (Non-Technique)
+Si vous souhaitez enrichir le vocabulaire, ajouter des acronymes ou ajuster la définition des concepts :
+1. **Consulter/Modifier le Lexique :** Allez dans `00-Projet/LEXIQUE.md` (ou `02-Donnees/Phase0/LexiqueOntologie/LEXIQUE_METIER.md`).
+2. **Consulter la Structure de l'Ontologie :** Allez dans `01-Principes_Architecture/ONTOLOGIE/`.
+3. **Cas d'Usage RSSI/Cyber :** Retrouvez les scénarios métier dans `00-Projet/CasDUsage/DESCRIPTION.md`.
+
+---
+
+### 💻 Profil 2 : Data Engineer / Développeur Graph & AI
+Si vous souhaitez exécuter les pipelines, mettre à jour le graphe ou tester le Drift Guard :
+1. **Pipelines Phase 0 (Socle V0) :** `02-Donnees/Phase0/ScriptsSpecifiques/`
+   * `md_to_skos.py` : Compile le Markdown en Turtle SKOS.
+   * `load_into_neo4j.py` : Charge les données initiales dans Neo4j.
+2. **Pipelines Phase 1 (Évolution & Drift) :** `02-Donnees/Phase1/ScriptsSpecifiques/`
+   * `ontology_guard.py` : Contrôle la dérive entre les nouvelles données (V2) et l'ontologie V0.
+   * `to_phase1.cypher` : Migration du graphe vers la V1.
+3. **Outils, Connecteurs & Cypher :** Retrouvez les scripts réutilisables dans `04-OutilsDivers/`.
+
+---
+
+### 📁 Organisation Générale des Dossiers
+
+| Dossier                          | Description & Usage                                                                   |
+| :------------------------------- | :------------------------------------------------------------------------------------ |
+| **`00-Projet/`**                 | Vision globale, cas d'usage, changelog et lexique principal.                          |
+| **`01-Principes_Architecture/`** | Spécifications théoriques (Ontologie, Agentique, Vectorisation, NER).                 |
+| **`02-Donnees/`**                | **Cœur de données DKG** découpé par phases évolutives (`Phase0`, `Phase1`, `Phase2`). |
+| **`03-Application/`**            | Documentation et code de la couche applicative / API GraphRAG.                        |
+| **`04-OutilsDivers/`**           | Scripts utilitaires (Cypher, Bash, Python) et notebooks de test Neo4j.                |
+
+
+
+
+
 ---
 ## 💻 Hypothèses Matérielles
 
@@ -102,31 +143,6 @@ Le developpement de graph de connaissance interessent beaucoup d'organisation po
 
 ---
 ## 📁 Structure du Projet
-```
-dkg-cybersec/
-├── 00-Projet/               # Documentation globale
-│   ├── README.md           # 👈 Vous êtes ici
-│   ├── LEXIQUE.md          # Définitions techniques
-│   └── ROADMAP.md          # Feuille de route
-│
-├── 01-CasUsage/            # Histoire et cas d'usage
-│   ├── DESCRIPTION.md      # Histoire d'Alban (3 phases)
-│   ├── ONTOLOGIE..md      # Histoire d'Alban (3 phases)
-│   └── LEXIQUE.md      # Histoire d'Alban (3 phases)
 
-│
-├── 02-Architecture/        # Conception
-│   ├── ONTOLOGIE/          # Ontologies (TTL)
-│   │   ├── ontologie.ttl   # Ontologie publique
-│   │   └── ontologie-schema.md # Schéma Mermaid
-│   │
-│   ├── DESIGN.md           # Choix architecturaux
-│   └── NEO4J.md            # Configuration Neo4j
-│
-└── 03-Implementation/      # Implémentation
-└── Phase0-Cadrage/     # Phase 0 : POC basique
-├── ONTOLOGIE/      # Ontologie spécifique
-├── donnees/         # Données (public/pseudo-private)
-├── scripts/        # Scripts Python
-└── migrations/     # Scripts de migration (vide pour Phase 0)
-```
+
+

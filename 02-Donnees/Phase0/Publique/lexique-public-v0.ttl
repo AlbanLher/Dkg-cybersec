@@ -1,0 +1,33 @@
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix cyber: <http://example.org/cyber-ontology#> .
+@prefix lex:   <http://example.org/cyber-lexicon/public#> .
+
+lex:PublicCyberLexicon a skos:ConceptScheme ;
+    dct:title "Lexique SKOS Public : Standards Cyber & Infra"@fr ;
+    dct:description "Référentiel de vocabulaire public aligné sur les normes du secteur."@fr ;
+    skos:hasTopConcept lex:AssetConcept, lex:VulnerabilityConcept, lex:PublicZoneConcept .
+
+lex:AssetConcept a skos:Concept ;
+    skos:inScheme lex:PublicCyberLexicon ;
+    skos:prefLabel "Équipement Système"@fr, "System Asset"@en ;
+    skos:altLabel "Serveur"@fr, "Machine"@fr, "Host"@en, "Node"@en, "Bare-Metal"@en, "Compute Instance"@en ;
+    skos:hiddenLabel "Srvur"@fr, "Servuer"@fr ;
+    skos:definition "Ressource matérielle ou virtuelle dotée d'une adresse IP et hébergeant des composants logiciels."@fr ;
+    rdfs:isDefinedBy cyber:Device .
+
+lex:VulnerabilityConcept a skos:Concept ;
+    skos:inScheme lex:PublicCyberLexicon ;
+    skos:prefLabel "Vulnérabilité Sécurité"@fr, "Security Vulnerability"@en ;
+    skos:altLabel "CVE"@fr, "Faille"@fr, "Flaw"@en, "Trou de sécurité"@fr, "Bug"@en, "Weakness"@en ;
+    skos:hiddenLabel "Vulnerabilite"@fr, "Vullnerabilite"@fr ;
+    skos:definition "Faiblesse identifiée dans un composant logiciel pouvant être exploitée."@fr ;
+    rdfs:isDefinedBy cyber:Vulnerability .
+
+lex:PublicZoneConcept a skos:Concept ;
+    skos:inScheme lex:PublicCyberLexicon ;
+    skos:prefLabel "Zone Réseau Standard"@fr, "Standard Network Zone"@en ;
+    skos:altLabel "DMZ"@fr, "LAN"@fr, "Subnet"@en, "Segment"@fr, "Perimeter"@en ;
+    skos:definition "Périmètre réseau abstrait défini par un niveau d'exposition standardisé."@fr ;
+    rdfs:isDefinedBy cyber:Environment .

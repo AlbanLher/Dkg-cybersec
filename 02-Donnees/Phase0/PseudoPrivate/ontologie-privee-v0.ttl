@@ -1,0 +1,18 @@
+@prefix owl:        <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix cyber:      <http://example.org/cyber-ontology#> .
+@prefix entreprise: <http://example.org/entreprise-ontology#> .
+
+entreprise:PriveeOntology a owl:Ontology ;
+    rdfs:label "Ontologie Cybersécurité Privée / Métier - Phase 0"@fr ;
+    # Import formel de l'ontologie publique
+    owl:imports <http://example.org/cyber-ontology> .
+
+# Extension métier : Un actif critique est un Device spécialisé
+entreprise:CriticalAsset a owl:Class ;
+    rdfs:subClassOf cyber:Device ;
+    rdfs:label "Actif Criticalité Métier Haute"@fr .
+
+entreprise:businessOwner a owl:DatatypeProperty ;
+    rdfs:domain cyber:Device ;
+    rdfs:range xsd:string .

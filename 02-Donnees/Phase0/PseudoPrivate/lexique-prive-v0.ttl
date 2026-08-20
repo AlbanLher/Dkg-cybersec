@@ -1,0 +1,36 @@
+@prefix skos:       <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:        <http://purl.org/dc/terms/> .
+@prefix cyber:      <http://example.org/cyber-ontology#> .
+@prefix entreprise: <http://example.org/entreprise-ontology#> .
+@prefix lex_pub:    <http://example.org/cyber-lexicon/public#> .
+@prefix lex_priv:   <http://example.org/cyber-lexicon/private#> .
+
+lex_priv:PrivateCyberLexicon a skos:ConceptScheme ;
+    dct:title "Lexique SKOS Confidentiel : Nomenclature & Jargon Entreprise"@fr ;
+    dct:description "Vocabulaire spécifique d'entreprise et mappings vers les concepts publics."@fr ;
+    skos:hasTopConcept lex_priv:CriticalAssetConcept, lex_priv:InternalZoneConcept, lex_priv:BusinessUnitConcept .
+
+lex_priv:CriticalAssetConcept a skos:Concept ;
+    skos:inScheme lex_priv:PrivateCyberLexicon ;
+    skos:prefLabel "Actif Critique Métier"@fr, "Business Critical Asset"@en ;
+    skos:altLabel "SRV-CRIT"@fr, "Bécane Compta"@fr, "Machine Cœur de Réseau"@fr, "Node-Core"@en ;
+    skos:definition "Équipement hébergeant des données financières ou critiques d'entreprise."@fr ;
+    # Alignement : Spécialisation du concept public AssetConcept
+    skos:broadMatch lex_pub:AssetConcept ;
+    rdfs:isDefinedBy entreprise:CriticalAsset .
+
+lex_priv:InternalZoneConcept a skos:Concept ;
+    skos:inScheme lex_priv:PrivateCyberLexicon ;
+    skos:prefLabel "Enclave Sécurisée Interne"@fr, "Internal Secure Enclave"@en ;
+    skos:altLabel "Landing Zone Prod"@en, "Zone PCI-DSS"@fr, "Bulle Sanctuarisée"@fr, "Z-PROD-01"@fr ;
+    skos:definition "Zone isolée du SI soumise aux contrôles renforcés d'accès."@fr ;
+    skos:broadMatch lex_pub:PublicZoneConcept ;
+    rdfs:isDefinedBy entreprise:InternalZone .
+
+lex_priv:BusinessUnitConcept a skos:Concept ;
+    skos:inScheme lex_priv:PrivateCyberLexicon ;
+    skos:prefLabel "Unité d'Organisation Métier"@fr, "Business Unit"@en ;
+    skos:altLabel "BU"@fr, "Branch"@en, "Propriétaire"@fr, "Responsible Party"@en, "AppOwner"@en ;
+    skos:definition "Entité interne responsable du budget et de la conformité d'un actif."@fr ;
+    rdfs:isDefinedBy entreprise:BusinessUnit .
