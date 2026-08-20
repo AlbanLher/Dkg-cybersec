@@ -1,151 +1,132 @@
-# Démonstrateur : Dynamique Knowledge Graph  Cybersécurité 
+# 🚀 Démo : Dynamic Knowledge Graph (DKG) Cybersécurité
 
-**Objectif** : Créer un Assistant IA utilisant un "Dynamic Knowledge Graph" dans le domaine de la cybersécurité avec en particulier la gestion des vulnérabilités et les règles de sécurité.
-l'aspect dynamique , évoluant d'un usage individuel/familiale qui évolue  puis passe à une micro-entreprise.
-L'aspect données publique et privé est un enjeux, mais dans le cadre de ce POC un status "pseudo-privé" sera utilisé pour pouvoir partager l'ensemble ( detail ci dessous)
-**Les fonctionnalités  principales :**
+---
+## 📌 Table des Matières
+1. [🎯 Objectifs](#objectifs)
+2. [📖 Histoire du Use Case](#histoire-du-use-case)
+3. [🏗 Architecture](#architecture)
+4. [🔒 Confidentialité : POC vs Production](#confidentialité)
+5. [💻 Hypothèses Matérielles](#hypothèses-matérielles)
+6. [📊 Données](#données)
+7. [📁 Structure du Projet](#structure-du-projet)
+
+---
+
+## 🎯 Objectifs
+Créer un démonstrateur de mise en oeuvre d'un **assistant IA** utilisant un Graphe de connaissance dynamique. (**Dynamic Knowledge Graph**)
+
+**→ Le graphe de connaissances** se base sur une **ontologie** (cœur de la structure de connaissance).
+-> Il est associé à un **lexique**  **[Lexique](./LEXIQUE.md)** pour une compréhension commune des termes (ontologie, KG, règles, etc.).
+**→ L’aspect dynamique** est crucial : le graphe évolue continûment avec pour socle une ontologie et un lexique contrôlés.
+
+
+Cette ontologie et ce lexique sont des références pour le système agentique, tant pour l'agent que pour les humains. . 
+Il existent dans un version humaine (.md) et dans une version machine (.ttl)
+Les modification du lexique( .md)  vont se répercuter sur la version (.ttl)
+pour l'ontologie seule la version ttl fait reference, le md en est extrait.
+
+Ce projet a aussi un objectif didactique, il tente de développer les principes sur un cas d'usage cyber individuel puis de petite structure :  
+pour :
 - **Détecter** les vulnérabilités (CVE) sur des devices/logiciels.
 - **Appliquer** des règles de sécurité adaptées (ex: RGPD, NIS2).
 - **Évoluer** dynamiquement avec l’ajout de nouveaux devices ou menaces.
 
-Le Graph de connaissance se base sur une ontologie. Cette Ontologie est au cœur de la structure de connaissance, fera l'objet d'une attention particulière. 
-
-Il est **Important** prendre en compte le lexique comme référence sémantique pour s'assurer d'une compréhension commune [Lexique](00-Projet/LEXIQUE.md) .
-
-Il peut évoluer lui aussi.
-
-# Le Cas d'Usage est avant tout une histoire 
-
-Il s'agit d'un assistant IA dans une entreprise qui capitalise le savoir faire de l'entreprise et assiste les employés a bien comprendre et appliquer les processus internes et externe et a vérifier l'état de conformité aux régles qui définissent ce savoir faire.
-.
-Le domaine d'application sera pour ce POC la cyber-sécurité.
-
-L'ensemble de ces connaissances évolue en permanence , on découvre des vulnérabilités tous les jours, par ailleurs dans les entreprises l'innovation, la prise en compte des retour d'expérience et enfin les réorganisation, conduisent a adapter et faire évoluer le savoir faire et soin contexte.
-
-La notion de Knowledge Graph nous conduit a développer la notion d'ontologie qui sera développée dans le paragraphe 02-Architecture ainsi que l'outil de Graph selectionné ici neo4j pour sa flexibilité (mais les principes peuvent être transposé aux autres outils)
-
-Pour illustrer l'aspect dynamique on commence par un cas d'usage en 3 phases.
-L'enjeu étant de montrer qu'entre ces phases, des migrations permette de faire évoluer le Graph { ontologie + data}
-
-nota : l'enrichissement de connaissance, se fait souvent en ajoutant de nouvelles règles qui parfois contredisent des règles existantes mais sont cloisonnées à un nouveau contexte particulier, qui lui est décrit dans une version évoluée de l'ontologie.
-
-L'enjeux est de discerner ce contexte ( NLP, classification, NER, vectorisation ) Différentes 
-
-**Phase 0 :**  "Un PC, Une Règle Simple"
-**Phase 1 :**  "La Micro-Entreprise – "Des Règles et des Serveurs"
-**Phase 2 :**  "Le Client Externe – "La Contradiction Apparente"
-
-
-ce cas d'usage sert à définir une architecture développé dans le chapitre 02 et sa mise en place dans le chapitre 03
-Les cas d'usages peuvent être tres nombreux et les choix d'architecture pourront varier en fonction. L'objectif de ce POC est de développer des principe qui puissent être appliqué à d'autres cas d'usage, qui peuvent ou conserver l'architecture proposée ( qui se veut assez évolutive) ou se baser sur des choix différent pour s'adapter à des environnement existants
-
-Pour approfondir la compréhension du cas d'usage, lisez → [Histoire d'Alban et la Gestion des Vulnérabilités](01-CasUsage/DESCRIPTION.md)
-
-### 📊 Évolution du Graphe (A confirmer)
-
-| Phase  | Nœuds | Relations | Nouvelles Classes                | Nouvelles Propriétés             |
-| ------ | ----- | --------- | -------------------------------- | -------------------------------- |
-| Phase0 | 10    | 15        | Device, Software, Vulnerability  | hasSoftware, hasVulnerability    |
-| Phase1 | 25    | 40        | +InternalServer, +ComplianceRule | +hasComplianceStatus, +appliesTo |
-| Phase2 | ?     | ?         | +NetworkZone, +ThreatActor       | +inZone, +targets                |
-
+Mais les principes et l'architecture peuvent d'adapter à d'autres contextes et cas d'usage
 
 
 ---
-# Confidentialité - Données privées - POC versus PROD
 
-Le principe de DKG qui rassemble des savoir faire et par nature confidentiel, quand bien même de nombreuse données sont communes et publiques.
+## 📖 Développement du cas d'usage
 
-Le POC est un démonstrateur voulu accessible (dépot publique)
+Le use case présente des phase qui permettent d'illustrer comment l'ensemble évolue. Ces phases nécessitent la préparation de données générées sur la base de l'histoire du cas d'usage. 
 
-Nous avons fait le choix d'utiliser l'étiquette "pseudo-privé"  pour présenter les données  de façon publique, qui seraient privées et donc cachées dans un cas de Production.
-Une note sur l'adaptation POC -> PROD permet d'illustrer les adaptation qui seraient nécessaires)
+Ces évolutions peuvent être de simple ajout d'instance au graph de connaissance existant, mais elles peuvent aussi impacter le cadre semantique/lexical et  ontologique, jusqu'a nécessiter un mise a niveau des outils de l'agent ( NER , embeddings...)
 
-# Hypothèses materiel
+Pour comprendre **pourquoi et comment** ce projet a évolué, lisez :
+→ [📖 Histoire d'Alban et la Gestion des Vulnérabilités](../01-CasUsage/DESCRIPTION.md)
 
-Les ressources disponibles pour ce projet sont : 
-- PC ACER ASPIRE A515-40 16Go
-- Des ressource cloud GPU  si besoin pour le fine tuning de modèle.
+**Résumé des 3 phases** :
 
-L'objectif de départ est de pouvoir faire les inférence sur ce PC local.
+| Phase       | Contexte                | Enjeu                         | Objectif Pédagogique                       |
+| ----------- | ----------------------- | ----------------------------- | ------------------------------------------ |
+| **Phase 0** | 1 PC, 1 routeur         | Découverte des vulnérabilités | Présenter l’architecture de base.          |
+| **Phase 1** | +2 employés, +1 serveur | Gestion des règles internes   | Comprendre le sens de l’ontologie.         |
+| **Phase 2** | +1 client externe       | Contradiction apparente       | Résoudre via l’enrichissement du contexte. |
 
-# Données :
-  - Publiques : CVE, MITRE, OWASP.
-  - Pseudo-Privées : Issue de la créativité se basant sur le cas d'usage (générées).
+> 💡 **L’enjeu** : Illustrer une évolution maitrisée d'un graphe de connaissance sous le controle d'une ontologie et d'un lexique, permettand de **développer les nuances du contexte**.
 
-| Source       | Type     | Format    | Fréquence   | Script Associé          | Exemple                                  |
-| ------------ | -------- | --------- | ----------- | ----------------------- | ---------------------------------------- |
-| CVE (CIRCL)  | Publique | JSON/RDF  | Quotidienne | `load_cve_feed.py`      | `cve:CVE-2023-1234`                      |
-| MITRE ATT&CK | Publique | STIX/JSON | Mensuelle   | À développer            | `mitre:TA0001`                           |
-| Inventaire   | Privé    | JSON/RDF  | Ponctuelle  | `generate_inventory.py` | `inventory-reel.json` (dans `.private/`) |
+---
 
+## 🏗 Principes et Architecture
+un répertoire est dédié aux principes et Architecture afin de les développer dans le cadre du projet
 
-# Structure documentaire  [accessible sous ce lien](00-Projet/STRUCTURE_DOCUMENTAIRE.md)
+**Principes clés** :
+- **Ontologie** : Schéma du graphe (classes, propriétés, relations) accessible aux profils non technique garant de l'explicabilité
+- **Lexique** : cadre sémantique du projet, intégré au fine tuning des outils de l'agent
+- **Données** : Instances concrètes (devices, CVE, règles).
+- **Agents** : Série de fonctionnalité comme l'ajout de donnée la fourniture de rapport , sous controle humain quand nécessaire.
 
-### Contrainte prise en compte pour établir la structure
-- Logique projet
-- Articulation des données avec Neo4j  et le volume import monté dans le docker
+---
+## 🔒 Confidentialité : POC vs Production
+Le developpement de graph de connaissance interessent beaucoup d'organisation pour lesquels ces connaissance représente un savoir faire a protéger. Ce projet est publique et simule des données privie appelée pseudo-private, pour avoir une architecture qui puisse facilement adresser ce besoin de confidentiaité.
 
-### Solution choisie : 
-avoir un répertoire data dans l'arborescence qui correspondra au volume monté sur le docker Neo4j.
-sur ce répertoire data viendront pointer par lien symbolique les docnnées des phase listée dans le chapitre 003 Implémentationb
+| Type                        | Statut dans le POC | Statut en Production  | Exemple                              |
+| --------------------------- | ------------------ | --------------------- | ------------------------------------ |
+| **Ontologie publique**      | ✅ Public           | ✅ Public              | `:Device`, `:Vulnerability`          |
+| **Ontologie pseudo-privée** | 🟡 Public (POC)    | ❌ Privé (`.private/`) | `:InternalDevice`, `:ComplianceRule` |
+| **Données publiques**       | ✅ Public           | ✅ Public              | CVE (MITRE), OWASP                   |
+| **Données pseudo-privées**  | 🟡 Public (POC)    | ❌ Privé (`.private/`) | Inventaire fictif, règles internes   |
+> ⚠️ **Note** : Dans ce POC, les données **pseudo-privées** sont publiques pour faciliter la collaboration.
+> **En production**, elles seraient déplacées dans `.private/` et exclues de Git.
 
-```bash
-# 1. Mettez à jour les liens
-cd data/current
-rm -rf public pseudo-private
-ln -s ../Phase1-Infrastructure/public public
-ln -s ../Phase1-Infrastructure/pseudo-private pseudo-private
+---
+## 💻 Hypothèses Matérielles
 
-# 2. Redémarrez Neo4j
-podman restart neo4j
+| Ressource                                    | Usage                      | Exemple                                   |
+| -------------------------------------------- | -------------------------- | ----------------------------------------- |
+| **PC local** (ACER ASPIRE A515-40, 16Go RAM) | Développement, inférences  | Exécution de Neo4j, scripts Python        |
+| **Cloud GPU** (si besoin)                    | Fine-tuning de modèles NLP | Entraînement de modèles de classification |
 
-# 3. Exécutez la migration (via Neo4j Browser)
-CALL apoc.cypher.runFile('file:///to_phase1.cypher')
+**Objectif** : Pouvoir effectuer les **inférences sur le PC local**.
+
+---
+## 📊 Données
+
+| Source              | Type          | Format | Fréquence   | Script Associé          | Exemple                          |
+| ------------------- | ------------- | ------ | ----------- | ----------------------- | -------------------------------- |
+| **CVE**             | Publique      | TTL    | Quotidienne | `load_cve_feed.py`      | CVE-2023-1234                    |
+| **MITRE ATT&CK**    | Publique      | JSON   | Mensuelle   | -                       | T1059 (Command-Line Interface)   |
+| **OWASP Top 10**    | Publique      | CSV    | Annuelle    | -                       | A01:2021 (Broken Access Control) |
+| **Inventaire**      | Pseudo-privée | JSON   | Ponctuelle  | `generate_inventory.py` | PC-Alban-POC                     |
+| **Règles internes** | Pseudo-privée | TTL    | Ponctuelle  | -                       | `Compliance-CVSS-Low`            |
+
+---
+## 📁 Structure du Projet
 ```
+dkg-cybersec/
+├── 00-Projet/               # Documentation globale
+│   ├── README.md           # 👈 Vous êtes ici
+│   ├── LEXIQUE.md          # Définitions techniques
+│   └── ROADMAP.md          # Feuille de route
+│
+├── 01-CasUsage/            # Histoire et cas d'usage
+│   ├── DESCRIPTION.md      # Histoire d'Alban (3 phases)
+│   ├── ONTOLOGIE..md      # Histoire d'Alban (3 phases)
+│   └── LEXIQUE.md      # Histoire d'Alban (3 phases)
 
-
-
-
-###  **Automatisez avec un script** (`update_current_phase.sh`) :
-```bash
-#!/bin/bash
-# Usage: ./update_current_phase.sh Phase1-Infrastructure
-TARGET_PHASE=\$1
-cd data/current
-rm -rf public pseudo-private
-ln -s ../\$TARGET_PHASE/public public
-ln -s ../\$TARGET_PHASE/pseudo-private pseudo-private
-echo "✅ data/current/ pointe maintenant vers \$TARGET_PHASE"
+│
+├── 02-Architecture/        # Conception
+│   ├── ONTOLOGIE/          # Ontologies (TTL)
+│   │   ├── ontologie.ttl   # Ontologie publique
+│   │   └── ontologie-schema.md # Schéma Mermaid
+│   │
+│   ├── DESIGN.md           # Choix architecturaux
+│   └── NEO4J.md            # Configuration Neo4j
+│
+└── 03-Implementation/      # Implémentation
+└── Phase0-Cadrage/     # Phase 0 : POC basique
+├── ONTOLOGIE/      # Ontologie spécifique
+├── donnees/         # Données (public/pseudo-private)
+├── scripts/        # Scripts Python
+└── migrations/     # Scripts de migration (vide pour Phase 0)
 ```
-
-### 🔄 Changer de Phase
-```bash
-./update_current_phase.sh Phase1-Infrastructure
-podman restart neo4j
-```
-
-
-###  Exécutez la migration (via Neo4j Browser)
-```cypher
-CALL apoc.cypher.runFile('file:///to_phase1.cypher')`
-```
-
-
-### 📌 **Avantages de Cette Structure**
-
-|Bénéfice|Détail|
-|---|---|
-|**Évolution claire**|Chaque phase est **isolée** et **versionnable**.|
-|**Migrations explicites**|Les changements du graphe sont **documentés** dans `migrations/`.|
-|**Données centralisées**|`data/` contient **toutes les versions** des données.|
-|**Flexibilité**|Passez d’une phase à l’autre en **modifiant un lien**.|
-|**Cohérence Docker**|Un **seul volume** (`data/current/`) pour Neo4j.|
-|**Nettoyage automatique**|Les anciens liens sont **supprimés** avant les nouveaux.|
-
-
-# 🔗 Liens Utiles
-- [Dépôt GitHub](https://github.com/alban-lhermine/dkg-cybersec)
-- [Neo4j Docs](https://neo4j.com/docs/)
-- [MITRE ATT&CK](https://attack.mitre.org/)
-

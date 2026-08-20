@@ -1,8 +1,0 @@
-@prefix : <http://example.org/cyber-ontology#> .
-@prefix cve: <https://cve.mitre.org/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-
-cve:CVE-2023-1234 a :Vulnerability ;
-    foaf:name "CVE-2023-1234" ;
-    :cvssScore 9.8 ;
-    :description "Vulnérabilité critique dans OpenSSL 1.0.2 permettant une exécution de code à distance." .

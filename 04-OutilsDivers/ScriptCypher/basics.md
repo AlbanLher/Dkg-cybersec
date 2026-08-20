@@ -1,8 +1,9 @@
-`// Supprimez d'abord les données de test (si nécessaire)
+
+## Supprimez d'abord les données de test (si nécessaire)
 ```cypher
 MATCH (n) DETACH DELETE n
 ```
-
+## lister et retirer des contraintes ou index
 ```cypher
 SHOW INDEXES;
 SHOW CONSTRAINTS;

@@ -188,3 +188,182 @@ RETURN count(d) AS devices_created
 
 [cheatsheets_neo4j](https://github.com/cherkavi/cheat-sheet/blob/master/neo4j.md)
 [GitHub_neosemantic(n10s)](https://github.com/neo4j-labs/neosemantics/releases)
+
+
+
+
+
+# initdata_Gemini
+### Script Cypher complet d'initialisation (Phase 0)
+
+Exécutez ces blocs dans l'ordre dans votre **Neo4j Browser** ou via `cypher-shell`.
+
+#### 1. Nettoyage initial et création des contraintes d'unicité
+```Cypher
+// A. Vider la base de données (si ré-exécution à zéro)
+MATCH (n) DETACH DELETE n;
+
+// B. Créer la contrainte d'unicité obligatoire pour n10s (URI RDF)
+CREATE CONSTRAINT n10s_unique_uri IF NOT EXISTS
+FOR (r:Resource) REQUIRE r.uri IS UNIQUE;
+
+// C. Créer les contraintes d'unicité pour les entités métier
+CREATE CONSTRAINT unique_device_id IF NOT EXISTS
+FOR (d:Device) REQUIRE d.id IS UNIQUE;
+
+CREATE CONSTRAINT unique_software_key IF NOT EXISTS
+FOR (s:Software) REQUIRE s.key IS UNIQUE;
+```
+
+#### 2. Initialisation n10s & Mappings des Namespaces
+
+Configurons les alias pour que n10s applique directement vos noms de classes et propriétés Cypher (`Device`, `cvssScore`, etc.) sans générer de préfixes `ns0__`.
+```cypher
+// 1. Contrainte d'unicité (obligatoire)
+CREATE CONSTRAINT n10s_unique_uri IF NOT EXISTS
+FOR (r:Resource) REQUIRE r.uri IS UNIQUE;
+
+// 2. Initialisation du graphe n10s
+CALL n10s.graphconfig.init({ handleVocabUris: "SHORTEN" });
+
+// 3. Déclaration des préfixes personnalisés
+CALL n10s.nsprefixes.add("cyber", "http://example.org/cyber-ontology#");
+CALL n10s.nsprefixes.add("foaf", "http://xmlns.com/foaf/0.1/");
+```
+
+```Cypher
+// Initialiser la configuration n10s
+CALL n10s.graphconfig.init({ handleVocabUris: "SHORTEN" });
+
+// Ajouter les mappings de namespace
+CALL n10s.mapping.addSchema("http://example.org/cyber-ontology#");
+CALL n10s.mapping.add("Device", "Device");
+CALL n10s.mapping.add("Software", "Software");
+CALL n10s.mapping.add("Vulnerability", "Vulnerability");
+
+CALL n10s.mapping.addProperty("http://example.org/cyber-ontology#cvssScore", "cvssScore");
+CALL n10s.mapping.addProperty("http://example.org/cyber-ontology#description", "description");
+```
+
+#### 3. Ingestion des données RDF (`cve_data.ttl`)
+
+Import des instances de vulnérabilités à partir du fichier Turtle.
+
+```Cypher
+CALL n10s.rdf.import.fetch("file:///var/lib/neo4j/import/public/cve_data.ttl", "Turtle");
+```
+
+#### 4. Ingestion de l'inventaire JSON via APOC (`inventory.json`)
+
+Import des équipements (`Device`) et composants logiciels (`Software`), puis création des relations `:HAS_SOFTWARE`.
+
+```cypher
+CALL apoc.load.json("file:///var/lib/neo4j/import/public/inventory.json") YIELD value
+UNWIND value.devices AS devData
+WITH devData 
+WHERE devData.id IS NOT NULL
+
+// 1. Création / Fusion du Device
+MERGE (d:Device {id: devData.id})
+ON CREATE SET 
+    d.ip = devData.ip,
+    d.type = devData.type,
+    d.importedAt = datetime()
+
+// 2. Traitement des logiciels
+WITH d, coalesce(devData.software, []) AS softwares
+UNWIND (CASE WHEN size(softwares) = 0 THEN [null] ELSE softwares END) AS soft
+
+WITH d, soft, (soft.name + "@" + soft.version) AS softKey
+WHERE soft IS NOT NULL
+
+// 3. Création du Software et de la relation
+MERGE (s:Software {key: softKey})
+ON CREATE SET 
+    s.name = soft.name,
+    s.version = soft.version
+
+MERGE (d)-[:HAS_SOFTWARE]->(s)
+RETURN d.id AS DeviceId, count(s) AS SoftwareCount;
+```
+
+#### 5. Rapprochement et Création des liens `:HAS_VULNERABILITY`
+
+Liaison déterministe entre les logiciels créés par le JSON et les CVE importées par le fichier Turtle RDF.
+
+Cypher
+
+```
+MATCH (s:Software)
+MATCH (v:Vulnerability)
+// Jointure exacte sur le nom de la vulnérabilité/CVE associée au logiciel
+WHERE v.name CONTAINS s.name OR v.uri CONTAINS s.name
+MERGE (s)-[r:HAS_VULNERABILITY]->(v)
+ON CREATE SET r.linkedAt = datetime();
+```
+
+
+
+#### 6 - Les 3 noeuds **méta-nœuds de structure et de configuration** 
+ 
+ Ils sont créés automatiquement par l'extension **neosemantics (n10s)** lors de l'initialisation et de l'import de données RDF/Turtle. Ils ne représentent pas des objets de votre domaine métier (comme vos serveurs ou vulnérabilités), mais servent de système d'exploitation sémantique à Neo4j.
+
+##### 1. Le nœud `_GraphConfig`
+
+- **Rôle :** Il s'agit du **registre de configuration globale** du moteur sémantique n10s pour votre base de données.
+    
+- **Fonction :** Il conserve en mémoire (persistée dans le graphe) la manière dont n10s doit traiter les URIs, les littéraux et la structure lors des imports RDF.
+    
+- **Ce qu'il contient :** Des propriétés de paramétrage définies lors du `CALL n10s.graphconfig.init(...)`, telles que :
+    
+    - `handleVocabUris`: définit si les URIs doivent être raccourcies (`SHORTEN`), conservées en entier (`FULL`), ou ignorées (`IGNORE`).
+        
+    - `handleMultival`: indique comment traiter les propriétés RDF répétées (ex: sous forme de tableau Cypher).
+        
+    - `keepLangTag`: indique si les balises de langue RDF (ex: `@fr`, `@en`) doivent être conservées.
+        
+
+##### 2. Le nœud `_NsPrefDef`
+
+- **Rôle :** Il sert de **table de correspondance (Dictionnaire) pour les préfixes de Namespaces RDF**.
+    
+- **Fonction :** Il stocke l'association entre une URI d'ontologie complète et le préfixe lisible que vous souhaitez utiliser dans vos labels et propriétés Cypher.
+    
+- **Ce qu'il contient :** Les paires préfixe/URI enregistrées via `n10s.nsprefixes.add(...)`, par exemple :
+    
+    - `cyber` $\rightarrow$ `[http://example.org/cyber-ontology#](http://example.org/cyber-ontology#)`
+        
+    - `foaf` $\rightarrow$ `[http://xmlns.com/foaf/0.1/](http://xmlns.com/foaf/0.1/)`
+        
+    - `owl` $\rightarrow$ `[http://www.w3.org/2002/07/owl#](http://www.w3.org/2002/07/owl#)`
+        
+    
+    C'est grâce à ce nœud que n10s sait nommer un nœud `cyber__Vulnerability` au lieu d'utiliser un préfixe générique comme `ns0__Vulnerability`.
+    
+
+### 3. Le label `Resource`
+
+- **Rôle :** C'est le **label générique racine** appliqué par n10s à **tous les nœuds créés à partir d'un fichier RDF/Turtle**.
+    
+- **Fonction :** En RDF, toute entité possédant une URI est une "ressource". Neo4j applique ce label pour garantir qu'il existe un identifiant unique universel (`uri`) sur lequel poser des contraintes d'unicité.
+    
+- **Son utilité en pratique :**
+    
+    - Il permet à n10s d'exécuter des opérations `MERGE` de manière sûre sur l'ensemble du graphe via la contrainte obligatoire :
+        
+        `CREATE CONSTRAINT FOR (r:Resource) REQUIRE r.uri IS UNIQUE;`
+        
+    - Il vous permet de requêter d'un coup l'intégralité des éléments importés depuis le Web Sémantique :
+        
+        `MATCH (r:Resource) RETURN r;`
+        
+    - Vos nœuds métiers importés via n10s possèdent donc toujours **au moins deux labels** : le label métier (ex: `cyber__Vulnerability`) et le label technique (`Resource`).
+        
+
+##### En résumé
+
+| **Nœud / Label**   | **Type**         | **Utilité**                                          | **Doit-on y toucher ?**                              |
+| ------------------ | ---------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| **`_GraphConfig`** | Méta-nœud unique | Stocke les règles d'import n10s.                     | Non (géré par `n10s.graphconfig.*`).                 |
+| **`_NsPrefDef`**   | Méta-nœud unique | Dictionnaire des préfixes RDF (`cyber__`, `foaf__`). | Non (géré par `n10s.nsprefixes.*`).                  |
+| **`Resource`**     | Label Cypher     | Identifie toute donnée issue d'un import RDF/Turtle. | Oui, sert d'ancrage aux contraintes d'unicité `uri`. |
