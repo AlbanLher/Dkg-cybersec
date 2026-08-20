@@ -1,0 +1,62 @@
+@prefix : <http://example.org/cyber-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# === Classes ===
+:Device a owl:Class ;
+    rdfs:label "Appareil" ;
+    rdfs:comment "Un device physique ou virtuel (PC, routeur, serveur)." .
+
+:Software a owl:Class ;
+    rdfs:label "Logiciel" .
+
+:Vulnerability a owl:Class ;
+    rdfs:label "Vulnérabilité" ;
+    rdfs:subClassOf :Threat .
+
+:Threat a owl:Class ;
+    rdfs:label "Menace" .
+
+:Rule a owl:Class ;
+    rdfs:label "Règle de sécurité" .
+
+:Action a owl:Class ;
+    rdfs:label "Action corrective" .
+
+# === Propriétés ===
+:hasSoftware a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Software ;
+    rdfs:label "a pour logiciel" .
+
+:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain :Device ;
+    rdfs:range :Vulnerability ;
+    rdfs:label "a pour vulnérabilité" .
+
+:requiresAction a owl:ObjectProperty ;
+    rdfs:domain :Vulnerability ;
+    rdfs:range :Action ;
+    rdfs:label "nécessite l'action" .
+
+:cvssScore a owl:DatatypeProperty ;
+    rdfs:domain :Vulnerability ;
+    rdfs:range xsd:float ;
+    rdfs:label "score CVSS" .
+
+# ==========================================
+# EXTENSION PROPOSÉE PHASE 1
+# ==========================================
+
+cyber:description a owl:DatatypeProperty ;
+    rdfs:label "description" ;
+    rdfs:range xsd:string .
+
+cyber:name a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string .
+
+cyber:internal a owl:DatatypeProperty ;
+    rdfs:label "internal" ;
+    rdfs:range xsd:string .

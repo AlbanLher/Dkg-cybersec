@@ -1,0 +1,60 @@
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix cyber: <http://example.org/cyber-ontology#> .
+@prefix lex:   <http://example.org/cyber-lexicon#> .
+
+lex:CyberArchLexicon a skos:ConceptScheme ;
+    dct:title "Lexique Métier Intégré : Architecture SI & Cybersécurité"@fr ;
+    dct:description "Référentiel SKOS unifié servant d'ancre sémantique pour GraphRAG et les agents NER."@fr ;
+    skos:hasTopConcept lex:AssetConcept, lex:ComponentConcept, lex:ZoneConcept, lex:VulnerabilityConcept, lex:RequirementConcept .
+
+# 1. ARCHITECTURE : ASSET / DEVICE
+lex:AssetConcept a skos:Concept ;
+    skos:inScheme lex:CyberArchLexicon ;
+    skos:prefLabel "Équipement Système"@fr, "System Asset"@en ;
+    skos:altLabel "Serveur"@fr, "Machine"@fr, "Host"@en, "SRV"@fr, "Bécane"@fr, "Instance"@fr, "Bare-Metal"@en ;
+    skos:hiddenLabel "Srvur"@fr, "Servuer"@fr ;
+    skos:definition "Ressource physique ou virtuelle dotée d'une adresse IP et hébergeant des composants logiciels ou des services."@fr ;
+    skos:example "L'instance SRV-WEB-01 est déployée sur l'hôte physique HYP-01."@fr ;
+    rdfs:isDefinedBy cyber:Device .
+
+# 2. ARCHITECTURE : SOFTWARE / COMPONENT
+lex:ComponentConcept a skos:Concept ;
+    skos:inScheme lex:CyberArchLexicon ;
+    skos:prefLabel "Composant Logiciel"@fr, "Software Component"@en ;
+    skos:altLabel "Application"@fr, "App"@fr, "Service"@fr, "Brique"@fr, "Micro-service"@fr, "Package"@en, "Middleware"@en ;
+    skos:definition "Programme ou ensemble d'exécutables exécutés sur un équipement pour fournir une fonction applicative."@fr ;
+    skos:example "Le middleware Tomcat est le composant applicatif impacté."@fr ;
+    skos:related lex:AssetConcept ;
+    rdfs:isDefinedBy cyber:Software .
+
+# 3. ARCHITECTURE & CYBER : ZONE / ENVIRONMENT
+lex:ZoneConcept a skos:Concept ;
+    skos:inScheme lex:CyberArchLexicon ;
+    skos:prefLabel "Zone Réseau"@fr, "Network Zone"@en ;
+    skos:altLabel "DMZ"@fr, "LAN"@fr, "Segment"@fr, "Zone Externe"@fr, "Enclave"@fr, "Landing Zone"@en, "Subnet"@en ;
+    skos:definition "Périmètre réseau isolé soumis à une politique de filtrage et à un niveau de confiance homogène."@fr ;
+    skos:example "Les API publiques doivent résider dans la Landing Zone DMZ."@fr ;
+    rdfs:isDefinedBy cyber:Environment .
+
+# 4. CYBER : VULNERABILITY
+lex:VulnerabilityConcept a skos:Concept ;
+    skos:inScheme lex:CyberArchLexicon ;
+    skos:prefLabel "Vulnérabilité Sécurité"@fr, "Security Vulnerability"@en ;
+    skos:altLabel "CVE"@fr, "Faille"@fr, "Flaw"@en, "Trou de sécurité"@fr, "Brèche"@fr, "Defaut"@fr ;
+    skos:hiddenLabel "Vulnerabilite"@fr, "Vullnerabilite"@fr ;
+    skos:definition "Faiblesse dans un composant ou une configuration pouvant être exploitée pour porter atteinte au système."@fr ;
+    skos:example "La CVE-2026-1234 représente une brèche critique."@fr ;
+    skos:related lex:ComponentConcept ;
+    rdfs:isDefinedBy cyber:Vulnerability .
+
+# 5. CYBER & COMPLIANCE : REQUIREMENT
+lex:RequirementConcept a skos:Concept ;
+    skos:inScheme lex:CyberArchLexicon ;
+    skos:prefLabel "Exigence de Sécurité"@fr, "Security Requirement"@en ;
+    skos:altLabel "Mesure"@fr, "Control"@en, "Règle NIS2"@fr, "Directive"@fr, "Standard"@fr, "Safeguard"@en ;
+    skos:definition "Obligation technique ou organisationnelle issue d'un référentiel imposée à un composant ou une zone."@fr ;
+    skos:example "L'exigence de chiffrement s'applique à la zone DMZ."@fr ;
+    skos:related lex:ZoneConcept ;
+    rdfs:isDefinedBy cyber:Requirement .
