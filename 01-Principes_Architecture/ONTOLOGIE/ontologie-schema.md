@@ -184,3 +184,75 @@ classDiagram
 - **Étape 3 : Ré-exécution du Pipeline (Re-ingestion)**
     
     Pousser les anciens et nouveaux documents bruts dans le nouveau pipeline pour générer les nœuds `:Requirement` et les connecter aux `:Vulnerability` existantes via des requêtes `MERGE` en Cypher.
+
+
+
+
+```mermaid
+flowchart TD
+    subgraph HUMAIN ["✍️ 1. Rédaction & Édition (Markdown Source)"]
+        MD_PUB["00-Projet/LEXIQUE_PUBLIC.md"]
+        MD_PRIV["00-Projet/LEXIQUE_PRIVEE.md"]
+        MD_TECH["00-Projet/LEXIQUE_TECHNIQUE.md"]
+    end
+
+    subgraph SCRIPTS ["⚙️ 2. Traitements & Compilations"]
+        M2S["md_to_skos.py"]
+        GEN_SPEC["generate_onto_spec.py"]
+    end
+
+    subgraph ARTEFACTS ["📦 3. Artefacts Fichiers TTL (Phase 0)"]
+        subgraph PUB_DIR ["Publique/"]
+            TTL_PUB_ONTO["ontologie-publique-v0.ttl"]
+            TTL_PUB_LEX["lexique-public-v0.ttl"]
+        end
+        subgraph PRIV_DIR ["PseudoPrivate/"]
+            TTL_PRIV_ONTO["ontologie-privee-v0.ttl"]
+            TTL_PRIV_LEX["lexique-prive-v0.ttl"]
+        end
+        subgraph TECH_DIR ["Technique/"]
+            TTL_TECH_LEX["lexique-technique-v0.ttl"]
+        end
+    end
+
+    subgraph DOC ["📖 4. Documentation Générée"]
+        SPEC_MD["01-Principes_Architecture/ONTOLOGIE/ONTOLOGIE_SPEC.md"]
+    end
+
+    subgraph NEO4J ["🗄️ 5. Base GraphRAG (Neo4j)"]
+        N10S["n10s (Neosemantics) Import"]
+    end
+
+    %% Flux de compilation
+    MD_PUB -->|compile| M2S
+    MD_PRIV -->|compile| M2S
+    MD_TECH -->|compile| M2S
+
+    M2S -->|génère| TTL_PUB_LEX
+    M2S -->|génère| TTL_PRIV_LEX
+    M2S -->|génère| TTL_TECH_LEX
+
+    %% Flux d'import OWL
+    TTL_PRIV_ONTO -->|owl:imports| TTL_PUB_ONTO
+    TTL_PRIV_LEX -->|skos:broadMatch| TTL_PUB_LEX
+
+    %% Génération de la doc
+    TTL_PUB_ONTO --> GEN_SPEC
+    TTL_PRIV_ONTO --> GEN_SPEC
+    TTL_PUB_LEX --> GEN_SPEC
+    TTL_PRIV_LEX --> GEN_SPEC
+    GEN_SPEC -->|génère| SPEC_MD
+
+    %% Chargement dans Neo4j
+    TTL_PUB_ONTO --> N10S
+    TTL_PRIV_ONTO --> N10S
+    TTL_PUB_LEX --> N10S
+    TTL_PRIV_LEX --> N10S
+    TTL_TECH_LEX --> N10S
+
+    style HUMAIN fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    style ARTEFACTS fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style DOC fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style NEO4J fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    
+```
