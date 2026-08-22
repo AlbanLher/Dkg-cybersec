@@ -23,6 +23,7 @@ class Phase0Orchestrator:
         (self.dir_pub_md / "Lexiques").mkdir(parents=True, exist_ok=True)
         (self.dir_pub_md / "Ontologies" / "par_domaines").mkdir(parents=True, exist_ok=True)
 
+
     def process_lexiques(self) -> Graph:
         """Parse les fichiers Markdown du Lexique et génère le Turtle dans le Vault."""
         print("⚡ [1-LEXIQUE] Ingestion des fichiers Markdown...")
@@ -59,20 +60,35 @@ class Phase0Orchestrator:
         graph.serialize(destination=str(vault_file), format="turtle")
         print(f"✅ Vault mis à jour : {vault_file.name}")
         
-        # Génération du Markdown de publication
+        # Génération du Markdown de publication avec mise en forme corrigée pour GitHub
         doc_pub = self.dir_pub_md / "Lexiques" / "PUBLICATION_LEXIQUE_GLOBAL.md"
         doc_lines = [
-            "# 📖 Lexique Global d'Exposition (Phase 0)\n",
-            "*Document généré automatiquement à partir des sources compilées dans le Vault.*\n"
+            "# 📖 Lexique Global d'Exposition (Phase 0)",
+            "",
+            "> *Document généré automatiquement à partir des sources compilées dans le Vault.*",
+            "",
+            "---",
+            ""
         ]
         
+        # Récupération et tri alphabétique des termes
+        terms = []
         for s, p, o in graph.triples((None, SKOS.prefLabel, None)):
             if getattr(o, 'language', None) == 'fr':
-                doc_lines.append(f"### {o.value}")
+                label = str(o.value)
                 defs = list(graph.objects(s, SKOS.definition))
-                if defs:
-                    doc_lines.append(f"* **Définition :** {defs[0].value}\n")
-                    
+                definition = defs[0].value if defs else "Aucune définition fournie."
+                terms.append((label, definition))
+        
+        terms.sort(key=lambda x: x[0].lower())
+
+        # Formattage propre pour GitHub Markdown
+        for label, definition in terms:
+            doc_lines.append(f"### {label}")
+            doc_lines.append("")
+            doc_lines.append(f"* **Définition :** {definition}")
+            doc_lines.append("")
+
         doc_pub.write_text("\n".join(doc_lines), encoding="utf-8")
         print(f"✅ Publication Markdown générée : {doc_pub.relative_to(self.root)}")
         return graph
