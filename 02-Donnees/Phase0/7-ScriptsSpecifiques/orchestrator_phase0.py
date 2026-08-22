@@ -1,33 +1,39 @@
-import os
 import re
 from pathlib import Path
-from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import RDF, SKOS, DCTERMS
+from rdflib import Graph, Literal, Namespace
+from rdflib.namespace import RDF, SKOS
 
 EX = Namespace("http://example.org/dkg/ontology#")
 
-class DKGOrchestrator:
-    def __init__(self, base_dir: Path):
-        self.base_dir = base_dir
-        self.dir_input = base_dir / "1_input_interne"
-        self.dir_vault = base_dir / "3_app_referential_vault"
-        self.dir_exposition = base_dir / "4_exposition_md"
+class Phase0Orchestrator:
+    def __init__(self, phase0_dir: Path):
+        self.root = phase0_dir
         
-        # Initialisation des répertoires de sortie
-        self.dir_vault.mkdir(parents=True, exist_ok=True)
-        (self.dir_exposition / "Lexiques").mkdir(parents=True, exist_ok=True)
-        (self.dir_exposition / "Ontologies" / "par_domaines").mkdir(parents=True, exist_ok=True)
+        # Chemins basés sur l'arborescence exacte
+        self.dir_lexique = self.root / "1-Lexique"
+        self.dir_ontologie = self.root / "2-Ontologie"
+        self.dir_vault = self.root / "3-App_Referential_Vault"
+        self.dir_pub_md = self.root / "4-App_publication_md"
+        
+        # Prise en compte de la coquille Inernal_Input / Internal_Input
+        self.dir_lex_internal = (self.dir_lexique / "Internal_Input") if (self.dir_lexique / "Internal_Input").exists() else (self.dir_lexique / "Inernal_Input")
+        self.dir_onto_internal = (self.dir_ontologie / "Internal_Input") if (self.dir_ontologie / "Internal_Input").exists() else (self.dir_ontologie / "Inernal_Input")
 
-    def build_vault_from_inputs(self) -> Graph:
-        """Parse les fichiers Markdown d'entrée et génère le TTL unifié dans le Vault."""
-        print("⚡ [STEP 1] Building Vault TTL from Inputs...")
-        global_graph = Graph()
-        global_graph.bind("skos", SKOS)
-        global_graph.bind("ex", EX)
+        # Initialisation des sous-dossiers de publication
+        (self.dir_pub_md / "Lexiques").mkdir(parents=True, exist_ok=True)
+        (self.dir_pub_md / "Ontologies" / "par_domaines").mkdir(parents=True, exist_ok=True)
 
-        md_files = list(self.dir_input.rglob("src_*.md"))
+    def process_lexiques(self) -> Graph:
+        """Parse les fichiers Markdown du Lexique et génère le Turtle dans le Vault."""
+        print("⚡ [1-LEXIQUE] Ingestion des fichiers Markdown...")
+        graph = Graph()
+        graph.bind("skos", SKOS)
+        graph.bind("ex", EX)
+
+        md_files = list(self.dir_lex_internal.rglob("*.md"))
+        
         for md_file in md_files:
-            print(f"  └─ Parsing input: {md_file.name}")
+            print(f"  └─ Lecture : {md_file.relative_to(self.root)}")
             content = md_file.read_text(encoding="utf-8")
             blocks = re.split(r'\n(?=###?\s+)', content)
             
@@ -40,56 +46,58 @@ class DKGOrchestrator:
                 term_id = re.sub(r'[^a-zA-Z0-9_]', '_', term_label)
                 concept_uri = EX[f"Concept_{term_id}"]
                 
-                global_graph.add((concept_uri, RDF.type, SKOS.Concept))
-                global_graph.add((concept_uri, SKOS.prefLabel, Literal(term_label, lang="fr")))
+                graph.add((concept_uri, RDF.type, SKOS.Concept))
+                graph.add((concept_uri, SKOS.prefLabel, Literal(term_label, lang="fr")))
                 
                 for line in lines[1:]:
                     if "**Définition**" in line:
                         definition = re.sub(r'^[*|-]\s*\*\*Définition\*\*\s*:\s*', '', line)
-                        global_graph.add((concept_uri, SKOS.definition, Literal(definition, lang="fr")))
+                        graph.add((concept_uri, SKOS.definition, Literal(definition, lang="fr")))
 
-        vault_file = self.dir_vault / "vault_dkg_global.ttl"
-        global_graph.serialize(destination=str(vault_file), format="turtle")
-        print(f"✅ Vault unifié créé : {vault_file.name}")
-        return global_graph
-
-    def generate_exposition_docs(self, graph: Graph):
-        """Régénère la documentation Markdown lisible (doc_*.md)."""
-        print("⚡ [STEP 2] Generating Exposition Markdown Documents...")
+        # Export dans le Vault
+        vault_file = self.dir_vault / "LEXIQUE_COMPATIBLE.ttl"
+        graph.serialize(destination=str(vault_file), format="turtle")
+        print(f"✅ Vault mis à jour : {vault_file.name}")
         
-        # 1. Génération du Lexique d'Exposition
-        lexicon_doc = self.dir_exposition / "Lexiques" / "doc_lexique_public_complet.md"
+        # Génération du Markdown de publication
+        doc_pub = self.dir_pub_md / "Lexiques" / "PUBLICATION_LEXIQUE_GLOBAL.md"
         doc_lines = [
-            "# 📖 Lexique Global d'Exposition DKG\n",
-            "*Ce document est généré automatiquement depuis le Vault. Ne pas modifier directement.*\n"
+            "# 📖 Lexique Global d'Exposition (Phase 0)\n",
+            "*Document généré automatiquement à partir des sources compilées dans le Vault.*\n"
         ]
         
         for s, p, o in graph.triples((None, SKOS.prefLabel, None)):
-            if o.language == "fr":
+            if getattr(o, 'language', None) == 'fr':
                 doc_lines.append(f"### {o.value}")
                 defs = list(graph.objects(s, SKOS.definition))
                 if defs:
                     doc_lines.append(f"* **Définition :** {defs[0].value}\n")
-        
-        lexicon_doc.write_text("\n".join(doc_lines), encoding="utf-8")
-        print(f"  └─ Généré : {lexicon_doc.name}")
+                    
+        doc_pub.write_text("\n".join(doc_lines), encoding="utf-8")
+        print(f"✅ Publication Markdown générée : {doc_pub.relative_to(self.root)}")
+        return graph
 
-        # 2. Génération d'une fiche Domaine avec schéma Mermaid
-        domain_doc = self.dir_exposition / "Ontologies" / "par_domaines" / "doc_domain_infrastructure.md"
-        mermaid_template = (
+    def process_ontologies(self):
+        """Génère la restitution par Domaine pour l'Ontologie."""
+        print("⚡ [2-ONTOLOGIE] Génération des restitutions Markdown & Mermaid...")
+        
+        domain_file = self.dir_pub_md / "Ontologies" / "par_domaines" / "DOMAINE_INFRASTRUCTURE.md"
+        content = (
             "# 🛡️ Ontologie - Domaine Infrastructure\n\n"
             "```mermaid\n"
             "graph TD\n"
             "    Host[\"Host (Serveur/VM)\"] -->|CONNECTED_TO| Network[\"Réseau\"]\n"
             "    Host -->|HAS_VULN| Vulnerability[\"Vulnérabilité\"]\n"
             "```\n\n"
-            "*Fichier de restitution mis à jour automatiquement.*"
+            "*Régénération automatique depuis 3-App_Referential_Vault.*"
         )
-        domain_doc.write_text(mermaid_template, encoding="utf-8")
-        print(f"  └─ Généré : {domain_doc.name}")
+        domain_file.write_text(content, encoding="utf-8")
+        print(f"✅ Vue Domaine générée : {domain_file.relative_to(self.root)}")
 
 if __name__ == "__main__":
-    root_path = Path(__file__).resolve().parents[2] / "LexiquesOntologie"
-    orchestrator = DKGOrchestrator(root_path)
-    g = orchestrator.build_vault_from_inputs()
-    orchestrator.generate_exposition_docs(g)
+    script_dir = Path(__file__).resolve().parent
+    phase0_dir = script_dir.parent
+    
+    orchestrator = Phase0Orchestrator(phase0_dir)
+    orchestrator.process_lexiques()
+    orchestrator.process_ontologies()

@@ -1,0 +1,84 @@
+@prefix ex: <http://example.org/dkg/ontology#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:Concept_1__Concepts_de_Mod_lisation_de_Graphes___Standards_W3C a skos:Concept ;
+    skos:prefLabel "1. Concepts de Modélisation de Graphes & Standards W3C"@fr .
+
+ex:Concept_2__Architecture_Agentique__GraphRAG___Gouvernance a skos:Concept ;
+    skos:prefLabel "2. Architecture Agentique, GraphRAG & Gouvernance"@fr .
+
+ex:Concept_3__Ingestion_Cybers_curit____R_f_rentiels_Externes a skos:Concept ;
+    skos:prefLabel "3. Ingestion Cybersécurité & Référentiels Externes"@fr .
+
+ex:Concept_Agent_GraphRAG__Retrieval_Augmented_Generation_ a skos:Concept ;
+    skos:prefLabel "Agent GraphRAG (Retrieval-Augmented Generation)"@fr .
+
+ex:Concept_Contraintes_d_Unicit__Cypher a skos:Concept ;
+    skos:prefLabel "Contraintes d'Unicité Cypher"@fr .
+
+ex:Concept_Dynamic_Knowledge_Graph__DKG_ a skos:Concept ;
+    skos:prefLabel "Dynamic Knowledge Graph (DKG)"@fr .
+
+ex:Concept_Human_in_the_Loop__HITL_ a skos:Concept ;
+    skos:prefLabel "Human-in-the-Loop (HITL)"@fr .
+
+ex:Concept_Neosemantics__n10s_ a skos:Concept ;
+    skos:prefLabel "Neosemantics (n10s)"@fr .
+
+ex:Concept_Request_for_Comments__RFC__Ontologique a skos:Concept ;
+    skos:prefLabel "Request for Comments (RFC) Ontologique"@fr .
+
+ex:Concept_SHACL__Shapes_Constraint_Language_ a skos:Concept ;
+    skos:prefLabel "SHACL (Shapes Constraint Language)"@fr .
+
+ex:Concept_Simple_Knowledge_Organization_System__SKOS_ a skos:Concept ;
+    skos:prefLabel "Simple Knowledge Organization System (SKOS)"@fr .
+
+ex:Concept_Taxonomie_MISP__Machine_Tags_ a skos:Concept ;
+    skos:prefLabel "Taxonomie MISP (Machine Tags)"@fr .
+
+ex:Concept__AssetConcept___quipement_Syst_me_G_n_rique a skos:Concept ;
+    skos:prefLabel "[AssetConcept] Équipement Système Générique"@fr .
+
+ex:Concept__AssetConcept___quipement_Syst_me___H_te a skos:Concept ;
+    skos:prefLabel "[AssetConcept] Équipement Système & Hôte"@fr .
+
+ex:Concept__BusinessUnitConcept__Entit____Propri_taire_Applicatif a skos:Concept ;
+    skos:prefLabel "[BusinessUnitConcept] Entité & Propriétaire Applicatif"@fr .
+
+ex:Concept__ComponentConcept__Composant_Applicatif___Service a skos:Concept ;
+    skos:prefLabel "[ComponentConcept] Composant Applicatif & Service"@fr .
+
+ex:Concept__CriticalAssetConcept__Actif_Critique_M_tier a skos:Concept ;
+    skos:prefLabel "[CriticalAssetConcept] Actif Critique Métier"@fr .
+
+ex:Concept__InternalZoneConcept__Zone_Enclave_Interne___Salles_Blanches a skos:Concept ;
+    skos:prefLabel "[InternalZoneConcept] Zone Enclave Interne & Salles Blanches"@fr .
+
+ex:Concept__PublicZoneConcept__Zone_R_seau_G_n_rique a skos:Concept ;
+    skos:prefLabel "[PublicZoneConcept] Zone Réseau Générique"@fr .
+
+ex:Concept__RequirementConcept__Exigence___R_gle_de_Conformit_ a skos:Concept ;
+    skos:prefLabel "[RequirementConcept] Exigence & Règle de Conformité"@fr .
+
+ex:Concept__VulnerabilityConcept__Vuln_rabilit____Faille a skos:Concept ;
+    skos:prefLabel "[VulnerabilityConcept] Vulnérabilité & Faille"@fr .
+
+ex:Concept__VulnerabilityConcept__Vuln_rabilit____Faille_Publique a skos:Concept ;
+    skos:prefLabel "[VulnerabilityConcept] Vulnérabilité & Faille Publique"@fr .
+
+ex:Concept__ZoneConcept__Zone_R_seau___Partitionment a skos:Concept ;
+    skos:prefLabel "[ZoneConcept] Zone Réseau & Partitionment"@fr .
+
+ex:Concept___Lexique_Technique___Domain_Knowledge_Graph__DKG_ a skos:Concept ;
+    skos:prefLabel "# Lexique Technique — Domain Knowledge Graph (DKG)"@fr .
+
+ex:Concept_____Lexique_M_tier___Architecture_SI___Cybers_curit_ a skos:Concept ;
+    skos:prefLabel "# 📖 Lexique Métier : Architecture SI & Cybersécurité"@fr .
+
+ex:Concept_____Lexique_Priv____Jargon_M_tier__Code_Names___Topologie_Interne a skos:Concept ;
+    skos:prefLabel "# 🔒 Lexique Privé : Jargon Métier, Code Names & Topologie Interne"@fr .
+
+ex:Concept_____Lexique_Public___Standards_Cyber___Architecture_SI a skos:Concept ;
+    skos:prefLabel "# 🌐 Lexique Public : Standards Cyber & Architecture SI"@fr .
+
