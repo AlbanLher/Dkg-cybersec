@@ -11,74 +11,177 @@ ex:Concept_3__Ingestion_Cybers_curit____R_f_rentiels_Externes a skos:Concept ;
     skos:prefLabel "3. Ingestion Cybersécurité & Référentiels Externes"@fr .
 
 ex:Concept_Agent_GraphRAG__Retrieval_Augmented_Generation_ a skos:Concept ;
+    skos:altLabel "**Synonymes / Acronymes :** GraphRAG"@fr,
+        "RAG Orienté Graphe"@fr ;
+    skos:definition "**Définition :** Architecture d'IA générative hybride combinant recherche vectorielle et traversée déterministe de graphes via requêtes Cypher multi-sauts pour alimenter un LLM avec un contexte métier certifié et traçable. **Domaine :** IA / Investigation **Mapping SKOS :** `skos:prefLabel \"GraphRAG\"@en`"@fr ;
     skos:prefLabel "Agent GraphRAG (Retrieval-Augmented Generation)"@fr .
 
 ex:Concept_Contraintes_d_Unicit__Cypher a skos:Concept ;
+    skos:altLabel "**Synonymes / Acronymes :** Uniqueness Constraints"@fr,
+        "Indexation"@fr ;
+    skos:definition "**Définition :** Règles DDL Neo4j (`CREATE CONSTRAINT`) garantissant la déduplication, l'idempotence des requêtes `MERGE` et la performance de traversée sur l'ensemble des entités du graphe (Device, CVE, Host, Service, etc.). **Domaine :** Base de Données / Cypher **Mapping SKOS :** `skos:prefLabel \"Cypher Constraint\"@en` **GraphRAG / LLM :** _Vector Store, Embeddings, Cypher Injection, Grounding, Chunking, Prompt Template._ **Ontologies & Graphe :** _n10s (Neosemantics), OWL Class, SKOS Concept, Property Inherence, Triple Store, RDF/Turtle._ **Ingénierie & Ops :** _Drift Guard, Schema Enforcement, Graph Mutation, Deduplication._"@fr ;
     skos:prefLabel "Contraintes d'Unicité Cypher"@fr .
 
 ex:Concept_Dynamic_Knowledge_Graph__DKG_ a skos:Concept ;
+    skos:altLabel "**Mapping SKOS :** `skos:prefLabel \"Dynamic Knowledge Graph\"@en` ; `skos:altLabel \"DKG\"@en`"@fr,
+        "**Synonymes / Acronymes :** DKG"@fr,
+        "Graphe de Connaissances Dynamique"@fr ;
+    skos:definition "**Définition :** Graphe de connaissances dynamique et évolutif capable d'absorber des flux d'informations temps réel (scans réseau, nouvelles CVE, feeds Threat Intel) tout en adaptant son schéma et son ontologie de manière semi-autonome grâce aux agents d'IA (Agent Guard / HITL). **Domaine :** Architecture / Sémantique Temps Réel"@fr ;
     skos:prefLabel "Dynamic Knowledge Graph (DKG)"@fr .
 
 ex:Concept_Human_in_the_Loop__HITL_ a skos:Concept ;
+    skos:altLabel "**Mapping SKOS :** `skos:prefLabel \"Human-in-the-Loop\"@en` ; `skos:altLabel \"HITL\"@en`"@fr,
+        "**Synonymes / Acronymes :** HITL"@fr,
+        "Validation Humaine"@fr ;
+    skos:definition "**Définition :** Pattern d'architecture où les propositions d'agents autonomes (dérive ontologique, conflits, nouvelles entités) nécessitent une validation explicite d'un expert métier avant déploiement. **Domaine :** Gouvernance IA"@fr ;
     skos:prefLabel "Human-in-the-Loop (HITL)"@fr .
 
+ex:Concept_Lexique_Technique___Domain_Knowledge_Graph__DKG_ a skos:Concept ;
+    skos:prefLabel "Lexique Technique — Domain Knowledge Graph (DKG)"@fr .
+
 ex:Concept_Neosemantics__n10s_ a skos:Concept ;
+    skos:altLabel "**Mapping SKOS :** `skos:prefLabel \"Neosemantics\"@en` ; `skos:altLabel \"n10s\"@en`"@fr,
+        "**Synonymes / Acronymes :** n10s"@fr,
+        "Neo4j RDF Plugin"@fr ;
+    skos:definition "**Définition :** Plugin officiel pour Neo4j permettant l'importation, l'exportation et le traitement natif de données structurées RDF, OWL et SKOS directement dans un modèle LPG (Labeled Property Graph). **Domaine :** Base de Données / Graphe"@fr ;
     skos:prefLabel "Neosemantics (n10s)"@fr .
 
 ex:Concept_Request_for_Comments__RFC__Ontologique a skos:Concept ;
+    skos:altLabel "**Synonymes / Acronymes :** RFC Ontologique"@fr,
+        "Proposition de Schéma"@fr ;
+    skos:definition "**Définition :** Proposition automatique d'évolution du schéma ou du lexique générée par l'Agent Guard et soumise au RSSI via le dashboard Streamlit lors de la détection de dérives. **Domaine :** Gouvernance / DevOps **Mapping SKOS :** `skos:prefLabel \"Ontology RFC\"@en`"@fr ;
     skos:prefLabel "Request for Comments (RFC) Ontologique"@fr .
 
 ex:Concept_SHACL__Shapes_Constraint_Language_ a skos:Concept ;
+    skos:altLabel "**Synonymes / Acronymes :** SHACL"@fr,
+        "Validation de Forme RDF"@fr ;
+    skos:definition "**Définition :** Langage de validation W3C permettant de définir des contraintes de structure et de typage sur un graphe RDF (exécuté par l'Agent Guard avant chargement en base). **Domaine :** Sémantique / Qualité **Mapping SKOS :** `skos:prefLabel \"SHACL\"@en`"@fr ;
     skos:prefLabel "SHACL (Shapes Constraint Language)"@fr .
 
 ex:Concept_Simple_Knowledge_Organization_System__SKOS_ a skos:Concept ;
+    skos:altLabel "**Synonymes / Acronymes :** SKOS"@fr ;
+    skos:definition "**Définition :** Standard du W3C conçu pour la représentation de thesaurus, taxonomies, schémas de concepts et vocabulaires contrôlés au format RDF. **Domaine :** W3C Standard **Mapping SKOS :** `skos:prefLabel \"SKOS\"@en`"@fr ;
     skos:prefLabel "Simple Knowledge Organization System (SKOS)"@fr .
 
 ex:Concept_Taxonomie_MISP__Machine_Tags_ a skos:Concept ;
+    skos:altLabel "**Synonymes / Acronymes :** MISP Taxonomy"@fr,
+        "Machine Tag"@fr ;
+    skos:definition "**Définition :** Système mondial de classification structuré au format JSON sous forme de triplets `namespace:predicate=\"value\"` utilisé pour le marquage de Threat Intelligence (ingesté via `misp_to_skos.py`). **Domaine :** Threat Intelligence / SKOS Externe **Mapping SKOS :** `skos:exactMatch https://www.misp-project.org/taxonomies/`"@fr ;
     skos:prefLabel "Taxonomie MISP (Machine Tags)"@fr .
 
 ex:Concept__AssetConcept___quipement_Syst_me_G_n_rique a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** Serveur"@fr,
+        "Bare-Metal"@fr,
+        "Compute Instance"@fr,
+        "Host"@fr,
+        "Machine"@fr,
+        "Node"@fr ;
+    skos:definition "**URI Ontologie :** `cyber:Device` **Terme Officiel (prefLabel) :** Équipement Système **Erreurs Fréquentes (hiddenLabel) :** Srvur, Servuer **Définition Métier :** Ressource matérielle ou virtuelle dotée d'une adresse IP et hébergeant des composants logiciels. **Exemple d'Usage :** *\"L'hôte physique exécute deux machines virtuelles.\"*"@fr ;
     skos:prefLabel "[AssetConcept] Équipement Système Générique"@fr .
 
 ex:Concept__AssetConcept___quipement_Syst_me___H_te a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** Serveur"@fr,
+        "Bare-Metal"@fr,
+        "Bécane"@fr,
+        "Host"@fr,
+        "Instance"@fr,
+        "Machine"@fr,
+        "SRV"@fr ;
+    skos:definition "**Identifiant URI :** `cyber:Device` **Domaine :** Architecture & Infra **Terme Officiel (prefLabel) :** Équipement Système **Erreurs Fréquentes (hiddenLabel) :** Srvur, Servuer **Définition Métier :** Ressource physique ou virtuelle dotée d'une adresse IP et hébergeant des composants logiciels ou des services. **Exemple d'Usage :** *\"L'instance SRV-WEB-01 est déployée sur l'hôte physique HYP-01.\"*"@fr ;
     skos:prefLabel "[AssetConcept] Équipement Système & Hôte"@fr .
 
 ex:Concept__BusinessUnitConcept__Entit____Propri_taire_Applicatif a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** BU"@fr,
+        "AppOwner"@fr,
+        "Branch"@fr,
+        "Propriétaire"@fr,
+        "Responsible Party"@fr ;
+    skos:definition "**URI Ontologie :** `entreprise:BusinessUnit` **Terme Officiel (prefLabel) :** Unité d'Organisation Métier **Définition Métier :** Entité interne ou direction opérationnelle responsable du budget et de la conformité d'un actif."@fr ;
     skos:prefLabel "[BusinessUnitConcept] Entité & Propriétaire Applicatif"@fr .
 
 ex:Concept__ComponentConcept__Composant_Applicatif___Service a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** Application"@fr,
+        "App"@fr,
+        "Brique"@fr,
+        "Micro-service"@fr,
+        "Middleware"@fr,
+        "Package"@fr,
+        "Service"@fr ;
+    skos:definition "**Identifiant URI :** `cyber:Software` **Domaine :** Architecture **Terme Officiel (prefLabel) :** Composant Logiciel **Définition Métier :** Programme ou ensemble d'exécutables exécutés sur un équipement pour fournir une fonction applicative. **Exemple d'Usage :** *\"Le middleware Tomcat est le composant applicatif impacté.\"*"@fr ;
     skos:prefLabel "[ComponentConcept] Composant Applicatif & Service"@fr .
 
 ex:Concept__CriticalAssetConcept__Actif_Critique_M_tier a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** SRV-CRIT"@fr,
+        "Bécane Compta"@fr,
+        "Machine Cœur de Réseau"@fr,
+        "Node-Core"@fr ;
+    skos:definition "**URI Ontologie :** `entreprise:CriticalAsset` **Terme Officiel (prefLabel) :** Actif Critique Métier **Définition Métier :** Équipement hébergeant des données de santé ou financières soumises à une indisponibilité maximale de 15 minutes. **Exemple d'Usage :** *\"La Bécane Compta SRV-FIN-01 est classée Actif Critique.\"*"@fr ;
     skos:prefLabel "[CriticalAssetConcept] Actif Critique Métier"@fr .
 
 ex:Concept__InternalZoneConcept__Zone_Enclave_Interne___Salles_Blanches a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** Landing Zone Prod"@fr,
+        "Bulle Sanctuarisée"@fr,
+        "Z-PROD-01"@fr,
+        "Zone PCI-DSS"@fr ;
+    skos:definition "**URI Ontologie :** `entreprise:InternalZone` **Terme Officiel (prefLabel) :** Enclave Sécurisée Interne **Définition Métier :** Zone isolée du SI soumise aux contrôles renforcés d'accès et au chiffrement de bout en bout. **Exemple d'Usage :** *\"Seuls les flux authentifiés peuvent pénétrer la Bulle Sanctuarisée Z-PROD-01.\"*"@fr ;
     skos:prefLabel "[InternalZoneConcept] Zone Enclave Interne & Salles Blanches"@fr .
 
 ex:Concept__PublicZoneConcept__Zone_R_seau_G_n_rique a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** DMZ"@fr,
+        "LAN"@fr,
+        "Perimeter"@fr,
+        "Segment"@fr,
+        "Subnet"@fr ;
+    skos:definition "**URI Ontologie :** `cyber:Environment` **Terme Officiel (prefLabel) :** Zone Réseau Standard **Définition Métier :** Périmètre réseau abstrait défini par un niveau d'exposition et des politiques de filtrage standardisées."@fr ;
     skos:prefLabel "[PublicZoneConcept] Zone Réseau Générique"@fr .
 
 ex:Concept__RequirementConcept__Exigence___R_gle_de_Conformit_ a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** Mesure"@fr,
+        "Control"@fr,
+        "Directive"@fr,
+        "Règle NIS2"@fr,
+        "Safeguard"@fr,
+        "Standard"@fr ;
+    skos:definition "**Identifiant URI :** `cyber:Requirement` **Domaine :** Cyber & Compliance **Terme Officiel (prefLabel) :** Exigence de Sécurité **Définition Métier :** Obligation technique ou organisationnelle issue d'un référentiel (NIS2, ISO 27001) imposée à un composant ou une zone. **Exemple d'Usage :** *\"L'exigence de chiffrement s'applique à la zone DMZ.\"*"@fr ;
     skos:prefLabel "[RequirementConcept] Exigence & Règle de Conformité"@fr .
 
 ex:Concept__VulnerabilityConcept__Vuln_rabilit____Faille a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** CVE"@fr,
+        "Brèche"@fr,
+        "Defaut"@fr,
+        "Faille"@fr,
+        "Flaw"@fr,
+        "Trou de sécurité"@fr ;
+    skos:definition "**Identifiant URI :** `cyber:Vulnerability` **Domaine :** Cyber **Terme Officiel (prefLabel) :** Vulnérabilité Sécurité **Erreurs Fréquentes (hiddenLabel) :** Vulnerabilite, Vullnerabilite **Définition Métier :** Faiblesse dans un composant ou une configuration pouvant être exploitée pour porter atteinte au système. **Exemple d'Usage :** *\"La CVE-2026-1234 représente une brèche critique.\"*"@fr ;
     skos:prefLabel "[VulnerabilityConcept] Vulnérabilité & Faille"@fr .
 
 ex:Concept__VulnerabilityConcept__Vuln_rabilit____Faille_Publique a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** CVE"@fr,
+        "Bug"@fr,
+        "Faille"@fr,
+        "Flaw"@fr,
+        "Trou de sécurité"@fr,
+        "Weakness"@fr ;
+    skos:definition "**URI Ontologie :** `cyber:Vulnerability` **Terme Officiel (prefLabel) :** Vulnérabilité Sécurité **Erreurs Fréquentes (hiddenLabel) :** Vulnerabilite, Vullnerabilite **Définition Métier :** Faiblesse identifiée dans un composant logiciel (référencée ou non dans la base NVD/CVE) pouvant être exploitée. **Exemple d'Usage :** *\"La vulnérabilité CVE-2026-1042 possède un score CVSS v3 de 9.8.\"*"@fr ;
     skos:prefLabel "[VulnerabilityConcept] Vulnérabilité & Faille Publique"@fr .
 
 ex:Concept__ZoneConcept__Zone_R_seau___Partitionment a skos:Concept ;
+    skos:altLabel "**Jargon & Acronymes (altLabel) :** DMZ"@fr,
+        "Enclave"@fr,
+        "LAN"@fr,
+        "Landing Zone"@fr,
+        "Segment"@fr,
+        "Subnet"@fr,
+        "Zone Externe"@fr ;
+    skos:definition "**Identifiant URI :** `cyber:Environment` **Domaine :** Architecture & Cyber **Terme Officiel (prefLabel) :** Zone Réseau **Définition Métier :** Périmètre réseau isolé soumis à une politique de filtrage et à un niveau de confiance homogène. **Exemple d'Usage :** *\"Les API publiques doivent résider dans la Landing Zone DMZ.\"*"@fr ;
     skos:prefLabel "[ZoneConcept] Zone Réseau & Partitionment"@fr .
 
-ex:Concept___Lexique_Technique___Domain_Knowledge_Graph__DKG_ a skos:Concept ;
-    skos:prefLabel "# Lexique Technique — Domain Knowledge Graph (DKG)"@fr .
+ex:Concept___Lexique_M_tier___Architecture_SI___Cybers_curit_ a skos:Concept ;
+    skos:prefLabel "📖 Lexique Métier : Architecture SI & Cybersécurité"@fr .
 
-ex:Concept_____Lexique_M_tier___Architecture_SI___Cybers_curit_ a skos:Concept ;
-    skos:prefLabel "# 📖 Lexique Métier : Architecture SI & Cybersécurité"@fr .
+ex:Concept___Lexique_Priv____Jargon_M_tier__Code_Names___Topologie_Interne a skos:Concept ;
+    skos:prefLabel "🔒 Lexique Privé : Jargon Métier, Code Names & Topologie Interne"@fr .
 
-ex:Concept_____Lexique_Priv____Jargon_M_tier__Code_Names___Topologie_Interne a skos:Concept ;
-    skos:prefLabel "# 🔒 Lexique Privé : Jargon Métier, Code Names & Topologie Interne"@fr .
-
-ex:Concept_____Lexique_Public___Standards_Cyber___Architecture_SI a skos:Concept ;
-    skos:prefLabel "# 🌐 Lexique Public : Standards Cyber & Architecture SI"@fr .
+ex:Concept___Lexique_Public___Standards_Cyber___Architecture_SI a skos:Concept ;
+    skos:prefLabel "🌐 Lexique Public : Standards Cyber & Architecture SI"@fr .
 
