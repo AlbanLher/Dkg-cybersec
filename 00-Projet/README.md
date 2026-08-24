@@ -61,9 +61,12 @@ Pour comprendre **pourquoi et comment** ce projet a évolué, lisez :
 un répertoire est dédié aux principes et Architecture afin de les développer dans le cadre du projet
 
 **Principes clés** :
-- **Ontologie** : Schéma du graphe (classes, propriétés, relations) accessible aux profils non technique garant de l'explicabilité
-- **Lexique** : cadre sémantique du projet, intégré au fine tuning des outils de l'agent
-- **Données** : Instances concrètes (devices, CVE, règles).
+- **TBoxe**  _(Terminological Box)_ : Ontologies + Lexiques : 
+  Schéma formel du domaine définissant le vocabulaire, les concepts (Classes), leurs hiérarchies (Sous-classes) et les règles d'association (Propriétés/Relations). C'est le contrat de structure immuable du graphe.
+	- **Ontologie** : Schéma du graphe (classes, propriétés, relations) accessible aux profils non technique garant de l'explicabilité
+	- **Lexique** : cadre sémantique du projet, intégré au fine tuning des outils de l'agent
+- **ABox**  _(Assertional Box)_ : Données réelles / Instances 
+	- **Données** : Instances concrètes (devices, CVE, règles).
 - **Agents** : Série de fonctionnalité comme l'ajout de donnée la fourniture de rapport , sous controle humain quand nécessaire.
 
 ---
@@ -129,6 +132,17 @@ Si vous souhaitez exécuter les pipelines, mettre à jour le graphe ou tester le
 | **Cloud GPU** (si besoin)                    | Fine-tuning de modèles NLP | Entraînement de modèles de classification |
 
 **Objectif** : Pouvoir effectuer les **inférences sur le PC local**.
+
+Preserver l'espace des repertoires racine => créer un répertoire pour HF dans l'espace /data/
+
+```
+# 1. Créer le dossier sur votre partition de données
+mkdir -p /data/SyncData/Projets/T2C_1/hf_cache
+
+# 2. Exporter la variable d'environnement (valable pour la session courante)
+export HF_HOME=/data/SyncData/Projets/T2C_1/hf_cache
+```
+
 
 ---
 ## 📊 Données
