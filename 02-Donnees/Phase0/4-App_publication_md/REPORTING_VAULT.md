@@ -1,23 +1,16 @@
-# 📊 Rapport de Consolidation du Vault (Phase 0)
+# 📊 Rapport de Conformité Structurelle (Phase 0)
+> *Dernière vérification : 2026-08-23 15:16:24*
 
-> *Généré automatiquement par l'Orchestrateur le 2026-08-23 14:13:42*
+## 1. Couverture Inputs ➔ Vault (SKOS & Ontologies)
+* **Taux de couverture** : `100.0%`
+* **Concepts sources détectés** : `28`
+* **Concepts intégrés au Vault** : `28`
+* **Termes manquants** : `0`
 
----
-
-## 📈 Métriques Globales
-
-| Indicateur         | Quantité | Description                                |
-| :----------------- | :------: | :----------------------------------------- |
-| **Triplets RDF**   | `13141`  | Nombre total d'affirmations dans le Vault  |
-| **Concepts SKOS**  |  `3170`  | Entrées de lexiques identifiées            |
-| **Synonymes**      |  `100`   | Termes alternatifs (`skos:altLabel`)       |
-| **Vulnérabilités** |   `1`    | Identifiants CVE / Fiches de vulnérabilité |
-| **Équipements**    |   `0`    | Actifs et composants d'inventaire          |
+## 2. Couverture Vault ➔ Graph Cypher (Neo4j)
+* **Taux de couverture du schéma** : `0.0%`
+* **Classes Vault identifiées** : `None`
+* **Classes projetées en Cypher** : `None`
 
 ---
-
-## 📁 Fichiers Sources Consolidés
-
-* **Lexiques Markdown** : Restitués dans `4-App_publication_md/Lexiques/PUBLICATION_LEXIQUE_GLOBAL.md`
-* **Triples RDF Consolidés** : Stockés dans `3-App_Referential_Vault/VAULT_CONSOLIDE.ttl`
-* **Graphe Neo4j (Cypher)** : Exporté dans `6-Graphe/`
+✅ **Bilan Phase 0** : La structure est validée et prête pour l'instanciation (Phase 1).
