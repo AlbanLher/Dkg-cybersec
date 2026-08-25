@@ -2,39 +2,56 @@ from pathlib import Path
 from rdflib import Graph, Literal
 from rdflib.namespace import SKOS, OWL, RDF, RDFS
 import json
+from datetime import datetime
 
 def generate_versions():
-    # 1. Charger la TBox
+    # Charger la TBox
     graph = Graph()
     graph.parse("12-Donnees/TBox_init/VAULT_CONSOLIDE.ttl", format="turtle")
 
-    # 2. Générer LEXIQUE_CONSOLIDE.md
+    # Générer LEXIQUE_CONSOLIDE.md
     with open("12-Donnees/TBox_init/LEXIQUE_CONSOLIDE.md", "w") as f:
-        f.write("# 📚 Lexique Consolidé\n\n")
-        f.write("## Concepts SKOS\n\n")
+        f.write(f"""# Lexique & Ontologie - DKG
+Généré le {datetime.now().strftime('%Y-%m-%d %H:%M')}
+
+## Lexique (Concepts Métiers)
+
+| Concept | Label | Définition |
+|---------|-------|------------|
+""")
+
         for concept in graph.subjects(RDF.type, SKOS.Concept):
             label = graph.value(concept, SKOS.prefLabel, default="")
-            f.write(f"- **{concept}** : {label}\n")
+            definition = graph.value(concept, SKOS.definition, default="")
+            f.write(f"| {concept} | {label} | {definition} |\n")
 
-        f.write("\n## Classes OWL\n\n")
+        f.write("""
+
+## Ontologie (Classes)
+
+```mermaid
+classDiagram
+""")
+
         for cls in graph.subjects(RDF.type, OWL.Class):
-            label = graph.value(cls, RDFS.label, default=str(cls).split("#")[-1])
-            f.write(f"- **{cls}** : {label}\n")
+            cls_name = str(cls).split("#")[-1]
+            f.write(f"    class {cls_name}\n")
 
-    # 3. Générer ONTOLOGY_CONSOLIDE.json
-    data = {"classes": [], "properties": []}
-    for cls in graph.subjects(RDF.type, OWL.Class):
-        data["classes"].append({
-            "uri": str(cls),
-            "label": str(graph.value(cls, RDFS.label, default=""))
-        })
-    for prop in graph.subjects(RDF.type, OWL.ObjectProperty):
-        data["properties"].append(str(prop))
+        for cls in graph.subjects(RDF.type, OWL.Class):
+            for super_cls in graph.objects(cls, RDFS.subClassOf):
+                child = str(cls).split("#")[-1]
+                parent = str(super_cls).split("#")[-1]
+                f.write(f"    {child} --|> {parent}\n")
 
-    with open("12-Donnees/TBox_init/ONTOLOGY_CONSOLIDE.json", "w") as f:
-        json.dump(data, f, indent=2)
+        f.write("""}
+""")
+        # Générer JSON
+        data = {"classes": [str(c) for c in graph.subjects(RDF.type, OWL.Class)]}
+        with open("12-Donnees/TBox_init/ONTOLOGY_CONSOLIDE.json", "w") as f:
+            json.dump(data, f, indent=2)
 
-    print("✅ Généré: LEXIQUE_CONSOLIDE.md, ONTOLOGY_CONSOLIDE.json")
+    print("Généré: LEXIQUE_CONSOLIDE.md, ONTOLOGY_CONSOLIDE.json")
 
-if __name__ == "__main__":
-    generate_versions()
+
+if __name__ == "main":
+    generate_version()
