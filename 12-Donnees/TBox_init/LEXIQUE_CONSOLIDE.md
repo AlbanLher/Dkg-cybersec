@@ -1,9 +1,25 @@
-# 📚 Lexique Consolidé
+# Lexique & Ontologie - DKG
+> *Généré le 2026-08-25 22:03*
 
-## Concepts SKOS
+---
 
-- **http://example.org/dkg/lexique#Vulnerability** : Vulnérabilité
+## Lexique (Concepts Métiers)
 
-## Classes OWL
+| Concept | Label | Définition |
+|---------|-------|------------|
+| http://example.org/dkg/lexique#Vulnerability | Vulnérabilité |  |
 
-- **http://example.org/cyber-ontology#Vulnerability** : Vulnerability
+---
+
+## Ontologie (Classes)
+
+```mermaid
+classDiagram
+    class Vulnerability
+```
+
+---
+
+## Statistiques
+- Concepts SKOS: 1
+- Classes OWL: 1
