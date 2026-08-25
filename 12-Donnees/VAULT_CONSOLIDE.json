@@ -2,9 +2,18 @@
   "concepts": [],
   "classes": [],
   "https://cve.mitre.org/CVE-2023-1234": {
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://example.org/cyber-ontology#Vulnerability",
+    "http://xmlns.com/foaf/0.1/name": "CVE-2023-1234",
     "http://example.org/cyber-ontology#description": "Vuln\u00e9rabilit\u00e9 critique dans OpenSSL 1.0.2 permettant une ex\u00e9cution de code \u00e0 distance.",
-    "http://example.org/cyber-ontology#cvssScore": "9.8",
-    "http://xmlns.com/foaf/0.1/name": "CVE-2023-1234"
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://example.org/cyber-ontology#Vulnerability",
+    "http://example.org/cyber-ontology#cvssScore": "9.8"
+  },
+  "http://example.org/cyber-ontology#Vulnerability": {
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#label": "Vulnerability",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://www.w3.org/2002/07/owl#Class"
+  },
+  "http://example.org/dkg/lexique#Vulnerability": {
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://www.w3.org/2004/02/skos/core#Concept",
+    "http://www.w3.org/2004/02/skos/core#exactMatch": "http://example.org/cyber-ontology#Vulnerability",
+    "http://www.w3.org/2004/02/skos/core#prefLabel": "Vuln\u00e9rabilit\u00e9"
   }
 }
