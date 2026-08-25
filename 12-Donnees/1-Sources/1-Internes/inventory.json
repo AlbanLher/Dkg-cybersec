@@ -1,0 +1,27 @@
+# Contenu minimal pour démarrer (à placer dans 12-données/inventory.json)
+{
+  "devices": [
+    {
+      "id": "PC-Alban-POC",
+      "type": "Workstation",
+      "software": [
+        {"name": "OpenSSL", "version": "1.0.2", "cve": ["CVE-2023-1234"]},
+        {"name": "Apache", "version": "2.4.57"}
+      ],
+      "ip": "192.168.1.100",
+      "environment": "Personal"
+    },
+    {
+      "id": "Router-POC",
+      "type": "NetworkDevice",
+      "software": [{"name": "Firmware", "version": "1.0"}],
+      "ip": "192.168.1.1",
+      "environment": "Personal"
+    }
+  ],
+  "metadata": {
+    "phase": "Phase1-TBox",
+    "confidentiality": "Public",
+    "description": "Données de base pour le POC"
+  }
+}
