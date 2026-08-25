@@ -1,20 +1,81 @@
 @prefix : <http://example.org/cyber-ontology#> .
 @prefix cve: <https://cve.mitre.org/> .
+@prefix ex-l: <http://example.org/dkg/lexique#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://example.org/dkg/lexique#Vulnerability> a skos:Concept ;
-    skos:exactMatch :Vulnerability ;
-    skos:prefLabel "Vulnérabilité"@fr .
+:PC-Alban-POC a :Workstation ;
+    rdfs:label "PC-Alban-POC" ;
+    :hasIP "192.168.1.100" ;
+    :hasSoftware :Apache_2_4_57,
+        :OpenSSL_1_0_2 .
+
+:Router-POC a :NetworkDevice ;
+    rdfs:label "Router-POC" ;
+    :hasIP "192.168.1.1" ;
+    :hasSoftware :Firmware_1_0 .
+
+ex-l:Apache a skos:Concept ;
+    skos:exactMatch :Apache ;
+    skos:inScheme ex-l:InternalLexicon ;
+    skos:prefLabel "Apache" .
+
+ex-l:Firmware a skos:Concept ;
+    skos:exactMatch :Firmware ;
+    skos:inScheme ex-l:InternalLexicon ;
+    skos:prefLabel "Firmware" .
+
+ex-l:NetworkDevice a skos:Concept ;
+    skos:exactMatch :NetworkDevice ;
+    skos:inScheme ex-l:InternalLexicon ;
+    skos:prefLabel "NetworkDevice" .
+
+ex-l:OpenSSL a skos:Concept ;
+    skos:exactMatch :OpenSSL ;
+    skos:inScheme ex-l:InternalLexicon ;
+    skos:prefLabel "OpenSSL" .
+
+ex-l:Workstation a skos:Concept ;
+    skos:exactMatch :Workstation ;
+    skos:inScheme ex-l:InternalLexicon ;
+    skos:prefLabel "Workstation" .
 
 cve:CVE-2023-1234 a :Vulnerability ;
     :cvssScore 9.8 ;
     :description "Vulnérabilité critique dans OpenSSL 1.0.2 permettant une exécution de code à distance." ;
     foaf:name "CVE-2023-1234" .
 
+:Apache_2_4_57 a :Apache ;
+    rdfs:label "Apache 2.4.57" .
+
+:Firmware_1_0 a :Firmware ;
+    rdfs:label "Firmware 1.0" .
+
+:OpenSSL_1_0_2 a :OpenSSL ;
+    rdfs:label "OpenSSL 1.0.2" .
+
 :Vulnerability a owl:Class ;
     rdf:label "Vulnerability"@en .
+
+:Apache a owl:Class ;
+    rdfs:label "Apache" .
+
+:Firmware a owl:Class ;
+    rdfs:label "Firmware" .
+
+:NetworkDevice a owl:Class ;
+    rdfs:label "NetworkDevice" .
+
+:OpenSSL a owl:Class ;
+    rdfs:label "OpenSSL" .
+
+:Workstation a owl:Class ;
+    rdfs:label "Workstation" .
+
+ex-l:InternalLexicon a skos:ConceptScheme ;
+    skos:prefLabel "Lexique Interne DKG" .
 

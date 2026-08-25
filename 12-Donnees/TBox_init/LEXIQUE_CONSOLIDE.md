@@ -1,5 +1,5 @@
 # Lexique & Ontologie - DKG
-> *Généré le 2026-08-25 22:03*
+> *Généré le 2026-08-25 22:13*
 
 ---
 
@@ -7,7 +7,11 @@
 
 | Concept | Label | Définition |
 |---------|-------|------------|
-| http://example.org/dkg/lexique#Vulnerability | Vulnérabilité |  |
+| http://example.org/dkg/lexique#Apache | Apache |  |
+| http://example.org/dkg/lexique#Firmware | Firmware |  |
+| http://example.org/dkg/lexique#NetworkDevice | NetworkDevice |  |
+| http://example.org/dkg/lexique#OpenSSL | OpenSSL |  |
+| http://example.org/dkg/lexique#Workstation | Workstation |  |
 
 ---
 
@@ -16,10 +20,15 @@
 ```mermaid
 classDiagram
     class Vulnerability
+    class Apache
+    class Firmware
+    class NetworkDevice
+    class OpenSSL
+    class Workstation
 ```
 
 ---
 
 ## Statistiques
-- Concepts SKOS: 1
-- Classes OWL: 1
+- Concepts SKOS: 5
+- Classes OWL: 6
