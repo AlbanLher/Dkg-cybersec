@@ -1,20 +1,26 @@
-# Lexique Consolidé - Dkg-cybersec
-
-**Généré:** 2026-08-26 15:15:11
-**Concepts:** 0
-
-## Table des Matières
-
+# Lexique & Ontologie - DKG
+> *Généré le 2026-08-26 15:43*
 
 ---
 
+## Lexique (Concepts Métiers)
+
+| Concept | Label | Définition |
+|---------|-------|------------|
+
 ---
 
-## Relations Principales
+## Ontologie (Classes)
 
 ```mermaid
-graph TD
-    Device -->|hasSoftware| Software
-    Software -->|hasVulnerability| Vulnerability
-    Device -->|hasVulnerability| Vulnerability
+classDiagram
+    class Vulnerability
+    class Device
+    class Software
 ```
+
+---
+
+## Statistiques
+- Concepts SKOS: 0
+- Classes OWL: 3

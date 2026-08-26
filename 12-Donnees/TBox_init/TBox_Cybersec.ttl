@@ -1,0 +1,71 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://dkg.cybersec.org/tbox> a owl:Ontology ;
+    rdfs:label "Ontologie DKG Cybersec"@fr ;
+    rdfs:comment "TBox minimale pour le croisement d'inventaire privé et de vulnérabilités publiques."@fr .
+
+# ================================
+# Classes Principales
+# ================================
+
+dkg:Asset a owl:Class ;
+    rdfs:label "Actif Privé"@fr ;
+    rdfs:comment "Équipement ou serveur du système d'information privé."@fr .
+
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "Composant Logiciel"@fr ;
+    rdfs:comment "Composant logiciel ou package installé sur un actif."@fr .
+
+dkg:Vulnerability a owl:Class ;
+    rdfs:label "Vulnérabilité (CVE)"@fr ;
+    rdfs:comment "Vulnérabilité référencée (ex: CVE-2023-XXXX)."@fr .
+
+dkg:Weakness a owl:Class ;
+    rdfs:label "Faiblesse (CWE)"@fr ;
+    rdfs:comment "Type d'erreur ou catégorie de faiblesse logicielle."@fr .
+
+# ================================
+# Propriétés / Relations (Object Properties)
+# ================================
+
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range dkg:SoftwareComponent ;
+    rdfs:label "a pour composant"@fr .
+
+dkg:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Vulnerability ;
+    rdfs:label "est affecté par la vulnérabilité"@fr .
+
+dkg:classifiedUnder a owl:ObjectProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness ;
+    rdfs:label "est catégorisé sous CWE"@fr .
+
+# ================================
+# Attributes (Datatype Properties)
+# ================================
+
+dkg:hostname a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string ;
+    rdfs:label "Nom d'hôte"@fr .
+
+dkg:ipAddress a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string ;
+    rdfs:label "Adresse IP"@fr .
+
+dkg:cpeIdentifier a owl:DatatypeProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string ;
+    rdfs:label "Identifiant CPE"@fr .
+
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float ;
+    rdfs:label "Score CVSS"@fr .
