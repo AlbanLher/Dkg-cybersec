@@ -1,6 +1,11 @@
 
 ## 🔄 Workflow
-1. **Phase 1 (TBox)** : Lexique + Ontologie → VAULT_CONSOLIDE.ttl
+1. **Phase 1 (TBox)** : initialisation de la TBox dans un cas simple. 
+	1. Formalisation de spécifications, 
+	2. mise en place de données source initiales, 
+	3. generation d'une premiere version ttl,
+	4. génération des formats json et md
+	5. Test de vérification
 2. **Phase 2 (ABox)** : Instances → INSTANCES_ABOX.ttl
 3. **Phase 3 (NER)** : Extraction d'entités
 4. **Phase 4 (Vectorisation)** : Embeddings
