@@ -1,102 +1,432 @@
-from pathlib import Path
-from rdflib import Graph, Namespace, Literal, URIRef
-from rdflib.namespace import SKOS, OWL, RDF, RDFS
+#!/usr/bin/env python3
+"""build-tbox.py - Version finale avec débogage et lexique garanti"""
+
 import json
+import re
+from pathlib import Path
+from datetime import datetime
+from rdflib import Graph, Literal, Namespace, XSD
+from rdflib.namespace import RDF, RDFS, OWL, SKOS, FOAF
 
-EX_O = Namespace("http://example.org/cyber-ontology#")
-EX_L = Namespace("http://example.org/dkg/lexique#")
+# ========== CONFIGURATION ==========
+SCRIPT_DIR = Path(__file__).parent
+ROOT = SCRIPT_DIR.parent.parent
+SOURCES_INTERNES = ROOT / "12-Donnees" / "1-Sources" / "1-Internes"
+SOURCES_EXTERNES = ROOT / "12-Donnees" / "1-Sources" / "2-Externes"
+TBOX_OUT = ROOT / "12-Donnees" / "TBox_init"
 
-def build_tbox():
-    graph = Graph()
-    graph.bind("ex-o", EX_O)
-    graph.bind("ex-l", EX_L)
-    graph.bind("owl", OWL)
-    graph.bind("rdf", RDF)
-    graph.bind("rdfs", RDFS)
-    graph.bind("skos", SKOS)
+# Chemins alternatifs pour les lexiques
+LEXIQUE_PATHS = [
+    ROOT / "12-Donnees" / "Referential_TBox",
+    ROOT / "12-Donnees" / "1-Sources" / "2-Externes",
+    ROOT / "12-Donnees",
+    ROOT / "12-Donnees" / "1-Sources",
+]
 
-    # 1. Charger CVE
-    graph.parse("12-Donnees/1-Sources/2-Externes/cve_data.ttl", format="turtle")
+CYBER = Namespace("http://example.org/cyber-ontology#")
+CVE_NS = Namespace("https://cve.mitre.org/")
 
-    # 2. Créer les classes de base
-    classes = {
-        "Device": "Équipement physique ou virtuel",
-        "Workstation": "Poste de travail",
-        "NetworkDevice": "Équipement réseau",
-        "Software": "Logiciel ou application",
-        "Vulnerability": "Faiblesse exploitable dans un système"
+# ========== FONCTIONS DE LECTURE ==========
+def read_inventory():
+    """Lire inventory.json avec validation flexible"""
+    inv_path = SOURCES_INTERNES / "inventory.json"
+    if not inv_path.exists():
+        raise FileNotFoundError(f"Fichier introuvable: {inv_path}")
+
+    with open(inv_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    if not isinstance(data, dict):
+        raise ValueError("inventory.json doit être un objet JSON")
+
+    devices = data.get('devices', data.get('equipments', data.get('assets', [])))
+
+    validated_devices = []
+    for idx, device in enumerate(devices):
+        if not isinstance(device, dict):
+            print(f"⚠️  Entrée {idx} invalide: {device}")
+            continue
+
+        name = device.get('name') or device.get('hostname') or device.get('id') or device.get('device_name')
+        if not name:
+            print(f"⚠️  Entrée {idx} sans nom: {device}")
+            continue
+
+        validated_device = {
+            'name': str(name),
+            'ip': device.get('ip') or device.get('address') or device.get('ip_address'),
+            'type': device.get('type') or device.get('device_type') or 'unknown',
+            'software': []
+        }
+
+        raw_software = device.get('software', device.get('apps', device.get('components', [])))
+        for sw in raw_software:
+            if not isinstance(sw, dict):
+                continue
+            sw_name = sw.get('name') or sw.get('software') or sw.get('app')
+            if not sw_name:
+                continue
+            validated_sw = {
+                'name': str(sw_name),
+                'version': sw.get('version') or sw.get('ver') or '',
+                'cvss': sw.get('cvss', sw.get('vulnerabilities', []))
+            }
+            validated_device['software'].append(validated_sw)
+
+        validated_devices.append(validated_device)
+
+    return {'devices': validated_devices}
+
+def read_lexicons():
+    """Lire les fichiers de lexique - recherche étendue"""
+    graphs = []
+    lexique_files = ["LEXIQUE_TECHNIQUE.ttl", "LEXIQUE_COMPATIBLE.ttl", "LEXIQUE_PUBLIQUE.ttl", "LEXIQUE_PRIVEE.ttl"]
+
+    print("🔍 Recherche des fichiers de lexique...")
+    for lex_path in LEXIQUE_PATHS:
+        if not lex_path.exists():
+            continue
+        for name in lexique_files:
+            path = lex_path / name
+            if path.exists():
+                g = Graph()
+                try:
+                    g.parse(str(path), format='turtle')
+                    graphs.append(g)
+                    print(f"   ✅ Trouvé: {path}")
+                except Exception as e:
+                    print(f"   ⚠️  Erreur parsing {path}: {e}")
+    return graphs
+
+# ========== EXTRACTION SKOS ==========
+def extract_concepts(graphs):
+    """Extraire les concepts SKOS avec débogage"""
+    if not graphs:
+        print("⚠️  Aucun graphe de lexique chargé !")
+        return {}
+
+    concepts = {}
+    total_concepts = 0
+
+    for g in graphs:
+        g_concepts = list(g.subjects(SKOS.Concept, None))
+        print(f"   Grape avec {len(g_concepts)} concepts")
+        total_concepts += len(g_concepts)
+
+        for uri in g_concepts:
+            s = str(uri)
+            if s not in concepts:
+                concepts[s] = {'prefLabel': [], 'altLabel': [], 'definition': [], 'inScheme': set()}
+            d = concepts[s]
+
+            for label in g.objects(uri, SKOS.prefLabel):
+                if label.language == 'fr':
+                    d['prefLabel'].append(str(label))
+
+            for label in g.objects(uri, SKOS.altLabel):
+                if label.language == 'fr':
+                    clean = re.sub(r'[\*]+', '', str(label)).replace('Synonymes / Acronymes :', '').strip()
+                    if clean and clean not in d['altLabel']:
+                        d['altLabel'].append(clean)
+
+            for defn in g.objects(uri, SKOS.definition):
+                if defn.language == 'fr':
+                    d['definition'].append(str(defn))
+
+            for scheme in g.objects(uri, SKOS.inScheme):
+                d['inScheme'].add(str(scheme))
+
+    print(f"   ✅ {total_concepts} concepts SKOS extraits au total")
+    return concepts
+
+# ========== GÉNÉRATION MARKDOWN - CORRIGÉE ==========
+def generate_markdown(concepts):
+    """Générer LEXIQUE_CONSOLIDE.md - version corrigée pour afficher TOUS les concepts"""
+    lines = [
+        "# 📚 Lexique Consolidé - Dkg-cybersec",
+        "",
+        f"**Généré:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"**Concepts:** {len(concepts)}",
+        "",
+        "## 📋 Table des Matières",
+        ""
+    ]
+
+    # Si aucun concept, afficher un message
+    if not concepts:
+        lines.extend([
+            "⚠️  **Aucun concept SKOS trouvé**",
+            "",
+            "Vérifiez que :",
+            "- Les fichiers LEXIQUE_*.ttl existent",
+            "- Ils sont dans 12-Donnees/Referential_TBox/ ou 12-Donnees/1-Sources/2-Externes/",
+            "- Ils sont valides (format Turtle)",
+            ""
+        ])
+        return "\n".join(lines)
+
+    # Organiser par schéma
+    schemes = {}
+    for uri, data in concepts.items():
+        for scheme in data['inScheme']:
+            schemes.setdefault(scheme, []).append((uri, data))
+
+    # Si aucun schéma, afficher tous les concepts dans une section unique
+    if not schemes:
+        lines.append("## Tous les Concepts")
+        lines.append("")
+        for uri, data in sorted(concepts.items(), key=lambda x: x[1]['prefLabel'][0] if x[1]['prefLabel'] else x[0]):
+            _add_concept(lines, uri, data)
+        return "\n".join(lines)
+
+    scheme_titles = {
+        "http://example.org/dkg/lexique#Scheme_LEXIQUE_TECHNIQUE": "📖 Lexique Technique",
+        "http://example.org/dkg/lexique#Scheme_LEXIQUE_PUBLIQUE": "🌐 Lexique Public",
+        "http://example.org/dkg/lexique#Scheme_LEXIQUE_PRIVEE": "🔒 Lexique Privé"
     }
 
-    for cls_name, definition in classes.items():
-        cls_uri = EX_O[cls_name]
-        graph.add((cls_uri, RDF.type, OWL.Class))
-        graph.add((cls_uri, RDFS.label, Literal(cls_name, lang="fr")))
-        graph.add((cls_uri, RDFS.comment, Literal(definition, lang="fr")))
+    for scheme in sorted(schemes.keys()):
+        title = scheme_titles.get(scheme, scheme.split('#')[-1])
+        anchor = title.lower().replace(' ', '-').replace('📖', '').replace('🌐', '').replace('🔒', '')
+        lines.append(f"- [{title}](#{anchor})")
 
-    # Hiérarchie
-    graph.add((EX_O.Workstation, RDFS.subClassOf, EX_O.Device))
-    graph.add((EX_O.NetworkDevice, RDFS.subClassOf, EX_O.Device))
+    lines.extend(["", "---", ""])
 
-    # 3. Créer les propriétés
-    properties = {
-        "hasSoftware": {"domain": EX_O.Device, "range": EX_O.Software, "label": "a pour logiciel"},
-        "hasIP": {"domain": EX_O.Device, "range": EX_O.IP_Address, "label": "a pour adresse IP"},
-        "hasVulnerability": {"domain": EX_O.Software, "range": EX_O.Vulnerability, "label": "a pour vulnérabilité"}
+    # Générer les sections
+    for scheme in sorted(schemes.keys()):
+        title = scheme_titles.get(scheme, scheme.split('#')[-1])
+        lines.append(f"## {title}")
+        lines.append("")
+
+        for uri, data in sorted(schemes[scheme], key=lambda x: x[1]['prefLabel'][0] if x[1]['prefLabel'] else x[0]):
+            _add_concept(lines, uri, data)
+
+        lines.append("")
+
+    # Ajouter le diagramme des relations
+    lines.extend([
+        "---",
+        "",
+        "## 🔗 Diagramme des Relations",
+        "",
+        "```mermaid",
+        "graph TD",
+        "    Device[Device/Équipement] -->|hasSoftware| Software[Software/Logiciel]",
+        "    Software -->|hasVulnerability| Vulnerability[Vulnerability/Vulnérabilité]",
+        "    Device -->|hasVulnerability| Vulnerability",
+        "    Vulnerability -->|cvssScore| CVSS[Score CVSS]",
+        "    Device -->|hasIP| IP[Adresse IP]",
+        "```",
+        ""
+    ])
+
+    return "\n".join(lines)
+
+def _add_concept(lines, uri, data):
+    """Ajouter un concept au markdown"""
+    if not data['prefLabel']:
+        return
+
+    pref = data['prefLabel'][0]
+    clean_pref = pref.replace('[', '').replace(']', '').strip()
+    lines.append(f"### {clean_pref}")
+    lines.append("")
+
+    lines.append("| **Aspect** | **Valeur** |")
+    lines.append("|------------|------------|")
+
+    # Terme Officiel
+    if data['prefLabel']:
+        lines.append(f"| **Terme Officiel** | {data['prefLabel'][0]} |")
+
+    # Synonymes
+    if data['altLabel']:
+        alts = data['altLabel'][:5]  # Limiter à 5
+        lines.append(f"| **Synonymes** | {', '.join(alts)} |")
+
+    # URI Ontologie
+    uri_ont = None
+    for defn in data['definition']:
+        if m := re.search(r'`([^`]+)`', defn):
+            uri_ont = m.group(1)
+            break
+    if uri_ont:
+        lines.append(f"| **URI Ontologie** | `{uri_ont}` |")
+
+    # Domaine
+    domaine = None
+    for defn in data['definition']:
+        if m := re.search(r'\*\*Domaine :\*\* ([^\*]+)', defn):
+            domaine = m.group(1).strip()
+            break
+    if domaine:
+        lines.append(f"| **Domaine** | {domaine} |")
+
+    # Définition Métier
+    definition = None
+    for defn in data['definition']:
+        if m := re.search(r'\*\*Définition Métier :\*\* ([^\*]+)(?=\*\*|\Z)', defn, re.DOTALL):
+            definition = m.group(1).strip()
+            if len(definition) > 200:
+                definition = definition[:200] + "..."
+            break
+    if definition:
+        lines.append(f"| **Définition Métier** | {definition} |")
+
+    # Exemple
+    exemple = None
+    for defn in data['definition']:
+        if m := re.search(r'\*\*Exemple d\'Usage :\*\* ([^\*]+)', defn, re.DOTALL):
+            exemple = m.group(1).strip()
+            break
+    if exemple:
+        lines.append(f"| **Exemple** | {exemple} |")
+
+    # Erreurs Fréquentes
+    if data['hiddenLabel']:
+        errors = [l for l in data['hiddenLabel'] if l][:3]
+        if errors:
+            lines.append(f"| **Erreurs Fréquentes** | {', '.join(errors)} |")
+
+    lines.append("")
+
+# ========== GÉNÉRATION ONTOLOGIE ==========
+def generate_ontology(inventory, lex_graphs):
+    """Générer VAULT_CONSOLIDE.ttl"""
+    consolidated = Graph()
+
+    for prefix, ns in [('cyber', CYBER), ('cve', CVE_NS), ('skos', SKOS),
+                       ('foaf', FOAF), ('owl', OWL), ('rdfs', RDFS), ('xsd', XSD)]:
+        consolidated.bind(prefix, ns)
+
+    for g in lex_graphs:
+        consolidated += g
+
+    for name, label in [('Device', 'Équipement'), ('Software', 'Logiciel'), ('Vulnerability', 'Vulnérabilité')]:
+        uri = CYBER[name]
+        consolidated.add((uri, RDF.type, OWL.Class))
+        consolidated.add((uri, RDFS.label, Literal(label, lang='fr')))
+
+    props = {
+        'hasSoftware': (OWL.ObjectProperty, CYBER.Device, CYBER.Software, 'a pour logiciel'),
+        'hasVulnerability': (OWL.ObjectProperty, CYBER.Device, CYBER.Vulnerability, 'a pour vulnérabilité'),
+        'hasIP': (OWL.DatatypeProperty, CYBER.Device, XSD.string, 'a pour IP'),
+        'cvssScore': (OWL.DatatypeProperty, CYBER.Vulnerability, XSD.float, 'score CVSS'),
+        'version': (OWL.DatatypeProperty, CYBER.Software, XSD.string, 'version'),
     }
+    for name, (prop_type, domain, range_, label) in props.items():
+        uri = CYBER[name]
+        consolidated.add((uri, RDF.type, prop_type))
+        consolidated.add((uri, RDFS.label, Literal(label, lang='fr')))
+        consolidated.add((uri, RDFS.domain, domain))
+        consolidated.add((uri, RDFS.range, range_))
 
-    for prop_name, prop_config in properties.items():
-        prop_uri = EX_O[prop_name]
-        graph.add((prop_uri, RDF.type, OWL.ObjectProperty))
-        graph.add((prop_uri, RDFS.label, Literal(prop_config["label"], lang="fr")))
-        graph.add((prop_uri, RDFS.domain, prop_config["domain"]))
-        graph.add((prop_uri, RDFS.range, prop_config["range"]))
+    for device in inventory.get('devices', []):
+        if 'name' not in device:
+            print(f"⚠️  Device sans name: {device}")
+            continue
 
-    # 4. Charger inventory.json
-    with open("12-Donnees/1-Sources/1-Internes/inventory.json", "r") as f:
-        inventory = json.load(f)
+        dev_name = device['name'].replace('-', '_').replace('.', '_').replace(' ', '_')
+        dev_uri = CYBER[dev_name]
 
-    # Créer le ConceptScheme
-    scheme = EX_L.InternalLexicon
-    graph.add((scheme, RDF.type, SKOS.ConceptScheme))
-    graph.add((scheme, SKOS.prefLabel, Literal("Lexique Interne DKG")))
+        consolidated.add((dev_uri, RDF.type, CYBER.Device))
+        consolidated.add((dev_uri, FOAF.name, Literal(device['name'])))
 
-    # Ajouter les devices (comme instances)
-    for device in inventory["devices"]:
-        device_uri = EX_O[device["id"]]
-        device_type = EX_O[device["type"]]
+        if device.get('ip'):
+            consolidated.add((dev_uri, CYBER.hasIP, Literal(device['ip'])))
 
-        graph.add((device_uri, RDF.type, device_type))
-        graph.add((device_uri, RDFS.label, Literal(device["id"])))
-        if "ip" in device:
-            graph.add((device_uri, EX_O.hasIP, Literal(device["ip"])))
+        for sw in device.get('software', []):
+            if 'name' not in sw:
+                print(f"⚠️  Software sans name: {sw}")
+                continue
 
-        for sw in device.get("software", []):
-            sw_uri = EX_O[f"{sw['name']}_{sw['version'].replace('.', '_')}"]
-            sw_type = EX_O[sw["name"]]
+            sw_name = sw['name'].replace(' ', '_').replace('.', '_')
+            sw_version = sw.get('version', '').replace('.', '_')
+            sw_uri = CYBER[f"{sw_name}_{sw_version}"] if sw_version else CYBER[sw_name]
 
-            graph.add((sw_uri, RDF.type, sw_type))
-            graph.add((sw_uri, RDFS.label, Literal(f"{sw['name']} {sw['version']}")))
-            graph.add((device_uri, EX_O.hasSoftware, sw_uri))
+            consolidated.add((sw_uri, RDF.type, CYBER.Software))
+            consolidated.add((sw_uri, FOAF.name, Literal(sw['name'])))
 
-            # Lier à CVE si présent
-            for cve in sw.get("cve", []):
-                cve_uri = URIRef(f"https://cve.mitre.org/{cve}")
-                graph.add((sw_uri, EX_O.hasVulnerability, cve_uri))
+            if sw.get('version'):
+                consolidated.add((sw_uri, CYBER.version, Literal(sw['version'])))
 
-    # 5. Ajouter le lexique (concepts SKOS)
-    for cls_name, definition in classes.items():
-        concept_uri = EX_L[cls_name]
-        graph.add((concept_uri, RDF.type, SKOS.Concept))
-        graph.add((concept_uri, SKOS.inScheme, scheme))
-        graph.add((concept_uri, SKOS.prefLabel, Literal(cls_name, lang="fr")))
-        graph.add((concept_uri, SKOS.definition, Literal(definition, lang="fr")))
-        graph.add((concept_uri, SKOS.exactMatch, EX_O[cls_name]))
+            consolidated.add((dev_uri, CYBER.hasSoftware, sw_uri))
 
-    # 6. Sauvegarder
-    output_dir = Path("12-Donnees/TBox_init")
-    output_dir.mkdir(parents=True, exist_ok=True)
-    graph.serialize(output_dir / "VAULT_CONSOLIDE.ttl", format="turtle")
-    print("✅ TBox générée")
+            for cve in sw.get('cvss', []):
+                if 'id' not in cve:
+                    print(f"⚠️  CVE sans id: {cve}")
+                    continue
+
+                cve_uri = CVE_NS[cve['id']]
+                consolidated.add((cve_uri, RDF.type, CYBER.Vulnerability))
+                consolidated.add((cve_uri, FOAF.name, Literal(cve['id'])))
+
+                if 'score' in cve:
+                    try:
+                        consolidated.add((cve_uri, CYBER.cvssScore, Literal(float(cve['score']))))
+                    except (ValueError, TypeError):
+                        print(f"⚠️  Score CVE invalide: {cve['score']}")
+
+                if 'description' in cve:
+                    desc = str(cve['description'])[:200]
+                    consolidated.add((cve_uri, RDFS.comment, Literal(desc, lang='fr')))
+
+                consolidated.add((sw_uri, CYBER.hasVulnerability, cve_uri))
+                consolidated.add((dev_uri, CYBER.hasVulnerability, cve_uri))
+
+    return consolidated
+
+# ========== FONCTION PRINCIPALE ==========
+def main():
+    """Fonction principale avec débogage"""
+    print("🚀 Construction TBox - Dkg-cybersec")
+    print("=" * 50)
+
+    try:
+        TBOX_OUT.mkdir(parents=True, exist_ok=True)
+
+        print("\n📖 Lecture des données...")
+        inventory = read_inventory()
+        print(f"   ✅ {len(inventory.get('devices', []))} équipements validés")
+
+        print("\n📚 Lecture des lexiques...")
+        lex_graphs = read_lexicons()
+
+        if not lex_graphs:
+            print("⚠️  AUCUN FICHIER DE LEXIQUE TROUVÉ !")
+            print("   Cherché dans:")
+            for p in LEXIQUE_PATHS:
+                print(f"   - {p} (existe: {p.exists()})")
+            print("\n   Vérifiez que les fichiers LEXIQUE_*.ttl existent dans l'un de ces répertoires.")
+            return 1
+
+        print("\n🔍 Extraction des concepts SKOS...")
+        concepts = extract_concepts(lex_graphs)
+
+        if not concepts:
+            print("⚠️  AUCUN CONCEPT SKOS EXTRAIT !")
+            print("   Vérifiez que vos fichiers TTL contiennent bien des concepts SKOS (skos:Concept)")
+            return 1
+
+        print("\n📝 Génération des fichiers...")
+        ontology = generate_ontology(inventory, lex_graphs)
+        ontology.serialize(destination=str(TBOX_OUT / "VAULT_CONSOLIDE.ttl"), format='turtle')
+        print(f"   ✅ VAULT_CONSOLIDE.ttl")
+
+        md = generate_markdown(concepts)
+        with open(TBOX_OUT / "LEXIQUE_CONSOLIDE.md", 'w', encoding='utf-8') as f:
+            f.write(md)
+        print(f"   ✅ LEXIQUE_CONSOLIDE.md")
+
+        print("\n✅ Terminé! Fichiers dans:", TBOX_OUT)
+
+    except Exception as e:
+        print(f"\n❌ ERREUR: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
+
+    return 0
 
 if __name__ == "__main__":
-    build_tbox()
+    exit(main())

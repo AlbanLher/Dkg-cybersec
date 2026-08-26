@@ -1,35 +1,20 @@
-# Lexique & Ontologie - DKG
-> *Généré le 2026-08-26 14:24*
+# Lexique Consolidé - Dkg-cybersec
+
+**Généré:** 2026-08-26 15:15:11
+**Concepts:** 0
+
+## Table des Matières
+
 
 ---
 
-## Lexique (Concepts Métiers)
-
-| Concept | Label | Définition |
-|---------|-------|------------|
-| http://example.org/dkg/lexique#Device | Device | Équipement physique ou virtuel |
-| http://example.org/dkg/lexique#NetworkDevice | NetworkDevice | Équipement réseau |
-| http://example.org/dkg/lexique#Software | Software | Logiciel ou application |
-| http://example.org/dkg/lexique#Vulnerability | Vulnerability | Faiblesse exploitable dans un système |
-| http://example.org/dkg/lexique#Workstation | Workstation | Poste de travail |
-
 ---
 
-## Ontologie (Classes)
+## Relations Principales
 
 ```mermaid
-classDiagram
-    class NetworkDevice
-    class Workstation
-    class Software
-    class Vulnerability
-    class Device
-    NetworkDevice --|> Device
-    Workstation --|> Device
+graph TD
+    Device -->|hasSoftware| Software
+    Software -->|hasVulnerability| Vulnerability
+    Device -->|hasVulnerability| Vulnerability
 ```
-
----
-
-## Statistiques
-- Concepts SKOS: 5
-- Classes OWL: 5

@@ -1,107 +1,63 @@
-@prefix : <http://example.org/cyber-ontology#> .
-@prefix cve: <https://cve.mitre.org/> .
-@prefix ex-l: <http://example.org/dkg/lexique#> .
+@prefix cyber: <http://example.org/cyber-ontology#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:PC-Alban-POC a :Workstation ;
-    rdfs:label "PC-Alban-POC" ;
-    :hasIP "192.168.1.100" ;
-    :hasSoftware :Apache_2_4_57,
-        :OpenSSL_1_0_2 .
+cyber:PC_Alban_POC a cyber:Device ;
+    cyber:hasIP "192.168.1.100" ;
+    cyber:hasSoftware cyber:Apache_2_4_57,
+        cyber:OpenSSL_1_0_2 ;
+    foaf:name "PC-Alban-POC" .
 
-:Router-POC a :NetworkDevice ;
-    rdfs:label "Router-POC" ;
-    :hasIP "192.168.1.1" ;
-    :hasSoftware :Firmware_1_0 .
+cyber:Router_POC a cyber:Device ;
+    cyber:hasIP "192.168.1.1" ;
+    cyber:hasSoftware cyber:Firmware_1_0 ;
+    foaf:name "Router-POC" .
 
-:hasIP a owl:ObjectProperty ;
-    rdfs:label "a pour adresse IP"@fr ;
-    rdfs:domain :Device ;
-    rdfs:range :IP_Address .
+cyber:cvssScore a owl:DatatypeProperty ;
+    rdfs:label "score CVSS"@fr ;
+    rdfs:domain cyber:Vulnerability ;
+    rdfs:range xsd:float .
 
-:hasSoftware a owl:ObjectProperty ;
+cyber:hasIP a owl:DatatypeProperty ;
+    rdfs:label "a pour IP"@fr ;
+    rdfs:domain cyber:Device ;
+    rdfs:range xsd:string .
+
+cyber:hasSoftware a owl:ObjectProperty ;
     rdfs:label "a pour logiciel"@fr ;
-    rdfs:domain :Device ;
-    rdfs:range :Software .
+    rdfs:domain cyber:Device ;
+    rdfs:range cyber:Software .
 
-:hasVulnerability a owl:ObjectProperty ;
+cyber:hasVulnerability a owl:ObjectProperty ;
     rdfs:label "a pour vulnérabilité"@fr ;
-    rdfs:domain :Software ;
-    rdfs:range :Vulnerability .
+    rdfs:domain cyber:Device ;
+    rdfs:range cyber:Vulnerability .
 
-ex-l:Device a skos:Concept ;
-    skos:definition "Équipement physique ou virtuel"@fr ;
-    skos:exactMatch :Device ;
-    skos:inScheme ex-l:InternalLexicon ;
-    skos:prefLabel "Device"@fr .
+cyber:version a owl:DatatypeProperty ;
+    rdfs:label "version"@fr ;
+    rdfs:domain cyber:Software ;
+    rdfs:range xsd:string .
 
-ex-l:NetworkDevice a skos:Concept ;
-    skos:definition "Équipement réseau"@fr ;
-    skos:exactMatch :NetworkDevice ;
-    skos:inScheme ex-l:InternalLexicon ;
-    skos:prefLabel "NetworkDevice"@fr .
+cyber:Apache_2_4_57 a cyber:Software ;
+    cyber:version "2.4.57" ;
+    foaf:name "Apache" .
 
-ex-l:Software a skos:Concept ;
-    skos:definition "Logiciel ou application"@fr ;
-    skos:exactMatch :Software ;
-    skos:inScheme ex-l:InternalLexicon ;
-    skos:prefLabel "Software"@fr .
+cyber:Firmware_1_0 a cyber:Software ;
+    cyber:version "1.0" ;
+    foaf:name "Firmware" .
 
-ex-l:Vulnerability a skos:Concept ;
-    skos:definition "Faiblesse exploitable dans un système"@fr ;
-    skos:exactMatch :Vulnerability ;
-    skos:inScheme ex-l:InternalLexicon ;
-    skos:prefLabel "Vulnerability"@fr .
+cyber:OpenSSL_1_0_2 a cyber:Software ;
+    cyber:version "1.0.2" ;
+    foaf:name "OpenSSL" .
 
-ex-l:Workstation a skos:Concept ;
-    skos:definition "Poste de travail"@fr ;
-    skos:exactMatch :Workstation ;
-    skos:inScheme ex-l:InternalLexicon ;
-    skos:prefLabel "Workstation"@fr .
+cyber:Vulnerability a owl:Class ;
+    rdfs:label "Vulnérabilité"@fr .
 
-:Apache_2_4_57 a :Apache ;
-    rdfs:label "Apache 2.4.57" .
+cyber:Device a owl:Class ;
+    rdfs:label "Équipement"@fr .
 
-:Firmware_1_0 a :Firmware ;
-    rdfs:label "Firmware 1.0" .
-
-:OpenSSL_1_0_2 a :OpenSSL ;
-    rdfs:label "OpenSSL 1.0.2" ;
-    :hasVulnerability cve:CVE-2023-1234 .
-
-cve:CVE-2023-1234 a :Vulnerability ;
-    :cvssScore 9.8 ;
-    :description "Vulnérabilité critique dans OpenSSL 1.0.2 permettant une exécution de code à distance." ;
-    foaf:name "CVE-2023-1234" .
-
-:NetworkDevice a owl:Class ;
-    rdfs:label "NetworkDevice"@fr ;
-    rdfs:comment "Équipement réseau"@fr ;
-    rdfs:subClassOf :Device .
-
-:Workstation a owl:Class ;
-    rdfs:label "Workstation"@fr ;
-    rdfs:comment "Poste de travail"@fr ;
-    rdfs:subClassOf :Device .
-
-:Software a owl:Class ;
-    rdfs:label "Software"@fr ;
-    rdfs:comment "Logiciel ou application"@fr .
-
-:Vulnerability a owl:Class ;
-    rdfs:label "Vulnerability"@fr ;
-    rdf:label "Vulnerability"@en ;
-    rdfs:comment "Faiblesse exploitable dans un système"@fr .
-
-:Device a owl:Class ;
-    rdfs:label "Device"@fr ;
-    rdfs:comment "Équipement physique ou virtuel"@fr .
-
-ex-l:InternalLexicon a skos:ConceptScheme ;
-    skos:prefLabel "Lexique Interne DKG" .
+cyber:Software a owl:Class ;
+    rdfs:label "Logiciel"@fr .
 
