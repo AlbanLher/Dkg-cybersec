@@ -1,11 +1,28 @@
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://dkg.cybersec.org/tbox> a owl:Ontology ;
     rdfs:label "Ontologie DKG Cybersec"@fr ;
-    rdfs:comment "TBox minimale pour le croisement d'inventaire privé et de vulnérabilités publiques."@fr .
+    rdfs:comment "TBox minimale enrichie avec SKOS et représentations par sous-domaines."@fr .
+
+# Classes enrichies
+dkg:Asset a owl:Class ;
+    rdfs:label "Actif Privé"@fr ;
+    skos:altLabel "Machine", "Serveur", "Host", "Équipement" ;
+    rdfs:comment "Équipement physique ou virtuel du SI privé."@fr .
+
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "Composant Logiciel"@fr ;
+    skos:altLabel "CPE", "Package", "Application" ;
+    rdfs:comment "Composant logiciel ou OS installé sur un actif."@fr .
+
+dkg:Vulnerability a owl:Class ;
+    rdfs:label "Vulnérabilité"@fr ;
+    skos:altLabel "CVE", "Breche", "Faille" ;
+    rdfs:comment "Vulnérabilité référencée dans la base publique."@fr .
 
 # ================================
 # Classes Principales

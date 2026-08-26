@@ -1,0 +1,80 @@
+{
+  "ontology": "DKG Cybersec TBox",
+  "classes": [
+    {
+      "uri": "http://dkg.cybersec.org/tbox#Asset",
+      "name": "Asset",
+      "label": "Actif Privé",
+      "description": "Équipement ou serveur du système d'information privé."
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#SoftwareComponent",
+      "name": "SoftwareComponent",
+      "label": "Composant Logiciel",
+      "description": "Composant logiciel ou package installé sur un actif."
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#Vulnerability",
+      "name": "Vulnerability",
+      "label": "Vulnérabilité (CVE)",
+      "description": "Vulnérabilité référencée (ex: CVE-2023-XXXX)."
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#Weakness",
+      "name": "Weakness",
+      "label": "Faiblesse (CWE)",
+      "description": "Type d'erreur ou catégorie de faiblesse logicielle."
+    }
+  ],
+  "properties": [
+    {
+      "uri": "http://dkg.cybersec.org/tbox#hasInstalledComponent",
+      "name": "hasInstalledComponent",
+      "label": "a pour composant",
+      "domain": "Asset",
+      "range": "SoftwareComponent"
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#hasVulnerability",
+      "name": "hasVulnerability",
+      "label": "est affecté par la vulnérabilité",
+      "domain": "SoftwareComponent",
+      "range": "Vulnerability"
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#classifiedUnder",
+      "name": "classifiedUnder",
+      "label": "est catégorisé sous CWE",
+      "domain": "Vulnerability",
+      "range": "Weakness"
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#hostname",
+      "name": "hostname",
+      "label": "Nom d'hôte",
+      "domain": "Asset",
+      "range": "string"
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#ipAddress",
+      "name": "ipAddress",
+      "label": "Adresse IP",
+      "domain": "Asset",
+      "range": "string"
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#cpeIdentifier",
+      "name": "cpeIdentifier",
+      "label": "Identifiant CPE",
+      "domain": "SoftwareComponent",
+      "range": "string"
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#cvssScore",
+      "name": "cvssScore",
+      "label": "Score CVSS",
+      "domain": "Vulnerability",
+      "range": "float"
+    }
+  ]
+}
