@@ -6,7 +6,7 @@ EX = Namespace("http://example.org/cyber-ontology#")
 
 def validate_tbox():
     graph = Graph()
-    graph.parse("12-Donnees/VAULT_CONSOLIDE.ttl", format="turtle")
+    graph.parse("12-Donnees/TBox_init/VAULT_CONSOLIDE.ttl", format="turtle")
     
     classes = list(graph.subjects(RDF.type, OWL.Class))
     concepts = list(graph.subjects(RDF.type, SKOS.Concept))

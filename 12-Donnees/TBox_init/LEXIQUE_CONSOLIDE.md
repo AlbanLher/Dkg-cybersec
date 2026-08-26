@@ -1,5 +1,5 @@
 # Lexique & Ontologie - DKG
-> *Généré le 2026-08-26 14:21*
+> *Généré le 2026-08-26 14:24*
 
 ---
 
