@@ -1,11 +1,14 @@
 {
   "classes": [
-    "http://example.org/cyber-ontology#Vulnerability",
-    "http://example.org/cyber-ontology#Apache",
-    "http://example.org/cyber-ontology#Firmware",
     "http://example.org/cyber-ontology#NetworkDevice",
-    "http://example.org/cyber-ontology#OpenSSL",
-    "http://example.org/cyber-ontology#Workstation"
+    "http://example.org/cyber-ontology#Workstation",
+    "http://example.org/cyber-ontology#Software",
+    "http://example.org/cyber-ontology#Vulnerability",
+    "http://example.org/cyber-ontology#Device"
   ],
-  "properties": []
+  "properties": [
+    "http://example.org/cyber-ontology#hasIP",
+    "http://example.org/cyber-ontology#hasSoftware",
+    "http://example.org/cyber-ontology#hasVulnerability"
+  ]
 }

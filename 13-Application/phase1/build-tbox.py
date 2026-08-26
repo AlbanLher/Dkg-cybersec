@@ -15,63 +15,84 @@ def build_tbox():
     graph.bind("rdfs", RDFS)
     graph.bind("skos", SKOS)
 
-    # Charger CVE
+    # 1. Charger CVE
     graph.parse("12-Donnees/1-Sources/2-Externes/cve_data.ttl", format="turtle")
 
-    # Charger inventory.json (avec vérification)
-    inventory_path = Path("12-Donnees/1-Sources/1-Internes/inventory.json")
-    if not inventory_path.exists():
-        print(f"❌ Fichier introuvable: {inventory_path}")
-        return
+    # 2. Créer les classes de base
+    classes = {
+        "Device": "Équipement physique ou virtuel",
+        "Workstation": "Poste de travail",
+        "NetworkDevice": "Équipement réseau",
+        "Software": "Logiciel ou application",
+        "Vulnerability": "Faiblesse exploitable dans un système"
+    }
 
-    try:
-        with open(inventory_path, "r") as f:
-            inventory = json.load(f)
-    except json.JSONDecodeError as e:
-        print(f"❌ Erreur JSON dans {inventory_path}: {e}")
-        return
+    for cls_name, definition in classes.items():
+        cls_uri = EX_O[cls_name]
+        graph.add((cls_uri, RDF.type, OWL.Class))
+        graph.add((cls_uri, RDFS.label, Literal(cls_name, lang="fr")))
+        graph.add((cls_uri, RDFS.comment, Literal(definition, lang="fr")))
+
+    # Hiérarchie
+    graph.add((EX_O.Workstation, RDFS.subClassOf, EX_O.Device))
+    graph.add((EX_O.NetworkDevice, RDFS.subClassOf, EX_O.Device))
+
+    # 3. Créer les propriétés
+    properties = {
+        "hasSoftware": {"domain": EX_O.Device, "range": EX_O.Software, "label": "a pour logiciel"},
+        "hasIP": {"domain": EX_O.Device, "range": EX_O.IP_Address, "label": "a pour adresse IP"},
+        "hasVulnerability": {"domain": EX_O.Software, "range": EX_O.Vulnerability, "label": "a pour vulnérabilité"}
+    }
+
+    for prop_name, prop_config in properties.items():
+        prop_uri = EX_O[prop_name]
+        graph.add((prop_uri, RDF.type, OWL.ObjectProperty))
+        graph.add((prop_uri, RDFS.label, Literal(prop_config["label"], lang="fr")))
+        graph.add((prop_uri, RDFS.domain, prop_config["domain"]))
+        graph.add((prop_uri, RDFS.range, prop_config["range"]))
+
+    # 4. Charger inventory.json
+    with open("12-Donnees/1-Sources/1-Internes/inventory.json", "r") as f:
+        inventory = json.load(f)
 
     # Créer le ConceptScheme
     scheme = EX_L.InternalLexicon
     graph.add((scheme, RDF.type, SKOS.ConceptScheme))
     graph.add((scheme, SKOS.prefLabel, Literal("Lexique Interne DKG")))
 
-    # Ajouter les devices
-    for device in inventory.get("devices", []):
+    # Ajouter les devices (comme instances)
+    for device in inventory["devices"]:
         device_uri = EX_O[device["id"]]
         device_type = EX_O[device["type"]]
-
-        graph.add((device_type, RDF.type, OWL.Class))
-        graph.add((device_type, RDFS.label, Literal(device["type"])))
 
         graph.add((device_uri, RDF.type, device_type))
         graph.add((device_uri, RDFS.label, Literal(device["id"])))
         if "ip" in device:
             graph.add((device_uri, EX_O.hasIP, Literal(device["ip"])))
 
-        concept_uri = EX_L[device["type"]]
-        graph.add((concept_uri, RDF.type, SKOS.Concept))
-        graph.add((concept_uri, SKOS.inScheme, scheme))
-        graph.add((concept_uri, SKOS.prefLabel, Literal(device["type"])))
-        graph.add((concept_uri, SKOS.exactMatch, device_type))
-
         for sw in device.get("software", []):
             sw_uri = EX_O[f"{sw['name']}_{sw['version'].replace('.', '_')}"]
             sw_type = EX_O[sw["name"]]
-
-            graph.add((sw_type, RDF.type, OWL.Class))
-            graph.add((sw_type, RDFS.label, Literal(sw["name"])))
 
             graph.add((sw_uri, RDF.type, sw_type))
             graph.add((sw_uri, RDFS.label, Literal(f"{sw['name']} {sw['version']}")))
             graph.add((device_uri, EX_O.hasSoftware, sw_uri))
 
-            sw_concept = EX_L[sw["name"]]
-            graph.add((sw_concept, RDF.type, SKOS.Concept))
-            graph.add((sw_concept, SKOS.inScheme, scheme))
-            graph.add((sw_concept, SKOS.prefLabel, Literal(sw["name"])))
-            graph.add((sw_concept, SKOS.exactMatch, sw_type))
+            # Lier à CVE si présent
+            for cve in sw.get("cve", []):
+                cve_uri = URIRef(f"https://cve.mitre.org/{cve}")
+                graph.add((sw_uri, EX_O.hasVulnerability, cve_uri))
 
+    # 5. Ajouter le lexique (concepts SKOS)
+    for cls_name, definition in classes.items():
+        concept_uri = EX_L[cls_name]
+        graph.add((concept_uri, RDF.type, SKOS.Concept))
+        graph.add((concept_uri, SKOS.inScheme, scheme))
+        graph.add((concept_uri, SKOS.prefLabel, Literal(cls_name, lang="fr")))
+        graph.add((concept_uri, SKOS.definition, Literal(definition, lang="fr")))
+        graph.add((concept_uri, SKOS.exactMatch, EX_O[cls_name]))
+
+    # 6. Sauvegarder
     output_dir = Path("12-Donnees/TBox_init")
     output_dir.mkdir(parents=True, exist_ok=True)
     graph.serialize(output_dir / "VAULT_CONSOLIDE.ttl", format="turtle")
