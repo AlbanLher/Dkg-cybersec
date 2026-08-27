@@ -92,7 +92,9 @@ mkdir -p /data/SyncData/Projets/T2C_1/hf_cache
 export HF_HOME=/data/SyncData/Projets/T2C_1/hf_cache
 ```
 
-## 📁 Structure du Projet
+## 📁 Exigences_Projet
+
+**EXG-PROJ-01 (Architecture TBox/ABox)** : Séparation stricte entre le schéma conceptuel (`TBox_init/`) et les données instanciées (`ABox`).
 
 
 

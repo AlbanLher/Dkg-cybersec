@@ -1,80 +1,74 @@
 {
   "ontology": "DKG Cybersec TBox",
+  "version": "1.0",
   "classes": [
     {
       "uri": "http://dkg.cybersec.org/tbox#Asset",
       "name": "Asset",
       "label": "Actif Privé",
-      "description": "Équipement ou serveur du système d'information privé."
+      "synonyms": [
+        "Host",
+        "Machine",
+        "Serveur",
+        "Équipement"
+      ],
+      "description": "Équipement informatique physique ou virtuel du SI."
+    },
+    {
+      "uri": "http://dkg.cybersec.org/tbox#Weakness",
+      "name": "Weakness",
+      "label": "Faiblesse Logicielle",
+      "synonyms": [
+        "CWE",
+        "Faiblesse"
+      ],
+      "description": "Catégorisation des erreurs de conception/code."
     },
     {
       "uri": "http://dkg.cybersec.org/tbox#SoftwareComponent",
       "name": "SoftwareComponent",
       "label": "Composant Logiciel",
-      "description": "Composant logiciel ou package installé sur un actif."
+      "synonyms": [
+        "Application",
+        "CPE",
+        "OS",
+        "Package"
+      ],
+      "description": "Brique logicielle ou système d'exploitation installé."
     },
     {
       "uri": "http://dkg.cybersec.org/tbox#Vulnerability",
       "name": "Vulnerability",
-      "label": "Vulnérabilité (CVE)",
-      "description": "Vulnérabilité référencée (ex: CVE-2023-XXXX)."
-    },
-    {
-      "uri": "http://dkg.cybersec.org/tbox#Weakness",
-      "name": "Weakness",
-      "label": "Faiblesse (CWE)",
-      "description": "Type d'erreur ou catégorie de faiblesse logicielle."
+      "label": "Vulnérabilité",
+      "synonyms": [
+        "Breche",
+        "CVE",
+        "Faille"
+      ],
+      "description": "Faille de sécurité répertoriée publiquement."
     }
   ],
   "properties": [
     {
+      "uri": "http://dkg.cybersec.org/tbox#classifiedUnder",
+      "name": "classifiedUnder",
+      "label": "classé sous faiblesse",
+      "domain": "Vulnerability",
+      "range": "Weakness"
+    },
+    {
       "uri": "http://dkg.cybersec.org/tbox#hasInstalledComponent",
       "name": "hasInstalledComponent",
-      "label": "a pour composant",
+      "label": "a composant installé",
       "domain": "Asset",
       "range": "SoftwareComponent"
     },
     {
       "uri": "http://dkg.cybersec.org/tbox#hasVulnerability",
       "name": "hasVulnerability",
-      "label": "est affecté par la vulnérabilité",
+      "label": "présente vulnérabilité",
       "domain": "SoftwareComponent",
       "range": "Vulnerability"
-    },
-    {
-      "uri": "http://dkg.cybersec.org/tbox#classifiedUnder",
-      "name": "classifiedUnder",
-      "label": "est catégorisé sous CWE",
-      "domain": "Vulnerability",
-      "range": "Weakness"
-    },
-    {
-      "uri": "http://dkg.cybersec.org/tbox#hostname",
-      "name": "hostname",
-      "label": "Nom d'hôte",
-      "domain": "Asset",
-      "range": "string"
-    },
-    {
-      "uri": "http://dkg.cybersec.org/tbox#ipAddress",
-      "name": "ipAddress",
-      "label": "Adresse IP",
-      "domain": "Asset",
-      "range": "string"
-    },
-    {
-      "uri": "http://dkg.cybersec.org/tbox#cpeIdentifier",
-      "name": "cpeIdentifier",
-      "label": "Identifiant CPE",
-      "domain": "SoftwareComponent",
-      "range": "string"
-    },
-    {
-      "uri": "http://dkg.cybersec.org/tbox#cvssScore",
-      "name": "cvssScore",
-      "label": "Score CVSS",
-      "domain": "Vulnerability",
-      "range": "float"
     }
   ]
 }
