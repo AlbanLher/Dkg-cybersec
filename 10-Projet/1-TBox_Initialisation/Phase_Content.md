@@ -11,15 +11,15 @@ Cette premiere phase vise a ce que les partie prenantes puisssent accéder à la
 
 # Bilan des Actions et Livrables
 
-| Action                                    | livrable                                 | Localisation       | Commentaire                   |
-| ----------------------------------------- | ---------------------------------------- | ------------------ | ----------------------------- |
-| Mise en place de la specification du TBox | SpecificationNormativeSortiesFormatsTBox | 11-/Specification/ | sert aux tests                |
-| Mise a disposition de données sources     | cve_data.ttl                             | 12-/1-/2-          | une seule cve sur le use case |
-| Script de génération d'un premier ttl     | build_inital_ttl_TBox.py                 | 13-/               |                               |
-| Premier ttl généré par cript précédent    | TBox_Cybersec.ttl                        | 12-/TBox_init      |                               |
-| Scrip de génération md et json            | generate_TBox_initiale.py                | 13-/               |                               |
-| generation TBox tout format               | TBox_Cybersec.jon, TBox_Cybersec.md      | 12-/TBox_init      |                               |
-| test des fichiers TBox % specifications   | test_TBox_spec.py                        | 13-/               |                               |
+| Action                                    | livrable                                 | Localisation       | Commentaire                   |                       |
+| ----------------------------------------- | ---------------------------------------- | ------------------ | ----------------------------- | --------------------- |
+| Mise en place de la specification du TBox | SpecificationNormativeSortiesFormatsTBox | 11-/Specification/ | sert aux tests                | 🟢 Terminée / Validée |
+| Mise a disposition de données sources     | cve_data.ttl                             | 12-/1-/2-          | une seule cve sur le use case | 🟢 Terminée / Validée |
+| Script de génération d'un premier ttl     | build_inital_ttl_TBox.py                 | 13-/               |                               | 🟢 Terminée / Validée |
+| Premier ttl généré par cript précédent    | TBox_Cybersec.ttl                        | 12-/TBox_init      |                               | 🟢 Terminée / Validée |
+| Scrip de génération md et json            | generate_TBox_initiale.py                | 13-/               |                               | 🟢 Terminée / Validée |
+| generation TBox tout format               | TBox_Cybersec.jon, TBox_Cybersec.md      | 12-/TBox_init      |                               | 🟢 Terminée / Validée |
+| test des fichiers TBox % specifications   | test_TBox_spec.py                        | 13-/               |                               | 🟢 Terminée / Validée |
 
 - 
 # Memo didactique

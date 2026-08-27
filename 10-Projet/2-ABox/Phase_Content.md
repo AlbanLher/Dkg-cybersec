@@ -59,15 +59,15 @@ Comme en Phase 1, nous conserverons une architecture explicite et modulaire dans
 
 ### 3.  Bilan des Actions et Livrables
 
-| Action                                       | livrable                            | Localisation   | Commentaire       |
-| -------------------------------------------- | ----------------------------------- | -------------- | ----------------- |
-| Mise en place de la specification de la ABox | SpecificationNormativeIngestionABox | 10-/2-/        | Fait a consolider |
-| Génération d'un fichier syntetique           | `ìnventory.json`                    | 12-/ABox_init/ | fait              |
-| test les exigences                           | `test_ABox_spec.py`                 | 13-/           | fait              |
-|                                              | `ingest_inventory_abox.py`          | 13-/           | fait              |
-|                                              | `generate_ABox_initiale.py`         | 13-/           | fait              |
-|                                              |                                     |                |                   |
-|                                              |                                     |                |                   |
-|                                              |                                     |                |                   |
+| Action                                       | livrable                            | Localisation   | Commentaire       |                       |
+| -------------------------------------------- | ----------------------------------- | -------------- | ----------------- | --------------------- |
+| Mise en place de la specification de la ABox | SpecificationNormativeIngestionABox | 10-/2-/        | Fait a consolider | 🟢 Terminée / Validée |
+| Génération d'un fichier syntetique           | `ìnventory.json`                    | 12-/ABox_init/ | fait              | 🟢 Terminée / Validée |
+| test les exigences                           | `test_ABox_spec.py`                 | 13-/           | fait              | 🟢 Terminée / Validée |
+|                                              | `ingest_inventory_abox.py`          | 13-/           | fait              | 🟢 Terminée / Validée |
+|                                              | `generate_ABox_initiale.py`         | 13-/           | fait              | 🟢 Terminée / Validée |
+|                                              |                                     |                |                   |                       |
+|                                              |                                     |                |                   |                       |
+|                                              |                                     |                |                   |                       |
 
 - 
