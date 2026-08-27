@@ -13,18 +13,12 @@ Dynamique :
 
 ## 🎭 Personnages et Éléments Clés
 
-| **Élément**                   | **Rôle**       | **Description**                                                  | **Exemple**                 |
-| ----------------------------- | -------------- | ---------------------------------------------------------------- | --------------------------- |
-| **Alban**                     | Administrateur | Gère un réseau qui évolue d’un usage personnel à une entreprise. | -                           |
-| **PC-Alban**                  | Device         | PC personnel avec OpenSSL 1.0.2 et Apache 2.4.57.                | `id: "PC-Alban-POC"`        |
-| **Router-Office**             | Device         | Routeur du réseau local.                                         | `id: "Router-POC"`          |
-| **OpenSSL 1.0.2**             | Logiciel       | Version vulnérable (CVE-2023-1234, CVSS 9.8).                    | -                           |
-| **CVE-2023-1234**             | Vulnérabilité  | Vulnérabilité critique dans OpenSSL 1.0.2.                       | `cvssScore: 9.8`            |
-| **Server-Prod**               | InternalDevice | Serveur ajouté en Phase 1, avec PostgreSQL 15.3.                 | `id: "Server-Prod"`         |
-| **Client-External-001**       | ExternalDevice | PC d’un client qui se connecte au réseau.                        | `id: "Client-External-001"` |
-| **Règle RGPD-32**             | ComplianceRule | *"Tous les InternalDevice doivent avoir un CVSS ≤ 5."*           | -                           |
-| **Contexte "Production"**     | Context        | Environnement critique (règles strictes).                        | -                           |
-| **Contexte "Client Externe"** | Context        | Environnement moins contrôlé (tolérance plus élevée).            | -                           |
+| **Élément**          | **Rôle** | **Description**                                        | **Exemple**        |
+| -------------------- | -------- | ------------------------------------------------------ | ------------------ |
+| **Alban**            | Individu | Dispose d'un PC sur lequel est installé un server web. | -                  |
+| **Server Web**       | Device   | Serveur Web                                            | `id: "srv-web-01"` |
+| **NGINX web Server** | Logiciel | Version vulnérable (CVE-2021-23017).                   | `id: "sginx 1201"` |
+|                      |          |                                                        |                    |
 
 ---
 
@@ -62,9 +56,13 @@ A mettre dans un referentiel Lexique, semantique et ontologique
 
 ---
 
-## 🏢 **Phase 1 : La ABox initiale 
+## 🏢 **Phase 2 : La ABox initiale 
 
-**Contexte** :
+**Contexte** : A ce stade on instancie les concepts avec des premiere données (instances)
+- Assets  { srv-web-01}
+- SoftwareComponent {sw-nginw-1202, CVE-2021-23017 }
+- Vulnerability {}
+- Weakness {}
 
 
 

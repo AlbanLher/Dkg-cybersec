@@ -1,0 +1,25 @@
+@prefix abox: <http://dkg.cybersec.org/abox#> .
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+abox: a owl:Ontology ;
+    rdfs:label "ABox Instance Graph - DKG Cybersec"@fr ;
+    rdfs:comment "Généré automatiquement par ingest_inventory.py le Thu Aug 27 13:12:55 2026"@fr ;
+    owl:imports dkg: .
+
+abox:srv-web-01 a dkg:Asset ;
+    rdfs:label "Serveur Web Production"@fr ;
+    dkg:hasInstalledComponent abox:sw-nginx-1201 ;
+    dkg:ipAddress "192.168.1.10"^^xsd:string .
+
+abox:CVE-2021-23017 a dkg:Vulnerability ;
+    rdfs:label "Vulnérabilité CVE-2021-23017"@fr .
+
+abox:sw-nginx-1201 a dkg:SoftwareComponent ;
+    rdfs:label "NGINX Web Server"@fr ;
+    dkg:cpeIdentifier "cpe:2.3:a:f5:nginx:1.20.1:*:*:*:*:*:*:*"^^xsd:string ;
+    dkg:hasVulnerability abox:CVE-2021-23017 ;
+    dkg:version "1.20.1"^^xsd:string .
+

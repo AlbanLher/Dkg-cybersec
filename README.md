@@ -10,7 +10,7 @@ L'idée de base est la conviction du potentiel de ces concept mais aussi la diff
 Le projet présenter les concepts et les étapes pour pouvoir être adapté a d'autres cas d'usages et contextes.  
 
 Cette notion de framework sera développée grâce a un ensemble de spécification de développement, ainsi q'un certain nombre d'étapes reprises dans les phases du projet.
-- Les spécifications sont capitalisées dans l'arborescence dans des repertoires sommés Specification*  { [Spec projet](./10-Projet/Specifications/ExigencesProjet.md), [Spec_Architecture](./11-Principes_Architecture/Specifications/SpecificationNormativeSortiesFormatsTBox.md)}
+- Les spécifications sont capitalisées dans l'arborescence dans des repertoires sommés Specification*  { [Spec projet](./10-Projet/Specifications/ExigencesProjet.md), [Spec_Architecture](./11-Principes_Architecture/Specifications/SpecificationNormativeSortiesFormatsTBox.md), ....}
 - Les étapes sont reprises dans les phases du projet  { [Phases](./10-Projet/PhasesProjet.md) }
   Dans chaque phase un petit résumé est présenté sous forme de md dans **./Eléments de la phase**
 

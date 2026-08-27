@@ -68,6 +68,17 @@ Toute entité extraite du fichier d'inventaire source doit impérativement respe
 
 - **EXG-ABOX-PROV-01 (Métadonnées de Phase)** : Le fichier généré `ABox_Cybersec.ttl` doit contenir les annotations `rdfs:comment` et `dcterms:created` spécifiant le script d'ingestion source et l'horodatage d'exécution.
 
+### 4.4 Visibilité de l'ABox
+
+- **EXG-ABOX-VIS-01 (Restitution Graphique Humaine)** :
+
+L'outillage d'ingestion/compilation ABox doit générer un fichier de restitution lisible par un humain (`12-Donnees/ABox_init/ABox_Cybersec.md`). Ce fichier doit inclure :
+
+
+- Un tableau récapitulatif des instances (Assets, Composants, Vulnérabilités).
+    
+- Un diagramme de graphe **Mermaid.js (`graph TD`)** représentant visuellement l'topologie du SI privé (les liaisons `Asset` $\rightarrow$ `SoftwareComponent` $\rightarrow$ `Vulnerability`).
+
 
 
 ---- Intégration a vérifier !!
