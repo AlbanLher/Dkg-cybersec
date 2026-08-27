@@ -5,40 +5,29 @@
 ## 🎯 Objectifs
 
 Objectif du projet : Mettre en place un "Framework" de développement d'un Agent IA basé sur le "Dynamique Knowledge Graph" qui soit didactique.  
-Pour cela il doit présenter les concepts et les étapes pour pouvoir être adapté a d'autres cas d'usages et contextes.  
-Il faut pouvoir développer une liste d'exigences de ce projets que nous partagions comme :  
-- Identifier et mettre en oeuvre les données publique comme les standards et les communs pour être pertinent et efficace
-- Assurer la confidentialité des données internes privée (avec différents niveaux de confidentialité). 
-  Ce projet (POC ) simule les données privées avec l'étiquette "pseudo-confidentielle" pour satisfaire le besoin didactique. Mais explicite ajustement a faire pour accéder a cette confidentialité.  
-- l'agent doit pouvoir tourner en local sur une machine ACER Aspire 515-40 avec 16Go RAM et peut faire a ppel a des ressource cloud pour le fine tuning de modèle si nécessaire.
-Générer des spécification qui permettent de façiliter la maintenance et l'adaptation a d'autre contexte et cas d'usages
+L'idée de base est la conviction du potentiel de ces concept mais aussi la difficulté a bien percevoir et implémenter tous les concepts qui la supportent, surtout dans un domaine ou il faut combiner le benefice que l'on peut attendre dees Standards et bien communs, mais aussi tous les enjeux de confidentialité qui s'imposent.
 
-Créer un démonstrateur de mise en oeuvre d'un **assistant IA** utilisant un Graphe de connaissance dynamique. (**Dynamic Knowledge Graph**)
+Le projet présenter les concepts et les étapes pour pouvoir être adapté a d'autres cas d'usages et contextes.  
 
-**→ Le graphe de connaissances** se base sur une **ontologie** (cœur de la structure de connaissance).
--> Il est associé à un **lexique**  **[Lexique](./LEXIQUE.md)** pour une compréhension commune des termes (ontologie, KG, règles, etc.).
-**→ L’aspect dynamique** est crucial : le graphe évolue continûment avec pour socle une ontologie et un lexique contrôlés.
+Cette notion de framework sera développée grâce a un ensemble de spécification de développement, ainsi q'un certain nombre d'étapes reprises dans les phases du projet.
+- Les spécifications sont capitalisées dans l'arborescence dans des repertoires sommés Specification*  { [Spec projet](./10-Projet/Specifications/ExigencesProjet.md), [Spec_Architecture](./11-Principes_Architecture/Specifications/SpecificationNormativeSortiesFormatsTBox.md)}
+- Les étapes sont reprises dans les phases du projet  { [Phases](./10-Projet/PhasesProjet.md) }
+  Dans chaque phase un petit résumé est présenté sous forme de md dans **./Eléments de la phase**
 
-
-Cette ontologie et ce lexique sont des références pour le système agentique, tant pour l'agent que pour les humains. . 
-Il existent dans un version humaine (.md) et dans une version machine (.ttl)
-Les modification du lexique( .md)  vont se répercuter sur la version (.ttl)
-pour l'ontologie seule la version ttl fait reference, le md en est extrait.
-
-Ce projet a aussi un objectif didactique, il tente de développer les principes sur un cas d'usage cybersecurité dans un cas individuel dans un premier temps, puis étendu a une petite entreprise pour illustrer l'aspect dynamique :  
+Une illustration de ce développement sera faite sur un cas d'usage  : un **assistant IA** utilisant un Graphe de connaissance dynamique. (**Dynamic Knowledge Graph**)
 
 
 
 ---
 
-## 📖 Développement du cas d'usage
+## 📖 Cas d'usage
 
-Le use case présente des phase qui permettent d'illustrer comment l'ensemble évolue. Ces phases nécessitent la préparation de données générées sur la base de l'histoire du cas d'usage. 
+Le use case présente une histoire qui permet d'illustrer la démarche. 
+Cette histoire sert de base à la génération de données synthètiques permettant la mise en ouvre.
+Elle se développer aux fur et a mesure des phases pour accompagner le développement progressif et didactique.
 
-Ces évolutions peuvent être de simple ajout d'instance au graph de connaissance existant, mais elles peuvent aussi impacter le cadre semantique/lexical et  ontologique, jusqu'a nécessiter un mise a niveau des outils de l'agent ( NER , embeddings...)
-
-Pour comprendre **pourquoi et comment** ce projet a évolué, lisez :
-→ [📖 Histoire d'Alban et la Gestion des Vulnérabilités](../01-CasUsage/DESCRIPTION.md)
+Elle doit aussi être continuement revue et adapter pour garantir une cohérence et 
+Elle est détaillée → [ Détail du cas d'usage](../10-Projet/Use_Case.md)
 
 ## Phases :
 [Workflow](../10-Projet/PhasesProjet.md)
@@ -48,7 +37,7 @@ Pour comprendre **pourquoi et comment** ce projet a évolué, lisez :
 
 ---
 
-## 🏗 Principes et Architecture
+##   Principes et Architecture
 un répertoire est dédié aux principes et Architecture afin de les développer dans le cadre du projet
 
 **Principes clés** :
@@ -61,7 +50,7 @@ un répertoire est dédié aux principes et Architecture afin de les développer
 - **Agents** : Série de fonctionnalité comme l'ajout de donnée la fourniture de rapport , sous controle humain quand nécessaire.
 
 ---
-## 🔒 Confidentialité : POC vs Production
+## 🔒 Confidentialité : POC vs Production  -- A consolider
 Le developpement de graph de connaissance interessent beaucoup d'organisation pour lesquels ces connaissance représente un savoir faire a protéger. Ce projet est publique et simule des données privie appelée pseudo-private, pour avoir une architecture qui puisse facilement adresser ce besoin de confidentiaité.
 
 | Type                        | Statut dans le POC | Statut en Production  | Exemple                              |
@@ -93,8 +82,4 @@ export HF_HOME=/data/SyncData/Projets/T2C_1/hf_cache
 ```
 
 ## 📁 Exigences_Projet
-
-**EXG-PROJ-01 (Architecture TBox/ABox)** : Séparation stricte entre le schéma conceptuel (`TBox_init/`) et les données instanciées (`ABox`).
-
-
 

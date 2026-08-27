@@ -1,4 +1,5 @@
-
+Ce document vise a maximiser l'efficatité d'échanges avec LLM qui ont accés au repo GitHub
+Le but est d'éviter les réponses divergentes trop volumineuses, en concentrant sur la contribution a quelques livables et en s'assurant avant de réouvrir un sujet que le précédent est clos.
 ### Bilan échange précédent et vérification du repo
 section 10-Projet, 11-Principes_Architecture, 12-Donnees, 13-Application
 [3 phrases max ] sauf si NouveauSujet est mentionné
