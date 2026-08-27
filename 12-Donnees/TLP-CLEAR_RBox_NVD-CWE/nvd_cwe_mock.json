@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "source": "NVD & MITRE CWE Mock Feed",
+    "tlp_classification": "TLP:CLEAR",
+    "version": "1.0"
+  },
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2021-23017",
+      "label": "1-byte memory overwrite in NGINX resolver",
+      "cvss_score": 7.5,
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "cwe_id": "CWE-193"
+    }
+  ],
+  "weaknesses": [
+    {
+      "cwe_id": "CWE-193",
+      "label": "Off-by-one Error",
+      "description": "Erreur d'un élément dans le calcul de la taille d'une boucle ou d'un tampon de mémoire."
+    }
+  ]
+}

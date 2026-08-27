@@ -1,0 +1,55 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg: a owl:Ontology ;
+    rdfs:label "DKG Cybersecurity Master TBox (TLP:AMBER)"@en ;
+    rdfs:comment "Ontologie maître et dictionnaire sémantique du DKG."@fr .
+
+dkg:classifiedUnder a owl:ObjectProperty ;
+    rdfs:label "est classé sous la faiblesse"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness .
+
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:label "Score CVSS (0.0 - 10.0)"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float .
+
+dkg:cvssVector a owl:DatatypeProperty ;
+    rdfs:label "Vecteur CVSS v3.1"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string .
+
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:label "a installé le composant"@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range dkg:SoftwareComponent .
+
+dkg:hasVulnerability a owl:ObjectProperty ;
+    rdfs:label "présente la vulnérabilité"@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Vulnerability .
+
+dkg:ipAddress a owl:DatatypeProperty ;
+    rdfs:label "Adresse IP"@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string .
+
+dkg:Weakness a owl:Class ;
+    rdfs:label "Faiblesse Logicielle / CWE"@fr ;
+    rdfs:comment "Catégorie de défaut de conception ou d'implémentation (ex: CWE-193)."@fr .
+
+dkg:Asset a owl:Class ;
+    rdfs:label "Équipement informatique / Asset SI"@fr ;
+    rdfs:comment "Toute ressource matérielle ou virtuelle du SI."@fr .
+
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "Composant Logiciel"@fr ;
+    rdfs:comment "Brique logicielle, service ou application installée."@fr .
+
+dkg:Vulnerability a owl:Class ;
+    rdfs:label "Vulnérabilité / Faille"@fr ;
+    rdfs:comment "Faille de sécurité référencée (ex: CVE)."@fr .
+

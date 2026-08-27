@@ -1,0 +1,13 @@
+@prefix abox: <http://dkg.cybersec.org/abox#> .
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+abox: a owl:Ontology ;
+    owl:imports dkg: .
+
+abox:srv-web-01 a dkg:Asset ;
+    rdfs:label "Serveur Web Production"@fr ;
+    dkg:ipAddress "192.168.1.10"^^xsd:string .
+
