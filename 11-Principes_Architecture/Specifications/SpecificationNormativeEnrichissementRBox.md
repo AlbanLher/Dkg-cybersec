@@ -68,6 +68,12 @@ L'enrichissement RBox doit mapper les données du feed JSON externe (`nvd_cwe_mo
 * **EXG-RBOX-02 (Intégrité des Triplets)** : Chaque instance de type `dkg:Vulnerability` déclarée dans la RBox doit obligatoirement être rattachée à une instance `dkg:Weakness` (CWE).
 * **EXG-RBOX-03 (Restitution Visuelle Markdown)** : Le script de génération doit sous-titrer les blocs Mermaid avec l'indicateur TLP correspondant pour identifier immédiatement le niveau de confidentialité de chaque nœud du graphe.
 
+- **P3-1 (Alignement d'URI)** : Définir la règle de correspondance exacte (Match Key) entre les URIs de vulnérabilités produites par l'ABox (`rbox:CVE-...`) et le dictionnaire RBox NVD/CWE.
+    
+- **P3-2 (Résilience SPARQL)** : Imposer l'usage de blocs `OPTIONAL` structurés pour que l'absence d'une métadonnée externe (CVSS/CWE) ne masquât pas l'équipement ni la CVE en Phase 3.
+
+
+
 ### 2. Données Mock Exogènes (`nvd_cwe_mock.json`)
 
 Ce fichier doit être placé sous :

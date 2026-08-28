@@ -12,6 +12,13 @@ Toute modification, mise à jour ou outil de génération automatique (script, p
     
 - **EXG-SRC-02 (Grammaire)** : La TBox maître doit être rédigée selon la syntaxe W3C Turtle (`.ttl`) et exploiter les vocabulaires standard `owl`, `rdfs`, et `skos`.
 
+- **P1-1 (Normalisation URI/Namespaces)** : Spécifier la convention stricte des séparateurs (`#` vs `/`) pour éviter la dérive des préfixes entre TBox, ABox et RBox.
+    
+- **P1-2 (Intégrité des Object Properties)** : Rendre obligatoire la présence des clauses `rdfs:domain` et `rdfs:range` sur chaque relation (`hasInstalledComponent`, `hasVulnerability`, etc.).
+    
+- **P1-3 (Co-évolution TBox $\rightarrow$ SHACL)** : Documenter la responsabilité de la TBox dans la définition ou l'export des règles de validation SHACL métiers.
+
+
 
 ## 3. Exigences sur les Sorties Dérivées (Multi-Formats)
 

@@ -17,21 +17,7 @@ L'objectif principal est de créer les **Named Individuals** (instances) représ
                └───► [ 12-Donnees/ABox_init/ABox_Cybersec.ttl ] ◄───┘
 ```
 
-## 2. Déclaration des Namespaces & Ontologie ABox
 
-- **EXG-ABOX-NS-01 (Espaces de Noms)** :
-    
-    L'ABox privée doit utiliser le namespace de base dédié `[http://dkg.cybersec.org/abox#](http://dkg.cybersec.org/abox#)` (préfixe `abox:`), et importer explicitement le namespace TBox `[http://dkg.cybersec.org/tbox#](http://dkg.cybersec.org/tbox#)` (préfixe `dkg:`).
-    
-- **EXG-ABOX-NS-02 (Liaison à la TBox)** :
-    
-    L'ontologie ABox doit contenir une directive d'import OWL vers la TBox maître :
-    
-    Extrait de code
-    
-    ```
-    <http://dkg.cybersec.org/abox#> a owl:Ontology ;
-        owl:imports <http://dkg.cybersec.org/tbox#> .
     ```
     
 
@@ -49,6 +35,20 @@ Toute entité extraite du fichier d'inventaire source doit impérativement respe
 | `installed_software[].known_vulnerabilities` | Propriété Objet : `dkg:hasVulnerability`         | Domaine: `dkg:SoftwareComponent`<br><br>  <br><br>Range: `dkg:Vulnerability` | `abox:sw-nginx-1201 dkg:hasVulnerability abox:CVE-2021-23017 .`  |
 
 ## 4. Exigences Normatives d'Ingestion & Validation (EXG-ABOX)
+
+### 0. Déclaration des Namespaces & Ontologie ABox
+
+- **EXG-ABOX-NS-01 (Espaces de Noms)** :
+    
+    L'ABox privée doit utiliser le namespace de base dédié `[http://dkg.cybersec.org/abox#](http://dkg.cybersec.org/abox#)` (préfixe `abox:`), et importer explicitement le namespace TBox `[http://dkg.cybersec.org/tbox#](http://dkg.cybersec.org/tbox#)` (préfixe `dkg:`).
+    
+- **EXG-ABOX-NS-02 (Liaison à la TBox)** :
+    
+    L'ontologie ABox doit contenir une directive d'import OWL vers la TBox maître : 
+```
+    <http://dkg.cybersec.org/abox#> a owl:Ontology ;
+        owl:imports <http://dkg.cybersec.org/tbox#> .
+```
 
 ### 4.1 Identifiants & URIs
 
@@ -78,6 +78,17 @@ L'outillage d'ingestion/compilation ABox doit générer un fichier de restitutio
 - Un tableau récapitulatif des instances (Assets, Composants, Vulnérabilités).
     
 - Un diagramme de graphe **Mermaid.js (`graph TD`)** représentant visuellement l'topologie du SI privé (les liaisons `Asset` $\rightarrow$ `SoftwareComponent` $\rightarrow$ `Vulnerability`).
+
+
+
+
+- **P2-1 (Validation SHACL / Gatekeeper)** : Imposer qu'aucun fichier `.ttl` d'ABox ne soit sérialisé sans validation SHACL préalable (_minCount = 1_ sur les liaisons).
+    
+- **P2-2 (Parsing multi-niveaux)** : Spécifier que les convertisseurs (Markdown/JSON $\rightarrow$ RDF) doivent extraire l'arborescence complète et générer explicitement les triplets de relation (`Asset` $\rightarrow$ `Component` $\rightarrow$ `CVE`).
+
+
+
+
 
 
 
