@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 Moteur de Requête Global SPARQL Transverse DKG (Phase 3).
+Unifie les graphes ABox, TBox et RBox en établissant le lien 
+Asset -> Composant Logiciel -> Vulnérabilité (CVE) -> Faiblesse (CWE).
 """
 
 from pathlib import Path
@@ -16,34 +18,44 @@ def execute_global_query():
     kg = Graph()
 
     print("🔍 Chargement des graphes DKG...")
-    for label, file_path in [
-        ("TBox TLP:AMBER", TBOX_TTL),
-        ("ABox TLP:RED", ABOX_TTL),
-        ("RBox TLP:CLEAR", RBOX_TTL),
-    ]:
+    for label, file_path in [("TBox TLP:AMBER", TBOX_TTL), ("ABox TLP:RED", ABOX_TTL), ("RBox TLP:CLEAR", RBOX_TTL)]:
         if file_path.exists():
             kg.parse(file_path, format="turtle")
             print(f"  ├─ {label} chargée.")
+        else:
+            print(f"  ⚠️  Fichier introuvable : {file_path}")
 
     print(f"\n📊 Total des triplets unifiés en mémoire : {len(kg)}")
 
+    # Requête SPARQL explicite reliant la chaîne complète Asset -> SW -> CVE -> CWE
     sparql_query = """
     PREFIX dkg: <http://dkg.cybersec.org/tbox#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
     SELECT ?assetName ?ip ?swName ?cveUri ?cvss ?cweLabel WHERE {
+        # 1. Traversée stricte Asset -> Composant Logiciel dans l'ABox
         ?asset a dkg:Asset ;
                rdfs:label ?assetName ;
-               dkg:hasInstalledComponent ?sw .
-        
-        OPTIONAL { ?asset dkg:ipAddress ?ip . }
+               ?pComp ?sw .
+        FILTER(REGEX(STR(?pComp), "hasInstalledComponent|hasComponent|installed"))
 
-        ?sw rdfs:label ?swName .
-        OPTIONAL { ?sw dkg:hasVulnerability ?cveUri . }
+        # 2. Informations du composant et lien vers la CVE
+        ?sw rdfs:label ?swName ;
+            ?pVuln ?cveUri .
+        FILTER(REGEX(STR(?pVuln), "hasVulnerability|vulnerability"))
 
-        OPTIONAL { ?cveUri dkg:cvssScore ?cvss . }
+        # 3. Métadonnées optionnelles (IP, CVSS, CWE)
+        OPTIONAL { 
+            ?asset ?pIp ?ip . 
+            FILTER(REGEX(STR(?pIp), "ipAddress|ip"))
+        }
+        OPTIONAL { 
+            ?cveUri ?pCvss ?cvss . 
+            FILTER(REGEX(STR(?pCvss), "cvssScore|score"))
+        }
         OPTIONAL {
-            ?cveUri dkg:classifiedUnder ?cwe .
+            ?cveUri ?pClass ?cwe .
+            FILTER(REGEX(STR(?pClass), "classifiedUnder"))
             ?cwe rdfs:label ?cweLabel .
         }
     }
@@ -68,6 +80,9 @@ def execute_global_query():
         print(f"  └─ Faille CVE : {cve_name} (Score CVSS: {cvss})")
         print(f"  └─ Faiblesse  : {cwe}")
         print("-" * 80)
+
+    if count == 0:
+        print("⚠️ Aucun lien complet (Asset -> Composant -> CVE) n'a été trouvé.")
 
 
 if __name__ == "__main__":

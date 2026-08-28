@@ -6,7 +6,7 @@
 
 rbox: a owl:Ontology ;
     rdfs:label "RBox Public Reference Graph - DKG Cybersec"@en ;
-    rdfs:comment "Généré automatiquement le Thu Aug 27 21:58:33 2026 à partir du feed NVD & MITRE CWE Mock Feed"@fr ;
+    rdfs:comment "Généré automatiquement le Thu Aug 27 22:22:57 2026 à partir du feed NVD & MITRE CWE Mock Feed"@fr ;
     owl:imports dkg: .
 
 rbox:CVE-2021-23017 a dkg:Vulnerability ;

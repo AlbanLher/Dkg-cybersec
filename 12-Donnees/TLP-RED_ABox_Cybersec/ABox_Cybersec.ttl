@@ -1,6 +1,7 @@
 @prefix abox: <http://dkg.cybersec.org/abox#> .
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rbox: <http://dkg.cybersec.org/rbox#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -9,5 +10,10 @@ abox: a owl:Ontology ;
 
 abox:srv-web-01 a dkg:Asset ;
     rdfs:label "Serveur Web Production"@fr ;
-    dkg:ipAddress "192.168.1.10"^^xsd:string .
+    dkg:hasInstalledComponent abox:sw-nginx-1201 ;
+    dkg:ipAddress "192.168.1.50"^^xsd:string .
+
+abox:sw-nginx-1201 a dkg:SoftwareComponent ;
+    rdfs:label "NGINX Web Server v1.20.1"@fr ;
+    dkg:hasVulnerability rbox:CVE-2021-23017 .
 
