@@ -1,29 +1,23 @@
 [
   {
-    "@id": "http://dkg.cybersec.org/tbox#cveId",
+    "@id": "http://dkg.cybersec.org/tbox#hasVulnerability",
     "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "fr",
-        "@value": "Identifiant canonique CVE."
-      }
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
       {
-        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "cveId"
+        "@value": "hasVulnerability"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "http://www.w3.org/2001/XMLSchema#string"
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
       }
     ]
   },
@@ -55,48 +49,20 @@
     ]
   },
   {
-    "@id": "http://dkg.cybersec.org/tbox#hostname",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "fr",
-        "@value": "Nom d'hôte de l'équipement."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://dkg.cybersec.org/tbox#Asset"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "hostname"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/2001/XMLSchema#string"
-      }
-    ]
-  },
-  {
-    "@id": "http://dkg.cybersec.org/tbox#Asset",
+    "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent",
     "@type": [
       "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "fr",
-        "@value": "Équipement ou ressource de l'infrastructure informatique (ex: serveur, VM)."
+        "@value": "Composant logiciel ou brique applicative installée sur un Asset (ex: NGINX, OpenSSL)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "Asset"
+        "@value": "SoftwareComponent"
       }
     ]
   },
@@ -129,6 +95,56 @@
     ]
   },
   {
+    "@id": "http://dkg.cybersec.org/tbox#cveId",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Identifiant canonique CVE."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "cveId"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#hasWeakness",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "hasWeakness"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Weakness"
+      }
+    ]
+  },
+  {
     "@id": "http://dkg.cybersec.org/tbox#ipAddress",
     "@type": [
       "http://www.w3.org/2002/07/owl#DatatypeProperty"
@@ -153,42 +169,6 @@
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
         "@id": "http://www.w3.org/2001/XMLSchema#string"
-      }
-    ]
-  },
-  {
-    "@id": "http://dkg.cybersec.org/tbox#ThreatPattern",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "fr",
-        "@value": "Modèle d'attaque ou pattern d'exploitation (ex: CAPEC)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "ThreatPattern"
-      }
-    ]
-  },
-  {
-    "@id": "http://dkg.cybersec.org/tbox#Weakness",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "fr",
-        "@value": "Type de faiblesse logicielle sous-jacente (ex: CWE)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "Weakness"
       }
     ]
   },
@@ -221,82 +201,84 @@
     ]
   },
   {
-    "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent",
+    "@id": "http://dkg.cybersec.org/tbox#hostname",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Nom d'hôte de l'équipement."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Asset"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "hostname"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#Weakness",
     "@type": [
       "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "fr",
-        "@value": "Composant logiciel ou brique applicative installée sur un Asset (ex: NGINX, OpenSSL)."
+        "@value": "Type de faiblesse logicielle sous-jacente (ex: CWE)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "SoftwareComponent"
+        "@value": "Weakness"
       }
     ]
   },
   {
-    "@id": "http://dkg.cybersec.org/tbox#",
+    "@id": "http://dkg.cybersec.org/tbox#ThreatPattern",
     "@type": [
-      "http://www.w3.org/2002/07/owl#Ontology"
+      "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "fr",
-        "@value": "TBox & RBox Stricte : définitions des classes, propriétés et relations."
+        "@value": "Modèle d'attaque ou pattern d'exploitation (ex: CAPEC)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "ThreatPattern"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#Vulnerability",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "fr",
-        "@value": "Ontologie DKG Cybersec - Socle Structurel"
-      }
-    ]
-  },
-  {
-    "@id": "http://dkg.cybersec.org/tbox#hasVulnerability",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
+        "@value": "Vulnérabilité ou faille de sécurité identifiée (ex: CVE)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "hasVulnerability"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
-      }
-    ]
-  },
-  {
-    "@id": "http://dkg.cybersec.org/tbox#hasWeakness",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "hasWeakness"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://dkg.cybersec.org/tbox#Weakness"
+        "@value": "Vulnerability"
       }
     ]
   },
@@ -329,6 +311,24 @@
     ]
   },
   {
+    "@id": "http://dkg.cybersec.org/tbox#",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Ontology"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "TBox & RBox Stricte : définitions des classes, propriétés et relations."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "fr",
+        "@value": "Ontologie DKG Cybersec - Socle Structurel"
+      }
+    ]
+  },
+  {
     "@id": "http://dkg.cybersec.org/tbox#version",
     "@type": [
       "http://www.w3.org/2002/07/owl#DatatypeProperty"
@@ -357,20 +357,20 @@
     ]
   },
   {
-    "@id": "http://dkg.cybersec.org/tbox#Vulnerability",
+    "@id": "http://dkg.cybersec.org/tbox#Asset",
     "@type": [
       "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "fr",
-        "@value": "Vulnérabilité ou faille de sécurité identifiée (ex: CVE)."
+        "@value": "Équipement ou ressource de l'infrastructure informatique (ex: serveur, VM)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "Vulnerability"
+        "@value": "Asset"
       }
     ]
   }

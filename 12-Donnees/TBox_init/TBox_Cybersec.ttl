@@ -1,53 +1,87 @@
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 dkg: a owl:Ontology ;
-    rdfs:label "Ontologie DKG Cybersec"@fr ;
-    rdfs:comment "TBox minimale pour le DKG Cybersec - Phase 1 Initialisation"@fr .
+    rdfs:label "Ontologie DKG Cybersec - Socle Structurel"@fr ;
+    rdfs:comment "TBox & RBox Stricte : définitions des classes, propriétés et relations."@fr .
 
-dkg:classifiedUnder a owl:ObjectProperty ;
-    rdfs:label "classé sous faiblesse"@fr ;
+dkg:ThreatPattern a owl:Class ;
+    rdfs:label "ThreatPattern"@en ;
+    rdfs:comment "Modèle d'attaque ou pattern d'exploitation (ex: CAPEC)."@fr .
+
+dkg:componentName a owl:DatatypeProperty ;
+    rdfs:label "componentName"@en ;
+    rdfs:comment "Nom du produit logiciel."@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string .
+
+dkg:cveId a owl:DatatypeProperty ;
+    rdfs:label "cveId"@en ;
+    rdfs:comment "Identifiant canonique CVE."@fr ;
     rdfs:domain dkg:Vulnerability ;
-    rdfs:range dkg:Weakness .
+    rdfs:range xsd:string .
 
-dkg:hasInstalledComponent a owl:ObjectProperty ;
-    rdfs:label "a composant installé"@fr ;
-    rdfs:domain dkg:Asset ;
-    rdfs:range dkg:SoftwareComponent .
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:label "cvssScore"@en ;
+    rdfs:comment "Score CVSS v3/v4 de gravité."@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float .
 
 dkg:hasVulnerability a owl:ObjectProperty ;
-    rdfs:label "présente vulnérabilité"@fr ;
+    rdfs:label "hasVulnerability"@en ;
     rdfs:domain dkg:SoftwareComponent ;
     rdfs:range dkg:Vulnerability .
 
-dkg:Asset a owl:Class ;
-    rdfs:label "Actif Privé"@fr ;
-    rdfs:comment "Équipement informatique physique ou virtuel du SI."@fr ;
-    skos:altLabel "Host"@fr,
-        "Machine"@fr,
-        "Serveur"@fr,
-        "Équipement"@fr .
+dkg:hasWeakness a owl:ObjectProperty ;
+    rdfs:label "hasWeakness"@en ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness .
+
+dkg:hostname a owl:DatatypeProperty ;
+    rdfs:label "hostname"@en ;
+    rdfs:comment "Nom d'hôte de l'équipement."@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string .
+
+dkg:ipAddress a owl:DatatypeProperty ;
+    rdfs:label "ipAddress"@en ;
+    rdfs:comment "Adresse IP principale."@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string .
+
+dkg:isComponentOf a owl:ObjectProperty ;
+    rdfs:label "isComponentOf"@en ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Asset ;
+    owl:inverseOf dkg:hasInstalledComponent .
+
+dkg:version a owl:DatatypeProperty ;
+    rdfs:label "version"@en ;
+    rdfs:comment "Version spécifique du composant."@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string .
 
 dkg:Weakness a owl:Class ;
-    rdfs:label "Faiblesse Logicielle"@fr ;
-    rdfs:comment "Catégorisation des erreurs de conception/code."@fr ;
-    skos:altLabel "CWE"@fr,
-        "Faiblesse"@fr .
+    rdfs:label "Weakness"@en ;
+    rdfs:comment "Type de faiblesse logicielle sous-jacente (ex: CWE)."@fr .
 
-dkg:SoftwareComponent a owl:Class ;
-    rdfs:label "Composant Logiciel"@fr ;
-    rdfs:comment "Brique logicielle ou système d'exploitation installé."@fr ;
-    skos:altLabel "Application"@fr,
-        "CPE"@fr,
-        "OS"@fr,
-        "Package"@fr .
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:label "hasInstalledComponent"@en ;
+    rdfs:comment "Rattache un composant logiciel à un équipement."@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range dkg:SoftwareComponent .
+
+dkg:Asset a owl:Class ;
+    rdfs:label "Asset"@en ;
+    rdfs:comment "Équipement ou ressource de l'infrastructure informatique (ex: serveur, VM)."@fr .
 
 dkg:Vulnerability a owl:Class ;
-    rdfs:label "Vulnérabilité"@fr ;
-    rdfs:comment "Faille de sécurité répertoriée publiquement."@fr ;
-    skos:altLabel "Breche"@fr,
-        "CVE"@fr,
-        "Faille"@fr .
+    rdfs:label "Vulnerability"@en ;
+    rdfs:comment "Vulnérabilité ou faille de sécurité identifiée (ex: CVE)."@fr .
+
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "SoftwareComponent"@en ;
+    rdfs:comment "Composant logiciel ou brique applicative installée sur un Asset (ex: NGINX, OpenSSL)."@fr .
 

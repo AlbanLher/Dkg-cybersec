@@ -1,25 +1,26 @@
 
 # Objectifs de la phase  : 
 
-initialiser le projet en construisant une première TBox multiformat minimale correspondant aux cas d'usage 
+initialiser le projet en construisant une première socle structurel TBox RBox  multiformat minimale correspondant aux cas d'usage 
 Une bonne partie des données sont en dur dans le premier script.
 Les phase suivantes viseront a mettre en place les outils d'évolution
 
 Cette premiere phase vise a ce que les partie prenantes puisssent accéder à la TBox grace a sa version md disponible [TBox_Human](../../12-Donnees/TBox_init/TBox_Cybersec.md)
-	
+cette phase a été reprise suite au [REX-01](REX-01_rigueur_attendue_RDF-OWL.md) 
 
 
 # Bilan des Actions et Livrables
 
-| Action                                    | livrable                                 | Localisation       | Commentaire                   |                       |
-| ----------------------------------------- | ---------------------------------------- | ------------------ | ----------------------------- | --------------------- |
-| Mise en place de la specification du TBox | SpecificationNormativeSortiesFormatsTBox | 11-/Specification/ | sert aux tests                | 🟢 Terminée / Validée |
-| Mise a disposition de données sources     | cve_data.ttl                             | 12-/1-/2-          | une seule cve sur le use case | 🟢 Terminée / Validée |
-| Script de génération d'un premier ttl     | build_inital_ttl_TBox.py                 | 13-/               |                               | 🟢 Terminée / Validée |
-| Premier ttl généré par cript précédent    | TBox_Cybersec.ttl                        | 12-/TBox_init      |                               | 🟢 Terminée / Validée |
-| Scrip de génération md et json            | generate_TBox_initiale.py                | 13-/               |                               | 🟢 Terminée / Validée |
-| generation TBox tout format               | TBox_Cybersec.jon, TBox_Cybersec.md      | 12-/TBox_init      |                               | 🟢 Terminée / Validée |
-| test des fichiers TBox % specifications   | test_TBox_spec.py                        | 13-/               |                               | 🟢 Terminée / Validée |
+| Action                                    | livrable                                | Localisation       | Commentaire                   |                       |
+| ----------------------------------------- | --------------------------------------- | ------------------ | ----------------------------- | --------------------- |
+| Mise en place de la specification du TBox | SPEC-01_Norme_TBox_RBox                 | 11-/Specification/ | sert aux tests                | 🟢 Terminée / Validée |
+| Mise a disposition de données sources     | cve_data.ttl                            | 12-/1-/2-          | une seule cve sur le use case | 🟢 Terminée / Validée |
+| Script de génération d'un premier ttl     | build_inital_ttl_TBox.py                | 13-/               |                               | 🟢 Terminée / Validée |
+| Premier ttl généré par cript précédent    | TBox_Cybersec.ttl                       | 12-/TBox_init      |                               | 🟢 Terminée / Validée |
+| Scrip de génération md et json            | generate_TBox_initiale.py               | 13-/               |                               | 🟢 Terminée / Validée |
+| generation TBox tout format               | `TBox_Cybersec.jon`, `TBox_Cybersec.md` | 12-/TBox_init      |                               | 🟢 Terminée / Validée |
+| test des fichiers TBox % specifications   | `test_phase1_tbox_rbox_spec.py`         | 13-/               |                               | 🟢 Terminée / Validée |
+|                                           |                                         |                    |                               |                       |
 
 - 
 # Memo didactique

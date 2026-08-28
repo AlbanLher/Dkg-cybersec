@@ -1,5 +1,8 @@
 # Spécification Normative : Enrichissement RBox & Gouvernance de Confidentialité (Phase 3)
 
+Spécifie l'ingestion des bases de données de vulnérabilités externes (instances CVE/CWE).
+
+
 **Référence Documentaire :** `SPEC-RBOX-001`  
 **Statut :** Normatif  
 **Portée :** Phase 3 - Alignement Référentiels Publiques (CVE/CWE) et Isolation TLP  

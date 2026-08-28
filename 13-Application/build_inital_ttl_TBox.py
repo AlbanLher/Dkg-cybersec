@@ -1,133 +1,112 @@
 #!/usr/bin/env python3
 """
-Script Constructeur de la TBox Maître (DKG Cybersec).
-Génère programmatiquement : 12-Donnees/TBox_init/TBox_Cybersec.ttl
-Conforme à : 11-Principes_Architecture/Specifications/SpecificationNormativeSortiesFormatsTBox.md
+Générateur de la TBox & RBox Stricte (Socle Structurel Sémantique - Phase 1)
+Conforme aux exigences normatives SPEC-01 (EXG-TBOX-01 à EXG-TBOX-04).
 """
 
-import time
 from pathlib import Path
-from rdflib import RDF, RDFS, OWL, SKOS, Graph, Literal, Namespace
+from rdflib import Graph, Literal, Namespace, RDF, RDFS, OWL, XSD
 
-# Dynamic base path resolution (Remonte à la racine du dépôt)
-BASE_DIR = Path(__file__).resolve().parent.parent # .parent
-TBOX_DIR = BASE_DIR / "12-Donnees" / "TBox_init"
-TTL_OUT = TBOX_DIR / "TBox_Cybersec.ttl"
-
+# Correction du chemin de sortie vers le répertoire canonique TBox_init
+BASE_DIR = Path(__file__).resolve().parent.parent
+TBOX_OUT = BASE_DIR / "12-Donnees" / "TBox_init" / "TBox_Cybersec.ttl"
 
 def build_tbox():
     g = Graph()
 
-    # Namespaces
+    # Déclaration du Namespace unique (EXG-TBOX-01)
     DKG = Namespace("http://dkg.cybersec.org/tbox#")
+    
     g.bind("dkg", DKG)
     g.bind("owl", OWL)
     g.bind("rdfs", RDFS)
-    g.bind("skos", SKOS)
+    g.bind("xsd", XSD)
 
-    # Ontologie header
-    ontology_uri = DKG[""]
-    g.add((ontology_uri, RDF.type, OWL.Ontology))
-    g.add(
-        (
-            ontology_uri,
-            RDFS.label,
-            Literal("Ontologie DKG Cybersec", lang="fr"),
-        )
-    )
-    g.add(
-        (
-            ontology_uri,
-            RDFS.comment,
-            Literal(
-                "TBox minimale pour le DKG Cybersec - Phase 1 Initialisation",
-                lang="fr",
-            ),
-        )
-    )
+    # ---------------------------------------------------------
+    # 1. ONTOLOGY METADATA
+    # ---------------------------------------------------------
+    onto_uri = DKG[""]
+    g.add((onto_uri, RDF.type, OWL.Ontology))
+    g.add((onto_uri, RDFS.label, Literal("Ontologie DKG Cybersec - TBox & RBox Stricte", lang="fr")))
+    g.add((onto_uri, RDFS.comment, Literal("Socle structurel définissant le vocabulaire, les classes et les propriétés de sécurité.", lang="fr")))
 
-    # 1. Définition des Classes avec SKOS (Synonymes & Acronymes)
+    # ---------------------------------------------------------
+    # 2. CLASSES DECLARATION (EXG-TBOX-02)
+    # ---------------------------------------------------------
     classes = [
-        (
-            "Asset",
-            "Actif Privé",
-            "Équipement informatique physique ou virtuel du SI.",
-            ["Serveur", "Host", "Machine", "Équipement"],
-        ),
-        (
-            "SoftwareComponent",
-            "Composant Logiciel",
-            "Brique logicielle ou système d'exploitation installé.",
-            ["CPE", "Package", "Application", "OS"],
-        ),
-        (
-            "Vulnerability",
-            "Vulnérabilité",
-            "Faille de sécurité répertoriée publiquement.",
-            ["CVE", "Breche", "Faille"],
-        ),
-        (
-            "Weakness",
-            "Faiblesse Logicielle",
-            "Catégorisation des erreurs de conception/code.",
-            ["CWE", "Faiblesse"],
-        ),
+        ("Asset", "Équipement ou ressource de l'infrastructure informatique."),
+        ("SoftwareComponent", "Composant logiciel, service ou brique applicative installé sur un Asset."),
+        ("Vulnerability", "Faiblesse ou vulnérabilité de sécurité identifiée (ex: CVE)."),
+        ("Weakness", "Type de faiblesse logicielle sous-jacente (ex: CWE)."),
+        ("ThreatPattern", "Modèle d'attaque ou pattern d'exploitation (ex: CAPEC).")
     ]
 
-    for class_id, label, comment, alt_labels in classes:
-        cls_uri = DKG[class_id]
+    for class_name, comment in classes:
+        cls_uri = DKG[class_name]
         g.add((cls_uri, RDF.type, OWL.Class))
-        g.add((cls_uri, RDFS.label, Literal(label, lang="fr")))
+        g.add((cls_uri, RDFS.label, Literal(class_name, lang="en")))
         g.add((cls_uri, RDFS.comment, Literal(comment, lang="fr")))
-        for alt in alt_labels:
-            g.add((cls_uri, SKOS.altLabel, Literal(alt, lang="fr")))
 
-    # 2. Définition des Propriétés
-    properties = [
-        (
-            "hasInstalledComponent",
-            "a composant installé",
-            DKG.Asset,
-            DKG.SoftwareComponent,
-        ),
-        (
-            "hasVulnerability",
-            "présente vulnérabilité",
-            DKG.SoftwareComponent,
-            DKG.Vulnerability,
-        ),
-        (
-            "classifiedUnder",
-            "classé sous faiblesse",
-            DKG.Vulnerability,
-            DKG.Weakness,
-        ),
+    # ---------------------------------------------------------
+    # 3. OBJECT PROPERTIES DECLARATION (EXG-TBOX-03 & EXG-TBOX-04)
+    # ---------------------------------------------------------
+    
+    # Asset -> SoftwareComponent
+    has_comp = DKG["hasInstalledComponent"]
+    g.add((has_comp, RDF.type, OWL.ObjectProperty))
+    g.add((has_comp, RDFS.label, Literal("hasInstalledComponent", lang="en")))
+    g.add((has_comp, RDFS.domain, DKG["Asset"]))
+    g.add((has_comp, RDFS.range, DKG["SoftwareComponent"]))
+
+    # Axiome RBox Stricte : Relation Inverse (EXG-TBOX-04)
+    is_comp_of = DKG["isComponentOf"]
+    g.add((is_comp_of, RDF.type, OWL.ObjectProperty))
+    g.add((is_comp_of, RDFS.label, Literal("isComponentOf", lang="en")))
+    g.add((is_comp_of, RDFS.domain, DKG["SoftwareComponent"]))
+    g.add((is_comp_of, RDFS.range, DKG["Asset"]))
+    g.add((is_comp_of, OWL.inverseOf, has_comp))
+
+    # SoftwareComponent -> Vulnerability
+    has_vuln = DKG["hasVulnerability"]
+    g.add((has_vuln, RDF.type, OWL.ObjectProperty))
+    g.add((has_vuln, RDFS.label, Literal("hasVulnerability", lang="en")))
+    g.add((has_vuln, RDFS.domain, DKG["SoftwareComponent"]))
+    g.add((has_vuln, RDFS.range, DKG["Vulnerability"]))
+
+    # Vulnerability -> Weakness (CWE)
+    has_cwe = DKG["hasWeakness"]
+    g.add((has_cwe, RDF.type, OWL.ObjectProperty))
+    g.add((has_cwe, RDFS.label, Literal("hasWeakness", lang="en")))
+    g.add((has_cwe, RDFS.domain, DKG["Vulnerability"]))
+    g.add((has_cwe, RDFS.range, DKG["Weakness"]))
+
+    # ---------------------------------------------------------
+    # 4. DATATYPE PROPERTIES DECLARATION
+    # ---------------------------------------------------------
+    datatype_props = [
+        ("hostname", DKG["Asset"], XSD.string, "Nom d'hôte ou FQDN de l'équipement."),
+        ("ipAddress", DKG["Asset"], XSD.string, "Adresse IP de l'équipement."),
+        ("componentName", DKG["SoftwareComponent"], XSD.string, "Nom du composant logiciel."),
+        ("version", DKG["SoftwareComponent"], XSD.string, "Version installée du composant."),
+        ("cvssScore", DKG["Vulnerability"], XSD.float, "Score de gravité CVSS v3/v4."),
+        ("cveId", DKG["Vulnerability"], XSD.string, "Identifiant canonique CVE.")
     ]
 
-    for prop_id, label, domain, rng in properties:
-        prop_uri = DKG[prop_id]
-        g.add((prop_uri, RDF.type, OWL.ObjectProperty))
-        g.add((prop_uri, RDFS.label, Literal(label, lang="fr")))
-        g.add((prop_uri, RDFS.domain, domain))
-        g.add((prop_uri, RDFS.range, rng))
+    for prop_name, domain_cls, range_type, comment in datatype_props:
+        prop_uri = DKG[prop_name]
+        g.add((prop_uri, RDF.type, OWL.DatatypeProperty))
+        g.add((prop_uri, RDFS.label, Literal(prop_name, lang="en")))
+        g.add((prop_uri, RDFS.domain, domain_cls))
+        g.add((prop_uri, RDFS.range, range_type))
+        g.add((prop_uri, RDFS.comment, Literal(comment, lang="fr")))
 
-    # Assure l'existence du dossier de destination
-    TBOX_DIR.mkdir(parents=True, exist_ok=True)
-
-    # CORRECTION : Force la suppression préalable si le fichier existe pour réinitialiser les droits / verrous
-    if TTL_OUT.exists():
-        TTL_OUT.unlink()
-
-    # Écriture brute sur le disque
-    ttl_data = g.serialize(format="turtle")
-    TTL_OUT.write_text(ttl_data, encoding="utf-8")
-
-    # Vérification de l'horodatage
-    mtime = time.ctime(TTL_OUT.stat().st_mtime)
-    print(f"✓ TBox maître réécrite avec succès : {TTL_OUT}")
-    print(f"  └─ Emplacement réel : {TTL_OUT.resolve()}")
-    print(f"  └─ Date de modification : {mtime}")
-
+    # ---------------------------------------------------------
+    # 5. SÉRIALISATION TURTLE (.ttl)
+    # ---------------------------------------------------------
+    TBOX_OUT.parent.mkdir(parents=True, exist_ok=True)
+    g.serialize(destination=TBOX_OUT, format="turtle")
+    print(f"✅ TBox & RBox Stricte générées avec succès dans : {TBOX_OUT}")
+    print(f"ℹ️  Nombre total de triplets générés : {len(g)}")
 
 if __name__ == "__main__":
     build_tbox()

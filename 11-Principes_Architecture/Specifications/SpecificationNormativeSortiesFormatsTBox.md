@@ -1,7 +1,7 @@
 
 ## 1. Objet et Portée
 
-Ce document définit les exigences formelles et les critères de conformité applicables à la **TBox (Terminological Box)** du Knowledge Graph Cyberdéfense (DKG).
+Ce document définit les exigences formelles et les critères de conformité applicables à la **TBox (Terminological Box)**  et de la **RBox** (caractéristiques des propriétés : inverses, transitivité, hiérarchie des rôles)  du Dynamic Knowledge Graph Cyberdéfense (DKG).
 
 Toute modification, mise à jour ou outil de génération automatique (script, pipeline CI/CD, Agent IA) **doit obligatoirement se conformer aux règles de cette spécification**.
 

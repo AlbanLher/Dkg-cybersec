@@ -3,28 +3,6 @@
 > **Statut** : Document d'Ontologie Généré Automatiquement
 > **Namespace canonique** : `http://dkg.cybersec.org/tbox#`
 
-## 📜 Glossaire & Acronymes Normatifs
-
-| Acronyme | Nom Complet | Description |
-| :--- | :--- | :--- |
-| **TBox** | Terminology Box | Déclaration des classes, types et concepts de l'ontologie. |
-| **RBox** | Relational Box | Déclaration des règles et propriétés d'objets (domaine, portée, inverses). |
-| **ABox** | Assertion Box | Ensemble des instances et données concrètes (ex: serveurs réels, CVEs). |
-| **CVE** | Common Vulnerabilities and Exposures | Dictionnaire des vulnérabilités de sécurité connues. |
-| **CWE** | Common Weakness Enumeration | Système de classification des faiblesses software/hardware. |
-| **CAPEC** | Common Attack Pattern Enumeration and Classification | Catalogues des schémas d'attaques employés par les adversaires. |
-
-## 📊 Modèle Conceptuel (Diagramme Mermaid)
-
-```mermaid
-classDiagram
-    direction LR
-    Asset --> SoftwareComponent : hasInstalledComponent
-    SoftwareComponent --> Asset : isComponentOf
-    SoftwareComponent --> Vulnerability : hasVulnerability
-    Vulnerability --> Weakness : hasWeakness
-```
-
 ## 1. Classes Ontologiques (`owl:Class`)
 
 | Classe | Libellé | Description |
