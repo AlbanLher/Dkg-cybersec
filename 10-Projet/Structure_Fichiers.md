@@ -23,7 +23,7 @@
 
 
 12-Donnees/
-├──  Master_Transversal/                      <--- Source UNIQUE de vérité (Cible Apps/Neo4j)
+├──  01-Master_Transversal/                      <--- Source UNIQUE de vérité (Cible Apps/Neo4j)
 │   ├── TLP_AMBER_Socle_TBox/                   <--- Ontologie Canonique (TTL, JSON-LD, MD)
 │   │   ├── DKG_TBox_Master.ttl
 │   │   └── DKG_TBox_Master.md
@@ -31,12 +31,12 @@
 │       ├── DKG_ABox_Master.ttl
 │       └── DKG_ABox_Master.md
 │
-├──  Snapshots_Phases/                         <--- Historique figé / Auditabilité
+├──  02-Snapshots_Phases/                         <--- Historique figé / Auditabilité
 │   ├── Phase_1_TBox_init/
 │   ├── Phase_2_ABox_init/
 │   └── Phase_3_ABox_enriched/
 │
-└──  Caches_Externes/                          <--- Référentiels publics
+└──  03-Caches_Externes/                          <--- Référentiels publics
     └── TLP_CLEAR_NVD_CAPEC/    exemple
 
 

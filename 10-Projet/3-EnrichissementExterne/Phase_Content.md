@@ -1,3 +1,66 @@
+Conformément au workflow en 5 étapes et aux directives du **`PROJECT_CONTEXT_PROMPT.md`**, voici la synthèse structurée à intégrer dans le fichier de fin de phase **`10-Projet/Phase3/Phase_Content.md`**.
+
+Cette revue valide le lot du **Socle Graph (Phases 1 à 3)** avant d'entamer la Phase 3b.
+
+# 📜 Phase 3 — Synthèse & REX (Bilan du Socle Graph)
+
+> **Classification Globale** : `TLP:RED` (Contient la cartographie SI enrichie)
+> 
+> **Dépôt** : `10-Projet/Phase3/Phase_Content.md`
+
+## 📌 1. Rappel des Objectifs & Concepts Développés
+
+- Ingestion et alignement des référentiels de vulnérabilités et de menaces publics (**NVD/CVE**, **MITRE CWE**, **MITRE CAPEC**).
+    
+- Marquage Granulaire de Confidentialité **TLP (Traffic Light Protocol)** sur l'ensemble du graphe (Distinction `TLP:RED`, `TLP:AMBER` et `TLP:CLEAR`).
+    
+- Consolidation des composants en deux masters transversaux et mise à disposition de vues humaines consultables en Markdown (`.md`).
+    
+
+## 📊 2. Livrables Produit & Cartographie des Données
+
+Les livrables de la phase respectent le découpage strict entre **Snapshots Historiques** et **Masters Transversaux** :
+
+- **Master Transversal TBox (`TLP:AMBER`)** ➔ `12-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`
+    
+    - `DKG_TBox_Master.ttl` / `.json` / `DKG_TBox_Master.md` (Ontologie canonique globale & glossaire).
+        
+- **Master Transversal ABox (`TLP:RED`)** ➔ `12-Donnees/Master_Transversal/TLP_RED_Consolidation_ABox/`
+    
+    - `DKG_ABox_Master.ttl` / `.json` / `DKG_ABox_Master.md` (Inventaire SI, vulnérabilités & diagramme Mermaid du graphe d'attaque).
+        
+- **Snapshot de Phase 3** ➔ `12-Donnees/Snapshots_Phases/Phase_3_ABox_enriched/`
+    
+    - `ABox_Cybersec_enriched.ttl` (Snapshot figé post-enrichissement).
+        
+- **Cache Externe Public (`TLP:CLEAR`)** ➔ `12-Donnees/Caches_Externes/TLP_CLEAR_NVD_CAPEC/`
+    
+    - `nvd_capec_mock_cache.json` (Mock de données externes).
+        
+
+## 🛠️ 3. Scripts d'Application Développés (`13-Application/Phase_3_Enrichment/`)
+
+- `ingest_external_nvd_capec.py` : Module d'ingestion et de liaison sémantique des faiblesses CWE vers CAPEC.
+    
+- `consolidate_master_TLP_AMBER_TBox.py` : Générateur du socle TBox Master (`TLP:AMBER`) aux 3 formats (`.ttl`, `.json`, `.md`).
+    
+- `generate_enriche_TLP_RED_ABox.py` : Script principal de Phase 3 exécutant l'enrichissement, le marquage TLP et la consolidation ABox Master (`TLP:RED`).
+    
+
+## 💡 4. Synthèse des Acquis & REX (Retour d'Expérience)
+
+- **Gouvernance TLP** : L'intégration sémantique du TLP (`dkg:hasTLPMarking`) directement dans le graphe permet de traiter des données de natures différentes (Infrastructure `TLP:RED` vs Référentiel public `TLP:CLEAR`) au sein d'un même modèle.
+    
+- **Separation Snapshot vs Master** : La séparation entre l'historique de construction (`Snapshots_Phases/`) et la source unique de vérité (`Master_Transversal/`) évite toute amnésie de projet tout en offrant un point d'entrée unique pour la future persistance (Neo4j / SPARQL).
+    
+- **Documentation Consultable (.md)** : La génération automatisée de documentation Markdown synchronisée avec le code Turtle garantit que le socle reste immédiatement auditable par les équipes fonctionnelles.
+    
+
+## 🚀 5. Transition vers la Phase Suivante (Phase 3b)
+
+Le lot "Socle Ontologique" est officiellement clos et validé. Le projet entre dans le **Lot 2 (Persistance & Exploration)** avec la **Phase 3b : Importation & Ingestion Neo4j (Graph DBMS / Neosemantics `n10s`)**.
+
+
 # 📌 Phase 3 : Enrichissement Externe du Knowledge Graph & Marquage TLP
 
 > **Statut** : Cadré / En cours de développement  
