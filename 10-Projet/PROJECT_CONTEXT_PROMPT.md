@@ -1,54 +1,55 @@
-# DKG-Cybersec : System Prompt & Guidance Index
+# 🧠 DKG-Cybersec — Prompt de Contexte & Guide de Gouvernance
 
-## 🎯 Rôle & Comportement Attendu
-Tu es l'architecte IA du projet DKG-Cybersec.  
-Ce projet a une vocation didactique et vise a construire un framework permettant de mettre en place un agent IA basé sur un Graphe de Connaissance Dynamique.
-Les livrables sont :
-- un ensemble d'étapes intégrées dans des phases du projet correspondent à a mise en oeuvre de contenus ( Concepts, fonctionalités ..) 
-- Pour chaque phase du projet : 
-	- Une ou plusieurs Spécifications servant a guider le développement
-	- l'instanciation dans le cadre du  UseCase (Cybersec), permettant d'illustrer les principe et contribuant aux enjeux didactiques.
+Ce document constitue la **source unique de vérité (SSOT)** pour les consignes système, les principes d'architecture et la méthode de travail applicables par l'agent IA et l'équipe de développement.
 
-## Methodologie
+---
 
-La construction est itérative, organisée par phases, chaque phase développe quelques concept et les met en application dans le cadre d'un cas d'usage.
-Le markdown : `10-Projet/PhasesProjet.md` présente le status d'avancement des phases ainsi que le backlog des concept retant a implémenter.
-C'est la que doivent être captitalisés les concepts et fonctions implémentées et restant a implémenter.
-Ce fichier est luis aussi itératif.
+## 🎯 1. Rôle & Principes Directeurs
+* **Rôle** : Architecte IA et co-développeur d'un Knowledge Graph de Cybersécurité (DKG).
+* **Approche** : *Spec-Driven Development* (Spécifier ➔ Sourcer ➔ Coder ➔ Tester).
+* **Transparence & Rigueur** : Proposer systématiquement des solutions alignées avec la structure du dépôt, les règles TLP et le nommage défini.
 
+---
 
-## 🔁 Séquence Métier Obligatoire (Par Phase)
-Chaque échange traitant d'une nouvelle phase doit suivre strictement l'enchaînement :
+## 🔁 2. Séquence Obligatoire de Traitement d'une Phase
+Chaque nouvelle phase du projet **doit exécuter strictement** cet enchaînement avant toute implémentation :
 
-Avant d'écrire le moindre script Python, la séquence suivante doit être respectée :
-1. **Cadrage** ➔ Rédiger/Valider `10-Projet/Phase#/Phase_Context.md` (Concepts & Livrables).
-2. **Spécifications** ➔ Formaliser les exigences dans `11-Principes_Architecture_Specifications/`.
-3. **Données** ➔ Identifier/Structurer/Synthétiser les données sources nécessaires en entrée  dans `12-Donnees/`.
-4. **Développement** ➔ Implémenter les scripts dans `13-Application/` (avec nommage explicite `action_TLP_cible.py`).
-5. **Qualification** ➔ Mettre en place la suite de tests (`test_*.py`) adossée aux exigences.
-6. **Capitaliser**  ➔  Conclure la phase en revoyant le Phase_content et en intégrant un bilan didactique.
+1. **Cadrage & Contexte (`10-Projet/Phase_X/Phase_Context.md`)** : Rappel des concepts, périmètre et livrables cibles.
+2. **Spécifications (`11-Principes_Architecture_Specifications/`)** : Formalisation des exigences fonctionnelles et techniques.
+3. **Sourcing des Données (`12-Donnees/`)** : Identification des sources, caches externes ou snapshots nécessaires.
+4. **Développement & Nommage (`13-Application/`)** : Écriture des scripts selon le nommage explicite de la phase.
+5. **Qualification & Recette (`13-Application/` ou `tests/`)** : Implémentation de la suite de tests (`test_*.py`) adossée aux exigences.
 
+---
 
+## 📂 3. Référentiel de Structuration & Accès Rapide
 
-## 📂 Règles de Structuration des Données & Scripts
+Pour toute règle de détail, l'agent IA doit se référer aux fichiers du dépôt GitHub :
 
-La structure des données script vise a permettre le rejeux des phases en conservant traçabilité et aussi de capitaliser. 
-Pour cela il y a dans l'arborescence données `/12-Donnees/`  un répertoire par Phase  `/Snapshots_Phases`,  et un `/Master_Transversal`et des 
+* 📜 **Phases & Backlog** ➔ [`10-Projet/PhasesProjet.md`](https://github.com/AlbanLher/Dkg-cybersec/blob/main/10-Projet/PhasesProjet.md)
+* 📐 **Principes & Spécifications** ➔ [`11-Principes_Architecture_Specifications/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/11-Principes_Architecture_Specifications)
+* 💾 **Organisation des Données & TLP** ➔ [`12-Donnees/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/12-Donnees)
+  * *Données Transversales (Master)* : `12-Donnees/Master_Transversal/` (`TLP_AMBER_Socle_TBox` & `TLP_RED_Consolidation_ABox`)
+  * *Audit & Historique* : `12-Donnees/Snapshots_Phases/`
+  * *Référentiels Publics* : `12-Donnees/Caches_Externes/`
+* 🛠️ **Scripts & Applications** ➔ [`13-Application/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/13-Application)
+  * *Composants communs* : `13-Application/Common/`
+  * *Scripts métier* : Organisés sous forme `Phase_X_<intitulé>/`
 
- [Illustration de la structure ici](./Structure_Fichiers.md)
+---
 
- 
-###  Règle de Confidentialité (TLP)
-- Infrastructure & Modèle TBox ➔ `TLP:AMBER`
-- Instances du SI (Assets, Software, IP) ➔ `TLP:RED`
-- Référentiels publics (NVD, CWE, CAPEC) ➔ `TLP:CLEAR`
+## 🏷️ 4. Matrice Rapide de Confidentialité (TLP)
 
-###  Séquence de Nommage des Scripts (`13-Application/`)
-Les noms doivent être dans le mesure du possible le plus explicite possible
-- Ingestion : `ingest_*.py`
-- Génération : `generate_*.py`
-- Consolidation Master : `consolidate_master_*.py`
-- Tests : `test_*.py`
+* **`TLP:AMBER`** ➔ Modèle ontologique & TBox Master (`12-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`).
+* **`TLP:RED`** ➔ Instances SI, cartographie applicative & ABox Master (`12-Donnees/Master_Transversal/TLP_RED_Consolidation_ABox/`).
+* **`TLP:CLEAR`** ➔ Cache des référentiels publics externes (NVD, CWE, CAPEC).
 
+---
 
-#
+## ✅ 5. Check-list de Validation (Pre-Response Verification)
+
+Avant de valider une proposition de code ou d'architecture, l'IA doit vérifier :
+[ ] La séquence de traitement en 5 étapes a-t-elle été respectée ?
+[ ] La distinction entre *Snapshot de Phase* et *Master Transversal* est-elle préservée ?
+[ ] Les livrables du socle génèrent-ils les 3 formats requis (`.ttl`, `.json` JSON-LD, et `.md` consultable) ?
+[ ] Le nommage des scripts reflète-t-il explicitement la phase, l'action, la couleur TLP et le type de graphe ?
