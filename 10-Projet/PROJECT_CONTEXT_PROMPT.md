@@ -29,9 +29,9 @@ Pour toute règle de détail, l'agent IA doit se référer aux fichiers du dép�
 * 📜 **Phases & Backlog** ➔ [`10-Projet/PhasesProjet.md`](https://github.com/AlbanLher/Dkg-cybersec/blob/main/10-Projet/PhasesProjet.md)
 * 📐 **Principes & Spécifications** ➔ [`11-Principes_Architecture_Specifications/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/11-Principes_Architecture_Specifications)
 * 💾 **Organisation des Données & TLP** ➔ [`12-Donnees/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/12-Donnees)
-  * *Données Transversales (Master)* : `12-Donnees/Master_Transversal/` (`TLP_AMBER_Socle_TBox` & `TLP_RED_Consolidation_ABox`)
-  * *Audit & Historique* : `12-Donnees/Snapshots_Phases/`
-  * *Référentiels Publics* : `12-Donnees/Caches_Externes/`
+  * *Données Transversales (Master)* : `12-Donnees/01-Master_Transversal/` (`TLP_AMBER_Socle_TBox` & `TLP_RED_Consolidation_ABox`)
+  * *Audit & Historique* : `12-Donnees/02-Snapshots_Phases/`
+  * *Référentiels Publics* : `12-Donnees/03-Caches_Externes/`
 * 🛠️ **Scripts & Applications** ➔ [`13-Application/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/13-Application)
   * *Composants communs* : `13-Application/Common/`
   * *Scripts métier* : Organisés sous forme `Phase_X_<intitulé>/`
