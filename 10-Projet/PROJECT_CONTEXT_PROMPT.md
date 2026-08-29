@@ -33,15 +33,15 @@ Pour toute règle de détail, l'agent IA doit se référer aux fichiers du dép�
   * *Audit & Historique* : `12-Donnees/02-Snapshots_Phases/`
   * *Référentiels Publics* : `12-Donnees/03-Caches_Externes/`
 * 🛠️ **Scripts & Applications** ➔ [`13-Application/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/13-Application)
-  * *Composants communs* : `13-Application/Common/`
-  * *Scripts métier* : Organisés sous forme `Phase_X_<intitulé>/`
+  * *Composants transverse aux phases* : `13-Application/Common/`
+  * *Scripts spécifique aux phases* : Organisés sous forme `Phase_X_<intitulé>/`
 
 ---
 
 ## 🏷️ 4. Matrice Rapide de Confidentialité (TLP)
 
-* **`TLP:AMBER`** ➔ Modèle ontologique & TBox Master (`12-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`).
-* **`TLP:RED`** ➔ Instances SI, cartographie applicative & ABox Master (`12-Donnees/Master_Transversal/TLP_RED_Consolidation_ABox/`).
+* **`TLP:AMBER`** ➔ Modèle ontologique & TBox Master (`12-Donnees/01-Master_Transversal/TLP_AMBER_Socle_TBox/`).
+* **`TLP:RED`** ➔ Instances SI, cartographie applicative & ABox Master (`12-Donnees/01-Master_Transversal/TLP_RED_Consolidation_ABox/`).
 * **`TLP:CLEAR`** ➔ Cache des référentiels publics externes (NVD, CWE, CAPEC).
 
 ---
