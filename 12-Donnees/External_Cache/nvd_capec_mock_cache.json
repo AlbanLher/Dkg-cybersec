@@ -1,0 +1,22 @@
+{
+    "CVE-2021-44228": {
+        "description": "Apache Log4j2 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints.",
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "severity": "CRITICAL"
+    },
+    "CVE-2021-23017": {
+        "description": "A 1-byte memory write overflow in Nginx resolver allows a remote attacker to cause denial of service or execution of arbitrary code.",
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "severity": "HIGH"
+    },
+    "CWE-502": {
+        "capec_id": "CAPEC-112",
+        "capec_title": "Command Injection",
+        "capec_description": "An attacker leverages uncontrolled deserialization to inject arbitrary system commands."
+    },
+    "CWE-193": {
+        "capec_id": "CAPEC-14",
+        "capec_title": "Far Side Off-by-One Buffer Overflow",
+        "capec_description": "An attacker forces an off-by-one calculation error leading to adjacent memory corruption."
+    }
+}

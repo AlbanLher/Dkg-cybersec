@@ -1,141 +1,92 @@
 #!/usr/bin/env python3
 """
-Script d'Ingestion ABox (DKG Cybersec - Phase 2).
-Lit : 12-Donnees/ABox_init/inventory.json
-Génère : 12-Donnees/ABox_init/ABox_Cybersec.ttl
-Conforme à : 11-Principes_Architecture/Specifications/SpecificationNormativeIngestionABox.md
+Ingesteur d'inventaires applicatifs et système vers l'ABox RDF (Phase 2).
+Lit des structures d'inventaires brutes et génère le graphe RDF mis à jour dans 12-Donnees/ABox_init/.
 """
 
 import json
-import time
 from pathlib import Path
-from rdflib import RDF, RDFS, OWL, XSD, Graph, Literal, Namespace
+from rdflib import Graph, Literal, Namespace, RDF, RDFS, OWL, XSD
 
-# Dynamic base path resolution
 BASE_DIR = Path(__file__).resolve().parent.parent
-INVENTORY_JSON = BASE_DIR / "12-Donnees" / "ABox_init" / "inventory.json"
-ABOX_OUT = BASE_DIR / "12-Donnees" / "ABox_init" / "ABox_Cybersec.ttl"
+TBOX_FILE = BASE_DIR / "12-Donnees" / "TBox_init" / "TBox_Cybersec.ttl"
+ABOX_DIR = BASE_DIR / "12-Donnees" / "ABox_init"
+OUTPUT_TTL = ABOX_DIR / "ABox_Cybersec.ttl"
+
+DKG = Namespace("http://dkg.cybersec.org/tbox#")
+DKG_INST = Namespace("http://dkg.cybersec.org/abox#")
 
 
-def ingest_inventory():
-    if not INVENTORY_JSON.exists():
-        raise FileNotFoundError(f"Fichier introuvable : {INVENTORY_JSON}")
-
-    # Charge l'inventaire JSON
-    with open(INVENTORY_JSON, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
+def ingest_inventory_data(inventory_json: str) -> Graph:
+    """Ingère un JSON d'inventaire et construit l'ABox correspondante."""
     g = Graph()
-
-    # Namespaces
-    DKG = Namespace("http://dkg.cybersec.org/tbox#")
-    ABOX = Namespace("http://dkg.cybersec.org/abox#")
+    if TBOX_FILE.exists():
+        g.parse(TBOX_FILE, format="turtle")
 
     g.bind("dkg", DKG)
-    g.bind("abox", ABOX)
-    g.bind("owl", OWL)
-    g.bind("rdfs", RDFS)
-    g.bind("xsd", XSD)
+    g.bind("dkg-inst", DKG_INST)
 
-    # Entête Ontologie ABox & Import TBox
-    abox_ont = ABOX[""]
-    g.add((abox_ont, RDF.type, OWL.Ontology))
-    g.add((abox_ont, OWL.imports, DKG[""]))
-    g.add(
-        (
-            abox_ont,
-            RDFS.label,
-            Literal("ABox Instance Graph - DKG Cybersec", lang="fr"),
-        )
-    )
-    g.add(
-        (
-            abox_ont,
-            RDFS.comment,
-            Literal(
-                f"Généré automatiquement par ingest_inventory.py le {time.ctime()}",
-                lang="fr",
-            ),
-        )
-    )
+    data = json.loads(inventory_json)
 
-    # Ingestion des Assets & Composants
-    assets = data.get("assets", [])
-    for asset in assets:
-        asset_id = asset["id"]
-        asset_uri = ABOX[asset_id]
+    for host in data.get("hosts", []):
+        asset_uri = DKG_INST[host["id"]]
+        g.add((asset_uri, RDF.type, DKG["Asset"]))
+        g.add((asset_uri, DKG["hostname"], Literal(host["hostname"], datatype=XSD.string)))
+        g.add((asset_uri, DKG["ipAddress"], Literal(host["ip"], datatype=XSD.string)))
 
-        # Instanciation Asset (dkg:Asset)
-        g.add((asset_uri, RDF.type, DKG.Asset))
-        if "label" in asset:
-            g.add((asset_uri, RDFS.label, Literal(asset["label"], lang="fr")))
+        for comp in host.get("components", []):
+            comp_uri = DKG_INST[comp["id"]]
+            g.add((comp_uri, RDF.type, DKG["SoftwareComponent"]))
+            g.add((comp_uri, DKG["componentName"], Literal(comp["name"], datatype=XSD.string)))
+            g.add((comp_uri, DKG["version"], Literal(comp["version"], datatype=XSD.string)))
 
-        # Propriétés spécifiques Asset
-        if "ip" in asset:
-            g.add(
-                (
-                    asset_uri,
-                    DKG.ipAddress,
-                    Literal(asset["ip"], datatype=XSD.string),
-                )
-            )
+            # Relations bidirectionnelles (TBox/RBox)
+            g.add((asset_uri, DKG["hasInstalledComponent"], comp_uri))
+            g.add((comp_uri, DKG["isComponentOf"], asset_uri))
 
-        # Traitement des logiciels installés
-        for sw in asset.get("installed_software", []):
-            sw_id = sw["id"]
-            sw_uri = ABOX[sw_id]
+            for cve in comp.get("vulnerabilities", []):
+                cve_uri = DKG_INST[cve["id"]]
+                g.add((cve_uri, RDF.type, DKG["Vulnerability"]))
+                g.add((cve_uri, DKG["cveId"], Literal(cve["id"], datatype=XSD.string)))
+                g.add((cve_uri, DKG["cvssScore"], Literal(float(cve["cvss"]), datatype=XSD.float)))
 
-            # Instanciation SoftwareComponent
-            g.add((sw_uri, RDF.type, DKG.SoftwareComponent))
-            if "label" in sw:
-                g.add((sw_uri, RDFS.label, Literal(sw["label"], lang="fr")))
-            if "version" in sw:
-                g.add(
-                    (
-                        sw_uri,
-                        DKG.version,
-                        Literal(sw["version"], datatype=XSD.string),
-                    )
-                )
-            if "cpe" in sw:
-                g.add(
-                    (
-                        sw_uri,
-                        DKG.cpeIdentifier,
-                        Literal(sw["cpe"], datatype=XSD.string),
-                    )
-                )
+                g.add((comp_uri, DKG["hasVulnerability"], cve_uri))
 
-            # Liaison Asset -> SoftwareComponent (dkg:hasInstalledComponent)
-            g.add((asset_uri, DKG.hasInstalledComponent, sw_uri))
+                if "cwe" in cve:
+                    cwe_uri = DKG_INST[cve["cwe"]]
+                    g.add((cwe_uri, RDF.type, DKG["Weakness"]))
+                    g.add((cve_uri, DKG["hasWeakness"], cwe_uri))
 
-            # Traitement des Vulnérabilités connues (déclarées locales)
-            for cve_id in sw.get("known_vulnerabilities", []):
-                vuln_uri = ABOX[cve_id]
-                g.add((vuln_uri, RDF.type, DKG.Vulnerability))
-                g.add(
-                    (
-                        vuln_uri,
-                        RDFS.label,
-                        Literal(f"Vulnérabilité {cve_id}", lang="fr"),
-                    )
-                )
-
-                # Liaison SoftwareComponent -> Vulnerability (dkg:hasVulnerability)
-                g.add((sw_uri, DKG.hasVulnerability, vuln_uri))
-
-    # Écriture forcée sur disque
-    ABOX_OUT.parent.mkdir(parents=True, exist_ok=True)
-    if ABOX_OUT.exists():
-        ABOX_OUT.unlink()
-
-    g.serialize(destination=ABOX_OUT, format="turtle")
-
-    mtime = time.ctime(ABOX_OUT.stat().st_mtime)
-    print(f"✓ ABox maître générée avec succès : {ABOX_OUT}")
-    print(f"  └─ Date de modification : {mtime}")
-    print(f"  └─ Nombre total de triplets RDF : {len(g)}")
+    return g
 
 
 if __name__ == "__main__":
-    ingest_inventory()
+    sample_inventory = """
+    {
+        "hosts": [
+            {
+                "id": "srv-proxy-01",
+                "hostname": "proxy01.corp.internal",
+                "ip": "10.0.0.1",
+                "components": [
+                    {
+                        "id": "haproxy-2.2.0",
+                        "name": "haproxy",
+                        "version": "2.2.0",
+                        "vulnerabilities": [
+                            {
+                                "id": "CVE-2021-40346",
+                                "cvss": 8.5,
+                                "cwe": "CWE-400"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    """
+    ABOX_DIR.mkdir(parents=True, exist_ok=True)
+    graph = ingest_inventory_data(sample_inventory)
+    graph.serialize(destination=OUTPUT_TTL, format="turtle")
+    print(f"✅ Ingestion effectuée et ABox enregistrée dans : {OUTPUT_TTL}")

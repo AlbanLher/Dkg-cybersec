@@ -1,5 +1,4 @@
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix dkg-inst: <http://dkg.cybersec.org/abox#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -64,59 +63,15 @@ dkg:version a owl:DatatypeProperty ;
     rdfs:domain dkg:SoftwareComponent ;
     rdfs:range xsd:string .
 
-dkg-inst:CVE-2021-23017 a dkg:Vulnerability ;
-    dkg:cveId "CVE-2021-23017"^^xsd:string ;
-    dkg:cvssScore "7.5"^^xsd:float ;
-    dkg:hasWeakness dkg-inst:CWE-193 .
-
-dkg-inst:CVE-2021-44228 a dkg:Vulnerability ;
-    dkg:cveId "CVE-2021-44228"^^xsd:string ;
-    dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:hasWeakness dkg-inst:CWE-502 .
-
-dkg-inst:CWE-193 a dkg:Weakness ;
-    rdfs:label "CWE-193: Off-by-one Error"@en .
-
-dkg-inst:CWE-502 a dkg:Weakness ;
-    rdfs:label "CWE-502: Deserialization of Untrusted Data"@en .
-
-dkg-inst:log4j-core-2.14.1 a dkg:SoftwareComponent ;
-    dkg:componentName "log4j-core"^^xsd:string ;
-    dkg:hasVulnerability dkg-inst:CVE-2021-44228 ;
-    dkg:isComponentOf dkg-inst:srv-web-01 ;
-    dkg:version "2.14.1"^^xsd:string .
-
-dkg-inst:nginx-1.18.0 a dkg:SoftwareComponent ;
-    dkg:componentName "nginx"^^xsd:string ;
-    dkg:hasVulnerability dkg-inst:CVE-2021-23017 ;
-    dkg:isComponentOf dkg-inst:srv-web-01 ;
-    dkg:version "1.18.0"^^xsd:string .
-
-dkg-inst:postgresql-13.2 a dkg:SoftwareComponent ;
-    dkg:componentName "postgresql"^^xsd:string ;
-    dkg:isComponentOf dkg-inst:srv-db-01 ;
-    dkg:version "13.2"^^xsd:string .
-
-dkg-inst:srv-db-01 a dkg:Asset ;
-    dkg:hasInstalledComponent dkg-inst:postgresql-13.2 ;
-    dkg:hostname "srv-db-01.corp.internal"^^xsd:string ;
-    dkg:ipAddress "192.168.1.51"^^xsd:string .
+dkg:Weakness a owl:Class ;
+    rdfs:label "Weakness"@en ;
+    rdfs:comment "Type de faiblesse logicielle sous-jacente (ex: CWE)."@fr .
 
 dkg:hasInstalledComponent a owl:ObjectProperty ;
     rdfs:label "hasInstalledComponent"@en ;
     rdfs:comment "Rattache un composant logiciel à un équipement."@fr ;
     rdfs:domain dkg:Asset ;
     rdfs:range dkg:SoftwareComponent .
-
-dkg-inst:srv-web-01 a dkg:Asset ;
-    dkg:hasInstalledComponent dkg-inst:log4j-core-2.14.1,
-        dkg-inst:nginx-1.18.0 ;
-    dkg:hostname "srv-web-01.corp.internal"^^xsd:string ;
-    dkg:ipAddress "192.168.1.50"^^xsd:string .
-
-dkg:Weakness a owl:Class ;
-    rdfs:label "Weakness"@en ;
-    rdfs:comment "Type de faiblesse logicielle sous-jacente (ex: CWE)."@fr .
 
 dkg:Asset a owl:Class ;
     rdfs:label "Asset"@en ;

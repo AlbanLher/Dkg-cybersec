@@ -1,31 +1,25 @@
-# Restitution Visuelle ABox - Cartographie des Instances SI
+# 📙 Rapport de l'ABox DKG Initialisée (TLP:AMBER)
 
-**Source :** `12-Donnees/ABox_init/ABox_Cybersec.ttl`  
-**Nombre de Triplets RDF :** 15
+> **Statut** : Instances de Référence Générées Automatiquement
+> **Namespace Instances** : `http://dkg.cybersec.org/abox#`
 
----
+## 📊 Métriques du Jeu d'Instances
 
-## 1. Topologie du SI Privé (Diagramme Mermaid.js)
+| Type d'Entité | Nombre d'Instances | Classe TBox Associée |
+| :--- | :--- | :--- |
+| **Assets** | 2 | `dkg:Asset` |
+| **Composants Logiciels** | 3 | `dkg:SoftwareComponent` |
+| **Vulnérabilités** | 2 | `dkg:Vulnerability` |
+
+## 🌐 Graphe d'Instances (Vue Synthétique)
 
 ```mermaid
 graph TD
-    classDef assetStyle fill:#1f77b4,color:#fff,stroke:#333,stroke-width:2px;
-    classDef softStyle fill:#2ca02c,color:#fff,stroke:#333,stroke-width:1px;
-    classDef vulnStyle fill:#d62728,color:#fff,stroke:#333,stroke-width:2px;
-    srv-web-01["🖥️ Serveur Web Production"]:::assetStyle
-    sw-nginx-1201["📦 NGINX Web Server"]:::softStyle
-    srv-web-01 -->|hasInstalledComponent| sw-nginx-1201
-    CVE-2021-23017["⚠️ CVE-2021-23017"]:::vulnStyle
-    sw-nginx-1201 -->|hasVulnerability| CVE-2021-23017
+    srv-web-01 -->|hasInstalledComponent| log4j-core-2.14.1
+    srv-web-01 -->|hasInstalledComponent| nginx-1.18.0
+    srv-db-01 -->|hasInstalledComponent| postgresql-13.2
+    log4j-core-2.14.1 -->|hasVulnerability| CVE-2021-44228
+    nginx-1.18.0 -->|hasVulnerability| CVE-2021-23017
+    CVE-2021-44228 -->|hasWeakness| CWE-502
+    CVE-2021-23017 -->|hasWeakness| CWE-193
 ```
-
----
-
-## 2. Inventaire Synthétique des Instances
-
-| Type DKG | Identifiant Instance (URI) | Libellé / Label |
-|---|---|---|
-| `Ontology` | `abox:` | ABox Instance Graph - DKG Cybersec |
-| `Asset` | `abox:srv-web-01` | Serveur Web Production |
-| `Vulnerability` | `abox:CVE-2021-23017` | Vulnérabilité CVE-2021-23017 |
-| `SoftwareComponent` | `abox:sw-nginx-1201` | NGINX Web Server |

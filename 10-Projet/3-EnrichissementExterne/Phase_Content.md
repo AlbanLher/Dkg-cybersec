@@ -1,3 +1,238 @@
+# 📌 Phase 3 : Enrichissement Externe du Knowledge Graph & Marquage TLP
+
+> **Statut** : Cadré / En cours de développement  
+> **Livrables principaux** : 
+> - Snapshot Phase 3 : `12-Donnees/ABox_enriched/`
+> - Master Consolidé TBox : `12-Donnees/Socle_TBox/`
+> - Master Consolidé ABox : `12-Donnees/Consolidation_ABox/`  
+> **Conformité** : Normes SPEC-03 (EXG-ENRICH-01 à EXG-ENRICH-05), TLP FIRST Standard v2.0 & Dépendance Phases 1 & 2
+
+---
+
+## 🎯 Objectifs de la Phase 3
+
+L'objectif de cette phase est double :
+1. **Enrichissement Sémantique Externe** : Rattacher les vulnérabilités et faiblesses aux référentiels publics **NVD** (CVSS v3.1, sévérité, descriptions) et **MITRE** (faiblesses CWE et patterns d'attaque `dkg:ThreatPattern` CAPEC).
+2. **Gouvernance & Confidentialité (TLP)** : Appliquer un marquage strict **Traffic Light Protocol (TLP)** sur l'ensemble des entités pour distinguer les données souveraines internes (`TLP:AMBER`) des données publiques réutilisables (`TLP:CLEAR`).
+
+---
+
+## 🏗️ Architecture des Répertoires : Dualité Snapshots vs. Cibles Consolidées
+
+Afin de concilier **l'auditabilité par phase** et la **simplicité d'exploitation pour les applications aval**, la Phase 3 alimente à la fois son sous-dossier d'étape et les deux registres masters du projet :
+
+```text
+12-Donnees/
+├── Socle_TBox/                  <--- Master TBox Canonique (Ontologie complète avec TLP & NVD/CAPEC)
+│   ├── DKG_TBox_Master.ttl
+│   └── DKG_TBox_Master.md
+├── Consolidation_ABox/          <--- Master ABox Canonique (Graphe consolidé prêt pour SPARQL / Phase 4)
+│   ├── DKG_ABox_Master.ttl
+│   └── DKG_ABox_Master.json
+│
+├── TBox_init/                   <--- Snapshot Historique Phase 1
+├── ABox_init/                   <--- Snapshot Historique Phase 2
+└── ABox_enriched/               <--- Snapshot Historique Phase 3
+```
+
+## 🛡️ Modèle TLP & Propriétés Capitalisées dans la TBox
+
+Toutes les propriétés d'enrichissement et de confidentialité sont désormais inscrites au niveau du **Socle TBox** :
+
+### 1. Marquage TLP (`dkg:TLPMarking`)
+
+- `TLP:CLEAR` : Attribué aux entités issues de référentiels publics (CVE, CWE, CAPEC).
+    
+- `TLP:AMBER` / `TLP:AMBER+STRICT` : Attribué aux équipements internes et à l'inventaire du SI (`dkg:Asset`, `dkg:SoftwareComponent`).
+    
+
+### 2. Attributs d'Enrichissement NVD & CAPEC
+
+- `dkg:cvssV3Vector` (`dkg:Vulnerability` ➔ `xsd:string`)
+    
+- `dkg:severityLabel` (`dkg:Vulnerability` ➔ `xsd:string`)
+    
+- `dkg:cveDescription` (`dkg:Vulnerability` ➔ `xsd:string`)
+    
+- `dkg:hasThreatPattern` (`dkg:Weakness` ➔ `dkg:ThreatPattern`)
+    
+- `dkg:hasTLPMarking` (`owl:Thing` ➔ `dkg:TLPMarking`)
+    
+- `dkg:lastEnrichedAt` (`owl:Thing` ➔ `xsd:dateTime`)
+    
+
+## 🛠️ Pipeline d'Exécution & Scripts (`13-Application/`)
+
+Séquence d'exécution : **`ingest#` ➔ `generate#` ➔ `test#`**
+
+### 1. Ingestion Référentiels Externes (`ingest_external_nvd_capec.py`)
+
+Lit l'ABox initiale (`12-Donnees/ABox_init/`) et interroge/charge les métadonnées NVD/CAPEC depuis le cache local déterministe (`12-Donnees/External_Cache/`).
+
+### 2. Génération & Consolidation Master (`generate_ABox_enrichie.py`)
+
+Génère le snapshot `12-Donnees/ABox_enriched/` ET synchronise les registres masters `12-Donnees/Socle_TBox/` et `12-Donnees/Consolidation_ABox/`.
+
+### 3. Suite de Tests Normatifs Phase 3 (`test_phase3_enrichment_spec.py`)
+
+Valide le taux de couverture CAPEC, l'exactitude des scores CVSS NVD et la présence systématique des marquages TLP.
+
+## 📊 Chaine d me Traçabilité et Confidentialité TLP
+
+
+
+```mermaid
+graph TD
+    subgraph Internes ["Système d'Information (TLP:AMBER)"]
+        Asset["dkg:Asset<br/>(srv-web-01)"]
+        Comp["dkg:SoftwareComponent<br/>(log4j-core-2.14.1)"]
+        TLP_Amber["dkg:TLPMarking<br/>(TLP:AMBER)"]
+
+        Asset -->|dkg:hasTLPMarking| TLP_Amber
+        Comp -->|dkg:hasTLPMarking| TLP_Amber
+        Asset -->|dkg:hasInstalledComponent| Comp
+    end
+
+    subgraph Publiques ["Référentiels Publics (TLP:CLEAR)"]
+        CVE["dkg:Vulnerability<br/>(CVE-2021-44228)"]
+        CWE["dkg:Weakness<br/>(CWE-502)"]
+        CAPEC["dkg:ThreatPattern<br/>(CAPEC-112)"]
+        TLP_Clear["dkg:TLPMarking<br/>(TLP:CLEAR)"]
+
+        CVE -->|dkg:hasTLPMarking| TLP_Clear
+        CWE -->|dkg:hasTLPMarking| TLP_Clear
+        CAPEC -->|dkg:hasTLPMarking| TLP_Clear
+
+        Comp -->|dkg:hasVulnerability| CVE
+        CVE -->|dkg:hasWeakness| CWE
+        CWE -->|dkg:hasThreatPattern| CAPEC
+    end
+```
+
+
+
+
+OLD2
+
+---
+
+
+# 📌 Phase 3 : Enrichissement Externe du Knowledge Graph (NVD, CWE, CAPEC)
+
+> **Statut** : Cadré / En cours de développement  
+> **Livrable principal** : Graphe ABox enrichi avec référentiels externes (`12-Donnees/ABox_enriched/`)  
+> **Conformité** : Normes SPEC-03 (EXG-ENRICH-01 à EXG-ENRICH-04) & Dépendance Phases 1 & 2
+
+---
+
+## 🎯 Objectifs de la Phase 3
+
+L'objectif de cette troisième phase est d'**enrichir sémantiquement les vulnérabilités et faiblesses** de l'ABox initiale (`12-Donnees/ABox_init/`) en les raccordant dynamiquement aux bases de connaissances publiques de cybersécurité :
+* **NVD (National Vulnerability Database)** : Scores CVSS v3.1, métriques de sévérité, descriptions officielles, vecteurs d'attaque.
+* **CWE (Common Weakness Enumeration)** : Titres canoniques, descriptions de faiblesses logicielle.
+* **CAPEC (Common Attack Pattern Enumeration and Classification)** : Raccordement des faiblesses aux modèles d'attaque connus (`dkg:ThreatPattern`).
+
+---
+
+## 🏗️ Spécifications Techniques & Normatives
+
+### 1. Sources Externe & Vocabulaires d'Alignement (`EXG-ENRICH-01`)
+* **Namespace TBox Master** : `dkg: <http://dkg.cybersec.org/tbox#>`
+* **Namespace ABox Master** : `dkg-inst: <http://dkg.cybersec.org/abox#>`
+* **Namespaces Externe d'Alignement** :
+  * NVD CVE : `http://nvd.nist.gov/vuln/detail/`
+  * MITRE CWE : `http://cwe.mitre.org/data/definitions/`
+  * MITRE CAPEC : `http://capec.mitre.org/data/style_sheets/`
+
+### 2. Nouvelles Entités & Alignements (`EXG-ENRICH-02`)
+* **`dkg:ThreatPattern`** : Instanciation des schémas d'attaque CAPEC (ex: `dkg-inst:CAPEC-112` pour *Query Injection*).
+* **Propriétés d'Enrichissement** :
+  * `dkg:hasThreatPattern` (`dkg:Weakness` ➔ `dkg:ThreatPattern`)
+  * `dkg:cvssV3Vector` (`dkg:Vulnerability` ➔ `xsd:string`)
+  * `dkg:cveDescription` (`dkg:Vulnerability` ➔ `xsd:string`)
+  * `dkg:severityLabel` (`dkg:Vulnerability` ➔ `xsd:string` - *CRITICAL, HIGH, MEDIUM, LOW*)
+
+### 3. Traçabilité & Provenance (`EXG-ENRICH-03` & `EXG-ENRICH-04`)
+* **Déterminisme & Cache Local** : Pour garantir des tests idempotents sans dépendance réseau aux APIs tierces lors des builds CI/CD, les réponses des APIs NVD/MITRE sont mises en cache ou simulées via un jeu de données miroir déterministe (`12-Donnees/External_Cache/`).
+* **Horodatage d'Enrichissement** : Chaque entité enrichie porte la métadonnée `dkg:lastEnrichedAt` (`xsd:dateTime`).
+
+---
+
+## 📁 Structure des Artefacts Générés (`12-Donnees/ABox_enriched/`)
+
+```text
+12-Donnees/ABox_enriched/
+├── ABox_Cybersec_enriched.ttl     # Graphe ABox enrichi complet (Turtle)
+├── ABox_Cybersec_enriched.json    # Transposition JSON-LD de l'ABox enrichie
+└── ABox_Cybersec_enriched.md      # Rapport d'enrichissement avec métriques, taux de couverture & Mermaid
+
+```
+
+
+## 🛠️ Pipeline d'Exécution & Scripts (`13-Application/`)
+
+Conformément à l'architecture standard du projet, le pipeline suit la séquence stricte : **`ingest#` ➔ `generate#` ➔ `test#`**
+
+```mermaid
+flowchart LR
+    A["12-Donnees/ABox_init/"] --> B["1. ingest_external_nvd_capec.py"]
+    B --> C["2. generate_ABox_enrichie.py"]
+    C --> D["12-Donnees/ABox_enriched/"]
+    D --> E["3. test_phase3_enrichment_spec.py"]
+```
+### 1. Ingestion des Référentiels (`ingest_external_nvd_capec.py`)
+
+Récupère/filtre les métadonnées CVE, CWE et CAPEC associées aux vulnérabilités identifiées dans l'ABox initiale.
+
+### 2. Génération de l'ABox Enrichie (`generate_ABox_enrichie.py`)
+
+Fusionne l'ABox initiale avec le graphe d'enrichissement NVD/MITRE, calcule le vecteur d'attaque complet jusqu'au `ThreatPattern` et génère le rapport Markdown avec diagramme Mermaid.
+
+### 3. Suite de Tests Normatifs Phase 3 (`test_phase3_enrichment_spec.py`)
+
+Valide la complétude de la chaîne d'enrichissement (`Asset` ➔ `Component` ➔ `CVE` ➔ `CWE` ➔ `CAPEC`), le typage strict des données ajoutées et la cohérence des scores CVSS.
+
+
+```mermaid
+graph TD
+    subgraph Phase1_2 ["Socle ABox Initiale (Phases 1 & 2)"]
+        Asset["dkg:Asset<br/>(srv-web-01)"]
+        Comp["dkg:SoftwareComponent<br/>(log4j-core-2.14.1)"]
+        CVE["dkg:Vulnerability<br/>(CVE-2021-44228)"]
+        CWE["dkg:Weakness<br/>(CWE-502)"]
+
+        Asset -->|dkg:hasInstalledComponent| Comp
+        Comp -->|dkg:hasVulnerability| CVE
+        CVE -->|dkg:hasWeakness| CWE
+    end
+
+    subgraph Phase3 ["Enrichissement Externe (Phase 3)"]
+        NVD_Data["NVD Attributes<br/>- CVSS Score: 10.0<br/>- Severity: CRITICAL<br/>- Vector: CVSS:3.1/AV:N/AC:L/..."]
+        CAPEC["dkg:ThreatPattern<br/>(CAPEC-112: Command Injection)"]
+
+        CVE -.-|Enrichi via NVD| NVD_Data
+        CWE -->|dkg:hasThreatPattern| CAPEC
+    end
+```
+
+## 📜 Glossaire des Propriétés d'Enrichissement
+
+| **Propriété**          | **Domaine**         | **Portée / Type**   | **Description / Exemple**                     |
+| ---------------------- | ------------------- | ------------------- | --------------------------------------------- |
+| `dkg:hasThreatPattern` | `dkg:Weakness`      | `dkg:ThreatPattern` | Lien vers un modèle d'attaque CAPEC           |
+| `dkg:cvssV3Vector`     | `dkg:Vulnerability` | `xsd:string`        | Vector String officiel NVD v3.1               |
+| `dkg:severityLabel`    | `dkg:Vulnerability` | `xsd:string`        | Niveau de sévérité (`CRITICAL`, `HIGH`, etc.) |
+| `dkg:cveDescription`   | `dkg:Vulnerability` | `xsd:string`        | Description textuelle issue du NVD            |
+| `dkg:lastEnrichedAt`   | `owl:Thing`         | `xsd:dateTime`      | Horodatage d'enrichissement externe           |
+
+
+----
+                            **OLD**
+
+----
+
+
+
 ### 2. Cadrage de la Phase 3 : Enrichissement Externe (RBox / Linking NVD & CWE)
 
 Après avoir défini le schéma (**TBox - Phase 1**) et instancié les équipements privés (**ABox - Phase 2**), 

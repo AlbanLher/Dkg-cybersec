@@ -1,12 +1,14 @@
 
 # Objectifs de la phase  : 
 
-initialiser le projet en construisant une première socle structurel TBox RBox  multiformat minimale correspondant aux cas d'usage 
+initialiser le projet en construisant une première socle structurel TBox-RBox  multiformat minimale correspondant aux cas d'usage 
+Le livrable générique correspond aux spécifications : [SPEC-01](../../11-Principes_Architecture/Specifications/SPEC-01_Norme_TBox_RBox.md)
 Une bonne partie des données sont en dur dans le premier script.
 Les phase suivantes viseront a mettre en place les outils d'évolution
 
-Cette premiere phase vise a ce que les partie prenantes puisssent accéder à la TBox grace a sa version md disponible [TBox_Human](../../12-Donnees/TBox_init/TBox_Cybersec.md)
-cette phase a été reprise suite au [REX-01](REX-01_rigueur_attendue_RDF-OWL.md) 
+Ce premier socle est disponible en " format dont 1 en markdown (.md) pour que les parties prenantes en garde le controle [TBox_Human](../../12-Donnees/TBox_init/TBox_Cybersec.md)
+
+Cette phase a été reprise suite au [REX-01](REX-01_rigueur_attendue_RDF-OWL.md)   
 
 
 # Bilan des Actions et Livrables

@@ -1,3 +1,46 @@
+_Initialisation & Peuplement de l'ABox (Graphe d'Instances)_
+
+
+initialiser le projet en construisant une première instance A_Box sur le socle précédent,  multiformat correspondant aux cas d'usage 
+Le livrable générique correspond aux spécifications : [SPEC-02](../../11-Principes_Architecture/Specifications/SPEC-02_Norme_Ingestion_ABox.md)
+Une bonne partie des données sont en dur dans le premier script.
+Les phase suivantes viseront a mettre en place les outils d'évolution
+
+Ce premier socle est disponible en " format dont 1 en markdown (.md) pour que les parties prenantes en garde le controle [ABox_Human](../../12-Donnees/ABox_init/ABox_Cybersec.md)
+
+Cette phase a été reprise suite au [REX-01](REX-01_rigueur_attendue_RDF-OWL.md)   
+
+
+
+
+les données sont étendue "hard_coded"
+- Des hôtes web et BDD (`srv-web-01`, `srv-db-01`).
+    
+- Des composants logiciels connus (`log4j-core-2.14.1`, `nginx-1.18.0`, `postgresql-13.2`).
+    
+- Des vulnérabilités majeures (`CVE-2021-44228` / Log4Shell, `CVE-2021-23017`).
+    
+- Des faiblesses CWE associées (`CWE-502`, `CWE-193`).
+- 
+
+## 📌 Traçabilité & Provenance des Données ABox
+
+### 1. Jeu de Données de Référence (Gold Dataset)
+Afin d'assurer des tests de non-régression reproductibles (idempotence) entre la Phase 1 et la Phase 2, les instances initiales générées dans `12-Donnees/ABox_init/` sont déterministes.
+
+* **Mode de Génération** : Statique et Déterministe (sans aléatoire).
+* **Source de Référence** : `generate_ABox_initiale.py` (Modèle d'infrastructure canonique multi-tiers : Serveur Web + BDD).
+* **Ingestion Dynamique** : `ingest_inventory_abox.py` (Projection d'inventaires au format JSON/CMDB vers le graphe ABox).
+
+### 2. Composition du Jeu d'Instances Initial
+* **Infrastructure** : `srv-web-01` (Front-end Web), `srv-db-01` (Base de données BDD).
+* **Composants applicatifs** : `log4j-core-2.14.1`, `nginx-1.18.0`, `postgresql-13.2`.
+* **Vecteurs de vulnérabilités** : `CVE-2021-44228` (Log4Shell / `CWE-502`), `CVE-2021-23017` (Nginx / `CWE-193`).
+
+### 3. Garanties d'Idempotence
+Toute ré-exécution du pipeline (`ingest#` ➔ `generate#` ➔ `test#`) régénère de manière strictement identique les fichiers Turtle, JSON-LD et Markdown dans `12-Donnees/ABox_init/`, garantissant la stabilité de la suite d'intégration `test_phase2_abox_spec.py`.
+
+
 ### 1. Périmètre de la Phase 2 : Ce que l'on FAIT vs Ce que l'on NE FAIT PAS
 
 | **Domaine**                        | **IN (Inclus dans la Phase 2)**                                                                                      | **OUT (Repoussé à une étape ultérieure)**                                                                                      |
@@ -59,15 +102,15 @@ Comme en Phase 1, nous conserverons une architecture explicite et modulaire dans
 
 ### 3.  Bilan des Actions et Livrables
 
-| Action                                       | livrable                            | Localisation   | Commentaire       |                       |
-| -------------------------------------------- | ----------------------------------- | -------------- | ----------------- | --------------------- |
-| Mise en place de la specification de la ABox | SpecificationNormativeIngestionABox | 10-/2-/        | Fait a consolider | 🟢 Terminée / Validée |
-| Génération d'un fichier syntetique           | `ìnventory.json`                    | 12-/ABox_init/ | fait              | 🟢 Terminée / Validée |
-| test les exigences                           | `test_ABox_spec.py`                 | 13-/           | fait              | 🟢 Terminée / Validée |
-|                                              | `ingest_inventory_abox.py`          | 13-/           | fait              | 🟢 Terminée / Validée |
-|                                              | `generate_ABox_initiale.py`         | 13-/           | fait              | 🟢 Terminée / Validée |
-|                                              |                                     |                |                   |                       |
-|                                              |                                     |                |                   |                       |
-|                                              |                                     |                |                   |                       |
+| Action                                       | livrable                               | Localisation   | Commentaire       |                       |
+| -------------------------------------------- | -------------------------------------- | -------------- | ----------------- | --------------------- |
+| Mise en place de la specification de la ABox | SPEC-02_Norme_Ingestion_ABox.md        | 10-/2-/        | Fait a consolider | 🟢 Terminée / Validée |
+| Génération d'un fichier syntetique           | `ìnventory.json`                       | 12-/ABox_init/ | fait              | 🟢 Terminée / Validée |
+| test les exigences                           | `test_phase3_referentiel_nvd_spec.py ` | 13-/           | fait              | 🟢 Terminée / Validée |
+|                                              | `ingest_inventory_abox.py`             | 13-/           | fait              | 🟢 Terminée / Validée |
+|                                              | `generate_ABox_initiale.py`            | 13-/           | fait              | 🟢 Terminée / Validée |
+|                                              |                                        |                |                   |                       |
+|                                              |                                        |                |                   |                       |
+|                                              |                                        |                |                   |                       |
 
 - 
