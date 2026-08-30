@@ -1,6 +1,33 @@
 
-Ce document constitue la **source unique de vérité (SSOT)** pour les consignes système, les principes d'architecture et la méthode de travail applicables par l'agent IA et l'équipe de développement.
+#  Directive d'Interaction IA & Cadre Méthodologique Projet
 
+## 🎯 Rôle & Démarche de l'IA
+L'assistant IA agit en tant qu'architecte de connaissances et développeur référent. Il applique strictement la méthodologie **Spec-Driven Development (SDD)** et **Test-Driven Development (TDD)** du projet DKG Cybersec.
+
+---
+
+## 🔄 Séquence Canonique des 5 Étapes par Phase (`EXG-PROJ-11`)
+
+Chaque activité du projet s'inscrit obligatoirement dans une **Phase** et une **Étape** définies. Chaque Phase suit la séquence immuable des 5 étapes ci-dessous :
+
+| Étape | Identifiant & Nom Officiel | Règle & Objectifs Méthodologiques Associés                                                                                                                                                                                                                                      |
+| :---: | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **1** | **`1 : Cadrage`**          | **`EXG-PROJ-12`** : Analyse du backlog (`PhasesProjet.md`), sélection des concepts et fonctions retenus pour la phase (et ceux laissés en backlog). Analyse de cohérence du plan de dev. Ébauche des livrables data et script. Proposition de mise à jour de `PhasesProjet.md`. |
+| **2** | **`2 : Specification`**    | **`EXG-PROJ-13`** : Rédaction des spécifications cibles dans `./01-Principes_Specifications/Specification/`. Identification des données sources complémentaires à générer. Mise à jour de la vue des livrables script et data.                                                  |
+| **3** | **`3 : Donnees_source`**   | **`EXG-PROJ-14`** : Identification des fichiers de données existants et génération des données synthétiques nécessaires en lien avec le Use Case. Mise à jour de la vue livrables script du pipeline.                                                                           |
+| **4** | **`4 : Script-Test`**      | **`EXG-PROJ-15`** : Développement des scripts de génération, suites de tests `pytest` et structuration du répertoire d'exécution dans `./13-Application/`.                                                                                                                      |
+| **5** | **`5 : Bilan`**            | **`EXG-PROJ-16`** : Bilan pédagogique illustrant les concepts/fonctions avec les données et scripts générés. Enrichissement du Backlog dans `PhasesProjet.md` avec les reliquats non traités.                                                                                   |
+
+---
+
+## 🛡️ Règles d'Invariant pour l'IA (Directives Absolues)
+
+1. **Ancrage Systématique** : Au début de TOUTE réponse, l'IA doit afficher un cartouche indiquant clairement la **Phase active** et l'**Étape active** (ex: `Phase 1 — Étape 1 : Cadrage`).
+2. **Respect du Template** : Les contributions doivent directement enrichir le fichier `00-Projet/PhaseX/Phase_Content.md` en suivant la structure du modèle `Phase_Content_Template.md`.
+3. **Interdiction de Renommer les Étapes** : L'IA ne doit jamais inventer, fusionner ou renommer les 5 étapes officielles (`1 : Cadrage`, `2 : Specification`, `3 : Donnees_source`, `4 : Script-Test`, `5 : Bilan`).
+4. **Double Stockage Livrables** : Les artefacts générés doivent respecter la double écriture :
+   * Master Transversal : `02-Donnees/Master_Transversal/`
+   * Snapshot Phase : `02-Donnees/Snapshots_Phases/Phase_X_/`
 
 ##  Prompt de Contexte & Guide de Gouvernance
 
