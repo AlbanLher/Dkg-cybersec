@@ -1,0 +1,693 @@
+[
+  {
+    "@id": "http://dkg.cybersec.org/tbox#componentName",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Nom du produit logiciel."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "componentName"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#log4j-core-2.14.1",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#SoftwareComponent"
+    ],
+    "http://dkg.cybersec.org/tbox#componentName": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "log4j-core"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#hasVulnerability": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#CVE-2021-44228"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#isComponentOf": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#srv-web-01"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#version": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "2.14.1"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#hasWeakness",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "hasWeakness"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Weakness"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#CVE-2021-23017",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#Vulnerability"
+    ],
+    "http://dkg.cybersec.org/tbox#cveDescription": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "A 1-byte memory write overflow in Nginx resolver allows a remote attacker to cause denial of service or execution of arbitrary code."
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#cveId": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "CVE-2021-23017"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#cvssScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "7.5"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#cvssV3Vector": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#hasWeakness": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#CWE-193"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#lastEnrichedAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2026-08-28T19:28:30.428694+00:00"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#severityLabel": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "HIGH"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#CVE-2021-44228",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#Vulnerability"
+    ],
+    "http://dkg.cybersec.org/tbox#cveDescription": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "Apache Log4j2 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints."
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#cveId": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "CVE-2021-44228"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#cvssScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "10.0"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#cvssV3Vector": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#hasWeakness": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#CWE-502"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#lastEnrichedAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2026-08-28T19:28:30.428694+00:00"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#severityLabel": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "CRITICAL"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#Asset",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Équipement ou ressource de l'infrastructure informatique (ex: serveur, VM)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "Asset"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#CAPEC-112",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#ThreatPattern"
+    ],
+    "http://dkg.cybersec.org/tbox#lastEnrichedAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2026-08-28T19:28:30.428694+00:00"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#patternDescription": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "An attacker leverages uncontrolled deserialization to inject arbitrary system commands."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "CAPEC-112: Command Injection"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#Vulnerability",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Vulnérabilité ou faille de sécurité identifiée (ex: CVE)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "Vulnerability"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#CWE-193",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#Weakness"
+    ],
+    "http://dkg.cybersec.org/tbox#hasThreatPattern": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#CAPEC-14"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#lastEnrichedAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2026-08-28T19:28:30.428694+00:00"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "CWE-193: Off-by-one Error"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#srv-web-01",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#Asset"
+    ],
+    "http://dkg.cybersec.org/tbox#hasInstalledComponent": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#log4j-core-2.14.1"
+      },
+      {
+        "@id": "http://dkg.cybersec.org/abox#nginx-1.18.0"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#hostname": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "srv-web-01.corp.internal"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#ipAddress": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "192.168.1.50"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#ipAddress",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Adresse IP principale."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Asset"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "ipAddress"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#hasVulnerability",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "hasVulnerability"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Composant logiciel ou brique applicative installée sur un Asset (ex: NGINX, OpenSSL)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "SoftwareComponent"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Ontology"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "TBox & RBox Stricte : définitions des classes, propriétés et relations."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "fr",
+        "@value": "Ontologie DKG Cybersec - Socle Structurel"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#isComponentOf",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "isComponentOf"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Asset"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#inverseOf": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#hasInstalledComponent"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#nginx-1.18.0",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#SoftwareComponent"
+    ],
+    "http://dkg.cybersec.org/tbox#componentName": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "nginx"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#hasVulnerability": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#CVE-2021-23017"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#isComponentOf": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#srv-web-01"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#version": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "1.18.0"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#ThreatPattern",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Modèle d'attaque ou pattern d'exploitation (ex: CAPEC)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "ThreatPattern"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#postgresql-13.2",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#SoftwareComponent"
+    ],
+    "http://dkg.cybersec.org/tbox#componentName": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "postgresql"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#isComponentOf": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#srv-db-01"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#version": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "13.2"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#Weakness",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Type de faiblesse logicielle sous-jacente (ex: CWE)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "Weakness"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#cvssScore",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Score CVSS v3/v4 de gravité."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "cvssScore"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#float"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#srv-db-01",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#Asset"
+    ],
+    "http://dkg.cybersec.org/tbox#hasInstalledComponent": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#postgresql-13.2"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#hostname": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "srv-db-01.corp.internal"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#ipAddress": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "192.168.1.51"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#hasInstalledComponent",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Rattache un composant logiciel à un équipement."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Asset"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "hasInstalledComponent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#CAPEC-14",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#ThreatPattern"
+    ],
+    "http://dkg.cybersec.org/tbox#lastEnrichedAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2026-08-28T19:28:30.428694+00:00"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#patternDescription": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#string",
+        "@value": "An attacker forces an off-by-one calculation error leading to adjacent memory corruption."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "CAPEC-14: Far Side Off-by-One Buffer Overflow"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/abox#CWE-502",
+    "@type": [
+      "http://dkg.cybersec.org/tbox#Weakness"
+    ],
+    "http://dkg.cybersec.org/tbox#hasThreatPattern": [
+      {
+        "@id": "http://dkg.cybersec.org/abox#CAPEC-112"
+      }
+    ],
+    "http://dkg.cybersec.org/tbox#lastEnrichedAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2026-08-28T19:28:30.428694+00:00"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "CWE-502: Deserialization of Untrusted Data"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#hostname",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Nom d'hôte de l'équipement."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Asset"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "hostname"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#version",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Version spécifique du composant."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#SoftwareComponent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "version"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://dkg.cybersec.org/tbox#cveId",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "fr",
+        "@value": "Identifiant canonique CVE."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://dkg.cybersec.org/tbox#Vulnerability"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "cveId"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  }
+]

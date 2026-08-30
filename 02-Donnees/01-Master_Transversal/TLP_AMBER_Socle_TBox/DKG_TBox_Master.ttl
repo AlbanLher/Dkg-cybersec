@@ -1,0 +1,90 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:componentName a owl:DatatypeProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string .
+
+dkg:cveDescription a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string .
+
+dkg:cveId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string .
+
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float .
+
+dkg:cvssV3Vector a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string .
+
+dkg:hasTLPMarking a owl:ObjectProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range dkg:TLPMarking .
+
+dkg:hasThreatPattern a owl:ObjectProperty ;
+    rdfs:domain dkg:Weakness ;
+    rdfs:range dkg:ThreatPattern .
+
+dkg:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Vulnerability .
+
+dkg:hasWeakness a owl:ObjectProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness .
+
+dkg:hostname a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string .
+
+dkg:ipAddress a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string .
+
+dkg:isComponentOf a owl:ObjectProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Asset ;
+    owl:inverseOf dkg:hasInstalledComponent .
+
+dkg:lastEnrichedAt a owl:DatatypeProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:dateTime .
+
+dkg:patternDescription a owl:DatatypeProperty ;
+    rdfs:domain dkg:ThreatPattern ;
+    rdfs:range xsd:string .
+
+dkg:severityLabel a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string .
+
+dkg:tlpColor a owl:DatatypeProperty ;
+    rdfs:domain dkg:TLPMarking ;
+    rdfs:range xsd:string .
+
+dkg:version a owl:DatatypeProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string .
+
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range dkg:SoftwareComponent .
+
+dkg:TLPMarking a owl:Class .
+
+dkg:ThreatPattern a owl:Class .
+
+dkg:Weakness a owl:Class .
+
+dkg:Asset a owl:Class .
+
+dkg:SoftwareComponent a owl:Class .
+
+dkg:Vulnerability a owl:Class .
+
