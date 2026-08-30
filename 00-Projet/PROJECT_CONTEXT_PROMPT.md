@@ -31,7 +31,14 @@ Chaque activité du projet s'inscrit obligatoirement dans une **Phase** et une *
    * Produisent les données source synthétiques/réelles et les script permettant cette instanciation (Classes/Relations du domaine).
 
 
----
+
+## 🔁 Amélioration Continue & Directives de Transition (KAIZEN)
+
+1. **Gate Check inter-étapes** : Interdiction de valider une étape sans confirmation formelle du respect des exigences de l'étape active.
+2. **Découplage Strict** : Garantie d'indépendance absolue entre le Framework Générique (Spécifications Étape 2) et l'Instanciation Métier (Données/Scripts Étapes 3 et 4).
+3. **Alimentation Dynamique du Backlog** : Capture systématique des écarts et ajustements méthodologiques lors de l'Étape 5 (Bilan).
+
+
 
 ## 🛡️ Règles d'Invariant pour l'IA (Directives Absolues)
 
