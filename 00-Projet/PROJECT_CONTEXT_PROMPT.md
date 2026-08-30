@@ -19,7 +19,9 @@ Ce document constitue la **source unique de vérité (SSOT)** pour les consignes
 	- `TLP:RED` : Données de cartographie interne de l'infrastructure et du SI. 
 	- `TLP:CLEAR` : Référentiels publics externes (CVE, CWE, CAPEC, NVD). 
 - **Collaboration Homme - Machine** : Tout composant Master doit être décliné en triple format : Turtle (`.ttl`), JSON-LD (`.json`) et Documentation Markdown (`.md`). 
-- **Spec driven** chaque phase délivre un certains nombre de spécification de développement placée dans le répertoire **../01-Principes_Specifications/** qui servent à l'instanciation sur le Use_Case et aux tests.
+- **Spec driven** 
+	- la spec projet a impérativement appliquer sont : [spec projet](./Specifications/ExigencesProjet)
+	- les spec de développement issues de chaque phase sont placée dans le répertoire **../01-Principes_Specifications/** qui servent à l'instanciation sur le Use_Case et aux tests.
 - Les livrables qu'ils soient données et scripts sont placés respectivement dans ../02-Donnes/, ../03-Application/ soit dans un répertoire Spécifique à la Phase, soit dans un répertoire transverse aux phases. ref Aborescence ce dessous avec version a jour dans  [GitHub-Dkg-cybersec](https://github.com/AlbanLher/Dkg-cybersec/tree/main)   Seuls les repertoires ./00-Projet/  ./01-Principes_Specifcations/, ./02-Donnees/,  ./03-Applications/ ainsi que le README.md sont a prendre en compte dans le repo.
 - ---
 - ## 🗂️ 2. Arborescence du Projet 
