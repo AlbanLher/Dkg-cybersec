@@ -24,7 +24,7 @@
 ---
 ## 🛡️ 2. Exigences Projet-Phases-Etapes (EXG-PROJ)
 
-* **`EXG-PROJ-11` (Etapes)** : Toutes activité doit identifier la phase ainsi que l'étape de la Phase. Les étapes sont : ( Cadrage, Specification, Donnees_source, Script-Test, Bilan )
+* **`EXG-PROJ-11` (Etapes)** : Toutes activité doit identifier la phase ainsi que l'étape de la Phase. Les étapes sont : ( Cadrage, Specification, Donnees_source, Script-Test, Bilan ).  le cadre de cette activité contribue au contenu d'une phase décrite dans une instance du [template](../../Phase_Content_Template.md)  
   **`EXG-PROJ-12` (Livrables Etapes Cadrage)** : A intégrer dans le fichier PhaseContent:  Analyse du backlog listé dans ./00-Projet/PhaseProjet.md et liste des concept et fonctions selectionnées pour la phase avec analyse de cohérence sur le plan de développement.  Structure des spécifications attendues, première vue des livrables data et script du pipeline.  Mise a jour du fichier ./00-Projet/PhaseProjet.md indiquant les principes et fonctions associés à la phase ainsi que ceux laissé dans le backlog
 * **`EXG-PROJ-13` (Livrables Etapes Specification)** : A intégrer dans le fichier PhaseContent:  Lien vers les SPEC-XX dans ./01-Principes_Specifications/. Liste des Données complémentaires a synthetiser si besoin.  Mise a jour de la vue livrables data et script du pipeline.
 * **`EXG-PROJ-14` (Livrables Etapes Données_sources)** : A intégrer dans le fichier PhaseContent:  identification des fichiers Donnees dans ./02-Donnees/ et proposition de mise a jour du ./Projet/Use_Case.md.  Mise a jour de la vue livrables script du pipeline. 
