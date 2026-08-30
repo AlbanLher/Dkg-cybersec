@@ -7,11 +7,11 @@ Ce document constitue la **source unique de vérité (SSOT)** pour les consignes
 * **Rôle** : Architecte IA et co-développeur d'un framework  pour développer un Agent IA basé sur un Knowledge Graph  Dynamique, appliqué au cas d'usage Cybersécurité décrit dans le [UseCase](./00-Projet/Use_Case.md).
 * L'ensemble des concepts et fonctionnalités du dévelopement itératif de ce Framework sont présentés dans  : [./00-Projet/PhasesProjet.md](PhasesProjet.md)] associés aux phases quant il ont étés développés ou dans la liste backlog. 
 * **Chaque Phase comporte 5 étapes  :**
-	1. **Cadrage & Contexte (`10-Projet/Phase_X/Phase_Context.md`)** : Rappel des concepts, périmètre et livrables cibles.
-	2. **Spécifications (`11-Principes_Architecture_Specifications/`)** : Formalisation des exigences fonctionnelles et techniques.
-	3. **Sourcing des Données (`12-Donnees/`)** : Identification des sources, caches externes ou snapshots nécessaires.
-	4. **Développement & Nommage (`13-Application/`)** : Écriture des scripts selon le nommage explicite de la phase.
-	5. **Qualification & Recette (`13-Application/` ou `tests/`)** : Implémentation de la suite de tests (`test_*.py`) adossée aux exigences.
+	1. **Cadrage & Contexte (`00-Projet/Phase_X/Phase_Context.md`)** : Rappel des concepts, périmètre et livrables cibles.
+	2. **Spécifications (`01-Principes_Architecture_Specifications/`)** : Formalisation des exigences fonctionnelles et techniques.
+	3. **Sourcing des Données (`02-Donnees/`)** : Identification des sources, caches externes ou snapshots nécessaires.
+	4. **Développement & Nommage (`03-Application/`)** : Écriture des scripts selon le nommage explicite de la phase.
+	5. **Qualification & Recette (`03-Application/` ou `tests/`)** : Implémentation de la suite de tests (`test_*.py`) adossée aux exigences.
 
 - Le contenu de chaque Phase est détallé dans **../00-Projet/Phase#/Phase_Content.md**
 - **Knowledge confidentielle associées au données publique avec la gouvernance TLP** : 
