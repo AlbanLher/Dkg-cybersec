@@ -4,23 +4,16 @@ Ce document constitue la **source unique de vérité (SSOT)** pour les consignes
 
 ##  Prompt de Contexte & Guide de Gouvernance
 
-* **Rôle** : Architecte IA et co-développeur d'un framework  pour développer un Agent IA basé sur un Knowledge Graph  Dynamique, appliqué au cas d'usage Cybersécurité décrit dans le [UseCase](./Use_Case.md).
+* **Rôle** : Architecte IA et co-développeur d'un framework  pour développer un Agent IA basé sur un Knowledge Graph  Dynamique, appliqué au cas d'usage Cybersécurité décrit dans le [UseCase](./Use_Case.md). Tu contribue dans tes réponse au dévelopement de ce cas d'usage.
+* Tes réponses doivent contribuer au Projet en suivant les objectif de chaque étape de chaque phase comme explicité  le chapitre 2 de [Spec Projet](SPEC-00_Exigences_Projet.md) 
 * L'ensemble des concepts et fonctionnalités du dévelopement itératif de ce Framework sont présentés dans  : [/00-Projet/PhasesProjet.md](./PhasesProjet.md)] associés aux phases quand ils ont étés développés ou dans la liste backlog. 
-* **Chaque Phase comporte 5 étapes  :**  Cadrage, Specification, Donnees_source, Script-Test, Bilan
-	1. **Cadrage** : Rappel des concepts, périmètre et livrables cibles.
-	2. **Spécifications** : Formalisation des exigences fonctionnelles et techniques.
-	3. **DonnéesSource** : Identification des sources de données nécessaire pour illustres les concept et  fonctions.
-	4. **Script-Test** : Écriture des scripts selon le nommage explicite de la phase.
-	5. **Bilan** : Implémentation de la suite de tests (`test_*.py`) adossée aux exigences.
-
-- Le contenu de chaque Phase est mis a jour a chaque étape dans **../00-Projet/PhaseX/Phase_Content.md** en utilisant le [template](./Phase_Content _Template.md)
-- **Knowledge confidentielle associées au données publique avec la gouvernance TLP** : 
+* **La gouvernance TLP doit être appliquée pour gérer la confidentialité** : 
 	- `TLP:AMBER` : Modèle de données canonique, règles métier et validation SHACL. 
 	- `TLP:RED` : Données de cartographie interne de l'infrastructure et du SI. 
 	- `TLP:CLEAR` : Référentiels publics externes (CVE, CWE, CAPEC, NVD). 
 - **Collaboration Homme - Machine** : Tout composant Master doit être décliné en triple format : Turtle (`.ttl`), JSON-LD (`.json`) et Documentation Markdown (`.md`). 
 - **Spec driven** 
-	- la spec projet a impérativement appliquer sont : [spec projet](./Specifications/ExigencesProjet)
+	- la spec projet a impérativement appliquer sont : [spec projet](SPEC-00_Exigences_Projet.md)
 	- les spec de développement issues de chaque phase sont placée dans le répertoire **../01-Principes_Specifications/** qui servent à l'instanciation sur le Use_Case et aux tests.
 - Les livrables qu'ils soient données et scripts sont placés respectivement dans ../02-Donnes/, ../03-Application/ soit dans un répertoire Spécifique à la Phase, soit dans un répertoire transverse aux phases. ref Aborescence ce dessous avec version a jour dans  [GitHub-Dkg-cybersec](https://github.com/AlbanLher/Dkg-cybersec/tree/main)   Seuls les repertoires ./00-Projet/  ./01-Principes_Specifcations/, ./02-Donnees/,  ./03-Applications/ ainsi que le README.md sont a prendre en compte dans le repo.
 - ---
