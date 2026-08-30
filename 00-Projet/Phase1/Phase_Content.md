@@ -1,11 +1,148 @@
 
----
-***Phase 1 : Socle Canonique & Contrat de Qualité (TBox / RBox / SHACL)***
+# 📘 Document de Phase : Phase 1 — Socle Modèle Canonique & Qualité (TBox / RBox / SHACL)
 
-> **Classification** : `TLP:AMBER`  
-> **Répertoire Snapshot** : `02-Donnees/Snapshots_Phases/Phase_1_TBox_Socle/`  
-> **Répertoire Master** : `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`  
-> **Statut** : Cadrage Méthodologique Validé
+> **Fichier** : `00-Projet/Phase1/Phase_Content.md`  
+> **Classification TLP** : `TLP:AMBER`  
+> **Phase** : Phase 1 — Initialisation Socle Modèle Canonique & Qualité  
+> **Étape Actuelle** : Étape 1 : Cadrage (`EXG-PROJ-12`)  
+> **Répertoire Code** : `13-Application/Phase_1_Socle/`  
+> **Répertoires Données Cibles** :
+> * Master Transversal : `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`
+> * Snapshot Phase 1 : `02-Donnees/Snapshots_Phases/Phase_1_Socle/`
+
+---
+
+## 🎯 1. Analyse du Backlog & Sélection des Concepts / Fonctions (Étape 1 - Cadrage)
+
+Conformément à `EXG-PROJ-12`, cette étape analyse le backlog général pour retenir les concepts et fonctions d'initialisation du socle :
+
+### 🟢 Concepts & Fonctions retenus pour la Phase 1 :
+* **TBox (Terminology Box)** : Modélisation des classes de base (`Asset`, `SoftwareComponent`, `Vulnerability`, `Weakness`, `ThreatPattern`, `TLPMarking`) et de leurs propriétés de types de données (Datatypes).
+* **RBox (Relationship Box)** : Définition des propriétés d'objets, typologies de relations et relations inverses (ex: `hasInstalledComponent` ↔ `isComponentOf`, `hasVulnerability`, `hasWeakness`).
+* **SHACL (Shapes Constraint Language)** : Validation des contraintes de structure et de typage sous Closed World Assumption (CWA) dans un cas simple (validation IP, bornes CVSS 0.0–10.0, typage strict).
+* **Documentation & Restitution** : Génération human-readable (`SPEC-01`) avec glossaire des acronymes et diagramme Mermaid.
+
+### 🔴 Concepts & Fonctions laissés dans le Backlog (Phases Ultérieures) :
+* Instanciation des données ABox et peuplement interne ➡️ **Phase 2**
+* Enrichissement par sources externes & Marquage de Gouvernance TLP complet ➡️ **Phase 3**
+* Requêtage SPARQL/Cypher, Base Graphe Neo4j, NER Hybride, Embeddings, RAG & Fine-Tuning ➡️ **Phase 4 (Backlog)**
+
+---
+
+## 📐 2. Analyse de Cohérence & Structure des Spécifications Attendues
+
+* **Spécification Cible** : `SPEC-01` (Norme TBox & RBox, restitution Markdown human-readable, Mermaid & Acronymes).
+* **Découpage des spécifications** :
+  1. Modèle TBox/RBox au format Turtle (`.ttl`) et JSON-LD (`.json`).
+  2. Modèle SHACL (`shapes_abox.ttl`) pour la qualification d'intégrité.
+  3. Spécification documentaire Markdown (`.md`) pour la pédagogie et la compréhension des enjeux du socle.
+
+---
+
+## 📦 3. Ébauche des Livrables Data et Script du Pipeline
+
+### Livrable Data (Socle & Snapshots) :
+* `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.ttl`
+* `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.json`
+* `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.md`
+* `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/shapes_abox.ttl`
+* *(Et leurs répliques miroir dans `02-Donnees/Snapshots_Phases/Phase_1_Socle/`)*
+
+### Livrables Scripts Pipeline (Code & Test) :
+* `13-Application/Phase_1_Socle/generate_phase1_socle.py` : Script de génération du triptyque TBox/RBox/SHACL.
+* `13-Application/Phase_1_Socle/test_phase1_quality.py` : Suite de validation `pytest` (conformité SHACL sous CWA, complétude TBox, validation `SPEC-01`).
+
+---
+
+## 📝 4. Proposition de Mise à Jour du Fichier `PhasesProjet.md`
+
+Mise à jour du tableau de suivi des phases :
+* **Phase 1** : Statut passant à `En Cours (Étape 1 : Cadrage validée)`.
+* **Périmètre validé Phase 1** : TBox (Datatypes), RBox (Relations & Inverses), SHACL simple.
+* **Backlog Phase 2+** : ABox, Sources Externes, Neo4j, LLM/RAG.
+
+---
+
+
+# 📘 Document de Phase : Phase 1 — Socle Modèle Canonique & Qualité
+
+> **Fichier** : `00-Projet/Phase1/Phase_Content.md`  
+> **Classification TLP** : `TLP:AMBER`  
+> **Phase** : Phase 1 — Initialisation Socle Modèle Canonique & Qualité  
+> **Étape Actuelle** : Étape 2 : Specification (`EXG-PROJ-13`)  
+> **Spécification Rattachée** : `./01-Principes_Specifications/Specification/SPEC-01_TBox_RBox_SHACL.md`
+
+---
+
+## 📄 1. Contenu des Spécifications Cibles (Spécification `SPEC-01`)
+
+Conformément à `EXG-PROJ-13`, l'Étape 2 définit le contenu détaillé de la spécification **`SPEC-01`** qui gouverne la modélisation du socle canonique.
+
+### 1.1 Norme de Modélisation TBox / RBox (OWL)
+* **Ontologie Canonique** : URI de base `<http://dkg.cybersec/ontology/v1#>`
+* **Classes TBox principales** :
+  * `Asset` : Actif du système d'information.
+  * `SoftwareComponent` : Composant logiciel ou brique applicative.
+  * `Vulnerability` : Vulnérabilité (ex: entrée CVE).
+  * `Weakness` : Faiblesse logicielle sous-jacente (ex: CWE).
+  * `ThreatPattern` : Motifs d'attaque ou techniques (ex: CAPEC/ATT&CK).
+  * `TLPMarking` : Marquage de gouvernance et de confidentialité TLP (`TLP:CLEAR`, `TLP:GREEN`, `TLP:AMBER`, `TLP:RED`).
+* **Propriétés RBox & Inverses** :
+  * `hasInstalledComponent` (Domain: `Asset`, Range: `SoftwareComponent`) ↔ Inverse : `isComponentOf`
+  * `hasVulnerability` (Domain: `SoftwareComponent`, Range: `Vulnerability`) ↔ Inverse : `isVulnerabilityOf`
+  * `hasWeakness` (Domain: `Vulnerability`, Range: `Weakness`)
+  * `hasTLPMarking` (Domain: `owl:Thing`, Range: `TLPMarking`)
+
+### 1.2 Regles d'Intégrité SHACL (Closed World Assumption - CWA)
+* **Forme SHACL globale** : `shapes_abox.ttl`
+* **Contraintes appliquées** :
+  * **Chaque `Asset`** doit obligatoirement posséder un identifiant `assetId` (string) et au moins un marquage `hasTLPMarking`.
+  * **Chaque `Vulnerability`** doit définir un score CVSS compris strictement entre `0.0` et `10.0` (`sh:minInclusive 0.0`, `sh:maxInclusive 10.0`).
+  * **Typage strict des IPs** : `ipAddress` doit respecter un pattern Regex IPv4 conforme.
+
+### 1.3 Format & Rendu des Spécifications (`EXG-PROJ-02`, `SPEC-01`)
+Chaque artefact du socle généré doit l'être sous **trois formats synchronisés** :
+1. **Turtle (`.ttl`)** : Format RDF natif pour requêtage et raisonneur.
+2. **JSON-LD (`.json`)** : Format de transfert d'API et d'intégration web.
+3. **Markdown (`.md`)** : Documentation lisible par l'humain, intégrant **obligatoirement** :
+   * La table explicative des acronymes utilisés (`TBox`, `RBox`, `ABox`, `SHACL`, `CVSS`, `TLP`, etc.).
+   * Un diagramme conceptuel **Mermaid.js** illustrant les classes et leurs relations.
+
+---
+
+## 📊 2. Identification des Données Source Complémentaires à Générer
+
+Pour l'étape suivante (`Étape 3 : Donnees_source`), nous identifions le besoin de générer un jeu de **données synthétiques ABox d'illustration et de test** :
+
+1. **Jeu Conforme (Nominal)** :
+   * 1 `Asset` serveur critique avec marquage `TLP:AMBER`.
+   * 2 `SoftwareComponent` associés.
+   * 1 `Vulnerability` (ex: `CVE-2024-XXXX`) avec score CVSS = `7.8`.
+2. **Jeu Non-Conforme (Anomalies pour qualification SHACL)** :
+   * 1 `Vulnerability` avec score CVSS = `12.5` (hors borne SHACL 0–10).
+   * 1 `Asset` sans identifiant `assetId` obligatoire.
+   * 1 `Asset` avec adresse IP invalide (ex: `999.999.999.999`).
+
+---
+
+## 🛠️ 3. Vue à Jour des Livrables Data & Script du Pipeline
+
+| Typologie         | Fichier / Artefact                             | Localisation Target                                     | Rôle dans le Pipeline                                                   |
+| :---------------- | :--------------------------------------------- | :------------------------------------------------------ | :---------------------------------------------------------------------- |
+| **Spécification** | `SPEC-01_TBox_RBox_SHACL.md`                   | `./01-Principes_Specifications/Specification/`          | Spécification méthodologique et fonctionnelle du socle (`EXG-PROJ-13`). |
+| **Data Master**   | `DKG_TBox_Master.ttl`                          | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | TBox/RBox canonique format Turtle.                                      |
+| **Data Master**   | `DKG_TBox_Master.json`                         | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | TBox/RBox canonique format JSON-LD.                                     |
+| **Data Master**   | `DKG_TBox_Master.md`                           | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | Doc humaine avec Acronymes et Mermaid (`SPEC-01`).                      |
+| **Data Master**   | `shapes_abox.ttl`                              | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | Formes de validation SHACL.                                             |
+| **Data Snapshot** | `DKG_TBox_Phase1.*` / `shapes_abox_Phase1.ttl` | `./02-Donnees/Snapshots_Phases/Phase_1_Socle/`          | Snapshots miroir de livraison de la Phase 1.                            |
+| **Script Dev**    | `generate_phase1_socle.py`                     | `./13-Application/Phase_1_Socle/`                       | Generator Python (rdflib / json-ld / md).                               |
+| **Script Test**   | `test_phase1_quality.py`                       | `./13-Application/Phase_1_Socle/`                       | Suite `pytest` (SHACL CWA, validation `SPEC-01`).                       |
+
+----
+
+
+
+
 
 ---
 

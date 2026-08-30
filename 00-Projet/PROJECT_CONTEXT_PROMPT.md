@@ -19,6 +19,19 @@ Chaque activité du projet s'inscrit obligatoirement dans une **Phase** et une *
 | **5** | **`5 : Bilan`**            | **`EXG-PROJ-16`** : Bilan pédagogique illustrant les concepts/fonctions avec les données et scripts générés. Enrichissement du Backlog dans `PhasesProjet.md` avec les reliquats non traités.                                                                                   |
 
 ---
+## 📐 Principe de Séparation : Framework vs Instanciation (`Étape 2` vs `Étape 3`)
+
+1. **Périmètre de l'Étape 2 (Specification)** : 
+   * Traite **EXCLUSIVEMENT** du Framework, des Méta-Spécifications et des règles de développement agnostiques (`EXG-TBOX-01` à `04`, règles de sérialisation, contraintes SHACL génériques).
+   * Doit rester 100% réutilisable pour d'autres domaines applicatifs (Santé, Finance, Logistique...).
+   * **Interdiction** d'y figer prématurément le modèle métier d'un cas d'usage comme une norme du framework.
+
+1. **Périmètre des  Étapes suivantes 3 et 4  (Donnees_source et Script-Test)** :
+   * Consistent à instancier le Framework sur un domaine Métier spécifique (ex: Cybersécurité).
+   * Produisent les données source synthétiques/réelles et les script permettant cette instanciation (Classes/Relations du domaine).
+
+
+---
 
 ## 🛡️ Règles d'Invariant pour l'IA (Directives Absolues)
 
