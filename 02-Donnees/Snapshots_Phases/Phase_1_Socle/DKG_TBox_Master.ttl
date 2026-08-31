@@ -1,0 +1,130 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:ThreatPattern a owl:Class ;
+    rdfs:label "ThreatPattern"@fr ;
+    skos:altLabel "Mode opératoire d'attaque"@fr ;
+    skos:definition "Motif ou schéma d'attaque documenté (CAPEC)."@fr ;
+    skos:prefLabel "Threat Pattern"@en,
+        "Schéma de Menace"@fr .
+
+dkg:assetId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "asset identifier"@en,
+        "identifiant d'actif"@fr .
+
+dkg:componentId a owl:DatatypeProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "component identifier"@en,
+        "identifiant de composant"@fr .
+
+dkg:cveId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "CVE identifier"@en,
+        "identifiant CVE"@fr .
+
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float ;
+    skos:prefLabel "CVSS score"@en,
+        "score CVSS"@fr .
+
+dkg:cweId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Weakness ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "CWE identifier"@en,
+        "identifiant CWE"@fr .
+
+dkg:hasTLPMarking a owl:ObjectProperty ;
+    rdfs:comment "Applique une classification TLP sur l'entité"@fr ;
+    rdfs:domain owl:Thing ;
+    rdfs:range dkg:TLPMarking ;
+    skos:prefLabel "has TLP marking"@en,
+        "a pour marquage TLP"@fr .
+
+dkg:hasWeakness a owl:ObjectProperty ;
+    rdfs:comment "Associe une vulnérabilité à un type d'erreur CWE"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness ;
+    skos:prefLabel "has weakness"@en,
+        "est de type faiblesse"@fr .
+
+dkg:hostname a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "hostname"@en,
+        "nom d'hôte"@fr .
+
+dkg:TLPMarking a owl:Class ;
+    rdfs:label "TLPMarking"@fr ;
+    skos:altLabel "Niveau de confidentialité"@fr ;
+    skos:definition "Niveau de classification et de partage de l'information."@fr ;
+    skos:prefLabel "TLP Marking"@en,
+        "Marquage TLP"@fr .
+
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:comment "Associe un composant logiciel à un actif SI"@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range dkg:SoftwareComponent ;
+    owl:inverseOf dkg:isComponentOf ;
+    skos:prefLabel "has installed component"@en,
+        "a pour composant"@fr .
+
+dkg:hasVulnerability a owl:ObjectProperty ;
+    rdfs:comment "Lie un composant à une vulnérabilité connue"@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Vulnerability ;
+    owl:inverseOf dkg:isVulnerabilityOf ;
+    skos:prefLabel "has vulnerability"@en,
+        "a pour vulnérabilité"@fr .
+
+dkg:isComponentOf a owl:ObjectProperty ;
+    rdfs:comment "Associe un actif SI au composant installé"@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Asset ;
+    owl:inverseOf dkg:hasInstalledComponent ;
+    skos:prefLabel "is component of"@en,
+        "est composant de"@fr .
+
+dkg:isVulnerabilityOf a owl:ObjectProperty ;
+    rdfs:comment "Lie une vulnérabilité au composant impacté"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:SoftwareComponent ;
+    owl:inverseOf dkg:hasVulnerability ;
+    skos:prefLabel "is vulnerability of"@en,
+        "impacte le composant"@fr .
+
+dkg:Weakness a owl:Class ;
+    rdfs:label "Weakness"@fr ;
+    skos:altLabel "Type d'erreur logicielle"@fr ;
+    skos:definition "Famille d'erreur logicielle sous-jacente (CWE)."@fr ;
+    skos:prefLabel "Weakness"@en,
+        "Faiblesse"@fr .
+
+dkg:Asset a owl:Class ;
+    rdfs:label "Asset"@fr ;
+    skos:altLabel "Ressource SI"@fr ;
+    skos:definition "Ressource informatique du SI (serveur, poste, équipement réseau)."@fr ;
+    skos:prefLabel "Asset"@en,
+        "Actif"@fr .
+
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "SoftwareComponent"@fr ;
+    skos:altLabel "Paquet applicatif"@fr ;
+    skos:definition "Composant logiciel, bibliothèque ou dépendance système."@fr ;
+    skos:prefLabel "Software Component"@en,
+        "Composant Logiciel"@fr .
+
+dkg:Vulnerability a owl:Class ;
+    rdfs:label "Vulnerability"@fr ;
+    skos:altLabel "Faille de sécurité"@fr ;
+    skos:definition "Faiblesse logicielle exploitable répertoriée (CVE)."@fr ;
+    skos:prefLabel "Vulnerability"@en,
+        "Vulnérabilité"@fr .
+

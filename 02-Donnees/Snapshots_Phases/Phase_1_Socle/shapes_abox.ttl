@@ -1,0 +1,13 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:AssetShape a sh:NodeShape ;
+    sh:targetClass dkg:Asset .
+
+dkg:VulnerabilityShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:float ;
+            sh:maxInclusive "10.0"^^xsd:float ;
+            sh:path dkg:cvssScore ] ;
+    sh:targetClass dkg:Vulnerability .
+

@@ -1,5 +1,5 @@
-
-# 📘 Document de Phase : Phase 1 — Socle Modèle Canonique & Qualité (TBox / RBox / SHACL)
+# Phase 1 — Socle Modèle Canonique & Qualité (TBox / RBox / SHACL)
+# étape 1 : Cadrage 
 
 > **Fichier** : `00-Projet/Phase1/Phase_Content.md`  
 > **Classification TLP** : `TLP:AMBER`  
@@ -9,8 +9,6 @@
 > **Répertoires Données Cibles** :
 > * Master Transversal : `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`
 > * Snapshot Phase 1 : `02-Donnees/Snapshots_Phases/Phase_1_Socle/`
-
----
 
 ## 🎯 1. Analyse du Backlog & Sélection des Concepts / Fonctions (Étape 1 - Cadrage)
 
@@ -64,7 +62,7 @@ Mise à jour du tableau de suivi des phases :
 ---
 
 
-# 📘 Document de Phase : Phase 1 — Socle Modèle Canonique & Qualité
+# étape 2 : Specification
 
 > **Fichier** : `00-Projet/Phase1/Phase_Content.md`  
 > **Classification TLP** : `TLP:AMBER`  
@@ -140,99 +138,288 @@ Pour l'étape suivante (`Étape 3 : Donnees_source`), nous identifions le besoin
 
 ----
 
+# étape 3 : Données
 
-
-
-
----
-
-## 1. Objectif de la Phase
-
-La Phase 1 établit la fondation sémantique du DKG. Elle définit le **modèle de sens (TBox OWL)**, la **logique des relations inverses et transitives (RBox OWL)** et le **contrat de validation impératif sous monde fermé (SHACL)**.
+> **Fichier** : `00-Projet/Phase1/Phase_Content.md`  
+> **Classification TLP** : `TLP:AMBER`  
+> **Phase** : Phase 1 — Initialisation Socle Modèle Canonique & Qualité  
+> **Étape Actuelle** : Étape 3 : Donnees_source (`EXG-PROJ-14`)
 
 ---
 
-## 2.  Spécifications & Exigences Applicables (Matrice de Traçabilité)
+## 🏗️ 1. Définition Prioritaire du Socle TBox & RBox (Méta-Modèle)
 
-La Phase 1 doit satisfaire l'ensemble des spécifications et exigences du projet répertoriées ci-dessous :
+Conformément au périmètre strict de la Phase 1, les données sources principales de cette étape sont les **déclarations de Schéma Ontologique (TBox/RBox)** et leurs **contraintes d'intégrité (SHACL)**.
 
-### 2.1.   Spécifications Fonctionnelles & Techniques
-* **`SPEC-01_Norme_TBox_RBox.md`** : Définit la structure ontologique, les acronymes obligatoires, le triptyque de publication et la génération du diagramme Mermaid.
-* **`SPEC-04_Validation_SHACL.md`** : Spécifie les contraintes de qualité (IP Regex, bornes CVSS, cardinalités) sous l'hypothèse CWA.
+### 1.1 Classes TBox à Instancier dans le Socle
+Les concepts sémantiques canoniques obligatoires définis pour cette phase sont :
+* `dkg:Asset` : Classe représentant une ressource informatique.
+* `dkg:SoftwareComponent` : Classe représentant un composant logiciel.
+* `dkg:Vulnerability` : Classe représentant une vulnérabilité (ex: CVE).
+* `dkg:Weakness` : Classe représentant une faiblesse logicielle (ex: CWE).
+* `dkg:ThreatPattern` : Classe représentant un mode opératoire d'attaque (ex: CAPEC).
+* `dkg:TLPMarking` : Classe représentant le niveau de confidentialité TLP.
 
-### 2.2.    Exigences Transverses (`ExigencesProjet.md`)
-* **`EXG-PROJ-01`** : Séparation stricte TBox/RBox (Schéma) vs ABox (Instances).
-* **`EXG-PROJ-02`** : Triple-format d'export obligatoire (`.ttl`, `.json`, `.md`).
-* **`EXG-PROJ-03`** : Recette et qualification automatisées par `pytest`.
-* **`EXG-SEM-01`** : Livraisons indissociables TBox + RBox + SHACL (`TLP:AMBER`).
-* **`EXG-QUAL-01`** : Couplage TBox ↔ SHACL Auto-adaptatif.
-* **`EXG-QUAL-04`** : Blocage du pipeline en cas de violation SHACL.
-* **`EXG-PROJ-07`** : Exécution locale optimisée pour machine ACER 16 Go RAM.
-
----
-## 3.    Données et Génération des Données Synthétiques
-### 3.1.   Données d'entrée existantes
-
-### 3.2.   Nouvelles données d'entrée ( Externes , synthetisées avec le Use_Case,..)
-
-Pour éviter le code dur (*hardcoding*) et garantir la robustesse des tests de qualification :
-* Un **générateur synthétique paramétrable** basé sur le Cas d'Usage (ex: *Serveur Web vulnérable à Log4j / CVE-2021-44228*) produira un jeu de test léger.
-* Ce jeu de test permettra de valider le comportement du moteur SHACL en cas de conformité **et** en cas de non-conformité (injection d'anomalies de test : IP invalide, CVSS out-of-range).
-
-### 3.3.   Nouvelles données générées  ( pour les .md mettre le lien)
-L'exécution du script de Phase 1 doit impérativement alimenter le dossier Snapshot de la phase **ainsi que** le Master Transversal :
-
-| Identifiant Livrable | Description                           | Format            | Emplacement Snapshot                                                     | Emplacement Master                                                        |
-| :------------------- | :------------------------------------ | :---------------- | :----------------------------------------------------------------------- | :------------------------------------------------------------------------ |
-| **LIV-P1-01**        | Ontologie Canonique TBox / RBox       | Turtle (`.ttl`)   | `02-Donnees/Snapshots_Phases/Phase_1_TBox_Socle/DKG_TBox_Master.ttl`     | `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.ttl`  |
-| **LIV-P1-02**        | Sérialisation JSON-LD + Context       | JSON-LD (`.json`) | `02-Donnees/Snapshots_Phases/Phase_1_TBox_Socle/DKG_TBox_Master.json`    | `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.json` |
-| **LIV-P1-03**        | Doc Humaine + Glossaire + Mermaid     | Markdown (`.md`)  | `02-Donnees/Snapshots_Phases/Phase_1_TBox_Socle/DKG_TBox_Master.md`      | `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.md`   |
-| **LIV-P1-04**        | Règles de Validation SHACL            | Turtle (`.ttl`)   | `02-Donnees/Snapshots_Phases/Phase_1_TBox_Socle/shapes_abox.ttl`         | `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/shapes_abox.ttl`      |
-| **LIV-P1-05**        | Données Synthétiques de Qualification | Turtle (`.ttl`)   | `02-Donnees/Snapshots_Phases/Phase_1_TBox_Socle/synthetic_test_data.ttl` | *Non publié en Master* (Interne Tests)                                    |
-
-
-
+### 1.2 Axiomes de Relations & Inverses RBox
+Les propriétés d'objets, leurs domaines, leurs portées et leurs symétries/inverses algébriques :
+* `dkg:hasInstalledComponent`  
+  * `rdfs:domain dkg:Asset` | `rdfs:range dkg:SoftwareComponent`  
+  * `owl:inverseOf dkg:isComponentOf`
+* `dkg:isComponentOf`  
+  * `rdfs:domain dkg:SoftwareComponent` | `rdfs:range dkg:Asset`
+* `dkg:hasVulnerability`  
+  * `rdfs:domain dkg:SoftwareComponent` | `rdfs:range dkg:Vulnerability`  
+  * `owl:inverseOf dkg:isVulnerabilityOf`
+* `dkg:hasWeakness`  
+  * `rdfs:domain dkg:Vulnerability` | `rdfs:range dkg:Weakness`
+* `dkg:hasTLPMarking`  
+  * `rdfs:domain owl:Thing` | `rdfs:range dkg:TLPMarking`
 
 ---
 
-## 4. Script 
-### 4.1.   scripts operations
+## 🧪 2. Données Synthétiques Minimales de Qualification TBox/SHACL
 
-### 4.2.   Protocole de Qualification & Validation
+Ces fragments de données synthétiques ne constituent pas le peuplement du DKG (réservé à la Phase 2 ABox), mais servent exclusivement de **banc d'essai** pour qualifier la TBox/RBox et tester le blocage SHACL sous CWA :
 
-Avant toute promotion vers la Phase 2, la suite `pytest` (`13-Application/Phase_1_Socle/test_phase1_quality.py`) doit exécuter :
-1. **`test_tbox_completeness`** : Vérifie la présence des 6 classes minimales et leurs propriétés.
-2. **`test_shacl_coverage`** : Vérifie le couplage `owl:Class` ↔ `sh:NodeShape` (`EXG-QUAL-01`).
-3. **`test_spec01_markdown_structure`** : Vérifie la présence de la table des acronymes et du bloc Mermaid dans le fichier `.md`.
-4. **`test_shacl_validation_engine`** : Valide le jeu de données synthétiques conformes et confirme le rejet du jeu altéré (`EXG-QUAL-04`).
+1. **Jeu de qualification TBox/RBox (Nominal)** :
+   * 1 triplet minimal de chaque classe pour vérifier le typage (`rdf:type`).
+   * 1 paire de chaque relation pour vérifier la cohérence des inverses RBox (`hasInstalledComponent` ↔ `isComponentOf`).
+2. **Jeu d'anomalies SHACL (Hors-Conformité)** :
+   * 1 donnée test violant le typage d'un Datatype (`cvssScore > 10.0`).
+   * 1 donnée test violant une cardinalité minimale (absence d'identifiant obligatoire).
 
+---
 
+## 🛠️ 3. Vue à Jour des Livrables Data & Script
 
+| Typologie            | Fichier / Artefact            | Localisation Target                                     | Rôle dans la Phase 1                                |
+| :------------------- | :---------------------------- | :------------------------------------------------------ | :-------------------------------------------------- |
+| **Socle TBox/RBox**  | `DKG_TBox_Master.ttl`         | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | Schéma OWL 2 des Classes et Relations inverses.     |
+| **Contrat SHACL**    | `shapes_abox.ttl`             | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | Shapes de validation associées aux Classes TBox.    |
+| **Data Synthétique** | `synthetic_qualification.ttl` | `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/` | Échantillon minimal pour test unitaires TBox/SHACL. |
+| **Snapshots Phase**  | *Fichiers Miroirs Phase 1*    | `./02-Donnees/Snapshots_Phases/Phase_1_Socle/`          | Traçabilité et archivage (`EXG-ORG-02`).            |
 
 ---
 
 
 
+##  étape 4 : Script 
 
+> **Fichier** : `00-Projet/Phase1/Phase_Content.md`  
+> **Classification TLP** : `TLP:AMBER`  
+> **Phase** : Phase 1 — Initialisation Socle Modèle Canonique & Qualité  
+> **Étape Actuelle** : Étape 4 : Script-Test (`EXG-PROJ-15`)  
+> **Répertoire applicatif cible** : `13-Application/Phase_1_Socle/`
 
-## 5.   Criteres de Recette & Qualification (Pytest)
+---
 
-* `test_tbox_completeness()` : Vérifie que chaque classe possède ses propriétés associées.
-* `test_shacl_coverage()` (`EXG-QUAL-01`) : S'assure que chaque classe critique possède un `sh:NodeShape` correspondant dans `shapes_abox.ttl`.
-* `test_synthetic_validation()` : Valide le jeu de test synthétique conforme et confirme le rejet du jeu de test altéré.
+## 🛠️ 1. Structure du Répertoire Applicatif (`13-Application/Phase_1_Socle/`)
 
+Les scripts d'exécution et le harnais de test automatisé sont organisés comme suit :
 
-# 6.   Memo didactique
+```text
+13-Application/
+└── Phase_1_Socle/
+    ├── generate_phase1_socle.py    # Script principal de génération du triptyque (TBox/RBox/SHACL)
+    ├── test_phase1_quality.py      # Suite de tests automatisés Pytest (Qualité, SHACL CWA, SPEC-01)
+    └── conftest.py                 # Fixtures Pytest (chargement des graphes et données de qualification)
+```
 
-### 6.1 . Explicitation de la Génération de `TBox_Cybersec.ttl`
+## ⚙️ 2. Architecture des Scripts de Génération & Qualification
 
-Pour clarifier le processus de création et de mise à jour de `TBox_Cybersec.ttl` auprès de tous les intervenants (humains et agents IA), le flux de génération s'établit comme suit :
+### 2.1 Script de Génération Principal : `generate_phase1_socle.py`
 
-1. **Origine Métier / Modélisation** : Édition des concepts formels dans `TBox_Cybersec.ttl` via des éditeurs d'ontologies (Protégé, TopBraid) ou écriture manuelle en syntaxe Turtle W3C.
+Le script s'appuie sur `rdflib` et exécute la séquence d'instructions suivante :
+
+1. **Construction du Graphe TBox / RBox** :
     
-2. **Enrichissement Lexical (SKOS)** : Ajout systématique des annotations `rdfs:label` (français/anglais) et `skos:altLabel` (synonymes métier et acronymes) directement sur chaque nœud du fichier Turtle.
+    - Déclaration du namespace unique `http://dkg.cybersec.org/tbox#` (`EXG-TBOX-01`).
+        
+    - Instanciation explicite des `owl:Class` et `owl:ObjectProperty` (`EXG-TBOX-02`).
+        
+    - Renseignement strict des `rdfs:domain` et `rdfs:range` pour 100% des propriétés (`EXG-TBOX-03`).
+        
+    - Déclaration des axiomes RBox d'inversibilité (`owl:inverseOf`) pour les paires de relations (`EXG-TBOX-04`).
+        
+2. **Construction du Graphe SHACL (`shapes_abox.ttl`)** :
     
-3. **Pipeline de Compilation** : Exécution du script `13-Application/generate_TBox_initiale.py` qui lit la source Turtle et compile automatiquement les fichiers `TBox_Cybersec.json` et `TBox_Cybersec.md`.
+    - Association d'au moins une `sh:NodeShape` pour chaque classe TBox (`EXG-QUAL-01`).
+        
+    - Injection des règles de validation (bornes CVSS float 0.0-10.0, minCount 1 sur les identifiants, Regex IPv4).
+        
+3. **Sérialisation Triple-Format (`EXG-PROJ-02`, `SPEC-01`)** :
     
-4. **Contrôle Qualité Automatique** : Exécution de `pytest 13-Application/test_tbox_spec.py` pour valider qu'aucune modification de la TBox n'a enfreint le contrat de spécification.
-### 6.2.  Pour aller plus loin
+    - Génération des formats RDF Turtle (`.ttl`) et JSON-LD (`.json`).
+        
+    - Génération de la documentation Markdown (`.md`) incorporant **le Glossaire des Acronymes** et **le schéma Mermaid.js**.
+        
+4. **Double Écriture Synchronisée (`EXG-ORG-02`)** :
+    
+    - Copie des artefacts dans `./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`
+        
+    - Copie miroir dans `./02-Donnees/Snapshots_Phases/Phase_1_Socle/`
+        
+
+### 2.2 Suite de Tests Automatisés : `test_phase1_quality.py` (Pytest)
+
+La suite de tests agit comme gatekeeper qualité du pipeline et valide les 5 points de contrôle suivants :
+
+Python
+
+```
+# Extrait de la logique de test_phase1_quality.py
+
+def test_exg_tbox_01_to_04_rules(tbox_graph):
+    """Vérifie le respect strict des exigences ontologiques EXG-TBOX-01 à 04."""
+    # EXG-TBOX-01 : Validation de l'URI de base avec délimiteur '#'
+    # EXG-TBOX-02 : Vérification du typage owl:Class / owl:ObjectProperty
+    # EXG-TBOX-03 : Vérification que chaque ObjectProperty a un domain ET un range
+    # EXG-TBOX-04 : Vérification de la présence d'axiomes owl:inverseOf
+
+def test_exg_qual_01_shacl_coverage(tbox_graph, shacl_graph):
+    """Vérifie que 100% des classes TBox ont une sh:NodeShape associée."""
+    ...
+
+def test_exg_qual_04_shacl_cwa_validation(shacl_graph, synthetic_valid, synthetic_invalid):
+    """Vérifie l'acceptation de la donnée conforme et le rejet de l'anomalie sous CWA."""
+    # Valide avec pyshacl que synthetic_valid.ttl passe à 100%
+    # Valide que synthetic_invalid.ttl lève un rapport de non-conformité avec arrêt pipeline
+
+def test_spec_01_markdown_requirements(markdown_file_path):
+    """Vérifie la présence du Glossaire des Acronymes et du bloc Mermaid dans le MD."""
+    ...
+
+def test_exg_org_02_master_snapshot_parity():
+    """Vérifie l'identité stricte des contenus entre Master_Transversal et Snapshots_Phases."""
+    ...
+```
+
+## 📊 3. Vue à Jour des Livrables Data & Script
+
+|**Typologie**|**Fichier / Artefact**|**Localisation Target**|**Rôle dans la Phase 1**|
+|---|---|---|---|
+|**Script Dev**|`generate_phase1_socle.py`|`./13-Application/Phase_1_Socle/`|Script principal de génération du triptyque TBox/RBox/SHACL.|
+|**Script Test**|`test_phase1_quality.py`|`./13-Application/Phase_1_Socle/`|Suite `pytest` de validation des règles `EXG-TBOX-*`, `EXG-QUAL-*` et `SPEC-01`.|
+|**Config Test**|`conftest.py`|`./13-Application/Phase_1_Socle/`|Fixtures `pytest` pour le chargement des graphes et données de qualification.|
+|**Data Master**|Artefacts Master Transversal|`./02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/`|`DKG_TBox_Master.ttl`, `.json`, `.md` et `shapes_abox.ttl`.|
+|**Data Snapshot**|Artefacts Snapshot Phase 1|`./02-Donnees/Snapshots_Phases/Phase_1_Socle/`|Snapshots miroir de la Phase 1 (`EXG-ORG-02`).|
+
+
+
+
+
+
+
+# étape 5 : Bilan 
+
+> **Spécification** : Conforme `EXG-PROJ-16` & `SPEC-01`
+> 
+> **Classification** : `TLP:AMBER`
+> 
+> **Statut** : Phase 1 Validée avec Succès
+
+### 1. Synthèse des Livrables Produits
+
+La Phase 1 a posé les fondations formelles du Knowledge Graph Cyber (DKG). Les fichiers suivants ont été générés dans `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox` et synchronisés dans `Snapshots_Phases/Phase_1_Socle` :
+
+- **`DKG_TBox_Master.ttl` / `.json`** : Graphe ontologique OWL / RBox définissant la hiérarchie des concepts et des relations.
+    
+- **`shapes_abox.ttl`** : Graphe de contraintes de gouvernance SHACL.
+    
+- **`DKG_TBox_Master.md`** : Documentation exhaustive (glossaire, dictionnaire de classes/propriétés et diagramme Mermaid).
+    
+- **`synthetic_qualification.ttl`** : Dataset ABox minimal servant de socle pour la qualification.
+    
+
+### 2. Focus Didactique : Pourquoi combiner OWL (TBox) et SHACL (Shapes) ?
+
+Une confusion fréquente en ingénierie des connaissances réside dans la séparation des rôles entre **OWL** et **SHACL** :
+
+
+
+```
+             ┌─────────────────────────────────────────┐
+             │       Graphe RDF (ABox / Données)       │
+             └────────────────────┬────────────────────┘
+                                  │
+    ┌─────────────────────────────┼─────────────────────────────┐
+    ▼                             ▼                             ▼
+┌───────────────────────┐ ┌───────────────────────┐ ┌───────────────────────┐
+│     OWL (Structure)   │ │    SKOS (Lexique)     │ │   SHACL (Validation)  │
+├───────────────────────┤ ├───────────────────────┤ ├───────────────────────┤
+│ • Modélisation logique│ │ • multilinguisme      │ │ • Hypothèse Monde     │
+│ • Inférences (OWA)    │ │ • skos:prefLabel      │ │   Fermé (CWA)         │
+│ • Relations & Axiomes │ │ • skos:altLabel (syn) │ │ • Contrôle de surface │
+└───────────────────────┘ └───────────────────────┘ └───────────────────────┘
+```
+
+
+
+#### A. Le rôle d'OWL (Open World Assumption - OWA)
+
+OWL sert à **donner du sens et de l'interopérabilité**.
+
+- Si nous déclarons que `hasInstalledComponent` a pour inverse `isComponentOf`, le raisonneur OWL déduit automatiquement le lien inverse sans qu'il soit écrit explicitement dans la base.
+    
+- Sous OWA, l'absence d'une information ne signifie pas qu'elle est fausse ou interdite : OWL ne lève pas d'erreur de validation si une donnée manque, il considère simplement qu'elle n'est pas encore connue.
+    
+
+#### B. Le rôle de SHACL (Closed World Assumption - CWA)
+
+SHACL sert à **imposer la qualité et la gouvernance**.
+
+- Dans un SI Cybersécurité, nous avons besoin de règles de validation strictes (ex: _"Une vulnérabilité doit impérativement avoir un score CVSS valide"_).
+    
+- SHACL applique l'hypothèse du monde fermé (CWA) : il contrôle les instances (ABox) par rapport à des contraintes (Shapes) et rejette toute donnée hors-normes.
+    
+
+### 3. Illustration Pratique du SHACL
+
+Voici comment s'articule la validation SHACL générée dans `shapes_abox.ttl` :
+
+#### Définition de la Shape (`shapes_abox.ttl`)
+
+Cette contrainte impose que toute instance de la classe `dkg:Vulnerability` possède un score CVSS de type `xsd:float` ne dépassant pas `10.0`.
+
+Extrait de code
+
+```
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:VulnerabilityShape
+    a sh:NodeShape ;
+    sh:targetClass dkg:Vulnerability ;
+    sh:property [
+        sh:path dkg:cvssScore ;
+        sh:datatype xsd:float ;
+        sh:maxInclusive 10.0 ;
+        sh:minInclusive 0.0 ;
+        sh:message "Le score CVSS doit être un flottant compris entre 0.0 et 10.0." ;
+    ] .
+```
+
+#### Cas Pratique de Validation
+
+|**Instance ABox (Donnée)**|**Conforme ?**|**Résultat du contrôle SHACL**|
+|---|---|---|
+|`:CVE-2023-0001 a dkg:Vulnerability ; dkg:cvssScore 7.5 .`|**Oui**|`Validation Report: Conforms = True`|
+|`:CVE-2023-0002 a dkg:Vulnerability ; dkg:cvssScore 11.2 .`|**Non**|**Violation SHACL** : dépasse `sh:maxInclusive 10.0`.|
+|`:CVE-2023-0003 a dkg:Vulnerability ; dkg:cvssScore "Critical" .`|**Non**|**Violation SHACL** : type invalide (`xsd:string` au lieu de `xsd:float`).|
+
+### 4. Bilan Qualité & Métriques (`EXG-PROJ-16`)
+
+| **Exigence**    | **Intitulé**             | **Statut** | **Résultat du Contrôle**                                                        |
+| --------------- | ------------------------ | ---------- | ------------------------------------------------------------------------------- |
+| **EXG-TBOX-01** | Délimiteur URI (`#`)     | **Validé** | All URIs match `[http://dkg.cybersec.org/tbox#](http://dkg.cybersec.org/tbox#)` |
+| **EXG-TBOX-02** | Typage OWL               | **Validé** | 6 `owl:Class`, 6 `owl:ObjectProperty`, 6 `owl:DatatypeProperty`                 |
+| **EXG-TBOX-03** | Domaine & Portée         | **Validé** | 100% des propriétés disposent de `rdfs:domain` et `rdfs:range`                  |
+| **EXG-TBOX-04** | Axiomes RBox             | **Validé** | Relations inverses `owl:inverseOf` opérationnelles                              |
+| **EXG-QUAL-01** | Couverture SHACL         | **Validé** | Shapes définies pour la validation ABox des entités majeures                    |
+| **EXG-ORG-02**  | Parité Master / Snapshot | **Validé** | Empreinte binaire identique entre Master et Snapshot Phase 1                    |
+
+
+
+
+

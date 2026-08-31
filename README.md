@@ -81,5 +81,17 @@ mkdir -p /data/SyncData/Projets/T2C_1/hf_cache
 export HF_HOME=/data/SyncData/Projets/T2C_1/hf_cache
 ```
 
-## 📁 Exigences_Projet
+## 📁 Assistance IA au développement
 
+
+Le  fichier `00-Projet/PROJECT_CONTEXT_PROMPT.md` disponible dans le repo Github, permet de donner un cadre au LLM contributeur en intégrant dans le prompt cette référence.
+Exemple : 
+
+"On travaille sur la Phase1 définie dans `./00-Projet/Phase1/Phase_Content.md`. Applique les règles définies dans `PROJECT_CONTEXT_PROMPT.md` et réfère-toi aux spécifications de `01-Principes_Specifications/`."
+
+
+Cartouche "
+> Phase X :  [Nom de la Phase]
+> Étape active : [N : Nom_Etape] (Référence EXG-PROJ-XX)"
+
+> Methode a appliquer : `PROJECT_CONTEXT_PROMPT.md`
