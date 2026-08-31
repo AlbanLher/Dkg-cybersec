@@ -18,16 +18,11 @@ Conformément à `EXG-PROJ-12`, cette étape analyse le backlog général pour r
 * **TBox (Terminology Box)** : Modélisation des classes de base (`Asset`, `SoftwareComponent`, `Vulnerability`, `Weakness`, `ThreatPattern`, `TLPMarking`) et de leurs propriétés de types de données (Datatypes).
 * **RBox (Relationship Box)** : Définition des propriétés d'objets, typologies de relations et relations inverses (ex: `hasInstalledComponent` ↔ `isComponentOf`, `hasVulnerability`, `hasWeakness`).
 * **SHACL (Shapes Constraint Language)** : Validation des contraintes de structure et de typage sous Closed World Assumption (CWA) dans un cas simple (validation IP, bornes CVSS 0.0–10.0, typage strict).
-* **Documentation & Restitution** : Génération human-readable (`SPEC-01`) avec glossaire des acronymes et diagramme Mermaid.
-
-### 🔴 Concepts & Fonctions laissés dans le Backlog (Phases Ultérieures) :
-* Instanciation des données ABox et peuplement interne ➡️ **Phase 2**
-* Enrichissement par sources externes & Marquage de Gouvernance TLP complet ➡️ **Phase 3**
-* Requêtage SPARQL/Cypher, Base Graphe Neo4j, NER Hybride, Embeddings, RAG & Fine-Tuning ➡️ **Phase 4 (Backlog)**
-
----
-
-## 📐 2. Analyse de Cohérence & Structure des Spécifications Attendues
+* **Documentation & Restitution** : Génération human-readable (`SPEC-01`) avec glossaire des a| Type              | Fichier / Lien                                                                   | Description                                     |
+| :---------------- | :------------------------------------------------------------------------------- | :---------------------------------------------- |
+| **Spécification** | [`SPEC-01-TBox.md`](../../01-Exigences/SPEC-01.md)                               | Règles d'architecture et exigences TBox/SKOS    |
+| **Instanciation** | [`Human_UseCase.md`](./Human_UseCase.md)                                         | Illustration concrète du use case cybersécurité |
+| **Master RDF**    | [`DKG_TBox_Master.ttl`](../../02-Donnees/Master_Transversal/DKG_TBox_Master.ttl) | Graphe ontologique maître sérialisé             |fications Attendues
 
 * **Spécification Cible** : `SPEC-01` (Norme TBox & RBox, restitution Markdown human-readable, Mermaid & Acronymes).
 * **Découpage des spécifications** :

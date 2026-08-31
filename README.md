@@ -1,97 +1,136 @@
-# 🚀 Démo : Dynamic Knowledge Graph (DKG) Cybersécurité
+Le projet DKG-CyberSec  vise a proposer un Framework de developement d'agent IA basé sur les Graphes de Connaissance dynamiques (DKG). Il est mise en ouevre sur un cas d'usage Cybersecurité pour l'illustrer et le guider.
 
----
+> **Une approche Spec-Driven, modulaire et hautement gouvernée pour construire des Graphes de Connaissances Cyber souverains et conformes aux standards du W3C.**.  Un dossier de specifications de dévelopement constitue un des principaux objectifs du projet.
 
-## 🎯 Objectifs
+##  1.    Vision & Ambition du Projet
 
-Objectif du projet : Mettre en place un "Framework" de développement d'un Agent IA basé sur le "Dynamique Knowledge Graph" qui soit didactique.  
-L'idée de base est la conviction du potentiel de ces concept mais aussi la difficulté a bien percevoir et implémenter tous les concepts qui la supportent, surtout dans un domaine ou il faut combiner le benefice que l'on peut attendre dees Standards et bien communs, mais aussi tous les enjeux de confidentialité qui s'imposent.
+En cybersécurité, les données d'intelligence sur les menaces (CTI), les inventaires d'actifs et les vulnérabilités sont souvent cloisonnés dans des silos hétérogènes.
+Le projet **DKG-CyberSec** répond à ce défi en proposant :
 
-Le projet présenter les concepts et les étapes pour pouvoir être adapté a d'autres cas d'usages et contextes.  
+1. **Un Framework d'Ingénierie Ontologique Rigoureux** : Une méthodologie réutilisable axée sur le développement piloté par les spécifications (_Spec-Driven Development_), la validation automatisée par SHACL/Pytest et une traçabilité stricte par phase.
+    
+2. **Une Application Concrète au Domaine Cyber / SOC** : Un modèle opérationnel permettant de relier en temps réel la connaissance théorique des menaces aux réalités du terrain d'un Centre d'Opérations de Sécurité (SOC).
 
-Cette notion de framework sera développée grâce a un ensemble de spécification de développement, ainsi q'un certain nombre d'étapes reprises dans les phases du projet.
-- Les spécifications sont capitalisées dans l'arborescence dans des repertoires sommés Specification*  { [Spec projet](./10-Projet/Specifications/ExigencesProjet.md), [Spec_Architecture](./11-Principes_Architecture/Specifications/SpecificationNormativeSortiesFormatsTBox.md), ....}
-- Les étapes sont reprises dans les phases du projet  { [Phases](./10-Projet/PhasesProjet.md) }
-  Dans chaque phase un petit résumé est présenté sous forme de md dans **./Eléments de la phase**
+3. **Econome en ressource** : pour le POC usecase tourner en inférence en local sur PC sans GPU avec 16Go RAM. Recours au cloud GPU pour fine tuning si besoin. 
+4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](./00-Projet/PROJECT_CONTEXT_PROMPT.md) )
 
-Une illustration de ce développement sera faite sur un cas d'usage  : un **assistant IA** utilisant un Graphe de connaissance dynamique. (**Dynamic Knowledge Graph**)
+##  2.   Le Cas d'Usage Métier pour illustrer les principes  : L'Ecosystème Cyber & SOC
 
-
-
----
-
-## 📖 Cas d'usage
-
-Le use case présente une histoire qui permet d'illustrer la démarche. 
-Cette histoire sert de base à la génération de données synthètiques permettant la mise en ouvre.
-Elle se développer aux fur et a mesure des phases pour accompagner le développement progressif et didactique.
-
-Elle doit aussi être continuement revue et adapter pour garantir une cohérence et 
-Elle est détaillée → [ Détail du cas d'usage](../10-Projet/Use_Case.md)
-
-## Phases :
-[Workflow](../10-Projet/PhasesProjet.md)
-
-
-> 💡 **L’enjeu** : Illustrer une évolution maitrisée d'un graphe de connaissance sous le controle d'une ontologie et d'un lexique, permettand de **développer les nuances du contexte**.
-
----
-
-##   Principes et Architecture
-un répertoire est dédié aux principes et Architecture afin de les développer dans le cadre du projet
-
-**Principes clés** :
-- **TBoxe**  _(Terminological Box)_ : Ontologies + Lexiques : 
-  Schéma formel du domaine définissant le vocabulaire, les concepts (Classes), leurs hiérarchies (Sous-classes) et les règles d'association (Propriétés/Relations). C'est le contrat de structure immuable du graphe.
-	- **Ontologie** : Schéma du graphe (classes, propriétés, relations) accessible aux profils non technique garant de l'explicabilité
-	- **Lexique** : cadre sémantique du projet, intégré au fine tuning des outils de l'agent
-- **ABox**  _(Assertional Box)_ : Données réelles / Instances 
-	- **Données** : Instances concrètes (devices, CVE, règles).
-- **Agents** : Série de fonctionnalité comme l'ajout de donnée la fourniture de rapport , sous controle humain quand nécessaire.
-
----
-## 🔒 Confidentialité : POC vs Production  -- A consolider
-Le developpement de graph de connaissance interessent beaucoup d'organisation pour lesquels ces connaissance représente un savoir faire a protéger. Ce projet est publique et simule des données privie appelée pseudo-private, pour avoir une architecture qui puisse facilement adresser ce besoin de confidentiaité.
-
-| Type                        | Statut dans le POC | Statut en Production  | Exemple                              |
-| --------------------------- | ------------------ | --------------------- | ------------------------------------ |
-| **Ontologie publique**      | ✅ Public           | ✅ Public              | `:Device`, `:Vulnerability`          |
-| **Ontologie pseudo-privée** | 🟡 Public (POC)    | ❌ Privé (`.private/`) | `:InternalDevice`, `:ComplianceRule` |
-| **Données publiques**       | ✅ Public           | ✅ Public              | CVE (MITRE), OWASP                   |
-| **Données pseudo-privées**  | 🟡 Public (POC)    | ❌ Privé (`.private/`) | Inventaire fictif, règles internes   |
-> ⚠️ **Note** : Dans ce POC, les données **pseudo-privées** sont publiques pour faciliter la collaboration.
-> **En production**, elles seraient déplacées dans `.private/` et exclues de Git.
-
-## 💻 Hypothèses Matérielles
-
-| Ressource                                    | Usage                      | Exemple                                   |
-| -------------------------------------------- | -------------------------- | ----------------------------------------- |
-| **PC local** (ACER ASPIRE A515-40, 16Go RAM) | Développement, inférences  | Exécution de Neo4j, scripts Python        |
-| **Cloud GPU** (si besoin)                    | Fine-tuning de modèles NLP | Entraînement de modèles de classification |
-
-**Objectif** : Pouvoir effectuer les **inférences sur le PC local**.
-
-Preserver l'espace des repertoires racine => créer un répertoire pour HF dans l'espace /data/
+Le projet illustre la puissance des Semantic Web Technologies en modélisant l'intégralité de la chaîne d'impact opérationnelle d'un SOC :
+Commence petit puis grandi au cours des phases
 
 ```
-# 1. Créer le dossier sur votre partition de données
-mkdir -p /data/SyncData/Projets/T2C_1/hf_cache
-
-# 2. Exporter la variable d'environnement (valable pour la session courante)
-export HF_HOME=/data/SyncData/Projets/T2C_1/hf_cache
+┌──────────────┐       ┌───────────────────┐       ┌─────────────────┐
+│  dkg:Asset   │──────>│ dkg:SoftwareComp  │──────>│dkg:Vulnerability│
+│  (Serveur)   │       │  (Bibliothèque)   │       │  (CVE-2023-x)   │
+└──────────────┘       └───────────────────┘       └────────┬────────┘
+       │                                                    │
+       ▼                                                    ▼
+┌──────────────┐                                   ┌─────────────────┐
+│dkg:TLPMarking│                                   │  dkg:Weakness   │
+│ (TLP:AMBER)  │                                   │  (CWE-89 SQLi)  │
+└──────────────┘                                   └─────────────────┘
 ```
 
-## 📁 Assistance IA au développement
+### Principes & Fonctionnalités Clés du Framework :
+
+- **Déduction & Raisonnement (OWL 2)** : Calcul automatique des relations inverses (ex: si un actif possède un composant, le composant est automatiquement rattaché à l'actif).
+    
+- **Alignement Lexical & Multilingue (SKOS)** : Normalisation des synonymes et jargons métiers (ex: lier _CVE_, _Faille de sécurité_ et _Vulnerability_ sur le même concept).
+    
+- **Gouvernance & Qualité Stricte (SHACL)** : Validation sous _Closed World Assumption_ (CWA) pour interdire les données corrompues (ex: rejet automatique d'un score CVSS supérieur à 10.0 ou mal typé).
+    
+- **Souveraineté & Classification (TLP)** : Marquage natif du niveau de confidentialité de l'information (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`).
+    
 
 
-Le  fichier `00-Projet/PROJECT_CONTEXT_PROMPT.md` disponible dans le repo Github, permet de donner un cadre au LLM contributeur en intégrant dans le prompt cette référence.
-Exemple : 
+### 3. Méthodologie Itérative & Architecture IA Hybride
 
-"On travaille sur la Phase1 définie dans `./00-Projet/Phase1/Phase_Content.md`. Applique les règles définies dans `PROJECT_CONTEXT_PROMPT.md` et réfère-toi aux spécifications de `01-Principes_Specifications/`."
+Le projet **DKG-CyberSec** ne se limite pas à un graphe statique : il constitue le **cerveau opérationnel d'un Agent IA collaborateur** conçu pour épauler les équipes Cyber dans la gestion intégrale de leur SOC (à la manière d'une "micro-entreprise" de défense numérique).
+
+```
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │                   AGENT IA COLLABORATEUR (Assistant SOC)                 │
+ └────────────────────────────────────┬────────────────────────────────────┘
+                                      │
+         ┌────────────────────────────┴────────────────────────────┐
+         ▼                                                         ▼
+┌───────────────────────────────┐                         ┌─────────────────┐
+│     Couche Exploratoire &     │                         │ Couche Formelle │
+│          Nuancée              │                         │   & Déterministe│
+├───────────────────────────────┤                         ├─────────────────┤
+│ • Ingestion Textuelle (NER)   │───(Enrichissement)─────>│ • Knowledge     │
+│ • Vectorisation & Graph RAG   │                         │   Graph OWL/SKOS│
+│ • Fine-Tuning de LLM Cyber    │<──(Rétro-Ingestion)─────│ • Base Neo4j    │
+│ • Capture des subtilités      │                         │ • Rules SHACL   │
+└───────────────────────────────┘                         └─────────────────┘
+```
+
+#### A. Le Triptyque Technique Cible
+
+1. **Graphe Property Graph & SPARQL (Neo4j)** : Projection opérationnelle des données TBox/ABox pour offrir des requêtes de cheminement ultra-rapides (_graph traversal_) et des analyses d'impact visuelles en temps réel pour l'analyste SOC.
+    
+2. **Pipelines NLP / NER & Vectorisation (Graph RAG)** : Extraction d'entités nommées (_Named Entity Recognition_) à partir de flux non structurés (bulletins CTI, rapports d'incidents, advisories de sécurité) pour mapper automatiquement les concepts textuels vers le DKG.
+    
+3. **Fine-Tuning Continu du LLM** : Ré-entraînement régulier des modèles de langage locaux sur les données qualifiées du graphe. Cela permet à l'IA d'assimiler les nuances, le jargon métier et la terminologie spécifique à l'organisation.
+    
+
+#### B. La Boucle de Feedback & Rétro-Ingestion
+
+L'IA ne se contente pas de lire le graphe : elle formule des hypothèses, identifie des incohérences ou propose des raffinements. En cas de doute ou lors de l'arrivée de nouvelles menaces ambiguës, l'Agent IA déclenche un processus de **re-digestion des données d'entrée** pour réévaluer et affiner la base de connaissances.
+
+#### C. Une Rigueur Formelle & Explicable
+
+Malgré la flexibilité apportée par le LLM et la vectorisation, **la décision finale reste 100 % déterministe et explicable**. C'est le Knowledge Graph ontologique (OWL + SHACL) qui sert de "garde-fou" (_Ground Truth_) : aucune assertion générée par l'IA ne peut être intégrée dans le SOC Master sans valider les contraintes formelles SHACL.
+
+#### 🔄 Cycle de Vie des Phases Projet
+
+Le projet est a ses début. L'organisation par étape contribue aussi a consolider l'aspect "Dynamique" nécessaire à l'évolution du Graphe de Connaissance
+```
+┌─────────────────┐     Gate 1     ┌─────────────────┐     Gate 2     ┌─────────────────┐                    ┌──────────────────┐
+│     PHASE 1     │───────────────>│     PHASE 2     │───────────────>│     PHASE 3     │───............───> │     PHASE XX     │
+│ Socle TBox/SKOS │   (Pytest /    │Instanciation des│   (Validation  │ Données Externes│  maturation des    │     A VENIR      │
+│  & Rules SHACL  │  Checklist)    │  données ABox   │   Qualité)     │  principe TLP   │ concepts&fonctions │neo4j, NER, ..    │
+└─────────────────┘                └─────────────────┘                └─────────────────┘                    └──────────────────┘
+     🟢 CLOSE                           🟡 EN COURS                       ⚪ PLANIFIÉ
+```
+[Phase Projet](./00-Projet/PhasesProjet.md)
 
 
-Cartouche "
-> Phase X :  [Nom de la Phase]
-> Étape active : [N : Nom_Etape] (Référence EXG-PROJ-XX)"
 
-> Methode a appliquer : `PROJECT_CONTEXT_PROMPT.md`
+
+## 🏗️ 4. Structure du Référentiel
+
+Le dépôt est organisé selon une hiérarchie stricte facilitant la séparation entre gouvernance, données et outillage :
+
+Plaintext
+
+```
+DKG-CYBERSEC/
+├── 00-Projet/                          # Gouvernance, Checklists de Cadrage et suivi des Phases
+│   ├── SPEC-00_Exigences.md            # Matrice globale des exigences projet (EXG-*)
+│   ├── PhasesProjet.md                 # Tableau de bord d'avancement global
+│   └── Cadrage_Checklist.md            # Gatekeeper d'évaluation inter-phases
+├── 01-Principes_Spécification/         # Spécifications fonctionnelles et techniques (SPEC-XX)
+├── 02-Donnees/                         # Graphes RDF Turtle, Datasets Master et Snapshots figés
+└── 03-Application/                     # Outillage Python, scripts de génération et tests CI/CD
+```
+
+## 🤝 5. Rejoindre la Communauté & Réutiliser le Framework
+
+### Vous souhaitez réutiliser le Framework sur votre propre Use Case ?
+
+Ce Framework n'est pas limité à la cybersécurité ! Sa structure (OWL + SKOS + SHACL + Spec-Driven) est conçue pour être appliquée à tout domaine exigeant une gouvernance de données stricte (Santé, Finance, Aéronautique, Logistique) :
+1. Adoptez la matrice d'exigences **`SPEC-00`** comme socle de qualité.
+2. Modélisez votre domaine dans `01-Exigences/`.
+3. Exploitez notre chaîne de scripts d'automatisation et de validation SHACL.
+    
+
+### Vous souhaitez contribuer au DKG-CyberSec ?
+Les contributions sont les bienvenues ! Que ce soit pour :
+- Enrichir l'ontologie Cyber (intégration de STIX 2.1, ATT&CK, TAXII).
+- Ajouter de nouvelles Shapes SHACL de validation.
+- Proposer des connecteurs d'ingestion d'ABox.
+    
+
+Consultez nos [Spécifications Projets (`SPEC-00`)](https://www.google.com/search?q=./00-Projet/SPEC-00_Exigences_Projet.md) pour comprendre nos règles de contribution et lancez-vous !

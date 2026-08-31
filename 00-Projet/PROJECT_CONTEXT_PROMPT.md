@@ -17,7 +17,23 @@ Chaque activité du projet s'inscrit obligatoirement dans une **Phase** et une *
 | **3** | **`3 : Donnees_source`**   | **`EXG-PROJ-14`** : Identification des fichiers de données existants et génération des données synthétiques nécessaires en lien avec le Use Case. Mise à jour de la vue livrables script du pipeline.                                                                           |
 | **4** | **`4 : Script-Test`**      | **`EXG-PROJ-15`** : Développement des scripts de génération, suites de tests `pytest` et structuration du répertoire d'exécution dans `./13-Application/`.                                                                                                                      |
 | **5** | **`5 : Bilan`**            | **`EXG-PROJ-16`** : Bilan pédagogique illustrant les concepts/fonctions avec les données et scripts générés. Enrichissement du Backlog dans `PhasesProjet.md` avec les reliquats non traités.                                                                                   |
+## ⚖️ Règles de gouvernance documentaire & Inter-phases
 
+### 1. Format Obligatoire pour `Phase_Content.md` (EXG-ORG-03)
+À chaque modification ou création de `Phase_Content.md`, tu dois strictement appliquer le canevas suivant :
+- **Section 1 : 🎯 Objectifs & Périmètre**
+- **Section 2 : 🛠️ Traçabilité des Livrables par Brique**
+  - A. Spécification & Gouvernance (Lien vers `SPEC-XX`)
+  - B. Instanciation & Use Case Pédagogique (Lien vers `Human_UseCase.md`)
+  - C. Données & Ontologies (Chemins Master & Snapshot TTL)
+  - D. Scripts & Outillage (Scripts `generate_*.py` et tests `test_*.py`)
+- **Section 3 : 🏁 Synthèse de Clôture** (Résumé exécutif & Matrice récapitulative)
+- **Section 4 : 📚 Pour aller plus loin** (Ressources pédagogiques W3C/Standards liées aux concepts introduits)
+
+### 2. Protocole de Cadrage Inter-Phases (EXG-ORG-04)
+Avant d'initier toute nouvelle Phase N :
+1. Exiger la validation de `00-Projet/Cadrage_Checklist.md`.
+2. Vérifier que la Phase N-1 est close (Synthèse `Phase_Content.md` complète, `PhasesProjet.md` mis à jour avec les liens SPEC/Human, et suite Pytest au vert).
 ---
 ## 📐 Principe de Séparation : Framework vs Instanciation (`Étape 2` vs `Étape 3`)
 

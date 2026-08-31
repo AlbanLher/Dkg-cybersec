@@ -1,65 +1,53 @@
+# 📋 Phase [X] : [Nom de la Phase]
 
----
-***Phase 1 : Socle Canonique & Contrat de Qualité (TBox / RBox / SHACL)***
-
-| Etapes | Cadrage | Specification | Donnees | Scripts | Bilan |
-| ------ | ------- | ------------- | ------- | ------- | ----- |
-| _date_ | [  ]    | [  ]          | [   ]   | [   ]   | [   ] |
-> **Classification** : `TLP:XXX`  
-> **Répertoire Snapshot** : `../`  
-> **Répertoire Master** : `../`
-> **Repertoires scripts  :** `../`
-> **Statut** : A_Faire/EnCours_Etape : /Validé/A_Reprendre
-
-## 1. Objectif de la Phase
-
-
-## 2.  Spécifications & Exigences Applicables (Matrice de Traçabilité)
-
-
-### 2.1.   Spécifications Fonctionnelles & Techniques
-* **`SPEC-01_Norme_TBox_RBox.md`** : Définit 
-* 
-
-### 2.2.    Exigences Transverses (`ExigencesProjet.md`)
-* **`EXG-PROJ-01`** : Séparation stricte TBox/RBox (Schéma) vs ABox (Instances).
-* 
----
-## 3.    Données et Génération des Données Synthétiques
-### 3.1.   Données d'entrée existantes
-
-### 3.2.   Nouvelles données d'entrée ( Externes , synthetisées avec le Use_Case,..)
-
-
-### 3.3.   Nouvelles données générées  ( pour les .md mettre le lien)
-L'exécution du script de Phase 1 doit impérativement alimenter le dossier Snapshot de la phase **ainsi que** le Master Transversal :
-
-| Identifiant Livrable | Description | Format          | Emplacement Snapshot | Emplacement Master |
-| :------------------- | :---------- | :-------------- | :------------------- | :----------------- |
-| **LIV-PX-0XX**       |             | Turtle (`.ext`) | `../../.ext`         | `../../.ext`       |
-
-
-
+> **Statut** : [En cours / 🟢 Validée & Close]  
+> **Date de début** : [JJ/MM/AAAA]  
+> **Date de clôture** : [JJ/MM/AAAA]  
 
 ---
 
-## 4. Script 
-### 4.1.   scripts operations
-
-| Action | livrable                    | Localisation | Commentaire |                       |
-| ------ | --------------------------- | ------------ | ----------- | --------------------- |
-| XX     | `XXXXXX.py `                | 13-/         | fait        | 🟢 Terminée / Validée |
-
-
-### 4.2.   Protocole de Qualification & Validation
-
+## 🎯 1. Objectifs & Périmètre
+* **But principal** : [Description synthétique des ambitions de la phase]
+* **Livrables attendus** : [Liste des composants logiciels, schémas ou documents produits]
 
 ---
 
+## 🛠️ 2. Traçabilité des Livrables par Brique
 
-# 5.   Memo didactique
+### A. Spécification & Gouvernance (SPEC Framework)
+* **Spécification associée** : [`SPEC-XX-Titre.md`](../../01-Exigences/SPEC-XX.md)
+* **Exigences couvertes** : Explicitation des règles Métier/Framework adressées dans cette phase.
 
-### 5.1 . Explicitation de la Génération de `TBox_Cybersec.ttl`
+### B. Instanciation & Use Case Pédagogique (Lisible Humain)
+* **Document d'illustration** : [`Human_UseCase.md`](./Human_UseCase.md)
+* **Description** : Scénario concrétisé démontrant la valeur métier sans jargon brut.
 
+### C. Données & Ontologies (Data / Graph RDF)
+* **Artefacts Master** : [`Donnees_Master.ttl`](../../02-Donnees/Master_Transversal/...)
+* **Artefacts Snapshot** : [`Snapshot_Phase_X/`](../../02-Donnees/Snapshots_Phases/...)
 
-### 5.2.  Pour aller plus loin
+### D. Scripts & Outillage (Automation & CI/CD)
+* **Générateur** : [`generate_phaseX.py`](./generate_phaseX.py)
+* **Tests Qualité** : [`test_phaseX_quality.py`](./test_phaseX_quality.py)
+
+---
+
+## 🏁 3. Synthèse de Clôture & Ressources
+
+### Résumé Exécutif
+[Synthèse globale de l'atterrissage de la phase, des acquis et de l'état du code/graphe]
+
+### Matrice Récapitulative des Livrables
+| Brique | Composant / Fichier | Description |
+| :--- | :--- | :--- |
+| **Framework** | [`SPEC-XX.md`](../../01-Exigences/...) | Spécification des contraintes & règles |
+| **Instanciation** | [`Human_UseCase.md`](./...) | Cas d'usage métier expliqué |
+| **Data** | [`Graphe_Master.ttl`](../../02-Donnees/...) | Fichiers RDF / Turtle générés |
+| **Script** | [`generate_phaseX.py`](./...) | Script de génération et synchronisation |
+
+---
+
+## 📚 4. Pour aller plus loin (Ressources Pédagogiques)
+*(Liens documentaires et tutoriels pour approfondir les concepts de la phase)*
+* **[Concept 1]** : [Lien / Référence] — *Brève description du concept.*
+* **[Concept 2]** : [Lien / Référence] — *Brève description du concept.*
