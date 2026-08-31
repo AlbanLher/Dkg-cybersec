@@ -6,4 +6,4 @@ Cas simple au début tant pour les equipements, logiciels parties prenantes et f
 
 Evolution du context en petite entreprise ("micro-entreprise") ou les contraintes réglementaires prenent une place plus importante RGPD..., ainsi que la palette des fonction d'un SOC Cyber.
 
-Ce Use-Case pourra être détaillé au fur et a mesure de l'avancement, il sert de base à la génération de données synthètiques, et contribue à l'objectif didactique, en ayant une histoire pour illustrer le contexte du développement
+Ce Use-Case pourra être détaillé au fur et a mesure de l'avancement, il sert de base à la génération de données synthètiques, et contribue à l'objectif didactique, en ayant une histoire pour illustrer le context du développement

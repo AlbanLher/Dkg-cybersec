@@ -1,8 +1,18 @@
-Le projet DKG-CyberSec  vise a proposer un Framework de developement d'agent IA basé sur les Graphes de Connaissance dynamiques (DKG). Il est mise en ouevre sur un cas d'usage Cybersecurité pour l'illustrer et le guider.
+Le projet DKG-CyberSec  vise a proposer un Framework de développement d'agent IA basé sur les Graphes de Connaissance dynamiques (DKG). Il est mise en oeuvre sur un cas d'usage Cybersecurité pour l'illustrer et le guider.
 
-> **Une approche Spec-Driven, modulaire et hautement gouvernée pour construire des Graphes de Connaissances Cyber souverains et conformes aux standards du W3C.**.  Un dossier de specifications de dévelopement constitue un des principaux objectifs du projet.
+> **Une approche Spec-Driven, modulaire et hautement gouvernée pour construire des Graphes de Connaissances Cyber souverains et conformes aux standards du W3C.**.  Un dossier de spécifications de développement constitue un des principaux objectifs du dossier framework du projet .
 
 ##  1.    Vision & Ambition du Projet
+
+Nous avons tous fait l'expérience de mal-entendus entre nous et un tiers ou en tant qu'observateur dans un échange entre deux tiers, et nous avons tous passé beaucoup de temps pour s'assurer que les équipes comprennent bien les objectifs a atteindre. 
+Combien de fois les réunion de retour d'expérience intègrent : "Il faut améliorer la communication" ?
+Les enjeux d’efficacité opérationnelle et de niveau de qualité des produits et services semblent très importants.
+
+Les technologies nous permettent enfin grâce aux agents IA basés sur les Graph de connaissance d'améliorer le partage des connaissance tout en gardant les niveaux de confidentialité. 
+
+Mais ce n'est pas de la magie, ces technologies restent sous la gouvernance des équipes. Mais elles permettent une dynamique de capitalisation et d'amélioration continue difficilement imaginable auparavant.
+
+Ce projet vise a faire un petit démonstrateur trés simple qui permette de percevoir les concepts mis en oeuvre mais aussi d'appréhender  les enjeux et promesse présentés dans cette vision.
 
 En cybersécurité, les données d'intelligence sur les menaces (CTI), les inventaires d'actifs et les vulnérabilités sont souvent cloisonnés dans des silos hétérogènes.
 Le projet **DKG-CyberSec** répond à ce défi en proposant :
@@ -44,7 +54,7 @@ Commence petit puis grandi au cours des phases
     
 
 
-### 3. Méthodologie Itérative & Architecture IA Hybride
+## 3. Méthodologie Itérative & Phase Projet & Architecture IA Hybride
 
 Le projet **DKG-CyberSec** ne se limite pas à un graphe statique : il constitue le **cerveau opérationnel d'un Agent IA collaborateur** conçu pour épauler les équipes Cyber dans la gestion intégrale de leur SOC (à la manière d'une "micro-entreprise" de défense numérique).
 
@@ -83,7 +93,7 @@ L'IA ne se contente pas de lire le graphe : elle formule des hypothèses, identi
 
 Malgré la flexibilité apportée par le LLM et la vectorisation, **la décision finale reste 100 % déterministe et explicable**. C'est le Knowledge Graph ontologique (OWL + SHACL) qui sert de "garde-fou" (_Ground Truth_) : aucune assertion générée par l'IA ne peut être intégrée dans le SOC Master sans valider les contraintes formelles SHACL.
 
-#### 🔄 Cycle de Vie des Phases Projet
+#### D. Cycle de Vie des Phases Projet
 
 Le projet est a ses début. L'organisation par étape contribue aussi a consolider l'aspect "Dynamique" nécessaire à l'évolution du Graphe de Connaissance
 ```
@@ -94,12 +104,14 @@ Le projet est a ses début. L'organisation par étape contribue aussi a consolid
 └─────────────────┘                └─────────────────┘                └─────────────────┘                    └──────────────────┘
      🟢 CLOSE                           🟡 EN COURS                       ⚪ PLANIFIÉ
 ```
+
+
 [Phase Projet](./00-Projet/PhasesProjet.md)
 
 
 
 
-## 🏗️ 4. Structure du Référentiel
+##  4. Structure du Référentiel
 
 Le dépôt est organisé selon une hiérarchie stricte facilitant la séparation entre gouvernance, données et outillage :
 
@@ -116,7 +128,7 @@ DKG-CYBERSEC/
 └── 03-Application/                     # Outillage Python, scripts de génération et tests CI/CD
 ```
 
-## 🤝 5. Rejoindre la Communauté & Réutiliser le Framework
+##  5. Rejoindre la Communauté & Réutiliser le Framework
 
 ### Vous souhaitez réutiliser le Framework sur votre propre Use Case ?
 
