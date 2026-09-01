@@ -34,6 +34,10 @@ Chaque activité du projet s'inscrit obligatoirement dans une **Phase** et une *
 Avant d'initier toute nouvelle Phase N :
 1. Exiger la validation de `00-Projet/Cadrage_Checklist.md`.
 2. Vérifier que la Phase N-1 est close (Synthèse `Phase_Content.md` complète, `PhasesProjet.md` mis à jour avec les liens SPEC/Human, et suite Pytest au vert).
+### 3. Spécification
+ Toute création ou modification d'un fichier `SPEC-XX` nécessite 
+ - La conformité au [template](05-Bin/SPEC_Template.md)
+ - la mise à jour immédiate du fichier [`00-Projet/Cartographie_SPEC_Framework.md`](./Cartographie_SPEC_Framework.md) (ajout du lien, statut et dépendances). »*
 ---
 ## 📐 Principe de Séparation : Framework vs Instanciation (`Étape 2` vs `Étape 3`)
 
@@ -68,7 +72,7 @@ Avant d'initier toute nouvelle Phase N :
 ##  Prompt de Contexte & Guide de Gouvernance
 
 * **Rôle** : Architecte IA et co-développeur d'un framework  pour développer un Agent IA basé sur un Knowledge Graph  Dynamique, appliqué au cas d'usage Cybersécurité décrit dans le [UseCase](./Use_Case.md). Tu contribue dans tes réponse au dévelopement de ce cas d'usage.
-* Tes réponses doivent contribuer au Projet en suivant les objectif de chaque étape de chaque phase comme explicité  le chapitre 2 de [Spec Projet](SPEC-00_Exigences_Projet.md) 
+* Tes réponses doivent contribuer au Projet en suivant les objectif de chaque étape de chaque phase comme explicité  le chapitre 2 de [Spec Projet](05-Bin/SPEC-00_Exigences_Projet.md) 
 * L'ensemble des concepts et fonctionnalités du dévelopement itératif de ce Framework sont présentés dans  : [/00-Projet/PhasesProjet.md](./PhasesProjet.md)] associés aux phases quand ils ont étés développés ou dans la liste backlog. 
 * **La gouvernance TLP doit être appliquée pour gérer la confidentialité** : 
 	- `TLP:AMBER` : Modèle de données canonique, règles métier et validation SHACL. 
@@ -76,7 +80,7 @@ Avant d'initier toute nouvelle Phase N :
 	- `TLP:CLEAR` : Référentiels publics externes (CVE, CWE, CAPEC, NVD). 
 - **Collaboration Homme - Machine** : Tout composant Master doit être décliné en triple format : Turtle (`.ttl`), JSON-LD (`.json`) et Documentation Markdown (`.md`). 
 - **Spec driven** 
-	- la spec projet a impérativement appliquer sont : [spec projet](SPEC-00_Exigences_Projet.md)
+	- la spec projet a impérativement appliquer sont : [spec projet](05-Bin/SPEC-00_Exigences_Projet.md)
 	- les spec de développement issues de chaque phase sont placée dans le répertoire **../01-Principes_Specifications/** qui servent à l'instanciation sur le Use_Case et aux tests.
 - Les livrables qu'ils soient données et scripts sont placés respectivement dans ../02-Donnes/, ../03-Application/ soit dans un répertoire Spécifique à la Phase, soit dans un répertoire transverse aux phases. ref Aborescence ce dessous avec version a jour dans  [GitHub-Dkg-cybersec](https://github.com/AlbanLher/Dkg-cybersec/tree/main)   Seuls les repertoires ./00-Projet/  ./01-Principes_Specifcations/, ./02-Donnees/,  ./03-Applications/ ainsi que le README.md sont a prendre en compte dans le repo.
 - ---

@@ -1,10 +1,6 @@
-Le projet DKG-CyberSec  vise a 
-- Proposer un Framework de développement d'agent IA basé sur les Graphes de Connaissance dynamiques (DKG). 
-- Le mettre en oeuvre sur un cas d'usage Cybersecurité pour l'illustrer et le guider.
+Le projet DKG-CyberSec  vise a proposer un Framework de développement d'agent IA basé sur les Graphes de Connaissance dynamiques (DKG). Il est mise en oeuvre sur un cas d'usage Cybersecurité pour l'illustrer et le guider.
 
 > **Une approche Spec-Driven, modulaire et hautement gouvernée pour construire des Graphes de Connaissances Cyber souverains et conformes aux standards du W3C.**.  Un dossier de spécifications de développement constitue un des principaux objectifs du dossier framework du projet .
-
-
 
 ##  1.    Vision & Ambition du Projet
 
@@ -25,17 +21,13 @@ Le projet **DKG-CyberSec** répond à ce défi en proposant :
     
 2. **Une Application Concrète au Domaine Cyber / SOC** : Un modèle opérationnel permettant de relier en temps réel la connaissance théorique des menaces aux réalités du terrain d'un Centre d'Opérations de Sécurité (SOC).
 
-3. **Econome en ressource** : pour le POC usecase l'objectif est de tourner en inférence en local sur PC sans GPU avec 16Go RAM. Recours au cloud GPU pour fine tuning si besoin. 
-4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](./00-Projet/PROJECT_CONTEXT_PROMPT.md) )
+3. **Econome en ressource** : pour le POC usecase tourner en inférence en local sur PC sans GPU avec 16Go RAM. Recours au cloud GPU pour fine tuning si besoin. 
+4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](PROJECT_CONTEXT_PROMPT.md) )
 
-
-
-Pour suivre l'avancement accédez à : [PhaseProjet.md](./00-Projet/PhasesProjet.md)
-
-##  2.   Le Cas d'Usage Métier pour illustrer les principes  : Cybersecurité & SOC
+##  2.   Le Cas d'Usage Métier pour illustrer les principes  : L'Ecosystème Cyber & SOC
 
 Le projet illustre la puissance des Semantic Web Technologies en modélisant l'intégralité de la chaîne d'impact opérationnelle d'un SOC :
-Il commence par le simple lien entre Asset et logiciels confidentiels de l'entreprise et les lie aux données publiques de vulnérabilité pour recommander les actions de réduction des risques.
+Commence petit puis grandi au cours des phases
 
 ```
 ┌──────────────┐       ┌───────────────────┐       ┌─────────────────┐
@@ -62,7 +54,7 @@ Il commence par le simple lien entre Asset et logiciels confidentiels de l'entre
     
 
 
-## 3.    Méthodologie Itérative & Phases du  Projet  &  Architecture IA Hybride
+## 3. Méthodologie Itérative & Phase Projet & Architecture IA Hybride
 
 Le projet **DKG-CyberSec** ne se limite pas à un graphe statique : il constitue le **cerveau opérationnel d'un Agent IA collaborateur** conçu pour épauler les équipes Cyber dans la gestion intégrale de leur SOC (à la manière d'une "micro-entreprise" de défense numérique).
 
@@ -114,14 +106,16 @@ Le projet est a ses début. L'organisation par étape contribue aussi a consolid
 ```
 
 
-[Phase Projet](./00-Projet/PhasesProjet.md)
+[Phase Projet](PhasesProjet.md)
 
 
 
 
-##  4.   Structure du Référentiel
+##  4. Structure du Référentiel
 
 Le dépôt est organisé selon une hiérarchie stricte facilitant la séparation entre gouvernance, données et outillage :
+
+Plaintext
 
 ```
 DKG-CYBERSEC/
@@ -134,7 +128,7 @@ DKG-CYBERSEC/
 └── 03-Application/                     # Outillage Python, scripts de génération et tests CI/CD
 ```
 
-##  5.   Rejoindre la Communauté & Réutiliser le Framework
+##  5. Rejoindre la Communauté & Réutiliser le Framework
 
 ### Vous souhaitez réutiliser le Framework sur votre propre Use Case ?
 

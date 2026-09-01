@@ -1,0 +1,74 @@
+@prefix dkg: <http://dkg.cybersec.org/schema#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-data:ABox_Master a owl:Ontology ;
+    rdfs:label "DKG ABox Master - Operational Cyber Security Graph"@fr ;
+    dkg:tlpMarking "TLP:RED" .
+
+dkg-data:TLP-CLEAR a dkg:TLPMarking ;
+    rdfs:label "TLP:CLEAR"@en .
+
+dkg-data:TLP-GREEN a dkg:TLPMarking ;
+    rdfs:label "TLP:GREEN"@en .
+
+dkg-data:Asset-Srv-Auth-02 a dkg:Asset ;
+    rdfs:label "Serveur Authentification Central"@fr ;
+    dkg:hasInstalledComponent dkg-data:Comp-Log4j-2-14 ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-Srv-Prod-01 a dkg:Asset ;
+    rdfs:label "Serveur Web Frontend Production"@fr ;
+    dkg:hasInstalledComponent dkg-data:Comp-Apache-2-4-49 ;
+    dkg:hasTLPMarking dkg-data:TLP-AMBER .
+
+dkg-data:CAPEC-126 a dkg:ThreatPattern ;
+    rdfs:label "Path Traversal"@en ;
+    dkg:description "An attacker manipulates path references to access files outside the intended folder."@en ;
+    dkg:isThreatPatternOf dkg-data:CWE-22 .
+
+dkg-data:CAPEC-63 a dkg:ThreatPattern ;
+    rdfs:label "Simple Pass-Through"@en ;
+    dkg:description "Attacker executes arbitrary code by passing commands through input fields."@en ;
+    dkg:isThreatPatternOf dkg-data:CWE-78 .
+
+dkg-data:TLP-AMBER a dkg:TLPMarking ;
+    rdfs:label "TLP:AMBER"@en .
+
+dkg-data:TLP-RED a dkg:TLPMarking ;
+    rdfs:label "TLP:RED"@en .
+
+dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
+    rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
+    dkg:cvssScore 7.5 ;
+    dkg:exploitsWeakness dkg-data:CWE-22 ;
+    dkg:isVulnerabilityOf dkg-data:Comp-Apache-2-4-49 .
+
+dkg-data:CVE-2021-44228 a dkg:Vulnerability ;
+    rdfs:label "Log4Shell Remote Code Execution"@en ;
+    dkg:cvssScore 10.0 ;
+    dkg:exploitsWeakness dkg-data:CWE-78 ;
+    dkg:isVulnerabilityOf dkg-data:Comp-Log4j-2-14 .
+
+dkg-data:CWE-22 a dkg:Weakness ;
+    rdfs:label "Improper Limitation of a Pathname to a Restricted Directory"@en ;
+    dkg:hasThreatPattern dkg-data:CAPEC-126 ;
+    dkg:isWeaknessExploitedBy dkg-data:CVE-2021-41773 .
+
+dkg-data:CWE-78 a dkg:Weakness ;
+    rdfs:label "Improper Neutralization of Special Elements used in an OS Command"@en ;
+    dkg:hasThreatPattern dkg-data:CAPEC-63 ;
+    dkg:isWeaknessExploitedBy dkg-data:CVE-2021-44228 .
+
+dkg-data:Comp-Apache-2-4-49 a dkg:SoftwareComponent ;
+    rdfs:label "Apache HTTP Server v2.4.49"@fr ;
+    dkg:hasVulnerability dkg-data:CVE-2021-41773 ;
+    dkg:isInstalledComponentOf dkg-data:Asset-Srv-Prod-01 .
+
+dkg-data:Comp-Log4j-2-14 a dkg:SoftwareComponent ;
+    rdfs:label "Apache Log4j Core v2.14.1"@fr ;
+    dkg:hasVulnerability dkg-data:CVE-2021-44228 ;
+    dkg:isInstalledComponentOf dkg-data:Asset-Srv-Auth-02 .
+

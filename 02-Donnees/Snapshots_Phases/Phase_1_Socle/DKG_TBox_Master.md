@@ -13,10 +13,6 @@
 * **OWL** : Web Ontology Language (Modélisation sémantique et logique)
 * **SKOS** : Simple Knowledge Organization System (Gestion lexicale et multilingue)
 * **SHACL** : Shapes Constraint Language (Validation de données ABox)
-* **CWA / OWA** : Closed World Assumption / Open World Assumption
-* **CVE** : Common Vulnerabilities and Exposures
-* **CWE** : Common Weakness Enumeration
-* **CAPEC** : Common Attack Pattern Enumeration and Classification
 * **TLP** : Traffic Light Protocol
 
 ---
