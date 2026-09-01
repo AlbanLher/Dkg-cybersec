@@ -29,26 +29,11 @@ Le projet **DKG-CyberSec** répond à ce défi en proposant :
 4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](./00-Projet/PROJECT_CONTEXT_PROMPT.md) )
 
 
-- La [Roadmap Produit correspondant est disponible ici](./00-Projet/Roadmap_Produit.md)
-- Un [bilan d'avancement par phases est disponible ici](Phases_Projet.md)
+- La [Roadmap_Suivi d'Avancement est disponible ici](Roadmap_Suivi-Avancement.md)
+
 
 ##  2.   Le Cas d'Usage Métier pour illustrer les principes  : Cybersecurité & SOC
-
-Le projet illustre la puissance des Semantic Web Technologies en modélisant l'intégralité de la chaîne d'impact opérationnelle d'un SOC :
-Il commence par le simple lien entre Asset et logiciels confidentiels de l'entreprise et les lie aux données publiques de vulnérabilité pour recommander les actions de réduction des risques.
-
-```
-┌──────────────┐       ┌───────────────────┐       ┌─────────────────┐
-│  dkg:Asset   │──────>│ dkg:SoftwareComp  │──────>│dkg:Vulnerability│
-│  (Serveur)   │       │  (Bibliothèque)   │       │  (CVE-2023-x)   │
-└──────────────┘       └───────────────────┘       └────────┬────────┘
-       │                                                    │
-       ▼                                                    ▼
-┌──────────────┐                                   ┌─────────────────┐
-│dkg:TLPMarking│                                   │  dkg:Weakness   │
-│ (TLP:AMBER)  │                                   │  (CWE-89 SQLi)  │
-└──────────────┘                                   └─────────────────┘
-```
+[Description du Cas d'Usage](./00-Projet/Use_Case.md)
 
 ### Principes & Fonctionnalités Clés du Framework :
 
