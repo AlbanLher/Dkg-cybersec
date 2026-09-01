@@ -29,8 +29,8 @@ Le projet **DKG-CyberSec** répond à ce défi en proposant :
 4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](./00-Projet/PROJECT_CONTEXT_PROMPT.md) )
 
 
-
-Pour suivre l'avancement accédez à : [PhaseProjet.md](./00-Projet/PhasesProjet.md)
+- La [Roadmap Produit correspondant est disponible ici](./00-Projet/Roadmap_Produit.md)
+- Un [bilan d'avancement par phases est disponible ici](Phases_Projet.md)
 
 ##  2.   Le Cas d'Usage Métier pour illustrer les principes  : Cybersecurité & SOC
 
@@ -63,6 +63,31 @@ Il commence par le simple lien entre Asset et logiciels confidentiels de l'entre
 
 
 ## 3.    Méthodologie Itérative & Phases du  Projet  &  Architecture IA Hybride
+
+```mermaid
+graph TD
+    subgraph Phase_Execution [Pendant la Phase --Effet ZOOM - Focus Tactique--]
+        Direction1[Focalisation sur le livrable immédiat]
+        Direction2[Respect des contraintes SHACL & TLP de la phase]
+        Direction3[Exécution du cycle 'Generate -> Export -> Test']
+    end
+    
+    subgraph Inter_Phase [Inter-Phase & Inter-Vague --Effet DÉZOOM - Vision Stratégique--]
+        Scope1[Recul et nettoyage 5S]
+        Scope2[Alignement de config.py avec les nouvelles structures]
+        Scope3[Mise à jour du Backlog / Roadmap Produit Agent SOC]
+        Scope4[Vérification de la cohérence cross-TLP]
+    end
+
+    Phase_Execution -->|Fin de Phase| Inter_Phase
+    Inter_Phase -->|Feu Vert Roadmap| Phase_Execution
+```
+
+
+
+
+
+
 
 Le projet **DKG-CyberSec** ne se limite pas à un graphe statique : il constitue le **cerveau opérationnel d'un Agent IA collaborateur** conçu pour épauler les équipes Cyber dans la gestion intégrale de leur SOC (à la manière d'une "micro-entreprise" de défense numérique).
 
@@ -114,7 +139,7 @@ Le projet est a ses début. L'organisation par étape contribue aussi a consolid
 ```
 
 
-[Phase Projet](./00-Projet/PhasesProjet.md)
+[Phase Projet](Phases_Projet.md)
 
 
 

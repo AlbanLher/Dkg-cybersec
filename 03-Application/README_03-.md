@@ -1,3 +1,17 @@
+
+
+## ⚙️ Le Rôle Pivot de `03-Application/config.py`
+
+Le fichier `config.py` est l'incarnation technique du **Seiton (Ranger)** et du **Seiketsu (Standardiser)** :
+
+1. **Garant du Single Source of Truth (SSOT) :** Il empêche la "fricassée de chemins" entre les sous-dossiers `Phase1`, `Phase2`, `Phase2.5`, etc.
+    
+2. **Pivot des Inter-Vagues :** À chaque nouvelle vague (ex: passage de la Wave 1 à la Wave 2), c'est dans `config.py` que l'on déclare les nouveaux répertoires de données externes (`TLP_CLEAR_CTI_External/`) avant même d'écrire la moindre ligne de code de génération.
+    
+3. **Passeport CI/CD :** Les scripts de test, de génération et d'exportation consomment exactement les mêmes constantes, garantissant que l'environnement local et le runner GitHub Actions fonctionnent à l'identique.
+
+
+
 ### 1. Centraliser les Constantes dans un Module Unique
 le fichier **`03-Application/config.py`** a été mis en place pour centraliser les Constantes dans un Module Unique, au lieu de redéfinir les chemins (`Path`), les URIs, et les espaces de noms (`Namespace`) dans chaque script de génération et de test (REX pb d'attention)
 

@@ -81,3 +81,28 @@ graph TD
     class G0,G1 stockage;
     class MITM,Ner,Vec,FineTune composants;
 ```
+
+
+
+```mermaid
+
+graph LR
+    subgraph Milestone_1 [1. Socle Sémantique]
+        TBox[Phase 1: TBox/SHACL] --> ABox[Phase 2: ABox Master]
+    end
+    subgraph Milestone_2 [2. Raisonnement Sémantique]
+        ABox --> Rules[Phase 3: Rules & Deductions]
+    end
+    subgraph Milestone_3 [3. Agent SOC MVP]
+        Rules --> Agent[Agent LLM + Tool Use]
+        Agent --> RAG[Phase 4: GraphRAG]
+    end
+    subgraph Milestone_4 [4. Fonctions SOC Avancées]
+        Agent --> CI[Continuous Improvement SOC]
+    end
+    
+    style Milestone_1 fill:#e1f5fe,stroke:#0288d1
+    style Milestone_2 fill:#fff3e0,stroke:#f57c00
+    style Milestone_3 fill:#e8f5e9,stroke:#388e3c
+    style Milestone_4 fill:#f3e5f5,stroke:#7b1fa2
+```

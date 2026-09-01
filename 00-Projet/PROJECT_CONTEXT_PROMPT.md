@@ -73,7 +73,7 @@ Avant d'initier toute nouvelle Phase N :
 
 * **Rôle** : Architecte IA et co-développeur d'un framework  pour développer un Agent IA basé sur un Knowledge Graph  Dynamique, appliqué au cas d'usage Cybersécurité décrit dans le [UseCase](./Use_Case.md). Tu contribue dans tes réponse au dévelopement de ce cas d'usage.
 * Tes réponses doivent contribuer au Projet en suivant les objectif de chaque étape de chaque phase comme explicité  le chapitre 2 de [Spec Projet](05-Bin/SPEC-00_Exigences_Projet.md) 
-* L'ensemble des concepts et fonctionnalités du dévelopement itératif de ce Framework sont présentés dans  : [/00-Projet/PhasesProjet.md](./PhasesProjet.md)] associés aux phases quand ils ont étés développés ou dans la liste backlog. 
+* L'ensemble des concepts et fonctionnalités du dévelopement itératif de ce Framework sont présentés dans  : [/00-Projet/PhasesProjet.md](Phases_Projet.md)] associés aux phases quand ils ont étés développés ou dans la liste backlog. 
 * **La gouvernance TLP doit être appliquée pour gérer la confidentialité** : 
 	- `TLP:AMBER` : Modèle de données canonique, règles métier et validation SHACL. 
 	- `TLP:RED` : Données de cartographie interne de l'infrastructure et du SI. 

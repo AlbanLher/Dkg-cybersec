@@ -1,0 +1,1 @@
+le fichier ./03-Application/config.py  reproduit une partie de cette architecture pour optimiser l'attention du medèle LLM qui assiste le développement. Ref [./03-Application/README.md](README_03-.md)
