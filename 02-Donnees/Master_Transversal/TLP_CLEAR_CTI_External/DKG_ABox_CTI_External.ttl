@@ -1,0 +1,21 @@
+@prefix dkg: <http://dkg.cybersec.org/schema#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-data:Apache-2.4.49 dkg:hasVulnerability dkg-cti:CVE-2021-41773 .
+
+dkg-cti:CAPEC-126 a dkg:ThreatPattern ;
+    rdfs:label "CAPEC-126: Directory Traversal"@en .
+
+dkg-cti:CVE-2021-41773 a dkg:Vulnerability ;
+    rdfs:label "CVE-2021-41773 - Apache Path Traversal"@fr ;
+    dkg:cvssScore "7.5"^^xsd:float ;
+    dkg:exploitsWeakness dkg-cti:CWE-22 ;
+    dkg:isCisaKev true .
+
+dkg-cti:CWE-22 a dkg:Weakness ;
+    rdfs:label "CWE-22: Path Traversal"@en ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-126 .
+

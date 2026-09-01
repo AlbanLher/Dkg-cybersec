@@ -128,3 +128,47 @@ dkg:Vulnerability a owl:Class ;
     skos:prefLabel "Vulnerability"@en,
         "Vulnérabilité"@fr .
 
+# ==============================================================================
+# SECTION CTI EXTERNE (Wave 2 - Phase 2.5)
+# ==============================================================================
+
+# --- Datatype Properties ---
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:label "Score CVSS v3"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float .
+
+dkg:isCisaKev a owl:DatatypeProperty ;
+    rdfs:label "Exploité activement (CISA KEV)"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:boolean .
+
+# --- Object Properties ---
+dkg:exploitsWeakness a owl:ObjectProperty ;
+    rdfs:label "Exploite la faiblesse"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness .
+
+dkg:hasThreatPattern a owl:ObjectProperty ;
+    rdfs:label "Présente le motif d'attaque"@fr ;
+    rdfs:domain dkg:Weakness ;
+    rdfs:range dkg:ThreatPattern .
+
+# --- Validation SHACL ---
+dkg:VulnerabilityShape a sh:NodeShape ;
+    sh:targetClass dkg:Vulnerability ;
+    sh:property [
+        sh:path dkg:cvssScore ;
+        sh:datatype xsd:float ;
+        sh:minInclusive 0.0 ;
+        sh:maxInclusive 10.0 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
+        sh:path dkg:isCisaKev ;
+        sh:datatype xsd:boolean ;
+        sh:maxCount 1 ;
+    ] .
+
+
+
