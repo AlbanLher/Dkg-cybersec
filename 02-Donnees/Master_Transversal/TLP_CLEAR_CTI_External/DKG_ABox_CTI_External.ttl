@@ -4,6 +4,12 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+dkg-cti:ThreatActor-APT29 a dkg:ThreatActor ;
+    rdfs:label "APT29" ;
+    dkg:exploitsVulnerability dkg-cti:CVE-2024-21887 ;
+    dkg:hasThreatPattern dkg-cti:Pattern-SpearphishingLink-T1566_002 ;
+    dkg:nerConfidenceScore "0.98"^^xsd:float .
+
 dkg-data:Apache-2.4.49 dkg:hasVulnerability dkg-cti:CVE-2021-41773 .
 
 dkg-cti:CAPEC-126 a dkg:ThreatPattern ;
@@ -15,7 +21,15 @@ dkg-cti:CVE-2021-41773 a dkg:Vulnerability ;
     dkg:exploitsWeakness dkg-cti:CWE-22 ;
     dkg:isCisaKev true .
 
+dkg-cti:CVE-2024-21887 a dkg:Vulnerability ;
+    rdfs:label "CVE-2024-21887" ;
+    dkg:nerConfidenceScore "0.99"^^xsd:float .
+
 dkg-cti:CWE-22 a dkg:Weakness ;
     rdfs:label "CWE-22: Path Traversal"@en ;
     dkg:hasThreatPattern dkg-cti:CAPEC-126 .
+
+dkg-cti:Pattern-SpearphishingLink-T1566_002 a dkg:ThreatPattern ;
+    rdfs:label "Spearphishing Link (T1566.002)" ;
+    dkg:nerConfidenceScore "0.92"^^xsd:float .
 

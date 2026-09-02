@@ -9,14 +9,22 @@ import pytest
 from rdflib import Graph, RDF
 from pyshacl import validate
 
-from config import TBOX_MASTER_PATH, ABOX_MASTER_PATH, ABOX_CTI_PATH, DKG, DKG_CTI
+# Imports alignés à 100% sur config.py
+from config import (
+    TBOX_MASTER_PATH,
+    ABOX_RED_PATH,
+    ABOX_CTI_PATH,
+    DKG,
+    DKG_DATA,
+    DKG_CTI
+)
 
 
 @pytest.fixture(scope="module")
 def combined_graph():
     """
     Fixture Pytest qui charge l'ensemble des graphes du projet :
-    - TBox Master + Contraintes SHACL
+    - TBox Master + Contraintes SHACL (TLP:AMBER)
     - ABox Cartographie Interne (TLP:RED)
     - ABox CTI Externe (TLP:CLEAR)
     """
@@ -27,8 +35,8 @@ def combined_graph():
     g.parse(str(TBOX_MASTER_PATH), format="turtle")
     
     # 2. Chargement ABox RED (Cartographie interne)
-    assert ABOX_MASTER_PATH.exists(), f"Fichier ABox RED introuvable : {ABOX_MASTER_PATH}"
-    g.parse(str(ABOX_MASTER_PATH), format="turtle")
+    assert ABOX_RED_PATH.exists(), f"Fichier ABox RED introuvable : {ABOX_RED_PATH}"
+    g.parse(str(ABOX_RED_PATH), format="turtle")
     
     # 3. Chargement ABox CLEAR (CTI Externe)
     assert ABOX_CTI_PATH.exists(), f"Fichier ABox CTI introuvable : {ABOX_CTI_PATH}"
@@ -55,22 +63,21 @@ def test_cross_tlp_link(combined_graph):
     """
     Vérifie le raccordement Cross-TLP entre le composant local (TLP:RED) et la CTI (TLP:CLEAR).
     """
-    apache_uri = DKG.data["Apache-2.4.49"] if hasattr(DKG, "data") else DKG["data#Apache-2.4.49"]
+    apache_uri = DKG_DATA["Apache-2.4.49"]
     cve_uri = DKG_CTI["CVE-2021-41773"]
     
     # Vérification de l'existence du lien dkg:hasVulnerability
-    has_vuln_triples = list(combined_graph.triples((None, DKG.hasVulnerability, cve_uri)))
-    assert len(has_vuln_triples) > 0, "Aucun composant local n'est relié à CVE-2021-41773 via dkg:hasVulnerability"
+    has_vuln_triples = list(combined_graph.triples((apache_uri, DKG.hasVulnerability, cve_uri)))
+    assert len(has_vuln_triples) > 0, "Le composant Apache-2.4.49 n'est pas relié à CVE-2021-41773 via dkg:hasVulnerability"
 
 
 def test_shacl_validation_cti(combined_graph):
     """
     Exécute la validation SHACL sur le graphe combiné.
-    Le graphe TBox contient les formes SHACL (sh:NodeShape) nécessaires.
     """
     conforms, results_graph, results_text = validate(
         data_graph=combined_graph,
-        shacl_graph=combined_graph,  # Les formes SHACL sont intégrées dans la TBox Master
+        shacl_graph=combined_graph,  # Formes SHACL combinées dans la TBox Master
         inference='rdfs',
         debug=False
     )

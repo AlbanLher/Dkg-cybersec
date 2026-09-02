@@ -1,0 +1,9 @@
+BULLETIN D'ALERTE CTI - CERT-FR
+Classification : TLP:CLEAR
+Date : 2024-02-15
+Sujet : Campagne d'attaque ciblant les infrastructures Web
+
+Le CERT-FR a observé une campagne d'attaque d'envergure ciblant les serveurs d'entreprises. 
+L'acteur de menace APT29 (aussi connu sous le nom Cozy Bear) exploite activement la vulnérabilité CVE-2024-21887.
+Les attaquants utilisent principalement la technique de Spearphishing Link (T1566.002) pour obtenir un accès initial.
+Cette vulnérabilité permet une exécution de code à distance (RCE) et affecte les composants d'infrastructure réseau de type Proxy et VPN.

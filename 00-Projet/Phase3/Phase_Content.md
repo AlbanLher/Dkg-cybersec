@@ -1,4 +1,4 @@
-# 📑 Fiche d'Étape : Phase 2.5 — Ingestion CTI Externe & Superposition Cross-TLP (`TLP:CLEAR`)
+# 📑 Fiche d'Étape : Phase 3 — Ingestion CTI Externe & Superposition Cross-TLP (`TLP:CLEAR`)
 
 > **Nom du Projet :** DKG-CyberSec  
 > **Phase :** 3 (Vague 2 — Ingestion CTI Externe & Superposition)  
@@ -14,6 +14,10 @@
 Dans le cadre de l'évolution du Knowledge Graph SOC, la cartographie des actifs internes (`TLP:RED`) développée en Vague 1 doit être enrichie par des sources de menaces externes (`TLP:CLEAR` : NVD, MITRE ATT&CK, CISA KEV). 
 
 L'objectif principal est de permettre à l'Agent IA SOC de corréler l'infrastructure sensible avec la CTI publique sans compromettre la confidentialité des actifs internes et en conservant une stricte étanchéité logique et physique.
+
+**📌 Hypothèse de Cadrage — Conformité au Socle TBox/RBox (Phase 4)** :
+_L'ingestion CTI non structurée via NER traite exclusivement les entités et relations strictement conformes au socle TBox/RBox existant (`TLP:AMBER`). Tout besoin d'extension ontologique (découverte de nouveaux concepts ou affinement de relations) est explicitement différé à la **Phase 5**, où le moteur de raisonnement et l'évolution dynamique de la TBox/RBox seront traités de manière consolidée._
+
 
 ### 1.2 Inscription dans le Scénario Fil Rouge ("Silent Cascade")
 Le scénario d'attaque fil rouge nécessite de relier l'équipement critique interne `Serv-Prod-01` (`TLP:RED`) exécutant `Apache 2.4.49` à la vulnérabilité publique **`CVE-2021-41773`** (`TLP:CLEAR`), elle-même rattachée à la faiblesse **`CWE-22`** (Path Traversal), au motif d'attaque **`CAPEC-126`**, et identifiée comme activement exploitée dans le catalogue **CISA KEV**.
@@ -70,15 +74,10 @@ graph TD
 ### 3.2 Impact SSOT dans `03-Application/config.py`
 
 Ajout et formalisation des constantes globales :
-
-- `DIR_CTI_CLEAR = DIR_MASTER / "TLP_CLEAR_CTI_External"`
-    
+- `DIR_CTI
 - `ABOX_CTI_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.ttl"`
-    
-- `DOC_CTI_MD_PATH = DIR_CTI_CLEAR / "02_SYNTHESE_ABOX_CTI.md"`
-    
+- C_CTI_MD_PATH = DIR_CTI_CLEAR / "02_SYNTHESE_ABOX_CTI.md"`
 - `DKG_CTI = Namespace("http://dkg.cybersec.org/cti#")`
-    
 
 ## 📋 4. Plan de Déroulement des 4 Étapes de la Phase
 

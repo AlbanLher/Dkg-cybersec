@@ -26,7 +26,7 @@ Le projet **DKG-CyberSec** répond à ce défi en proposant :
 2. **Une Application Concrète au Domaine Cyber / SOC** : Un modèle opérationnel permettant de relier en temps réel la connaissance théorique des menaces aux réalités du terrain d'un Centre d'Opérations de Sécurité (SOC).
 
 3. **Econome en ressource** : pour le POC usecase l'objectif est de tourner en inférence en local sur PC sans GPU avec 16Go RAM. Recours au cloud GPU pour fine tuning si besoin. 
-4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](./00-Projet/PROJECT_CONTEXT_PROMPT.md) )
+4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](PROJECT_CONTEXT_PROMPT.md) )
 
 
 - La [Roadmap_Suivi d'Avancement est disponible ici](Roadmap_Suivi-Avancement.md)
