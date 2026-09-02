@@ -35,7 +35,7 @@ graph TD
     end
     subgraph V2 [Vague 2: Ingestion CTI Externe & NER]
         B1[Flux CTI TLP:CLEAR] --> B2[NER / Unstructured CTI]
-        B2 --> B3[Superposition Cross-TLP]
+        %% B2 --> B3[Superposition Cross-TLP]
     end
     subgraph V3 [Vague 3: Moteur de Raisonnement]
         C1[Règles SWRL / SPARQL Construct] --> C2[Déductions & HighRiskAsset]

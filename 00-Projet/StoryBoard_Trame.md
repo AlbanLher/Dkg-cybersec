@@ -146,9 +146,258 @@ Voici une trame vidéo spécifique pour la séquence d'introduction du storyboar
 - **Message clé :** Grâce à cette architecture, chaque modification de la ABox est automatiquement validée par le socle TBox/SHACL dans le pipeline CI/CD, garantissant un graphe 100% conforme et documenté automatiquement en Markdown et Diagramme Mermaid.0
 
 
-## Seq_2 : 
+## Seq_2 :  La Superposition Cross-TLP au Cœur du Dynamic Knowledge Graph (DKG)**
 
-### 💡 Intérêt Pédagogique pour le Storyboard / Vidéo
+- **Étape 1 : Le Modèle Conceptuel — TBox, RBox & SHACL (`TLP:AMBER`)**
+    
+    - **Rôle** : Ontologie d'entreprise fixe. Définition des classes (`Host`, `Vulnerability`, `ThreatActor`, `ThreatPattern`), des relations admises et des contraintes de forme SHACL.
+        
+- **Étape 2 : L'Instanciation Interne — ABox Interne (`TLP:RED`)**
+    
+    - **Rôle** : Cartographie réelle du SI sous forte confidentialité.
+        
+    - **Nœuds & Propriétés** : `dkg-data:Host-WebProxy-01` avec ses propriétés d'infrastructure (IP, OS) et son lien sortant `dkg:hasVulnerability` pointant vers l'identifiant neutre `dkg-cti:CVE-2024-21887`.
+        
+- **Étape 3 : L'Enrichissement CTI Structuré — NVD & CISA-KEV (`TLP:CLEAR`)**
+    
+    - **Rôle** : Qualification factuelle et automatisée de la menace externe.
+        
+    - **Nœuds & Propriétés** : Résolution de l'URI `dkg-cti:CVE-2024-21887` qui s'enrichit des métadonnées officielles (`dkg:cvssScore "9.8"`, `dkg:isCisaKev true`).
+        
+- **Étape 4 : L'Enrichissement CTI Non Structuré — NLP / NER (`TLP:CLEAR`)**
+    
+    - **Rôle** : Extraction contextuelle à partir de bulletins de renseignement bruts (CERT-FR, blogs).
+        
+    - **Nœuds & Propriétés** : Détection automatique des nœuds `dkg-cti:ThreatActor-APT29` et `dkg-cti:Pattern-SpearphishingLink-T1566_002`, filtrés avec un score de confiance $\ge 0.85$.
+        
+    - **Sémantique de la Superposition** : La relation `dkg:exploitsVulnerability` connecte instantanément l'attaquant **APT29** à la vulnérabilité de l'hôte interne `Host-WebProxy-01` sans aucune recopie de données et en préservant l'isolation TLP.
+
+
+```mermaid
+graph BT
+    %% Styles
+    classDef tbox fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:black;
+    classDef red fill:#ffcdd2,stroke:#e53935,stroke-width:2px,color:black;
+    classDef clearStruct fill:#b2ebf2,stroke:#00acc1,stroke-width:2px,color:black;
+    classDef clearNER fill:#c8e6c9,stroke:#43a047,stroke-width:2px,color:black;
+
+    %% 1. TBOX (En bas)
+    subgraph Etape1 ["1. Socle Ontologique TBox / SHACL (TLP:AMBER)"]
+        T_Host["Class: dkg:Host"]:::tbox
+        T_Vuln["Class: dkg:Vulnerability"]:::tbox
+        T_Actor["Class: dkg:ThreatActor"]:::tbox
+        T_Pattern["Class: dkg:ThreatPattern"]:::tbox
+        
+        T_Host -->|dkg:hasVulnerability| T_Vuln
+        T_Actor -->|dkg:exploitsVulnerability| T_Vuln
+        T_Actor -->|dkg:hasThreatPattern| T_Pattern
+    end
+
+    %% 2. ABOX INTERNE (Au-dessus)
+    subgraph Etape2 ["2. Cartographie Interne ABox (TLP:RED)"]
+        Host1["Instance: dkg-data:Host-WebProxy-01<br/>• ip: 192.168.1.50"]:::red
+        VulnRef["Reference URI:<br/>dkg-cti:CVE-2024-21887"]:::red
+        
+        Host1 -->|dkg:hasVulnerability| VulnRef
+    end
+
+    %% 3. CTI STRUCTURÉE (Au-dessus)
+    subgraph Etape3 ["3. CTI Externe Structurée (TLP:CLEAR)"]
+        VulnFull["Instance CTI: dkg-cti:CVE-2024-21887<br/>• cvssScore: 9.8<br/>• isCisaKev: true"]:::clearStruct
+    end
+
+    %% 4. CTI NON STRUCTURÉE - NER (Au sommet)
+    subgraph Etape4 ["4. CTI Externe NER (TLP:CLEAR)"]
+        Actor["Instance NER: dkg-cti:ThreatActor-APT29<br/>• Score: 0.98"]:::clearNER
+        Pattern["Instance NER: dkg-cti:Pattern-T1566_002<br/>• Score: 0.92"]:::clearNER
+        
+        Actor -->|dkg:hasThreatPattern| Pattern
+    end
+
+    %% Liens de superposition verticale (Cross-TLP)
+    T_Host -.->|rdf:type| Host1
+    VulnRef -.->|Jointure SSOT| VulnFull
+    VulnFull -.->|dkg:exploitsVulnerability| Actor
+```
+```mermaid
+graph BT
+    %% ==========================================
+    %% PALETTE & COULEURS STRICTES
+    %% ==========================================
+    classDef tboxClass fill:#1f2937,stroke:#388bfd,stroke-width:2px,color:#58a6ff;
+    classDef redInst fill:#2d1517,stroke:#f85149,stroke-width:2px,color:#ff7b72;
+    classDef structInst fill:#14261c,stroke:#3fb950,stroke-width:2px,color:#3fb950;
+    classDef mitmAgent fill:#1c1526,stroke:#a371f7,stroke-width:2px,stroke-dasharray: 3 3,color:#d2a8ff;
+
+    %% ==========================================
+    %% NIVEAU 0 : SOCLE TBOX (FONDATION AU BAS)
+    %% ==========================================
+    subgraph L0_TBox ["Niveau 0 : Socle TBox / SHACL (TLP:AMBER)"]
+        T_Host["Class: dkg:Host"]:::tboxClass
+        T_Vuln["Class: dkg:Vulnerability"]:::tboxClass
+        T_Actor["Class: dkg:ThreatActor"]:::tboxClass
+        T_Pattern["Class: dkg:ThreatPattern"]:::tboxClass
+
+        T_Host -->|dkg:hasVulnerability| T_Vuln
+        T_Actor -->|dkg:exploitsVulnerability| T_Vuln
+        T_Actor -->|dkg:usesPattern| T_Pattern
+    end
+
+    %% ==========================================
+    %% NIVEAU 1 : ABOX INTERNE (TLP:RED)
+    %% ==========================================
+    subgraph L1_ABox ["Niveau 1 : Cartographie Interne ABox (TLP:RED)"]
+        Host1["Inst: Host-WebProxy-01<br/>ip: 192.168.1.50"]:::redInst
+        VulnRef["URI Ref: CVE-2024-21887<br/>(Ancre Neutre)"]:::redInst
+
+        Host1 -->|dkg:hasVulnerability| VulnRef
+    end
+
+    %% ==========================================
+    %% NIVEAU 2 : CTI STRUCTURÉE (TLP:CLEAR)
+    %% ==========================================
+    subgraph L2_CTI ["Niveau 2 : CTI Externe Structurée (TLP:CLEAR)"]
+        VulnFull["Instance CTI: CVE-2024-21887<br/>cvssScore: 9.8 | isCisaKev: true"]:::structInst
+    end
+
+    %% ==========================================
+    %% NIVEAU 3 : GOVERNANCE AGENT MITM & NER
+    %% ==========================================
+    subgraph L3_Governance ["Niveau 3 : Ingestion NER & Agent MITM Governance"]
+        ActorNER["Instance NER: ThreatActor-APT29<br/>Cozy Bear"]:::structInst
+        AgentMITM["🤖 Agent MITM Governance<br/>Détection Concept Incertain ➔ PR Master TBox v1.1"]:::mitmAgent
+        
+        ActorNER -->|dkg:exploitsVulnerability| VulnFull
+        ActorNER -.->|Interception Concept Inconnu| AgentMITM
+    end
+
+    %% ==========================================
+    %% LIENS D'INSTANCIATION & SUPERPOSITION
+    %% ==========================================
+    Host1 -.->|rdf:type| T_Host
+    VulnRef -.->|rdf:type| T_Vuln
+    VulnRef ==>|Superposition SSOT| VulnFull
+    AgentMITM -.->|Propose Patch TBox| T_Host
+```
+
+
+
+
+```mermaid
+graph BT
+    %% ==========================================
+    %% PALETTE & COULEURS STRICTES
+    %% ==========================================
+    classDef tboxClass fill:#1f2937,stroke:#388bfd,stroke-width:2px,color:#58a6ff;
+    classDef redInst fill:#2d1517,stroke:#f85149,stroke-width:2px,color:#ff7b72;
+    classDef structInst fill:#14261c,stroke:#3fb950,stroke-width:2px,color:#3fb950;
+    classDef mitmAgent fill:#1c1526,stroke:#a371f7,stroke-width:2px,stroke-dasharray: 3 3,color:#d2a8ff;
+
+    %% ==========================================
+    %% NIVEAU 0 : SOCLE TBOX (FONDATION AU BAS)
+    %% ==========================================
+    subgraph L0_TBox ["Niveau 0 : Socle TBox / SHACL (TLP:AMBER)"]
+        T_Host["Class: dkg:Host"]:::tboxClass
+        T_Vuln["Class: dkg:Vulnerability"]:::tboxClass
+        T_Actor["Class: dkg:ThreatActor"]:::tboxClass
+        T_Pattern["Class: dkg:ThreatPattern"]:::tboxClass
+
+        T_Host -->|dkg:hasVulnerability| T_Vuln
+        T_Actor -->|dkg:exploitsVulnerability| T_Vuln
+        T_Actor -->|dkg:usesPattern| T_Pattern
+    end
+
+    %% ==========================================
+    %% NIVEAU 1 : ABOX INTERNE (TLP:RED)
+    %% ==========================================
+    subgraph L1_ABox ["Niveau 1 : Cartographie Interne ABox (TLP:RED)"]
+        Host1["Inst: Host-WebProxy-01<br/>ip: 192.168.1.50"]:::redInst
+        VulnRef["URI Ref: CVE-2024-21887<br/>(Ancre Neutre)"]:::redInst
+
+        Host1 -->|dkg:hasVulnerability| VulnRef
+    end
+
+    %% ==========================================
+    %% NIVEAU 2 : CTI STRUCTURÉE (TLP:CLEAR)
+    %% ==========================================
+    subgraph L2_CTI ["Niveau 2 : CTI Externe Structurée (TLP:CLEAR)"]
+        VulnFull["Instance CTI: CVE-2024-21887<br/>cvssScore: 9.8 | isCisaKev: true"]:::structInst
+    end
+
+    %% ==========================================
+    %% NIVEAU 3 : GOVERNANCE AGENT MITM & NER
+    %% ==========================================
+    subgraph L3_Governance ["Niveau 3 : Ingestion NER & Agent MITM Governance"]
+        ActorNER["Instance NER: ThreatActor-APT29<br/>Cozy Bear"]:::structInst
+        AgentMITM["🤖 Agent MITM Governance<br/>Détection Concept Incertain ➔ PR Master TBox v1.1"]:::mitmAgent
+        
+        ActorNER -->|dkg:exploitsVulnerability| VulnFull
+        ActorNER -.->|Interception Concept Inconnu| AgentMITM
+    end
+
+    %% ==========================================
+    %% LIENS D'INSTANCIATION & SUPERPOSITION
+    %% ==========================================
+    Host1 -.->|rdf:type| T_Host
+    VulnRef -.->|rdf:type| T_Vuln
+    VulnRef ==>|Superposition SSOT| VulnFull
+    AgentMITM -.->|Propose Patch TBox| T_Host
+```
+```
+
+
+
+```
+
+
+
+```mermaid
+graph LR
+    %% STYLE TECHNIQUE
+    classDef tbox fill:#1f2937,stroke:#388bfd,stroke-width:2px,color:#58a6ff;
+    classDef redInst fill:#2d1517,stroke:#f85149,stroke-width:2px,color:#ff7b72;
+    classDef clearInst fill:#14261c,stroke:#3fb950,stroke-width:2px,color:#3fb950;
+    classDef codeBlock fill:#0d1117,stroke:#30363d,stroke-width:1px,color:#c9d1d9,font-family:monospace;
+
+    %% COLONNE GAUCHE : GRAPHE VISUEL ASCENDANT
+    subgraph COL_LEFT ["COLONNE GAUCHE : VISUALISATION GRAPH (BT)"]
+        direction BT
+        
+        subgraph L0 ["1. SOCLE TBOX v1.1"]
+            T_Host["Class: dkg:Host"]:::tbox
+            T_Kit["Class: dkg:ExploitKit (NOUVEAU)"]:::tbox
+        end
+
+        subgraph L1 ["2. ABOX INTERNE (TLP:RED)"]
+            Host1["Inst: Host-WebProxy-01"]:::redInst
+        end
+
+        subgraph L2 ["3. CTI NER ENRICHI"]
+            Kit1["Inst: Angler-ExploitKit"]:::clearInst
+        end
+
+        Host1 -.->|rdf:type| T_Host
+        Kit1 -.->|rdf:type| T_Kit
+        Kit1 -->|dkg:targetsHost| Host1
+    end
+
+    %% COLONNE DROITE : SCRIPT TURTLE (.TTL) CORRESPONDANT
+    subgraph COL_RIGHT ["COLONNE DROITE : CODE TURTLE (.TTL)"]
+        TTL_Doc["
+        # Patch TBox v1.1
+        dkg:ExploitKit a owl:Class .
+        
+        # Ingestion Validée
+        dkg-cti:AnglerKit a dkg:ExploitKit ;
+            dkg:targetsHost dkg-data:Host-WebProxy-01 .
+        "]:::codeBlock
+    end
+```
+
+
+
+
+## 💡 Intérêt Pédagogique pour le Storyboard / Vidéo
 
 Dans votre trame vidéo, la **Vague 2** devient le moment visuel fort où l'on montre **deux calques/graphes qui se superposent** :
 
