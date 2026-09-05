@@ -1,0 +1,22 @@
+{
+  "CVE-2021-44228": {
+    "description": "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints.",
+    "cvss_score": 10.0,
+    "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+    "severity": "CRITICAL",
+    "cwe_id": "CWE-502",
+    "capec_id": "CAPEC-586",
+    "capec_title": "Object Injection",
+    "capec_description": "An attacker injects malicious objects into an application to execute arbitrary code."
+  },
+  "CVE-2023-4863": {
+    "description": "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187.",
+    "cvss_score": 8.8,
+    "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+    "severity": "HIGH",
+    "cwe_id": "CWE-119",
+    "capec_id": "CAPEC-100",
+    "capec_title": "Overflow Buffers",
+    "capec_description": "Attacker targets a buffer overflow vulnerability to execute shellcode or cause DoS."
+  }
+}

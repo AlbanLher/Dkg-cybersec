@@ -1,3 +1,4 @@
+```
 """
 03-Application/config.py
 Single Source of Truth (SSOT) - Configuration centralisée du projet DKG-CyberSec.
@@ -32,24 +33,20 @@ DIR_MASTER_ABOX = DIR_DATA / "Master_Transversal" / "TLP_RED_Instances_ABox"
 
 
 # (Phase3) Enrichissement Externe et non structuré + TLP
-DIR_INPUTS_P3 = DIR_DATA / "Input_Phases" / "Phase3_CTI"
-DIR_SNAPSHOT_P3 = DIR_DATA / "Snapshots_Phases" / "Phase3_CTI"
-DIR_CTI_ABOX = DIR_DATA / "Master_Transversal" / "TLP_CLEAR_CTI_External" 
-
+DIR_SNAPSHOT_P3 = DIR_DATA / "Snapshots_Phases" / "Phase3_Socle"
 
 ##  Découpage TLP Strict (Seiton 5S)
 DIR_TBOX_AMBER = DIR_MASTER_TBOX
 DIR_ABOX_RED = DIR_DATA / "Master_Transversal" / "TLP_RED_Instances_ABox"
-DIR_CTI_CLEAR = DIR_CTI_ABOX  # Wave 2 / Phase 3 & 4
+DIR_CTI_CLEAR = DIR_DATA / "Master_Transversal" / "TLP_CLEAR_CTI_External"  # Wave 2 / Phase 3 & 4
 DIR_INFERED_RED = DIR_DATA / "Master_Transversal" / "TLP_RED_Infered_Graph"  # Wave 3 / Phase 5
 
 # (Phase4) Source des bulletins bruts pour le NER
-DIR_INPUTS_P4 = DIR_DATA / "Input_Phases" / "Phase4_CTI"
-DIR_SNAPSHOT_P4 = DIR_DATA / "Snapshots_Phases" / "Phase4_CTI"
+DIR_SNAPSHOT_P4 = DIR_DATA / "Snapshots_Phases" / "Phase4_Socle"
 DIR_UNSTRUCTURED_CTI = DIR_CTI_CLEAR / "Raw_Sources"
 
 # (Phase5) A Locale
-DIR_SNAPSHOT_P5 = DIR_DATA / "Snapshots_Phases" / "Phase5_NER_Local"
+DIR_SNAPSHOT_P5 = DIR_DATA / "Snapshots_Phases" / "Phase5_Socle"
 DIR_MODELS = DIR_APP / "models" / "cache"
 DIR_NER_MODEL = DIR_MODELS / "ner"
 DIR_EMBEDDING_MODEL = DIR_MODELS / "embeddings"
@@ -59,6 +56,8 @@ DIR_EMBEDDING_MODEL = DIR_MODELS / "embeddings"
 # DATA_DIR = DIR_DATA
 # APP_DIR = DIR_APP
 # ONTOLOGY_DIR = DIR_ONTOLOGY
+
+
 
 
 
@@ -72,18 +71,15 @@ SHACL_MASTER_PATH = DIR_MASTER_TBOX / "DKG_SHACL_Master.ttl"
 
 # ABox Interne (TLP:RED)
 ABOX_MASTER_PATH = DIR_MASTER_ABOX / "DKG_ABox_Master.ttl"
-ABOX_RED_PATH = DIR_MASTER_ABOX / "DKG_ABox_Master.ttl"
-
 
 # ABox CTI Externe (TLP:CLEAR) - Wave 2 / Phase 3 & 4
-INPUT_CTI_JSON_PATH = DIR_INPUTS_P3 / "external_nvd_capec_feed.json"
-ABOX_CTI_PATH = DIR_CTI_CLEAR /  "DKG_ABox_CTI_External.ttl"
-DOC_CTI_MD_PATH =  "DOC_CTI_ABOX.md"
+ABOX_CTI_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.ttl"
+DOC_CTI_MD_PATH = DIR_CTI_CLEAR / "DOC_SYNTHESE_ABOX_CTI.md"
 
 # ABox & Règles d'Inférence (TLP:RED / TLP:AMBER) - Wave 3 / Phase 5
 RULES_MASTER_PATH = DIR_TBOX_AMBER / "DKG_Rules_Master.ttl"
 ABOX_INFERED_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.ttl"
-DOC_INFERED_MD_PATH = DIR_INFERED_RED / "DOC_ABOX_INFERED.md"
+DOC_INFERED_MD_PATH = DIR_INFERED_RED / "DOC_SYNTHESE_ABOX_INFERED.md"
 
 
 # ==========================================
@@ -114,3 +110,8 @@ RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
 RDF = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 OWL = Namespace("http://www.w3.org/2002/07/owl#")
 
+
+
+
+
+```

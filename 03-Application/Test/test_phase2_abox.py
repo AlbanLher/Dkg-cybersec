@@ -13,7 +13,26 @@ from pyshacl import validate
 # Import de la configuration centralisée
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
-from config import TBOX_MASTER_PATH, SHACL_MASTER_PATH, ABOX_MASTER_PATH, DKG, DKG_DATA
+# from config import TBOX_MASTER_PATH, SHACL_MASTER_PATH, ABOX_MASTER_PATH, DKG, DKG_DATA
+
+# import pytest
+#  from config import DIR_SNAPSHOT_P2, DIR_MASTER_ABOX
+
+# 1. Ancrage sys.path vers 03-Application/ pour importer config.py
+APP_DIR = Path(__file__).resolve().parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
+
+# from rdflib import Graph, Literal, RDF, RDFS, OWL, XSD
+from config import (
+    TBOX_MASTER_PATH,
+    SHACL_MASTER_PATH,
+    ABOX_MASTER_PATH,
+    DKG_DATA,
+    DIR_SNAPSHOT_P2,
+    DIR_MASTER_ABOX
+)
+
 
 @pytest.fixture(scope="module")
 def full_graph():
@@ -27,17 +46,22 @@ def full_graph():
     return g
 
 def test_exg_uc_abox_tlp_marking(full_graph):
-    """Vérifie la présence explicite de la classification TLP:RED dans l'ABox."""
+    """Vérifie la présence explicite du marquage TLP:RED sur les actifs."""
     query = """
-    PREFIX dkg: <http://dkg.cybersec.org/schema#>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    PREFIX dkg:  <http://dkg.cybersec.org/tbox#>
+    PREFIX data: <http://dkg.cybersec.org/data#>
+
     SELECT ?tlp WHERE {
-        ?s a owl:Ontology ;
-           dkg:tlpMarking ?tlp .
+        ?asset a dkg:Asset ;
+               dkg:hasTLPMarking ?tlp .
+        ?tlp a dkg:TLPMarking .
     }
     """
     res = [str(row[0]) for row in full_graph.query(query)]
-    assert "TLP:RED" in res, f"Marquage TLP:RED introuvable dans l'en-tête d'ontologie. Trouvé: {res}"
+    
+    # On vérifie que l'URI du TLP:RED est bien présente dans la liste des marquages appliqués
+    expected_tlp_red = "http://dkg.cybersec.org/data#TLP-RED"
+    assert expected_tlp_red in res, f"Marquage TLP:RED introuvable sur les actifs. Trouvé: {res}"
 
 def test_exg_uc_abox_01_namespace_integrity(full_graph):
     """EXG-UC-ABOX-01: Isolation du namespace dkg-data."""
@@ -55,14 +79,14 @@ def test_exg_uc_abox_01_namespace_integrity(full_graph):
 def test_exg_uc_abox_03_cyber_chain_completeness(full_graph):
     """EXG-UC-ABOX-03: Complétude de la chaîne Asset -> Component -> CVE -> CWE -> CAPEC."""
     query = """
-    PREFIX dkg: <http://dkg.cybersec.org/schema#>
+    PREFIX dkg: <http://dkg.cybersec.org/tbox#>
     SELECT ?asset ?comp ?cve ?cwe ?capec WHERE {
         ?asset a dkg:Asset ;
                dkg:hasInstalledComponent ?comp .
         ?comp a dkg:SoftwareComponent ;
               dkg:hasVulnerability ?cve .
         ?cve a dkg:Vulnerability ;
-             dkg:exploitsWeakness ?cwe .
+             dkg:hasWeakness ?cwe .
         ?cwe a dkg:Weakness ;
              dkg:hasThreatPattern ?capec .
         ?capec a dkg:ThreatPattern .
@@ -70,6 +94,28 @@ def test_exg_uc_abox_03_cyber_chain_completeness(full_graph):
     """
     res = list(full_graph.query(query))
     assert len(res) > 0, "La chaîne complète Asset -> Component -> CVE -> CWE -> CAPEC est absente !"
+
+
+
+# def test_exg_uc_abox_03_cyber_chain_completeness(full_graph):
+#    """EXG-UC-ABOX-03: Complétude de la chaîne Asset -> Component -> CVE -> CWE -> CAPEC."""
+#    query = """
+#    PREFIX dkg: <http://dkg.cybersec.org/schema#>
+#    SELECT ?asset ?comp ?cve ?cwe ?capec WHERE {
+#        ?asset a dkg:Asset ;
+#               dkg:hasInstalledComponent ?comp .
+#        ?comp a dkg:SoftwareComponent ;
+#              dkg:hasVulnerability ?cve .
+#        ?cve a dkg:Vulnerability ;
+#             dkg:exploitsWeakness ?cwe .
+#        ?cwe a dkg:Weakness ;
+#             dkg:hasThreatPattern ?capec .
+#        ?capec a dkg:ThreatPattern .
+#    }
+#    """
+#    res = list(full_graph.query(query))
+#    assert len(res) > 0, "La chaîne complète Asset -> Component -> CVE -> CWE -> CAPEC est absente !"
+
 
 def test_exg_fwk_02_01_referential_integrity(full_graph):
     """EXG-FWK-02-01: Intégrité référentielle (0 instance orpheline)."""
@@ -99,3 +145,28 @@ def test_exg_qual_02_03_shacl_validation(full_graph):
     )
     
     assert conforms, f"Violations SHACL détectées lors de la recette ABox:\n{report_text}"
+
+import pytest
+from config import DIR_SNAPSHOT_P2, DIR_MASTER_ABOX
+
+def test_exg_org_02_phase2_master_snapshot_parity():
+    """Vérifie que les fichiers archivés dans Snapshot Phase 2 sont identiques dans Master."""
+    assert DIR_SNAPSHOT_P2.exists(), f"Répertoire snapshot introuvable: {DIR_SNAPSHOT_P2}"
+
+    valid_extensions = {".ttl", ".json", ".md"}
+    snapshot_files = [
+        f for f in DIR_SNAPSHOT_P2.iterdir() 
+        if f.is_file() and f.suffix in valid_extensions
+    ]
+
+    assert len(snapshot_files) > 0, "Le dossier Snapshot Phase 2 est vide !"
+
+    for snap_file in snapshot_files:
+        master_file = DIR_MASTER_ABOX / snap_file.name
+        assert master_file.exists(), f"Fichier {snap_file.name} absent du Master ABox."
+        
+        # Comparaison normalisée
+        snap_content = snap_file.read_text(encoding="utf-8").strip().replace("\r\n", "\n")
+        master_content = master_file.read_text(encoding="utf-8").strip().replace("\r\n", "\n")
+        
+        assert snap_content == master_content, f"Écart de parité détecté sur {snap_file.name}"

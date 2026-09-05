@@ -1,0 +1,293 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix dkg1: <http://dkg.cybersec.org/schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-cti:ABox_CTI_External a owl:Ontology ;
+    rdfs:label "DKG External CTI Feed - TLP:CLEAR"@en .
+
+dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;
+    dkg:cvssScore "10.0"^^xsd:float ;
+    dkg:hasWeakness dkg-cti:CWE-502 ;
+    rdfs:comment "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints."@en .
+
+dkg-cti:CVE-2023-4863 a dkg:Vulnerability ;
+    dkg:cvssScore "8.8"^^xsd:float ;
+    dkg:hasWeakness dkg-cti:CWE-119 ;
+    rdfs:comment "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187."@en .
+
+dkg-cti:ThreatActor-APT29 a dkg:ThreatActor ;
+    rdfs:label "APT29"@en ;
+    dkg:exploitsVulnerability dkg-cti:CVE-2024-21887 ;
+    dkg:hasThreatPattern dkg-cti:Pattern-SpearphishingLink-T1566_002 ;
+    dkg:nerConfidenceScore "0.98"^^xsd:float ;
+    skos:altLabel "APT"@en .
+
+dkg-data:ABox_Master a owl:Ontology ;
+    rdfs:label "DKG ABox Master - Operational Cyber Security Graph"@fr .
+
+dkg-data:TLP-CLEAR a dkg:TLPMarking ;
+    rdfs:label "TLP:CLEAR"@en .
+
+dkg-data:TLP-GREEN a dkg:TLPMarking ;
+    rdfs:label "TLP:GREEN"@en .
+
+dkg1:RuleHighRiskAssetAssessment a sh:NodeShape ;
+    rdfs:label "Règle R-01 : Évaluation Actif à Haut Risque (CISA KEV)"@fr ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """
+            PREFIX dkg: <http://dkg.cybersec.org/tbox#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+            CONSTRUCT {
+                $this a dkg:HighRiskAsset ;
+                      dkg:hasRiskScore "9.5"^^xsd:float .
+            }
+            WHERE {
+                $this dkg:hasInstalledComponent ?component .
+                ?component dkg:hasVulnerability ?cve .
+                ?cve dkg:isCisaKev true .
+            }
+        """ ] ;
+    sh:targetClass dkg1:Asset .
+
+dkg1:RuleThreatCampaignPropagation a sh:NodeShape ;
+    rdfs:label "Règle R-02 : Propagation Cible de Campagne de Menace"@fr ;
+    rdfs:comment "Lie une campagne CTI externe à un actif interne hébergeant le composant visé."@fr ;
+    sh:rule [ a sh:SPARQLRule ;
+            sh:construct """
+            PREFIX dkg: <http://dkg.cybersec.org/schema#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+            CONSTRUCT {
+                $this dkg:targetsAsset ?asset .
+            }
+            WHERE {
+                $this dkg:targetsComponent ?component .
+                ?asset dkg:hostsComponent ?component .
+            }
+        """ ] ;
+    sh:targetClass dkg1:ThreatCampaign .
+
+dkg:assetId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "asset identifier"@en,
+        "identifiant d'actif"@fr .
+
+dkg:componentId a owl:DatatypeProperty ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "component identifier"@en,
+        "identifiant de composant"@fr .
+
+dkg:cveId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "CVE identifier"@en,
+        "identifiant CVE"@fr .
+
+dkg:cvssScore a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range xsd:float ;
+    skos:prefLabel "CVSS score"@en,
+        "score CVSS"@fr .
+
+dkg:cweId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Weakness ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "CWE identifier"@en,
+        "identifiant CWE"@fr .
+
+dkg:hasTLPMarking a owl:ObjectProperty ;
+    rdfs:comment "Applique une classification TLP sur l'entité"@fr ;
+    rdfs:domain owl:Thing ;
+    rdfs:range dkg:TLPMarking ;
+    skos:prefLabel "has TLP marking"@en,
+        "a pour marquage TLP"@fr .
+
+dkg:hasThreatPattern a owl:ObjectProperty ;
+    rdfs:label "has threat pattern"@en ;
+    rdfs:domain dkg:Weakness ;
+    rdfs:range dkg:ThreatPattern .
+
+dkg:hasWeakness a owl:ObjectProperty ;
+    rdfs:comment "Associe une vulnérabilité à un type d'erreur CWE"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:Weakness ;
+    skos:prefLabel "has weakness"@en,
+        "est de type faiblesse"@fr .
+
+dkg:hostname a owl:DatatypeProperty ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range xsd:string ;
+    skos:prefLabel "hostname"@en,
+        "nom d'hôte"@fr .
+
+dkg:nerConfidenceScore a owl:DatatypeProperty ;
+    rdfs:label "NER Confidence Score"@en ;
+    rdfs:comment "Score de confiance attribué lors de l'extraction NLP/NER."@fr .
+
+dkg-cti:CAPEC-100 a dkg:ThreatPattern ;
+    rdfs:label "Overflow Buffers"@en ;
+    rdfs:comment "Attacker targets a buffer overflow vulnerability to execute shellcode or cause DoS."@en .
+
+dkg-cti:CAPEC-586 a dkg:ThreatPattern ;
+    rdfs:label "Object Injection"@en ;
+    rdfs:comment "An attacker injects malicious objects into an application to execute arbitrary code."@en .
+
+dkg-cti:CVE-2024-21887 a dkg:Vulnerability ;
+    rdfs:label "CVE-2024-21887"@en ;
+    dkg:nerConfidenceScore "0.99"^^xsd:float .
+
+dkg-cti:CWE-119 a dkg:Weakness ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-100 .
+
+dkg-cti:CWE-502 a dkg:Weakness ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-586 .
+
+dkg-cti:Pattern-SpearphishingLink-T1566_002 a dkg:ThreatPattern ;
+    rdfs:label "Spearphishing Link (T1566.002)"@en ;
+    dkg:nerConfidenceScore "0.92"^^xsd:float .
+
+dkg-data:Asset-Srv-Auth-02 a dkg:Asset ;
+    rdfs:label "Serveur Authentification Central"@fr ;
+    dkg:hasInstalledComponent dkg-data:Comp-Log4j-2-14 ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-Srv-Prod-01 a dkg:Asset ;
+    rdfs:label "Serveur Web Frontend Production"@fr ;
+    dkg:hasInstalledComponent dkg-data:Comp-Apache-2-4-49 ;
+    dkg:hasTLPMarking dkg-data:TLP-AMBER .
+
+dkg-data:CAPEC-126 a dkg:ThreatPattern ;
+    rdfs:label "Path Traversal"@en ;
+    rdfs:comment "An attacker manipulates path references to access files outside the intended folder."@en .
+
+dkg-data:CAPEC-63 a dkg:ThreatPattern ;
+    rdfs:label "Simple Pass-Through"@en ;
+    rdfs:comment "Attacker executes arbitrary code by passing commands through input fields."@en .
+
+dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
+    rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
+    dkg:cvssScore "7.5"^^xsd:float ;
+    dkg:hasWeakness dkg-data:CWE-22 ;
+    dkg:isVulnerabilityOf dkg-data:Comp-Apache-2-4-49 .
+
+dkg-data:CVE-2021-44228 a dkg:Vulnerability ;
+    rdfs:label "Log4Shell Remote Code Execution"@en ;
+    dkg:cvssScore "10.0"^^xsd:float ;
+    dkg:hasWeakness dkg-data:CWE-78 ;
+    dkg:isVulnerabilityOf dkg-data:Comp-Log4j-2-14 .
+
+dkg-data:CWE-22 a dkg:Weakness ;
+    rdfs:label "Improper Limitation of a Pathname to a Restricted Directory"@en ;
+    dkg:hasThreatPattern dkg-data:CAPEC-126 .
+
+dkg-data:CWE-78 a dkg:Weakness ;
+    rdfs:label "Improper Neutralization of Special Elements used in an OS Command"@en ;
+    dkg:hasThreatPattern dkg-data:CAPEC-63 .
+
+dkg-data:TLP-AMBER a dkg:TLPMarking ;
+    rdfs:label "TLP:AMBER"@en .
+
+dkg-data:TLP-RED a dkg:TLPMarking ;
+    rdfs:label "TLP:RED"@en .
+
+dkg:ThreatActor a owl:Class ;
+    rdfs:label "Threat Actor"@en,
+        "Acteur de Menace"@fr ;
+    rdfs:comment "Groupe ou entité menant des attaques ciblées (ex: APT)."@fr ;
+    skos:altLabel "APT"@en,
+        "Advanced Persistent Threat"@en ;
+    skos:prefLabel "Threat Actor"@en .
+
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:comment "Associe un composant logiciel à un actif SI"@fr ;
+    rdfs:domain dkg:Asset ;
+    rdfs:range dkg:SoftwareComponent ;
+    owl:inverseOf dkg:isComponentOf ;
+    skos:prefLabel "has installed component"@en,
+        "a pour composant"@fr .
+
+dkg:hasVulnerability a owl:ObjectProperty ;
+    rdfs:comment "Lie un composant à une vulnérabilité connue"@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Vulnerability ;
+    owl:inverseOf dkg:isVulnerabilityOf ;
+    skos:prefLabel "has vulnerability"@en,
+        "a pour vulnérabilité"@fr .
+
+dkg:isComponentOf a owl:ObjectProperty ;
+    rdfs:comment "Associe un actif SI au composant installé"@fr ;
+    rdfs:domain dkg:SoftwareComponent ;
+    rdfs:range dkg:Asset ;
+    owl:inverseOf dkg:hasInstalledComponent ;
+    skos:prefLabel "is component of"@en,
+        "est composant de"@fr .
+
+dkg:isVulnerabilityOf a owl:ObjectProperty ;
+    rdfs:comment "Lie une vulnérabilité au composant impacté"@fr ;
+    rdfs:domain dkg:Vulnerability ;
+    rdfs:range dkg:SoftwareComponent ;
+    owl:inverseOf dkg:hasVulnerability ;
+    skos:prefLabel "is vulnerability of"@en,
+        "impacte le composant"@fr .
+
+dkg-data:Comp-Apache-2-4-49 a dkg:SoftwareComponent ;
+    rdfs:label "Apache HTTP Server v2.4.49"@fr ;
+    dkg:hasVulnerability dkg-data:CVE-2021-41773 ;
+    dkg:isComponentOf dkg-data:Asset-Srv-Prod-01 .
+
+dkg-data:Comp-Log4j-2-14 a dkg:SoftwareComponent ;
+    rdfs:label "Apache Log4j Core v2.14.1"@fr ;
+    dkg:hasVulnerability dkg-data:CVE-2021-44228 ;
+    dkg:isComponentOf dkg-data:Asset-Srv-Auth-02 .
+
+dkg:TLPMarking a owl:Class ;
+    rdfs:label "TLPMarking"@fr ;
+    skos:altLabel "Niveau de confidentialité"@fr ;
+    skos:definition "Niveau de classification et de partage de l'information."@fr ;
+    skos:prefLabel "TLP Marking"@en,
+        "Marquage TLP"@fr .
+
+dkg:Asset a owl:Class ;
+    rdfs:label "Asset"@fr ;
+    skos:altLabel "Ressource SI"@fr ;
+    skos:definition "Ressource informatique du SI (serveur, poste, équipement réseau)."@fr ;
+    skos:prefLabel "Asset"@en,
+        "Actif"@fr .
+
+dkg:ThreatPattern a owl:Class ;
+    rdfs:label "ThreatPattern"@fr ;
+    skos:altLabel "Mode opératoire d'attaque"@fr ;
+    skos:definition "Motif ou schéma d'attaque documenté (CAPEC)."@fr ;
+    skos:prefLabel "Threat Pattern"@en,
+        "Schéma de Menace"@fr .
+
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "SoftwareComponent"@fr ;
+    skos:altLabel "Paquet applicatif"@fr ;
+    skos:definition "Composant logiciel, bibliothèque ou dépendance système."@fr ;
+    skos:prefLabel "Software Component"@en,
+        "Composant Logiciel"@fr .
+
+dkg:Weakness a owl:Class ;
+    rdfs:label "Weakness"@fr ;
+    skos:altLabel "Type d'erreur logicielle"@fr ;
+    skos:definition "Famille d'erreur logicielle sous-jacente (CWE)."@fr ;
+    skos:prefLabel "Weakness"@en,
+        "Faiblesse"@fr .
+
+dkg:Vulnerability a owl:Class ;
+    rdfs:label "Vulnerability"@fr ;
+    skos:altLabel "Faille de sécurité"@fr ;
+    skos:definition "Faiblesse logicielle exploitable répertoriée (CVE)."@fr ;
+    skos:prefLabel "Vulnerability"@en,
+        "Vulnérabilité"@fr .
+

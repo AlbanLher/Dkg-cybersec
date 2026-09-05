@@ -1,9 +1,24 @@
 import pytest
 from pathlib import Path
 from rdflib import RDF, RDFS, OWL, Namespace, SKOS
+import sys
 
+# 1. Résolution propre du chemin racine pour garantir l'import de config
+APP_DIR = Path(__file__).resolve().parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
-DKG_TBOX = Namespace("http://dkg.cybersec.org/tbox#")
+# 2. Import SSOT depuis config.py (Uniquement les constantes nécessaires)
+from config import (
+    # Chemins Fichiers
+    # Répertoires
+    DIR_MASTER_TBOX,
+    DIR_SNAPSHOT_P1,
+    # Namespaces
+    DKG_TBOX
+)
+
+# DKG_TBOX = Namespace("http://dkg.cybersec.org/tbox#")
 
 def test_exg_tbox_01_uri_delimiter(tbox_graph):
     """EXG-TBOX-01: Verifie l'utilisation du delimiteur '#'."""
@@ -31,15 +46,23 @@ def test_exg_tbox_04_rbox_inverses(tbox_graph):
     inverses = list(tbox_graph.triples((None, OWL.inverseOf, None)))
     assert len(inverses) >= 2, "Axiomes owl:inverseOf manquants."
 
+
 def test_exg_qual_01_shacl_coverage(tbox_graph, shacl_graph):
     """EXG-QUAL-01: Verifie la presence de NodeShapes SHACL."""
     SH = Namespace("http://www.w3.org/ns/shacl#")
-    shacl_target_classes = set(shacl_graph.objects(None, DKG_TBOX.targetClass))
-    shacl_target_classes.update(shacl_graph.objects(None, SH.targetClass))
     
+    # Extraire uniquement les cibles via le vrai prédicat SHACL
+    shacl_target_classes = set(shacl_graph.objects(None, SH.targetClass))
     tbox_classes = set(tbox_graph.subjects(RDF.type, OWL.Class))
+    
     intersection = tbox_classes.intersection(shacl_target_classes)
-    assert len(intersection) > 0, "Aucune classe TBox couverte par une Shape SHACL."
+    
+    # Message de debug en cas d'échec pour afficher les ensembles
+    assert len(intersection) > 0, (
+        f"Aucune classe TBox couverte.\n"
+        f"Classes TBox trouvées ({len(tbox_classes)}): {tbox_classes}\n"
+        f"Cibles SHACL trouvées ({len(shacl_target_classes)}): {shacl_target_classes}"
+    )
 
 def test_spec_01_markdown_structure(master_dir):
     """SPEC-01: Verifie le Glossaire et Mermaid dans la doc MD."""
@@ -51,13 +74,14 @@ def test_spec_01_markdown_structure(master_dir):
 
 def test_exg_org_02_master_snapshot_parity(master_dir):
     """EXG-ORG-02: Verifie la parite Master / Snapshot."""
-    snapshot_dir = master_dir.parent.parent / "Snapshots_Phases" / "Phase_1_Socle"
-    assert snapshot_dir.exists(), f"Repertoire snapshot introuvable: {snapshot_dir}"
+    # snapshot_dir = master_dir.parent.parent / "Snapshots_Phases" / "Phase_1_Socle"
+
+    assert DIR_SNAPSHOT_P1.exists(), f"Repertoire snapshot introuvable: {DIR_SNAPSHOT_P1}"
     
-    for master_file in master_dir.glob("*.*"):
-        snap_file = snapshot_dir / master_file.name
-        assert snap_file.exists(), f"Fichier absent du snapshot: {snap_file.name}"
-        assert master_file.read_bytes() == snap_file.read_bytes(), f"Ecart sur {master_file.name}"
+    for snapshot_file in DIR_SNAPSHOT_P1.glob("*.*"):
+        master_file = DIR_MASTER_TBOX / snapshot_file.name
+        assert master_file.exists(), f"Fichier absent du Master: {snapshot_file.name}"
+        assert snapshot_file.read_bytes() == master_file.read_bytes(), f"Ecart sur {master_file.name}"
 
 
 def test_exg_tbox_05_skos_completeness(tbox_graph):

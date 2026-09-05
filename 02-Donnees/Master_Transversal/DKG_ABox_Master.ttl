@@ -72,3 +72,7 @@ dkg-data:Comp-Log4j-2-14 a dkg:SoftwareComponent ;
     dkg:hasVulnerability dkg-data:CVE-2021-44228 ;
     dkg:isInstalledComponentOf dkg-data:Asset-Srv-Auth-02 .
 
+dkg:hasThreatPattern a owl:ObjectProperty ;
+    rdfs:label "has threat pattern"@en ;
+    rdfs:domain dkg:Weakness ;
+    rdfs:range dkg:ThreatPattern .

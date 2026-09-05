@@ -1,0 +1,3 @@
+CRITICAL CTI ADVISORY - Threat Group APT29
+Threat actor APT29 (also known as Cozy Bear) has been actively exploiting CVE-2024-21887.
+The initial access vector utilizes Spearphishing Link (T1566.002) to compromise victims.

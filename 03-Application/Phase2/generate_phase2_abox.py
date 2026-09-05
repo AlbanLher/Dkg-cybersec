@@ -2,157 +2,128 @@
 """
 generate_phase2_abox.py
 Génération automatisée de l'ABox Master (DKG Phase 2 - UseCase Cyber).
-Satisfait aux exigences EXG-UC-ABOX-01, EXG-UC-ABOX-02, EXG-UC-ABOX-03, EXG-FWK-02-* et EXG-QUAL-*.
+Lit un fichier JSON d'inventaire, génère le graphe RDF, puis l'enregistre
+prioritairement dans le Snapshot avant de le synchroniser vers le Master.
 """
+import json
+import shutil
 import sys
-from  pathlib import Path
-# Ajout du dossier parent (03-Application/) au PATH Python
-BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(str(BASE_DIR))
-import os
-from rdflib import Graph, Namespace, RDF, RDFS, OWL, XSD, Literal, URIRef
-from config import DKG, DKG_DATA, ABOX_MASTER_PATH, DIR_INSTANCES_ABOX
+from pathlib import Path
 
+# 1. Ancrage sys.path vers 03-Application/ pour importer config.py
+APP_DIR = Path(__file__).resolve().parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
+from rdflib import Graph, Literal, RDF, RDFS, OWL, XSD
+from config import (
+    DKG_TBOX,
+    DKG_DATA,
+    DIR_INPUT_P2,
+    DIR_SNAPSHOT_P2,
+    DIR_MASTER_ABOX,
+    ABOX_MASTER_PATH,
+    DIR_DATA
+)
 
-# Paths
-TBOX_PATH = "02-Donnees/Master_Transversal/DKG_TBox_Master.ttl"
-SHACL_PATH = "02-Donnees/Master_Transversal/DKG_SHACL_Master.ttl"
-OUTPUT_ABOX_PATH = "02-Donnees/Master_Transversal/DKG_ABox_Master.ttl"
+INVENTORY_JSON_PATH = DIR_INPUT_P2 / "inventory.json"
 
-# Namespaces
-DKG = Namespace("http://dkg.cybersec.org/schema#")
-DKG_DATA = Namespace("http://dkg.cybersec.org/data/")
+def load_inventory(json_path: Path) -> dict:
+    if not json_path.exists():
+        raise FileNotFoundError(f"Fichier d'inventaire introuvable : {json_path}")
+    with open(json_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-def generate_abox():
-    # 1. Assurer la présence du répertoire TLP_RED
-    DIR_INSTANCES_ABOX.mkdir(parents=True, exist_ok=True)
-
-
+def build_abox_graph(data: dict) -> Graph:
     g = Graph()
-    g.bind("dkg", DKG)
-    g.bind("dkg-data", DKG_DATA)
+    g.bind("dkg", DKG_TBOX)
+    g.bind("data", DKG_DATA)
     g.bind("owl", OWL)
     g.bind("rdf", RDF)
     g.bind("rdfs", RDFS)
     g.bind("xsd", XSD)
 
-    # =========================================================================
-    # 🔒 EN-TÊTE DE GOUVERNANCE & MARQUAGE TLP:RED (À INSERER ICI)
-    # =========================================================================
+    # En-tête Ontologie ABox
     abox_ont = DKG_DATA["ABox_Master"]
     g.add((abox_ont, RDF.type, OWL.Ontology))
     g.add((abox_ont, RDFS.label, Literal("DKG ABox Master - Operational Cyber Security Graph", lang="fr")))
-    g.add((abox_ont, DKG.tlpMarking, Literal("TLP:RED")))
-    # =========================================================================
 
+    # 1. TLP Markings
+    for tlp_name in data.get("tlp_markings", []):
+        tlp_uri = DKG_DATA[tlp_name]
+        g.add((tlp_uri, RDF.type, DKG_TBOX.TLPMarking))
+        g.add((tlp_uri, RDFS.label, Literal(tlp_name.replace("-", ":"), lang="en")))
 
-    # ---------------------------------------------------------
-    # 1. TLP Markings (Referentiel de securite)
-    # ---------------------------------------------------------
-    tlp_clear = DKG_DATA["TLP-CLEAR"]
-    tlp_green = DKG_DATA["TLP-GREEN"]
-    tlp_amber = DKG_DATA["TLP-AMBER"]
-    tlp_red = DKG_DATA["TLP-RED"]
+    # 2. Threat Patterns
+    for tp in data.get("threat_patterns", []):
+        tp_uri = DKG_DATA[tp["id"]]
+        g.add((tp_uri, RDF.type, DKG_TBOX.ThreatPattern))
+        g.add((tp_uri, RDFS.label, Literal(tp["label"], lang="en")))
+        g.add((tp_uri, RDFS.comment, Literal(tp["description"], lang="en")))
 
-    for tlp in [tlp_clear, tlp_green, tlp_amber, tlp_red]:
-        g.add((tlp, RDF.type, DKG.TLPMarking))
+    # 3. Weaknesses
+    for cwe in data.get("weaknesses", []):
+        cwe_uri = DKG_DATA[cwe["id"]]
+        g.add((cwe_uri, RDF.type, DKG_TBOX.Weakness))
+        g.add((cwe_uri, RDFS.label, Literal(cwe["label"], lang="en")))
+        if "threat_pattern_id" in cwe:
+            tp_uri = DKG_DATA[cwe["threat_pattern_id"]]
+            g.add((cwe_uri, DKG_TBOX.hasThreatPattern, tp_uri))
 
-    g.add((tlp_clear, RDFS.label, Literal("TLP:CLEAR", lang="en")))
-    g.add((tlp_green, RDFS.label, Literal("TLP:GREEN", lang="en")))
-    g.add((tlp_amber, RDFS.label, Literal("TLP:AMBER", lang="en")))
-    g.add((tlp_red, RDFS.label, Literal("TLP:RED", lang="en")))
+    # 4. Vulnerabilities
+    for cve in data.get("vulnerabilities", []):
+        cve_uri = DKG_DATA[cve["id"]]
+        g.add((cve_uri, RDF.type, DKG_TBOX.Vulnerability))
+        g.add((cve_uri, RDFS.label, Literal(cve["label"], lang="en")))
+        g.add((cve_uri, DKG_TBOX.cvssScore, Literal(float(cve["cvss_score"]), datatype=XSD.float)))
+        if "weakness_id" in cve:
+            cwe_uri = DKG_DATA[cve["weakness_id"]]
+            g.add((cve_uri, DKG_TBOX.hasWeakness, cwe_uri))
 
-    # ---------------------------------------------------------
-    # 2. Modes Operatoires / Threats (CAPEC)
-    # ---------------------------------------------------------
-    capec_126 = DKG_DATA["CAPEC-126"]
-    capec_63 = DKG_DATA["CAPEC-63"]
+    # 5. Software Components
+    for comp in data.get("software_components", []):
+        comp_uri = DKG_DATA[comp["id"]]
+        g.add((comp_uri, RDF.type, DKG_TBOX.SoftwareComponent))
+        g.add((comp_uri, RDFS.label, Literal(comp["label"], lang="fr")))
+        if "vulnerability_id" in comp:
+            cve_uri = DKG_DATA[comp["vulnerability_id"]]
+            g.add((comp_uri, DKG_TBOX.hasVulnerability, cve_uri))
+            g.add((cve_uri, DKG_TBOX.isVulnerabilityOf, comp_uri))
 
-    g.add((capec_126, RDF.type, DKG.ThreatPattern))
-    g.add((capec_126, RDFS.label, Literal("Path Traversal", lang="en")))
-    g.add((capec_126, DKG.description, Literal("An attacker manipulates path references to access files outside the intended folder.", lang="en")))
+    # 6. Assets
+    for asset in data.get("assets", []):
+        asset_uri = DKG_DATA[asset["id"]]
+        g.add((asset_uri, RDF.type, DKG_TBOX.Asset))
+        g.add((asset_uri, RDFS.label, Literal(asset["label"], lang="fr")))
+        if "tlp_marking" in asset:
+            tlp_uri = DKG_DATA[asset["tlp_marking"]]
+            g.add((asset_uri, DKG_TBOX.hasTLPMarking, tlp_uri))
+        if "installed_component_id" in asset:
+            comp_uri = DKG_DATA[asset["installed_component_id"]]
+            g.add((asset_uri, DKG_TBOX.hasInstalledComponent, comp_uri))
+            g.add((comp_uri, DKG_TBOX.isComponentOf, asset_uri))
 
-    g.add((capec_63, RDF.type, DKG.ThreatPattern))
-    g.add((capec_63, RDFS.label, Literal("Simple Pass-Through", lang="en")))
-    g.add((capec_63, DKG.description, Literal("Attacker executes arbitrary code by passing commands through input fields.", lang="en")))
+    return g
 
-    # ---------------------------------------------------------
-    # 3. Faiblesses Logiciel (CWE)
-    # ---------------------------------------------------------
-    cwe_22 = DKG_DATA["CWE-22"]
-    cwe_78 = DKG_DATA["CWE-78"]
+def generate_abox():
+    print("Chargement des données d'inventaire...")
+    inventory_data = load_inventory(INVENTORY_JSON_PATH)
 
-    g.add((cwe_22, RDF.type, DKG.Weakness))
-    g.add((cwe_22, RDFS.label, Literal("Improper Limitation of a Pathname to a Restricted Directory", lang="en")))
-    g.add((cwe_22, DKG.hasThreatPattern, capec_126))
-    g.add((capec_126, DKG.isThreatPatternOf, cwe_22)) # Materialisation inverse EXG-FWK-02-03
+    print("Construction du graphe RDF ABox...")
+    g = build_abox_graph(inventory_data)
 
-    g.add((cwe_78, RDF.type, DKG.Weakness))
-    g.add((cwe_78, RDFS.label, Literal("Improper Neutralization of Special Elements used in an OS Command", lang="en")))
-    g.add((cwe_78, DKG.hasThreatPattern, capec_63))
-    g.add((capec_63, DKG.isThreatPatternOf, cwe_78))
+    # Création des répertoires cible
+    DIR_SNAPSHOT_P2.mkdir(parents=True, exist_ok=True)
+    DIR_MASTER_ABOX.mkdir(parents=True, exist_ok=True)
 
-    # ---------------------------------------------------------
-    # 4. Vulnerabilites NIST (CVE)
-    # ---------------------------------------------------------
-    cve_2021_41773 = DKG_DATA["CVE-2021-41773"]
-    cve_2021_44228 = DKG_DATA["CVE-2021-44228"]
+    # 1. ÉCRITURE PRIORITAIRE DANS LE SNAPSHOT
+    snapshot_ttl_path = DIR_SNAPSHOT_P2 / ABOX_MASTER_PATH.name
+    g.serialize(destination=str(snapshot_ttl_path), format="turtle")
+    print(f"📦 Snapshot ABox généré : {snapshot_ttl_path} ({len(g)} triplets)")
 
-    g.add((cve_2021_41773, RDF.type, DKG.Vulnerability))
-    g.add((cve_2021_41773, RDFS.label, Literal("Apache HTTP Server Path Traversal Vulnerability", lang="en")))
-    g.add((cve_2021_41773, DKG.cvssScore, Literal(7.5, datatype=XSD.decimal)))
-    g.add((cve_2021_41773, DKG.exploitsWeakness, cwe_22))
-    g.add((cwe_22, DKG.isWeaknessExploitedBy, cve_2021_41773))
-
-    g.add((cve_2021_44228, RDF.type, DKG.Vulnerability))
-    g.add((cve_2021_44228, RDFS.label, Literal("Log4Shell Remote Code Execution", lang="en")))
-    g.add((cve_2021_44228, DKG.cvssScore, Literal(10.0, datatype=XSD.decimal)))
-    g.add((cve_2021_44228, DKG.exploitsWeakness, cwe_78))
-    g.add((cwe_78, DKG.isWeaknessExploitedBy, cve_2021_44228))
-
-    # ---------------------------------------------------------
-    # 5. Composants Logiques (SoftwareComponent)
-    # ---------------------------------------------------------
-    comp_apache = DKG_DATA["Comp-Apache-2-4-49"]
-    comp_log4j = DKG_DATA["Comp-Log4j-2-14"]
-
-    g.add((comp_apache, RDF.type, DKG.SoftwareComponent))
-    g.add((comp_apache, RDFS.label, Literal("Apache HTTP Server v2.4.49", lang="fr")))
-    g.add((comp_apache, DKG.hasVulnerability, cve_2021_41773))
-    g.add((cve_2021_41773, DKG.isVulnerabilityOf, comp_apache))
-
-    g.add((comp_log4j, RDF.type, DKG.SoftwareComponent))
-    g.add((comp_log4j, RDFS.label, Literal("Apache Log4j Core v2.14.1", lang="fr")))
-    g.add((comp_log4j, DKG.hasVulnerability, cve_2021_44228))
-    g.add((cve_2021_44228, DKG.isVulnerabilityOf, comp_log4j))
-
-    # ---------------------------------------------------------
-    # 6. Actifs du SI (Asset)
-    # ---------------------------------------------------------
-    srv_web_prod = DKG_DATA["Asset-Srv-Prod-01"]
-    srv_auth_prod = DKG_DATA["Asset-Srv-Auth-02"]
-
-    g.add((srv_web_prod, RDF.type, DKG.Asset))
-    g.add((srv_web_prod, RDFS.label, Literal("Serveur Web Frontend Production", lang="fr")))
-    g.add((srv_web_prod, DKG.hasTLPMarking, tlp_amber))
-    g.add((srv_web_prod, DKG.hasInstalledComponent, comp_apache))
-    g.add((comp_apache, DKG.isInstalledComponentOf, srv_web_prod))
-
-    g.add((srv_auth_prod, RDF.type, DKG.Asset))
-    g.add((srv_auth_prod, RDFS.label, Literal("Serveur Authentification Central", lang="fr")))
-    g.add((srv_auth_prod, DKG.hasTLPMarking, tlp_red))
-    g.add((srv_auth_prod, DKG.hasInstalledComponent, comp_log4j))
-    g.add((comp_log4j, DKG.isInstalledComponentOf, srv_auth_prod))
-
-    # Serialisation ABox Master
-    g.serialize(destination=str(ABOX_MASTER_PATH), format="turtle")
-    print(f"✅ ABox Master générée sous : {ABOX_MASTER_PATH} ({len(g)} triplets  ")
-
-
-    # os.makedirs(os.path.dirname(OUTPUT_ABOX_PATH), exist_ok=True)
-    # g.serialize(destination=OUTPUT_ABOX_PATH, format="turtle")
-    # print(f"✅ ABox Master générée avec succès : {OUTPUT_ABOX_PATH} ({len(g)} triplets)")
+    # 2. COPIE DU SNAPSHOT VERS LE MASTER (Parité garantie)
+    shutil.copy(snapshot_ttl_path, ABOX_MASTER_PATH)
+    print(f"✅ Master ABox synchronisé depuis Snapshot : {ABOX_MASTER_PATH}")
 
 if __name__ == "__main__":
     generate_abox()

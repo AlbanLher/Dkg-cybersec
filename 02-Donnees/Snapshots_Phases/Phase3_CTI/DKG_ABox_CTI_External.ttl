@@ -2,7 +2,6 @@
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 cti:ABox_CTI_External a owl:Ontology ;
@@ -18,13 +17,6 @@ cti:CVE-2023-4863 a dkg:Vulnerability ;
     dkg:hasWeakness cti:CWE-119 ;
     rdfs:comment "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187."@en .
 
-cti:ThreatActor-APT29 a dkg:ThreatActor ;
-    rdfs:label "APT29"@en ;
-    dkg:exploitsVulnerability cti:CVE-2024-21887 ;
-    dkg:hasThreatPattern cti:Pattern-SpearphishingLink-T1566_002 ;
-    dkg:nerConfidenceScore "0.98"^^xsd:float ;
-    skos:altLabel "APT"@en .
-
 cti:CAPEC-100 a dkg:ThreatPattern ;
     rdfs:label "Overflow Buffers"@en ;
     rdfs:comment "Attacker targets a buffer overflow vulnerability to execute shellcode or cause DoS."@en .
@@ -33,17 +25,9 @@ cti:CAPEC-586 a dkg:ThreatPattern ;
     rdfs:label "Object Injection"@en ;
     rdfs:comment "An attacker injects malicious objects into an application to execute arbitrary code."@en .
 
-cti:CVE-2024-21887 a dkg:Vulnerability ;
-    rdfs:label "CVE-2024-21887"@en ;
-    dkg:nerConfidenceScore "0.99"^^xsd:float .
-
 cti:CWE-119 a dkg:Weakness ;
     dkg:hasThreatPattern cti:CAPEC-100 .
 
 cti:CWE-502 a dkg:Weakness ;
     dkg:hasThreatPattern cti:CAPEC-586 .
-
-cti:Pattern-SpearphishingLink-T1566_002 a dkg:ThreatPattern ;
-    rdfs:label "Spearphishing Link (T1566.002)"@en ;
-    dkg:nerConfidenceScore "0.92"^^xsd:float .
 

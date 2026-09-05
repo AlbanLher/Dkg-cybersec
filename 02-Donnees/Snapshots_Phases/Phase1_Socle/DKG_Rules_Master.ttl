@@ -1,0 +1,65 @@
+@prefix dkg: <http://dkg.cybersec.org/schema#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# ==============================================================================
+# DKG-CyberSec — Rules Master (TLP:AMBER)
+# Phase 5 (Vague 3) — Règles d'Inférence Sémantique RBox / CONSTRUCT
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# RÈGLE R-01 : Déduction automatique d'un dkg:HighRiskAsset (Surface d'attaque)
+# Logique : Un actif hébergeant un composant logiciel affecté par une CVE
+#            référencée CISA KEV est automatiquement classé HighRiskAsset.
+# ------------------------------------------------------------------------------
+# Alignement strict sur dkg:SoftwareComponent, dkg:hasInstalledComponent, dkg:isCisaKev
+dkg:RuleHighRiskAssetAssessment a sh:NodeShape ;
+    rdfs:label "Règle R-01 : Évaluation Actif à Haut Risque (CISA KEV)"@fr ;
+    sh:targetClass dkg:Asset ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX dkg: <http://dkg.cybersec.org/tbox#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+            CONSTRUCT {
+                $this a dkg:HighRiskAsset ;
+                      dkg:hasRiskScore "9.5"^^xsd:float .
+            }
+            WHERE {
+                $this dkg:hasInstalledComponent ?component .
+                ?component dkg:hasVulnerability ?cve .
+                ?cve dkg:isCisaKev true .
+            }
+        """
+    ] .
+
+# ------------------------------------------------------------------------------
+# RÈGLE R-02 : Propagation de la relation de menace (dkg:targetsAsset)
+# Logique : Si une campagne CTI cible un composant vulnérable, elle cible 
+#            directement l'actif hôte.
+# ------------------------------------------------------------------------------
+dkg:RuleThreatCampaignPropagation a sh:NodeShape ;
+    rdfs:label "Règle R-02 : Propagation Cible de Campagne de Menace"@fr ;
+    rdfs:comment "Lie une campagne CTI externe à un actif interne hébergeant le composant visé."@fr ;
+    sh:targetClass dkg:ThreatCampaign ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX dkg: <http://dkg.cybersec.org/schema#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+            CONSTRUCT {
+                $this dkg:targetsAsset ?asset .
+            }
+            WHERE {
+                $this dkg:targetsComponent ?component .
+                ?asset dkg:hostsComponent ?component .
+            }
+        """
+    ] .

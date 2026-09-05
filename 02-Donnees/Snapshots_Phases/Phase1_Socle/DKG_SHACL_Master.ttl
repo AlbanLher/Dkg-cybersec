@@ -5,6 +5,9 @@
 dkg:AssetShape a sh:NodeShape ;
     sh:targetClass dkg:Asset .
 
+dkg:SoftwareComponentShape a sh:NodeShape ;
+    sh:targetClass dkg:SoftwareComponent .
+
 dkg:VulnerabilityShape a sh:NodeShape ;
     sh:property [ sh:datatype xsd:float ;
             sh:maxInclusive "10.0"^^xsd:float ;

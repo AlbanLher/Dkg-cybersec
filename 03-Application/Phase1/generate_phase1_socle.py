@@ -1,15 +1,41 @@
-import os
+import os, sys
 import shutil
 from pathlib import Path
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from rdflib.namespace import RDF, RDFS, OWL, XSD, SH, SKOS
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-MASTER_DIR = BASE_DIR / "02-Donnees" / "Master_Transversal" / "TLP_AMBER_Socle_TBox"
-SNAPSHOT_DIR = BASE_DIR / "02-Donnees" / "Snapshots_Phases" / "Phase_1_Socle"
+# 1. Résolution propre du chemin racine pour garantir l'import de config
+DIR_APP = Path(__file__).resolve().parent.parent
+if str(DIR_APP) not in sys.path:
+    sys.path.insert(0, str(DIR_APP))
 
-DKG_TBOX = Namespace("http://dkg.cybersec.org/tbox#")
-DKG_DATA = Namespace("http://dkg.cybersec.org/data#")
+# 2. Import SSOT depuis config.py (Uniquement les constantes nécessaires)
+from config import (
+    # Chemins Fichiers
+    ABOX_RED_PATH,
+    TBOX_MASTER_PATH,
+    SHACL_MASTER_PATH,
+    # Répertoires
+    DIR_ABOX_RED,
+    DIR_TBOX_AMBER,
+    DIR_MASTER_TBOX,
+    DIR_SNAPSHOT_P1,
+    # Namespace
+    DKG_TBOX,
+    DKG_DATA
+)
+
+
+
+
+
+
+# BASE_DIR = Path(__file__).resolve().parent.parent.parent
+# DIR_MASTER_TBOX = BASE_DIR / "02-Donnees" / "Master_Transversal" / "TLP_AMBER_Socle_TBox"  --> DIR_MASTER_TBOX
+# DIR_SNAPSHOT_P1 = BASE_DIR / "02-Donnees" / "Snapshots_Phases" / "Phase_1_Socle"   --> DIR_SNAPSHOT_P1
+
+# DKG_TBOX = Namespace("http://dkg.cybersec.org/tbox#")    --> 
+# DKG_DATA = Namespace("http://dkg.cybersec.org/data#")   -->
 
 def build_tbox_graph() -> Graph:
     g = Graph()
@@ -82,15 +108,23 @@ def build_tbox_graph() -> Graph:
 
     return g
 
+
 def build_shacl_graph() -> Graph:
     g = Graph()
     g.bind("dkg", DKG_TBOX)
     g.bind("sh", SH)
 
+    # 1. Asset Shape
     asset_shape = DKG_TBOX["AssetShape"]
     g.add((asset_shape, RDF.type, SH.NodeShape))
     g.add((asset_shape, SH.targetClass, DKG_TBOX["Asset"]))
     
+    # 2. Software Component Shape (Alignement strict TBox)
+    comp_shape = DKG_TBOX["SoftwareComponentShape"]
+    g.add((comp_shape, RDF.type, SH.NodeShape))
+    g.add((comp_shape, SH.targetClass, DKG_TBOX["SoftwareComponent"]))
+
+    # 3. Vulnerability Shape
     vuln_shape = DKG_TBOX["VulnerabilityShape"]
     g.add((vuln_shape, RDF.type, SH.NodeShape))
     g.add((vuln_shape, SH.targetClass, DKG_TBOX["Vulnerability"]))
@@ -102,6 +136,7 @@ def build_shacl_graph() -> Graph:
     g.add((prop_cvss, SH.maxInclusive, Literal(10.0, datatype=XSD.float)))
 
     return g
+
 
 def generate_markdown_doc(target_path: Path):
     lines = [
@@ -201,33 +236,33 @@ def generate_markdown_doc(target_path: Path):
 def main():
     print("Initialisation de la génération Phase 1 (avec SKOS)...")
     
-    MASTER_DIR.mkdir(parents=True, exist_ok=True)
-    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    DIR_MASTER_TBOX.mkdir(parents=True, exist_ok=True)
+    DIR_SNAPSHOT_P1.mkdir(parents=True, exist_ok=True)
 
     tbox_g = build_tbox_graph()
-    tbox_ttl = MASTER_DIR / "DKG_TBox_Master.ttl"
-    tbox_json = MASTER_DIR / "DKG_TBox_Master.json"
+    tbox_ttl = DIR_MASTER_TBOX / "DKG_TBox_Master.ttl"
+    tbox_json = DIR_MASTER_TBOX / "DKG_TBox_Master.json"
     tbox_g.serialize(destination=str(tbox_ttl), format="turtle")
     tbox_g.serialize(destination=str(tbox_json), format="json-ld")
 
     shacl_g = build_shacl_graph()
-    shacl_ttl = MASTER_DIR / "shapes_abox.ttl"
+    shacl_ttl = DIR_MASTER_TBOX / "DKG_SHACL_Master.ttl" # Remplace "shapes_abox.ttl" 
     shacl_g.serialize(destination=str(shacl_ttl), format="turtle")
 
-    md_file = MASTER_DIR / "DKG_TBox_Master.md"
+    md_file = DIR_MASTER_TBOX / "DKG_TBox_Master.md"
     generate_markdown_doc(md_file)
 
     syn_g = Graph()
     syn_g.bind("dkg", DKG_TBOX)
     syn_g.bind("data", DKG_DATA)
     syn_g.add((DKG_DATA["asset-01"], RDF.type, DKG_TBOX["Asset"]))
-    syn_g.serialize(destination=str(MASTER_DIR / "synthetic_qualification.ttl"), format="turtle")
+    syn_g.serialize(destination=str(DIR_MASTER_TBOX / "synthetic_qualification.ttl"), format="turtle")
 
-    for file in MASTER_DIR.glob("*.*"):
-        shutil.copy(file, SNAPSHOT_DIR / file.name)
+    for file in DIR_MASTER_TBOX.glob("*.*"):
+        shutil.copy(file, DIR_SNAPSHOT_P1 / file.name)
         
-    print(f"Génération réussie dans : {MASTER_DIR}")
-    print(f"Snapshot synchronisé dans : {SNAPSHOT_DIR}")
+    print(f"Génération réussie dans : {DIR_MASTER_TBOX}")
+    print(f"Snapshot synchronisé dans : {DIR_SNAPSHOT_P1}")
 
 if __name__ == "__main__":
     main()

@@ -28,11 +28,11 @@ Le scénario d'attaque fil rouge nécessite de relier l'équipement critique int
 
 Le découpage physique et logique des artefacts dans le respect de la démarche 5S et du Single Source of Truth (SSOT) s'établit comme suit :
 
-| Niveau TLP | Portée Métier | Emplacement Physique (`02-Donnees/`) | Artefacts RDF & Fichiers |
-| :--- | :--- | :--- | :--- |
-| **`TLP:AMBER`** | Ontologie TBox & Formes SHACL combinées | `Master_Transversal/TLP_AMBER_Socle_TBox/` | `DKG_TBox_Master.ttl` |
-| **`TLP:RED`** | ABox Cartographie Interne (Confidentiel) | `Master_Transversal/TLP_RED_Instances_ABox/` | `DKG_ABox_Master.ttl` |
-| **`TLP:CLEAR`** | ABox CTI Externe (Référentiels publics) | `Master_Transversal/TLP_CLEAR_CTI_External/` | `DKG_ABox_CTI_External.ttl`<br/>`02_SYNTHESE_ABOX_CTI.md` |
+| Niveau TLP      | Portée Métier                            | Emplacement Physique (`02-Donnees/`)         | Artefacts RDF & Fichiers                                  |
+| :-------------- | :--------------------------------------- | :------------------------------------------- | :-------------------------------------------------------- |
+| **`TLP:AMBER`** | Ontologie TBox & Formes SHACL combinées  | `Master_Transversal/TLP_AMBER_Socle_TBox/`   | `DKG_TBox_Master.ttl`                                     |
+| **`TLP:RED`**   | ABox Cartographie Interne (Confidentiel) | `Master_Transversal/TLP_RED_Instances_ABox/` | `DKG_ABox_Master.ttl`                                     |
+| **`TLP:CLEAR`** | ABox CTI Externe (Référentiels publics)  | `Master_Transversal/TLP_CLEAR_CTI_External/` | `DKG_ABox_CTI_External.ttl`<br/>`02_SYNTHESE_ABOX_CTI.md` |
 
 ---
 

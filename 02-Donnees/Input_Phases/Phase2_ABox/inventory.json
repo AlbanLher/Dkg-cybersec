@@ -1,0 +1,67 @@
+{
+  "tlp_markings": ["TLP-CLEAR", "TLP-GREEN", "TLP-AMBER", "TLP-RED"],
+  "threat_patterns": [
+    {
+      "id": "CAPEC-126",
+      "label": "Path Traversal",
+      "description": "An attacker manipulates path references to access files outside the intended folder."
+    },
+    {
+      "id": "CAPEC-63",
+      "label": "Simple Pass-Through",
+      "description": "Attacker executes arbitrary code by passing commands through input fields."
+    }
+  ],
+  "weaknesses": [
+    {
+      "id": "CWE-22",
+      "label": "Improper Limitation of a Pathname to a Restricted Directory",
+      "threat_pattern_id": "CAPEC-126"
+    },
+    {
+      "id": "CWE-78",
+      "label": "Improper Neutralization of Special Elements used in an OS Command",
+      "threat_pattern_id": "CAPEC-63"
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "id": "CVE-2021-41773",
+      "label": "Apache HTTP Server Path Traversal Vulnerability",
+      "cvss_score": 7.5,
+      "weakness_id": "CWE-22"
+    },
+    {
+      "id": "CVE-2021-44228",
+      "label": "Log4Shell Remote Code Execution",
+      "cvss_score": 10.0,
+      "weakness_id": "CWE-78"
+    }
+  ],
+  "software_components": [
+    {
+      "id": "Comp-Apache-2-4-49",
+      "label": "Apache HTTP Server v2.4.49",
+      "vulnerability_id": "CVE-2021-41773"
+    },
+    {
+      "id": "Comp-Log4j-2-14",
+      "label": "Apache Log4j Core v2.14.1",
+      "vulnerability_id": "CVE-2021-44228"
+    }
+  ],
+  "assets": [
+    {
+      "id": "Asset-Srv-Prod-01",
+      "label": "Serveur Web Frontend Production",
+      "tlp_marking": "TLP-AMBER",
+      "installed_component_id": "Comp-Apache-2-4-49"
+    },
+    {
+      "id": "Asset-Srv-Auth-02",
+      "label": "Serveur Authentification Central",
+      "tlp_marking": "TLP-RED",
+      "installed_component_id": "Comp-Log4j-2-14"
+    }
+  ]
+}
