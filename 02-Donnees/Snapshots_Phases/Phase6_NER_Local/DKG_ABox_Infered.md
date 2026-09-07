@@ -1,6 +1,6 @@
-# Extrait Sémantique : DKG_TBox_Master.ttl
-**Source** : `02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox/DKG_TBox_Master.ttl`  
-**Nombre total de triplets** : `120`  
+# Extrait Sémantique : DKG_ABox_Infered.ttl
+**Source** : `02-Donnees/Snapshots_Phases/Phase6_NER_Local/DKG_ABox_Infered.ttl`  
+**Nombre total de triplets** : `213`  
 
 ---
 ## 1. Classes déclarées
@@ -33,21 +33,21 @@
 | :--- | :--- | :--- |
 | `isComponentOf` | `inverseOf` | `hasInstalledComponent` |
 | `TLPMarking` | `definition` | `Niveau de classification et de partage de l'information.` |
-| `hasVulnerability` | `prefLabel` | `has vulnerability` |
-| `Vulnerability` | `definition` | `Faiblesse logicielle exploitable répertoriée (CVE).` |
-| `ThreatPattern` | `definition` | `Motif ou schéma d'attaque documenté (CAPEC).` |
 | `hasWeakness` | `prefLabel` | `has weakness` |
+| `RuleThreatCampaignPropagation` | `comment` | `Lie une campagne CTI externe à un actif interne hébergeant le composant visé.` |
+| `RuleThreatCampaignPropagation` | `rule` | `n5f4cbfb918604a5baa164d51ca15ab48b2` |
 | `hasTLPMarking` | `comment` | `Applique une classification TLP sur l'entité` |
-| `Asset` | `label` | `Asset` |
 | `TLPMarking` | `altLabel` | `Niveau de confidentialité` |
-| `assetId` | `domain` | `Asset` |
+| `Asset` | `label` | `Asset` |
+| `CAPEC-586` | `type` | `ThreatPattern` |
 | `isVulnerabilityOf` | `type` | `ObjectProperty` |
 | `ThreatActor` | `prefLabel` | `Threat Actor` |
-| `Vulnerability` | `prefLabel` | `Vulnerability` |
-| `hasWeakness` | `prefLabel` | `est de type faiblesse` |
-| `isVulnerabilityOf` | `prefLabel` | `is vulnerability of` |
 | `hasVulnerability` | `comment` | `Lie un composant à une vulnérabilité connue` |
-| `ThreatActor` | `type` | `Class` |
-| `ThreatPattern` | `altLabel` | `Mode opératoire d'attaque` |
+| `CWE-502` | `type` | `Weakness` |
 | `hasThreatPattern` | `domain` | `Weakness` |
-| `cveId` | `range` | `string` |
+| `ThreatPattern` | `altLabel` | `Mode opératoire d'attaque` |
+| `cveId` | `prefLabel` | `identifiant CVE` |
+| `cvssScore` | `prefLabel` | `CVSS score` |
+| `CAPEC-63` | `label` | `Simple Pass-Through` |
+| `SoftwareComponent` | `prefLabel` | `Composant Logiciel` |
+| `RuleThreatCampaignPropagation` | `label` | `Règle R-02 : Propagation Cible de Campagne de Menace` |

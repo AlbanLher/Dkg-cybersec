@@ -1,0 +1,6 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-data:candidate_99 dkg:alignmentScore "0.6331846117973328"^^xsd:float .
+

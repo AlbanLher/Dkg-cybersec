@@ -18,7 +18,7 @@ _des liens vous permettent d'accéder à :_
 
 | Vague |                     Phase<br>Content                     | Titre                                                                                                                                                                  |      Status      |                                                    Exemple<br>SPEC                                                    |                               Exemple <br>d'instantiation                                |                                          Commentaire                                           |
 | :---: | :------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------: | :-------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------: |
-|   1   |         [**Phase1**](./Phase1/Phase_Content.md)          | initialisation Socle Modèle Canonique & Qualité<br>- TBox (class Datatype) , <br>- RBox { relations, Inverse)<br>- SHACL (shapes & validation)}<br>dans un cas simple. | Reprise en cours | [SPEC-01](01-Principes_Spécifications/Specifications_Framework/SPEC-01_Socle_Structurel_Framework_TBox_RBox_SHACL.md) |     [TBox_Human](../../02-Donnees/Snapshots_Phases/Phase_1_Socle/DKG_TBox_Master.md)     |   Comprendre les enjeux du socle<br>Ajout manuel des Acronymes T-R-A Box dans lexique du .md   |
+|   1   |         [**Phase1**](./Phase1/Phase_Content.md)          | initialisation Socle Modèle Canonique & Qualité<br>- TBox (class Datatype) , <br>- RBox { relations, Inverse)<br>- SHACL (shapes & validation)}<br>dans un cas simple. | Reprise en cours | [SPEC-01](06-Archives/Specifications_Framework/SPEC-01_Socle_Structurel_Framework_TBox_RBox_SHACL.md) |     [TBox_Human](../../02-Donnees/Snapshots_Phases/Phase_1_Socle/DKG_TBox_Master.md)     |   Comprendre les enjeux du socle<br>Ajout manuel des Acronymes T-R-A Box dans lexique du .md   |
 |   1   |          [**Phase2**](2-ABox/Phase_Content.md)           | initialisation de l'instanciation interne<br>- - ABox                                                                                                                  |   A reprendre.   |                                                        SPEC-02                                                        | [ABox_Human](../02-Donnees/Master_Transversal/TLP_RED_Instances_ABox/DKG_ABox_Master.md) |                                                                                                |
 |   2   | [**Phase3**](./3-EnrichissementExterne/Phase_Content.md) | Enrichissement avec des donnéesExterne<br>+ Gouvernance ( TLP )                                                                                                        |   A Reprendre    |                                                                                                                       |                                                                                          | Comprendre l'articulation de TBox, RBox, ABox ref [lien](Phase3/Articulation_des_T-R-A_Box.md) |
 |       |                        **Phase4**                        |                                                                                                                                                                        |                  |                                                                                                                       |                                                                                          |                                                                                                |
@@ -27,6 +27,64 @@ _des liens vous permettent d'accéder à :_
 ---
 
 ## 2  -  Roadmap : vision du graph de synthèse par Vagues et Phases
+
+Voici le tableau de correspondance exact pour remettre à plat l'alignement des spécifications :
+
+| **Vague**                                              | **Bloc du Schéma (Phase)**                | **Numéro de Phase** | **Spécifications Associées**                          |
+| ------------------------------------------------------ | ----------------------------------------- | ------------------- | ----------------------------------------------------- |
+| **Vague 1**<br><br>  <br><br>_(Socle Interne)_         | A1 : TBox TLP:AMBER                       | **Phase 1**         | `SPEC-SOCLE-00`, `SPEC-SOCLE-01`, `SPEC-SOCLE-02`     |
+|                                                        | A2 : ABox Interne TLP:RED                 | **Phase 2**         | `SPEC-METIER-UC01`, `SPEC-TECH-UC01`                  |
+| **Vague 2**<br><br>  <br><br>_(Ingestion & Alignment)_ | B1 : Flux CTI TLP:CLEAR                   | **Phase 3**         | `SPEC-SOCLE-03`                                       |
+|                                                        | B2 : NER / Unstructured CTI               | **Phase 4**         | `SPEC-TECH-UC04`                                      |
+|                                                        | B3/B4 : Reprise & Parentèse Consolidation | **Phase 5**         | Agent MITM / Consolidation TBox SKOS                  |
+| **Vague 3**<br><br>  <br><br>_(Raisonnement)_          | C1/C2 : SWRL, SPARQL & HighRiskAsset      | **Phase 6**         | `SPEC-SOCLE-04`, `SPEC-METIER-UC02`, `SPEC-TECH-UC03` |
+| **Vague 4**<br><br>  <br><br>_(Agent & RAG)_           | D1/D2/D3 : Vectorisation, Text-to-SPARQL  | **Phase 7 à 9**     | _(Spécifications Vague 4 à venir)_                    |
+| **Vague 5**<br><br>  <br><br>_(SOAR & Autonomie)_      | E1/E2 : Streaming SIEM/EDR, Playbooks     | **Phase 10 & 11**   | _(Spécifications Vague 5 à venir)_                    |
+
+
+
+
+```mermaid
+graph TD
+    subgraph V1 [Vague 1: Socle & Cartographie Interne]
+        A1[TBox TLP:AMBER] --> A2[ABox Interne TLP:RED]
+    end
+
+    subgraph V2 [Vague 2: Ingestion CTI Externe, NER & Alignment]
+        B1[Flux CTI TLP:CLEAR] --> B2[NER / Unstructured CTI]
+        B2 --> B3[Reprise des Spécifications]
+        
+        %% Parenthesis / Transition
+        subgraph V2_Sub [Parenthese: Consolidation Sémantique]
+            B4[Agent d'Alignement & Fusion TBox<br/>STIX / UCO / EU AI Act]
+        end
+        
+        B3 --> B4
+    end
+
+    subgraph V3 [Vague 3: Moteur de Raisonnement]
+        C1[Règles SWRL / SPARQL Construct] --> C2[Déductions & HighRiskAsset]
+    end
+
+    subgraph V4 [Vague 4: Agent SOC, RAG Hybride & Fine-Tuning]
+        D1[Vectorisation / Embeddings] --> D2[Fine-Tuning Text-to-SPARQL]
+        D2 --> D3[Agent GraphRAG Explicable]
+    end
+
+    subgraph V5 [Vague 5: Continuous Improvement & SOAR]
+        E1[Streaming SIEM/EDR] --> E2[Autonomie & Playbooks YARA/Sigma]
+    end
+
+    V1 --> V2
+    B4 --> C1
+    V3 --> V4
+    V4 --> V5
+```
+
+
+
+
+
 
 ```mermaid
 graph TD

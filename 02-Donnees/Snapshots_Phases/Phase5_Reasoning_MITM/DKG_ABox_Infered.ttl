@@ -1,0 +1,7 @@
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+
+dkg-data:server_pivot_01 a dkg:HighRiskAsset ;
+    dkg:exposesToCascade dkg-data:db_critical_01 ;
+    dkg:hasRiskReason "Exposed vulnerability listed in CISA KEV" .
+

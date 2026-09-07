@@ -1,171 +1,106 @@
+# 📋 Phase 5 : [Nom de la Phase]
 
-📋 **Phase 5 : Ingestion Advanced CTI, NER Local & Inférence RBox (Vague 3)**
+> **Statut** : [En cours / 🟢 Validée & Close]  
+> **Date de début** : [06/009/2026]  
+> **Date de clôture** : [JJ/MM/AAAA]  
 
-**Statut :** En cours
-**Date de début :** 02/09/2026
-**Date de clôture :** 16/09/2026
+---
 
-🎯 **1. Objectifs & Périmètre**
+## 🎯 1. Objectifs & Périmètre
+* **But principal** : [Description synthétique des ambitions de la phase]
+* **Livrables attendus** : [Liste des composants logiciels, schémas ou documents produits]
 
-- **But principal :** Transformer le graphe statique en un Knowledge Graph dynamique et déductif. 
-- La phase englobe :
-	- la régularisation du socle IA local (téléchargement et exécution offline des modèles NER et d'embeddings), 
-	- l'ingestion des flux CTI complexes (STIX 2.1, OSINT unstructuré), 
-	- le contrôle par l'Agent MITM (gouvernance avant écriture), 
-	- l'exécution des règles d'inférence (SWRL/SPARQL CONSTRUCT) pour déduire les niveaux de risque (`dkg:HighRiskAsset`) et propager la ségrégation TLP.
+---
+
+## 🛠️ 2. Traçabilité des Livrables par Brique
+
+### A. Spécification & Gouvernance (SPEC Framework)
+* **Spécification associée** : [`SPEC-XX-Titre.md`](../../01-Exigences/SPEC-XX.md)
+* **Exigences couvertes** : Explicitation des règles Métier/Framework adressées dans cette phase.
+
+### B. Instanciation & Use Case Pédagogique (Lisible Humain)
+* **Document d'illustration** : [`Human_UseCase.md`](./Human_UseCase.md)
+* **Description** : Scénario concrétisé démontrant la valeur métier sans jargon brut.
+
+### C. Données & Ontologies (Data / Graph RDF)
+* **Artefacts Master** : [`Donnees_Master.ttl`](../../02-Donnees/Master_Transversal/...)
+* **Artefacts Snapshot** : [`Snapshot_Phase_X/`](../../02-Donnees/Snapshots_Phases/...)
+
+### D. Scripts & Outillage (Automation & CI/CD)
+* **Générateur** : [`generate_phaseX.py`](./generate_phaseX.py)
+* **Tests Qualité** : [`test_phaseX_quality.py`](./test_phaseX_quality.py)
+
+---
+
+## 🏁 3. Synthèse de Clôture & Ressources
+
+### Résumé Exécutif
+[Synthèse globale de l'atterrissage de la phase, des acquis et de l'état du code/graphe]
+
+### Matrice Récapitulative des Livrables
+| Brique | Composant / Fichier | Description |
+| :--- | :--- | :--- |
+| **Framework** | [`SPEC-XX.md`](../../01-Exigences/...) | Spécification des contraintes & règles |
+| **Instanciation** | [`Human_UseCase.md`](./...) | Cas d'usage métier expliqué |
+| **Data** | [`Graphe_Master.ttl`](../../02-Donnees/...) | Fichiers RDF / Turtle générés |
+| **Script** | [`generate_phaseX.py`](./...) | Script de génération et synchronisation |
+
+---
+
+## 📚 4. Pour aller plus loin (Ressources Pédagogiques)
+*(Liens documentaires et tutoriels pour approfondir les concepts de la phase)*
+* **[Concept 1]** : [Lien / Référence] — *Brève description du concept.*
+* **[Concept 2]** : [Lien / Référence] — *Brève description du concept.*
+
+
+
+---
+
+
+
+### 🔑 Points clés de l'implémentation
+
+1. **Ancrage SSOT Strict** : Importation directe des constantes et des namespaces RDF de `config.py` (`ABOX_RED_PATH`, `ABOX_CTI_PATH`, `ABOX_INFERED_PATH`, `DKG_TBOX`, `DKG_CTI`).
     
-- **Livrables attendus :** Document SPEC-05, extensions TBox (STIX 2.1), outillage IA local offline, composant Agent MITM d'alignement, fichier de règles d'inférence SWRL/SPARQL, scripts de génération/enrichissement RDF, cas d'usage illustré et pipeline CI/CD SHACL mis à jour.
+2. **Chaînage Avant (Forward Chaining)** : Les résultats de R-01 (`HighRiskAsset` via CISA KEV) sont réinjectés dans `graph_input` pour alimenter directement R-02 (`exposesToCascade` via propagation transitive `connectsTo+`).
     
-
-🛠️ **2. Traçabilité des Livrables par Brique**
-
-**A. Spécification & Gouvernance (SPEC Framework)**
-
-- **Spécification associée :** `SPEC-05-Advanced-CTI-RBox-Inference.md`
+3. **Ségrégation TLP (EXG-SE-01)** : Tous les faits déduits du croisement CTI / Interne sont isolés et sauvegardés dans `DKG_ABox_Infered.ttl` (`TLP:RED`).
     
-- **Exigences couvertes :**
-    
-    - Execution 100% offline des composants IA (NER Cyber et Embeddings d'alignement).
-        
-    - Alignement sémantique strict NLP/RDF avec validation TBox préalable (Agent MITM).
-        
-    - Déduction automatisée des nœuds critiques (`dkg:HighRiskAsset`) via croisements CISA KEV et vulnérabilités ABox RED.
-        
-    - Application du principe d'héritage TLP (TLP:RED prévaut sur toute chaîne d'inférence impliquant un actif interne).
-        
+4. **Performance & Traçabilité (EXG-HW-01)** : Mesure du temps de calcul avec avertissement si la durée franchit le seuil des 5 secondes.
 
-**B. Instanciation & Use Case Pédagogique (Lisible Humain)**
 
-- **Document d'illustration :** `Human_UseCase_Phase5.md`
-    
-- **Description :** Scénario métier illustrant le traitement d'une menace unstructurée : extraction NER locale, validation MITM contre la TBox, injection ABox CTI, et levée automatique de niveau de risque sur les équipements internes touchés.
-    
 
-**C. Données & Ontologies (Data / Graph RDF)**
+couverture des test :
 
-- **Artefacts Master :**
-    
-    - `01-Ontologie/TBox/TBOX_MASTER.ttl` _(enrichi des classes CTI/STIX 2.1)_
-        
-    - `01-Ontologie/Rules/rules_vague3.ttl` _(règles SPARQL CONSTRUCT / SWRL)_
-        
-    - `02-Donnees/Master_Transversal/TLP_CLEAR_CTI_External/`
-        
-- **Artefacts Snapshot :** `Snapshot_Phase_5/` _(instantané des graphes ABox RED et CTI post-inférence)_
-    
+### 📊 Couverture des Critères d'Acceptation (EXG-)
 
-**D. Scripts & Outillage (Automation & CI/CD)**
-
-- **Générateur :** `03-Application/generate_phase5_inference.py`, `03-Application/mitm_agent.py`, `03-Application/models/fetch_models.py`
-    
-- **Tests Qualité :** `03-Application/tests/test_phase5_quality.py` _(tests SHACL post-inférence, chargement offline des modèles et non-fuite TLP)_
-    
-
-🏁 **3. Synthèse de Clôture & Ressources**
-
-**Résumé Exécutif**
-
-_(A compléter lors de la clôture de la phase)_
-
-**Matrice Récapitulative des Livrables**
-
-|**Brique**|**Composant / Fichier**|**Description**|
+|**Exigence**|**Intitulé**|**Stratégie de Validation Pytest**|
 |---|---|---|
-|**Framework**|`SPEC-05-Advanced-CTI-RBox-Inference.md`|Spécification des règles CTI, IA locale, pipeline MITM et moteur d'inférence|
-|**Instanciation**|`Human_UseCase_Phase5.md`|Cas d'usage d'une alerte CTI convertie en levée de risque automatique|
-|**Data**|`01-Ontologie/Rules/rules_vague3.ttl`|Ensemble des règles SWRL / SPARQL CONSTRUCT pour les inférences|
-|**Data**|`02-Donnees/Snapshot_Phase_5/`|Graphes ABox enrichis des faits déduits post-raisonnement|
-|**Script**|`03-Application/models/fetch_models.py`|Bootstrap de téléchargement local des modèles NER et embeddings|
-|**Script**|`03-Application/mitm_agent.py`|Agent de gouvernance validant l'alignement NLP/TBox avant écriture|
-|**Script**|`03-Application/generate_phase5_inference.py`|Script d'exécution du raisonneur RDF et de synchronisation des ABox|
+|**EXG-HW-01**|Raisonnement Local Économe|Assertion `exec_time < 5.0` sur le temps renvoyé par `run_inference()`.|
+|**EXG-INF-01**|Inférence HighRiskAsset|Requête `ASK` validant la création des triplets `?asset a dkg:HighRiskAsset`.|
+|**EXG-INF-02**|Matérialisation Cascade|Requête `ASK` vérifiant la présence de la relation `?pivot dkg:exposesToCascade ?target`.|
+|**EXG-SE-01**|Ségrégation TLP Inférencée|Validation du chemin d'écriture `TLP_RED_Infered_Graph` et contrôle d'étanchéité sur `ABOX_CTI_PATH`.|
 
-📚 **4. Pour aller plus loin (Ressources Pédagogiques)**
+### Exécution des tests
 
-- **GLiNER (Generalist Model for Named Entity Recognition) :** [GLiNER Paper / GitHub](https://github.com/urchade/GLiNER) — Modèle Zero-Shot/Few-Shot NER compact et exécutable en local.
-    
-- **STIX 2.1 Cyber Threat Intelligence Representation :** [OASIS STIX Documentation](https://oasis-open.github.io/cti-documentation/) — Standard de modélisation structurée des concepts de la menace.
-    
-- **SPARQL 1.1 CONSTRUCT Queries :** [W3C SPARQL Query Language](https://www.google.com/search?q=https://www.w3.org/TR/sparql11-query/%23construct) — Mécanisme de création de nouveaux triples RDF basés sur la correspondance de motifs de graphes.
+Pour lancer cette suite de tests, il vous suffit d'exécuter la commande suivante depuis la racine du projet :
 
+### 📊 Synthèse de Couverture de la Phase 5
 
+|**Fichier Test Pytest**|**Exigences Validées**|
+|---|---|
+|`test_phase5_inference.py`|**EXG-INF-01**, **EXG-INF-02**, **EXG-SE-01**, **EXG-HW-01**|
+|`test_phase5_mitm.py`|**EXG-MITM-01**, **EXG-MITM-02**, **EXG-SKOS-01**, **EXG-SKOS-02**, **EXG-HW-01**|
 
 
 
+### 🛡️ Matrice de Traçabilité des Livrables de la Phase 5
 
+|**Composant**|**Fichier Source**|**Fichier Test Associé**|**Statut EXG**|
+|---|---|---|---|
+|**Règles d'Inférence & RBox**|`03-Application/Phase5/reasoning_engine.py`|`03-Application/Tests/test_phase5_inference.py`|`EXG-INF-01`, `EXG-INF-02`, `EXG-SE-01`, `EXG-HW-01`|
+|**Agent MITM & Embeddings**|`03-Application/Phase5/mitm_agent.py`|`03-Application/Tests/test_phase5_mitm.py`|`EXG-MITM-01`, `EXG-MITM-02`, `EXG-HW-01`|
+|**Consolidateur SKOS**|`03-Application/Phase5/skos_consolidator.py`|`03-Application/Tests/test_phase5_mitm.py`|`EXG-SKOS-01`, `EXG-SKOS-02`|
+|**Orchestrateur Pipeline**|`03-Application/Phase5/pipeline_phase5.py`|Global Execution Pipeline|Alignment SSOT `config.py`|
 
-### Caractéristiques du Fichier `DKG_Rules_Master.ttl` :
-
-- **En-têtes Turtle Obligatoires :** Intégration stricte des préfixes `dkg:`, `dkg-data:`, `dkg-cti:`, `sh:`, `xsd:`, `rdfs:`, ainsi que `rdf:` et `owl:`.
-    
-- **Règle R-01 (`dkg:RuleHighRiskAssetAssessment`) :** Exécution d'une requête `SPARQL CONSTRUCT` au sein d'une règle SHACL (`sh:SPARQLRule`) déduisant la classe `dkg:HighRiskAsset`, le score de risque (`9.5`) et la justification lorsqu'un composant hébergé porte une vulnérabilité CISA KEV (`dkg-cti:isCisaKevListed true`).
-    
-- **Règle R-02 (`dkg:RuleThreatCampaignPropagation`) :** Propagation sémantique liant directement une campagne de menace (`dkg:ThreatCampaign`) à l'actif hôte (`dkg:Asset`) via la propriété `dkg:targetsAsset`.
-
-### Fonctionnalités Clés du Composant `mitm_agent.py` :
-
-- **Conformité Air-Gapped / Offline :** Charge le modèle Sentence Transformers depuis le cache local (`EMBEDDING_MODEL_DIR = 03-Application/models/cache/embeddings/`) défini dans `config.py`.
-    
-- **Gouvernance & Indexation TBox Master :**
-    
-    1. Charge le graphe `TBOX_MASTER_PATH` (`TLP:AMBER`).
-        
-    2. Indexe et vectorise l'ensemble des concepts et labels de l'ontologie en mémoire.
-        
-- **Algorithme d'Alignement Sémantique :**
-    
-    - Calcule la similarité cosinus entre le vecteur de l'entité extraite (issues du NER) et les concepts connus de la TBox.
-        
-    - **Si $\text{Score} \ge 0.85$ (`MITM_SIMILARITY_THRESHOLD`) :** Reçoit le statut `ACCEPTED` et mappe l'entité vers l'URI canonique existante (`dkg:`).
-        
-    - **Si $\text{Score} < 0.85$ :** Reçoit le statut `PROPOSE_EXTENSION` pour éviter la pollution de l'ontologie Master en proposant une demande d'extension sous contrôle humain (Human-in-the-Loop).
-
-### Étapes Clés du Pipeline d'Inférence et Validation
-
-- **Agrégation des Graphes RDF :** Charge en mémoire la TBox Master (`TBOX_MASTER_PATH`), l'ABox Interne (`ABOX_RED_PATH`), l'ABox CTI (`ABOX_CTI_PATH`) et le paquet de règles (`RULES_MASTER_PATH`).
-    
-- **Moteur d'Inférence `pySHACL` :** Exécute le raisonnement sémantique via les règles SHACL/SPARQL (`advanced=True`), enrichissant le graphe avec la classification `HighRiskAsset` et la propagation de cible (`targetsAsset`).
-    
-- **Persistance ABox Infered :** Sauvegarde le graphe enrichi complet dans `ABOX_INFERED_PATH` (`TLP:RED`).
-    
-- **Validation SHACL & Documentation :** Contrôle la conformité globale du graphe déduit par rapport aux formes SHACL et exporte automatiquement le rapport sous `DOC_INFERED_MD_PATH` (`02_SYNTHESE_ABOX_INFERED.md`).
-
-
-### Contenu du Cas d'Usage Métier (Phase 5)
-
-- **Contextualisation SOC / CTI :** Explication du besoin opérationnel de corréler automatiquement des bulletins CTI publics (TLP:CLEAR) avec des actifs internes sensibles (TLP:RED) en environnement Air-Gapped.
-    
-- **Déroulement Étape par Étape :**
-    
-    1. _Interception & Alignement MITM_ : Extraction NLP locale et validation sémantique via `mitm_agent.py` ($\ge 0.85$ pour acceptation, sinon proposition d'extension de schéma sous gouvernance Human-in-the-Loop).
-        
-    2. _Inférence Sémantique_ : Application des règles R-01 (reclassification `HighRiskAsset` sur présence d'une CVE CISA KEV) et R-02 (propagation automatique du ciblage `targetsAsset`).
-        
-    3. _Validation & Cloisonnement_ : Contrôle SHACL et export du graphe déduit sous marquage TLP:RED.
-        
-- **Tableau Matrice d'Impact Analyste :** Comparatif clair du gain opérationnel avant/après l'inférence.
-
-
-
-
-
-
-La **Phase 5 : Advanced CTI & Inference** du projet **DKG-CyberSec** est désormais complètement opérationnelle et validée sur l'ensemble de ses piliers :
-
-- **Air-Gapped & Cache IA (`test_01`) :** Les modèles NLP/NER et d'embeddings sont bien chargés localement sans appel réseau extérieur.
-    
-- **Gouvernance & Agent MITM (`test_02`) :** L'alignement sémantique par similarité cosinus (seuil 0.85) fonctionne correctement (acceptation des concepts canoniques et proposition d'extensions sous contrôle).
-    
-- **Graphe & Cloisonnement TLP (`test_03`) :** L'étanchéité entre la CTI externe (`TLP:CLEAR`) et les inférences sensibles (`TLP:RED`) est strictement respectée.
-    
-
-### Résumé des Composants Livrés en Phase 5
-
-- **`DKG_Rules_Master.ttl` :** Règles d'inférence SPARQL CONSTRUCT (`sh:SPARQLRule`) déduisant la classe `HighRiskAsset` (CISA KEV) et la propagation `targetsAsset`.
-    
-- **`03-Application/Phase5/mitm_agent.py` :** Agent de gouvernance sémantique interceptant et alignant les entités issues du NER.
-    
-- **`03-Application/Phase5/generate_phase5_inference.py` :** Pipeline complet d'inférence sémantique, d'export de la ABox Infered (`TLP:RED`) et de validation SHACL.
-    
-- **`Human_UseCase_Phase5.md` :** Documentation métier pédagogique du scénario d'inférence SOC/CTI.
-    
-- **`03-Application/Test/test_phase5_quality.py` :** Suite de tests de qualité assurant la non-régression.
+Le pipeline de la Phase 5 est entièrement configuré. La suite de tests peut être lancée pour valider l'exécution.

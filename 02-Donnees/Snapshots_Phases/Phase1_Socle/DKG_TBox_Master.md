@@ -1,88 +1,50 @@
-# 📚 Documentation du Socle Ontologique TBox / RBox / SKOS
-
-> **Spécification** : Conforme SPEC-01  
-> **Classification** : `TLP:AMBER`  
-> **Domaine** : CyberSécurité & DKG
+# Extrait Sémantique : DKG_TBox_Master.ttl
+**Source** : `02-Donnees/Snapshots_Phases/Phase1_Socle/DKG_TBox_Master.ttl`  
+**Nombre total de triplets** : `106`  
 
 ---
+## 1. Classes déclarées
+* **`Asset`** (`Asset`): Ressource informatique du SI (serveur, poste, équipement réseau).
+* **`SoftwareComponent`** (`SoftwareComponent`): Composant logiciel, bibliothèque ou dépendance système.
+* **`TLPMarking`** (`TLPMarking`): Niveau de classification et de partage de l'information.
+* **`ThreatPattern`** (`ThreatPattern`): Motif ou schéma d'attaque documenté (CAPEC).
+* **`Vulnerability`** (`Vulnerability`): Faiblesse logicielle exploitable répertoriée (CVE).
+* **`Weakness`** (`Weakness`): Famille d'erreur logicielle sous-jacente (CWE).
 
-## 📖 1. Glossaire des Acronymes
-* **TBox** : Terminological Box (Structure logique, classes et hiérarchies)
-* **RBox** : Role Box (Propriétés, relations et leurs axiomes)
-* **ABox** : Assertional Box (Données factuelles et instances)
-* **OWL** : Web Ontology Language (Modélisation sémantique et logique)
-* **SKOS** : Simple Knowledge Organization System (Gestion lexicale et multilingue)
-* **SHACL** : Shapes Constraint Language (Validation de données ABox)
-* **TLP** : Traffic Light Protocol
+## 2. Propriétés
+* **`assetId`** [DatatypeProperty]: asset identifier
+* **`componentId`** [DatatypeProperty]: component identifier
+* **`cveId`** [DatatypeProperty]: CVE identifier
+* **`cvssScore`** [DatatypeProperty]: CVSS score
+* **`cweId`** [DatatypeProperty]: CWE identifier
+* **`hasInstalledComponent`** [ObjectProperty]: has installed component
+* **`hasTLPMarking`** [ObjectProperty]: has TLP marking
+* **`hasVulnerability`** [ObjectProperty]: has vulnerability
+* **`hasWeakness`** [ObjectProperty]: has weakness
+* **`hostname`** [DatatypeProperty]: hostname
+* **`isComponentOf`** [ObjectProperty]: is component of
+* **`isVulnerabilityOf`** [ObjectProperty]: is vulnerability of
 
----
-
-## 📊 2. Représentation Graphique du Schéma (Mermaid.js)
-```mermaid
-classDiagram
-    class Asset {
-        +string assetId
-        +string hostname
-    }
-    class SoftwareComponent {
-        +string componentId
-        +string name
-    }
-    class Vulnerability {
-        +string cveId
-        +float cvssScore
-    }
-    class Weakness {
-        +string cweId
-    }
-    class ThreatPattern {
-        +string capecId
-    }
-    class TLPMarking {
-        +string color
-    }
-
-    Asset "1" --> "*" SoftwareComponent : hasInstalledComponent
-    SoftwareComponent "1" --> "*" Vulnerability : hasVulnerability
-    Vulnerability "*" --> "*" Weakness : hasWeakness
-    Asset "*" --> "1" TLPMarking : hasTLPMarking
-```
-
----
-
-## 🏷️ 3. Dictionnaire des Classes (OWL & SKOS)
-
-| Classe | Label FR (`skos:prefLabel`) | Label EN | Synonyme (`skos:altLabel`) | Définition (`skos:definition`) |
-| :--- | :--- | :--- | :--- | :--- |
-| `Asset` | Actif | Asset | Ressource SI | Ressource informatique du SI (serveur, poste, réseau). |
-| `SoftwareComponent` | Composant Logiciel | Software Component | Paquet applicatif | Composant logiciel, bibliothèque ou dépendance système. |
-| `Vulnerability` | Vulnérabilité | Vulnerability | Faille de sécurité | Faiblesse logicielle exploitable répertoriée (CVE). |
-| `Weakness` | Faiblesse | Weakness | Type d'erreur logicielle | Famille d'erreur logicielle sous-jacente (CWE). |
-| `ThreatPattern` | Schéma de Menace | Threat Pattern | Mode opératoire d'attaque | Motif ou schéma d'attaque documenté (CAPEC). |
-| `TLPMarking` | Marquage TLP | TLP Marking | Niveau de confidentialité | Niveau de classification et de partage de l'information. |
-
----
-
-## 🔗 4. Propriétés d'Objets (Object Properties & RBox)
-
-| Propriété | Domaine | Portée (Range) | Inverse | Label FR | Description |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `hasInstalledComponent` | `Asset` | `SoftwareComponent` | `isComponentOf` | a pour composant | Lie un actif aux logiciels installés |
-| `isComponentOf` | `SoftwareComponent` | `Asset` | `hasInstalledComponent` | est composant de | Lie un composant à l'actif hôte |
-| `hasVulnerability` | `SoftwareComponent` | `Vulnerability` | `isVulnerabilityOf` | a pour vulnérabilité | Associe un composant à ses vulnérabilités |
-| `isVulnerabilityOf` | `Vulnerability` | `SoftwareComponent` | `hasVulnerability` | impacte le composant | Associe une CVE au composant impacté |
-| `hasWeakness` | `Vulnerability` | `Weakness` | N/A | est de type faiblesse | Cartographie une CVE vers sa catégorie CWE |
-| `hasTLPMarking` | `owl:Thing` | `TLPMarking` | N/A | a pour marquage TLP | Restreint la visibilité TLP d'un élément |
-
----
-
-## 🔢 5. Propriétés de Données (Datatype Properties)
-
-| Propriété | Domaine | Type (Datatype) | Label FR | Label EN |
-| :--- | :--- | :--- | :--- | :--- |
-| `assetId` | `Asset` | `xsd:string` | identifiant d'actif | asset identifier |
-| `hostname` | `Asset` | `xsd:string` | nom d'hôte | hostname |
-| `componentId` | `SoftwareComponent` | `xsd:string` | identifiant de composant | component identifier |
-| `cveId` | `Vulnerability` | `xsd:string` | identifiant CVE | CVE identifier |
-| `cvssScore` | `Vulnerability` | `xsd:float` | score CVSS | CVSS score |
-| `cweId` | `Weakness` | `xsd:string` | identifiant CWE | CWE identifier |
+## 3. Échantillon de Triplets (Top 20)
+| Sujet | Prédicat | Objet |
+| :--- | :--- | :--- |
+| `isComponentOf` | `inverseOf` | `hasInstalledComponent` |
+| `TLPMarking` | `definition` | `Niveau de classification et de partage de l'information.` |
+| `hasVulnerability` | `prefLabel` | `has vulnerability` |
+| `Vulnerability` | `definition` | `Faiblesse logicielle exploitable répertoriée (CVE).` |
+| `ThreatPattern` | `definition` | `Motif ou schéma d'attaque documenté (CAPEC).` |
+| `hasWeakness` | `prefLabel` | `has weakness` |
+| `hasTLPMarking` | `comment` | `Applique une classification TLP sur l'entité` |
+| `Asset` | `label` | `Asset` |
+| `TLPMarking` | `altLabel` | `Niveau de confidentialité` |
+| `assetId` | `domain` | `Asset` |
+| `isVulnerabilityOf` | `type` | `ObjectProperty` |
+| `Vulnerability` | `prefLabel` | `Vulnerability` |
+| `hasWeakness` | `prefLabel` | `est de type faiblesse` |
+| `isVulnerabilityOf` | `prefLabel` | `is vulnerability of` |
+| `hasVulnerability` | `comment` | `Lie un composant à une vulnérabilité connue` |
+| `ThreatPattern` | `altLabel` | `Mode opératoire d'attaque` |
+| `cveId` | `range` | `string` |
+| `cveId` | `prefLabel` | `identifiant CVE` |
+| `cvssScore` | `prefLabel` | `CVSS score` |
+| `ThreatPattern` | `label` | `ThreatPattern` |

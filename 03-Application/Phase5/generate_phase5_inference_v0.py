@@ -11,6 +11,7 @@ from pathlib import Path
 from rdflib import Graph
 import pyshacl
 
+# Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
 APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
@@ -34,6 +35,7 @@ def run_pipeline():
     print("🛡️ DKG-CyberSec — Moteur d'Inférence Sémantique & SHACL (Phase 5)")
     print("======================================================================")
 
+    # 1. Chargement des Graphes RDF (TBox, ABox Interne, ABox CTI, Règles)
     full_graph = Graph()
     
     paths_to_load = [
@@ -58,8 +60,8 @@ def run_pipeline():
     initial_triple_count = len(full_graph)
     print(f"[*] Total Triples Initiaux : {initial_triple_count}")
 
-    # 2. Exécution des Règles d'Inférence
-    print("[+] Exécution du moteur d'inférence SHACL Advanced (SPARQL CONSTRUCT)...")
+    # 2. Exécution des Règles d'Inférence (pySHACL Advanced / SPARQL CONSTRUCT)
+    print("[+] Exécution du moteur d'inférence SHACL Advanced...")
     shapes_graph = Graph()
     if Path(RULES_MASTER_PATH).exists():
         shapes_graph.parse(str(RULES_MASTER_PATH), format="ttl")
@@ -74,15 +76,16 @@ def run_pipeline():
     inferred_triple_count = len(full_graph) - initial_triple_count
     print(f"[✓] Inférences exécutées. Triples déduits : {inferred_triple_count}")
 
-    # 3. Sauvegarde de la ABox Infered (TLP:RED)
+    # 3. Sauvegarde & Synchronisation du Graphe Enrichi (ABox Infered TLP:RED)
     DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
     snapshot_ttl_path = DIR_SNAPSHOT_P5 / ABOX_INFERED_PATH.name
     full_graph.serialize(destination=str(snapshot_ttl_path), format="ttl")
+    print(f"[📦] Snapshot Turtle généré : {snapshot_ttl_path}")
 
     DIR_INFERED_RED.mkdir(parents=True, exist_ok=True)
     if snapshot_ttl_path.resolve() != ABOX_INFERED_PATH.resolve():
         shutil.copy(snapshot_ttl_path, ABOX_INFERED_PATH)
-    print(f"[✓] Graphe enrichi synchronisé dans : {ABOX_INFERED_PATH}")
+        print(f"[✅] Graphe Master synchronisé dans : {ABOX_INFERED_PATH}")
 
     # 4. Validation SHACL Finale de Conformité
     print("[+] Validation SHACL finale sur le graphe unifié...")
@@ -98,7 +101,7 @@ def run_pipeline():
 
     print(f"[*] Conformité SHACL globale : {'CONFORME (PASS)' if final_conforms else 'NON CONFORME (FAIL)'}")
 
-    # 5. Génération du Rapport Markdown Enrichi
+    # 5. Définition explicite des chemins Markdown & Génération du rapport
     snapshot_md_path = DIR_SNAPSHOT_P5 / DOC_INFERED_MD_PATH.name
     master_md_path = DOC_INFERED_MD_PATH
 
@@ -149,3 +152,32 @@ flowchart TD
     ABOX_RED --> INF
     ABOX_CTI --> INF
     INF -->|SPARQL CONSTRUCT / Rules| GRAPH_INF
+```
+
+Métrique,Valeur
+Triples Initiaux,{initial_triple_count}
+Triples Déduits (Règles),+{inferred_triple_count}
+Total Triples Enrichis,{len(full_graph)}
+
+🔍 Rapport Détaillé SHACL
+{final_report}
+
+
+Document généré automatiquement post-pipeline Phase 5.
+"""
+
+
+    # Écriture dans le Snapshot Phase 5
+    with open(snapshot_md_path, "w", encoding="utf-8") as f:
+        f.write(md_content)
+    print(f"[📦] Documentation Snapshot générée : {snapshot_md_path}")
+
+    # Synchronisation vers Master TLP:RED
+    master_md_path.parent.mkdir(parents=True, exist_ok=True)
+    if snapshot_md_path.resolve() != master_md_path.resolve():
+        shutil.copy(snapshot_md_path, master_md_path)
+        print(f"[✅] Documentation Master synchronisée : {master_md_path}")
+
+if __name__ == "__main__":
+    run_pipeline()
+

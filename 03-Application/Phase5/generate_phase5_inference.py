@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-generate_phase5_inference.py
+03-Application/generate_phase5_inference.py
 Pipeline d'Inférence Sémantique (Wave 3) & Validation SHACL.
-Conforme aux exigences d'exécution Air-Gapped / Offline.
+Conforme aux exigences SSOT, Replay, Auto-Doc et En-têtes Turtle.
 """
 
 import sys
 import shutil
 from pathlib import Path
-from rdflib import Graph
+from rdflib import Graph, Namespace
 import pyshacl
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
@@ -27,8 +27,26 @@ from config import (
     DOC_INFERED_MD_PATH,
     DKG_TBOX,
     DKG_DATA,
-    DKG_CTI
+    DKG_CTI,
+    SH,
+    XSD,
+    RDFS,
+    RDF,
+    SKOS
 )
+
+TB = "`" * 3  # Évite toute rupture de bloc Markdown/Triple-Backticks
+
+def bind_mandatory_prefixes(graph: Graph):
+    """Injecte l'intégralité des préfixes obligatoires."""
+    graph.bind("dkg", DKG_TBOX)
+    graph.bind("dkg-data", DKG_DATA)
+    graph.bind("dkg-cti", DKG_CTI)
+    graph.bind("sh", SH)
+    graph.bind("xsd", XSD)
+    graph.bind("rdfs", RDFS)
+    graph.bind("skos", SKOS)
+    graph.bind("rdf", RDF)
 
 def run_pipeline():
     print("======================================================================")
@@ -37,6 +55,7 @@ def run_pipeline():
 
     # 1. Chargement des Graphes RDF (TBox, ABox Interne, ABox CTI, Règles)
     full_graph = Graph()
+    bind_mandatory_prefixes(full_graph)
     
     paths_to_load = [
         ("TBox Master (TLP:AMBER)", TBOX_MASTER_PATH),
@@ -76,9 +95,11 @@ def run_pipeline():
     inferred_triple_count = len(full_graph) - initial_triple_count
     print(f"[✓] Inférences exécutées. Triples déduits : {inferred_triple_count}")
 
-    # 3. Sauvegarde & Synchronisation du Graphe Enrichi (ABox Infered TLP:RED)
+    # 3. Principe de Replay & Capitalisation (ABox Infered TLP:RED)
     DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
     snapshot_ttl_path = DIR_SNAPSHOT_P5 / ABOX_INFERED_PATH.name
+    
+    bind_mandatory_prefixes(full_graph)
     full_graph.serialize(destination=str(snapshot_ttl_path), format="ttl")
     print(f"[📦] Snapshot Turtle généré : {snapshot_ttl_path}")
 
@@ -101,7 +122,7 @@ def run_pipeline():
 
     print(f"[*] Conformité SHACL globale : {'CONFORME (PASS)' if final_conforms else 'NON CONFORME (FAIL)'}")
 
-    # 5. Définition explicite des chemins Markdown & Génération du rapport
+    # 5. Auto-Documentation : Génération du fichier .md miroir sans rupture
     snapshot_md_path = DIR_SNAPSHOT_P5 / DOC_INFERED_MD_PATH.name
     master_md_path = DOC_INFERED_MD_PATH
 
@@ -118,19 +139,20 @@ def run_pipeline():
 | Acronyme | Définition Complète | Contextualisation DKG |
 | :--- | :--- | :--- |
 | **APT** | Advanced Persistent Threat | Groupe d'attaquants qualifiés (`dkg:ThreatActor`). |
-| **RBox** | Relationship Box | Composante d'ontologie définissant les règles d'inférence et propriétés de relations. |
 | **CTI** | Cyber Threat Intelligence | Renseignements structurés externes (`TLP:CLEAR`). |
+| **KEV** | Known Exploited Vulnerabilities | Catalogue CISA des vulnérabilités exploitées. |
 | **SHACL** | Shapes Constraint Language | Langage W3C de validation de contraintes et de règles d'inférence. |
+| **SSOT** | Single Source of Truth | Source de vérité unique de configuration (`config.py`). |
 | **TLP** | Traffic Light Protocol | Protocole de partage (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`). |
 
 ---
 
 ## 🔄 Flux d'Inférence Sémantique Cross-Domain
 
-```mermaid
+{TB}mermaid
 flowchart TD
     subgraph TLP_AMBER [Périmètre Socle - TLP:AMBER]
-        TBOX[dkg_tbox.ttl]
+        TBOX[DKG_TBox_Master.ttl]
         RULES[DKG_Rules_Master.ttl]
     end
 
@@ -152,27 +174,33 @@ flowchart TD
     ABOX_RED --> INF
     ABOX_CTI --> INF
     INF -->|SPARQL CONSTRUCT / Rules| GRAPH_INF
-```
+{TB}
 
-Métrique,Valeur
-Triples Initiaux,{initial_triple_count}
-Triples Déduits (Règles),+{inferred_triple_count}
-Total Triples Enrichis,{len(full_graph)}
+## 📊 Métriques d'Inférence
 
-🔍 Rapport Détaillé SHACL
+| Métrique | Valeur |
+| :--- | :--- |
+| **Triples Initiaux** | {initial_triple_count} |
+| **Triples Déduits (Règles)** | +{inferred_triple_count} |
+| **Total Triples Enrichis** | {len(full_graph)} |
+
+---
+
+## 🔍 Rapport Détaillé SHACL
+
+{TB}text
 {final_report}
+{TB}
 
-
-Document généré automatiquement post-pipeline Phase 5.
+*Document généré automatiquement post-pipeline Phase 5.*
 """
 
-
-    # Écriture dans le Snapshot Phase 5
+    # Écriture Snapshot
     with open(snapshot_md_path, "w", encoding="utf-8") as f:
         f.write(md_content)
     print(f"[📦] Documentation Snapshot générée : {snapshot_md_path}")
 
-    # Synchronisation vers Master TLP:RED
+    # Synchronisation Master
     master_md_path.parent.mkdir(parents=True, exist_ok=True)
     if snapshot_md_path.resolve() != master_md_path.resolve():
         shutil.copy(snapshot_md_path, master_md_path)
@@ -180,4 +208,3 @@ Document généré automatiquement post-pipeline Phase 5.
 
 if __name__ == "__main__":
     run_pipeline()
-

@@ -1,5 +1,5 @@
 # Extrait Sémantique : DKG_ABox_Master.ttl
-**Source** : `02-Donnees/Master_Transversal/TLP_RED_Instances_ABox/DKG_ABox_Master.ttl`  
+**Source** : `02-Donnees/Snapshots_Phases/Phase2_ABox/DKG_ABox_Master.ttl`  
 **Nombre total de triplets** : `48`  
 
 ---
