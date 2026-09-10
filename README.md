@@ -16,7 +16,12 @@
 | **V5** | **Agent Copilot & Fine-Tuning Continu** | (P7) Modèle local ré-entraîné (LoRA) sur DKG pour un Copilot explicable | ⚪ **Planifié** |
 | **V6** | **Streaming Temps Réel & Reaction** | (P8) Démonstration de valeur sur boucle courte (SIEM/EDR / Analyse d'impact) | ⚪ **Planifié** |
 
-👉 **[Pour plus de détails,  consulter la Roadmap complète](./00-Projet/Roadmap_Suivi-Avancement.md)**
+###   [Test](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/python-tests.yml) 
+Tous les tests sont situés dans [`00-Application/Tests/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/00-Application/Tests). 
+**Statut** : ✅ **100% des tests passent** (dernière exécution : 10/09/2026). 
+Pour les exécuter localement : ```bash cd 00-Application/Tests pytest``
+
+👉 **[Pour plus de détails sur la roadmap ,consulter la Roadmap complète](./00-Projet/Roadmap_Suivi-Avancement.md)**
 
 ---
 
