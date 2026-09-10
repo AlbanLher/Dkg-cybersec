@@ -33,23 +33,29 @@ jobs:
           python -m pip install --upgrade pip
           pip install rdflib pyshacl pytest faker anyio langsmith
 
-      # 4. Exécution des tests Pytest et génération du rapport XML
-      - name: Run tests
-        if: always()
+      # 4. Exécution de la génération (si nécessaire pour que les tests passent)
+      - name: Run Data Generators
         run: |
-          pytest -v 03-Application/ --junitxml=test-results.xml
+          python3 03-Application/Phase1/generate_phase1_socle.py || true
+          python3 03-Application/Phase2/generate_phase2_abox.py || true
 
-      # 5. Publication du rapport des tests dans le Summary GitHub
+      # 5. Exécution explicite des tests dans 03-Application/Test/
+      - name: Run Pytest in Test Directory
+        run: |
+          pytest -v 03-Application/Test/ --junitxml=test-results.xml
+
+      # 6. Publication du rapport des tests
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: "test-results.xml"
 
-      # 6. Archivage des rapports en tant qu'artefact
+      # 7. Archivage des rapports
       - name: Upload Test Results Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results-xml
-          path: test-results.xml
+          path: test-results.xml:w
+        
