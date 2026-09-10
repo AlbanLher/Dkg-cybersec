@@ -199,8 +199,13 @@ Avec les deux premières vagues une compréhension des principes de base se dév
 
 Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé, Finance, Logistique) ?
 
-1. **Adoptez la démarche Spec-Driven :** Définissez vos exigences formelles dans `01-Principes_Spécification/`.
+1. **Adoptez la démarche Spec-Driven :** Adaptez les exigences formelles dans `01-Principes_Spécification/USECASE_METIER/`.
     
-2. **Utilisez le Triptyque de Prompts :** Guidez votre LLM collaborateur via les modèles du dossier [`PROJECT_CONTEXT_PROMPT.md`](https://www.google.com/search?q=PROJECT_CONTEXT_PROMPT.md).
+2. **Adapters les données d'entrées correspondant au cas d'usage :** `/02-Donnees/Input_Phases/`).
     
-3. **Instanciez la TBox & SHACL :** Déployez votre propre vocabulaire métier tout en réutilisant nos scripts de validation et de gestion des environnements.
+3. **Relancez les scripts de chacune des phases  et observez TBox & ABox :** `/03-Application/PhaseX/`
+
+
+4. **Si besoin interagissez aec un LLM via les prompt**.
+    Respectez votre assistant LLM en appliquant les consignes des prompt de partage de donnée , de fourniture de context. De génération de Context_bundle en fin de phase, et d'ouverture de nouvelles discussions ..
+      
