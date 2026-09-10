@@ -1,58 +1,30 @@
-name: DKG CyberSec CI Pipeline
+name: CI - Tests et Validation
 
 on:
-  workflow_dispatch: # Permet le déclenchement manuel via l'onglet Actions
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: 1. Récupération du code (Checkout)
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: 2. Configuration de Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-    - name: 3. Installation des dépendances
-      run: |
-        python -m pip install --upgrade pip
-        pip install rdflib pyshacl pytest faker anyio langsmith pytest-md
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          # Si vous avez un requirements.txt :
+          # pip install -r requirements.txt
 
-    - name: 4. Exécution Génération Phase 1
-      run: |
-        python3 03-Application/Phase1/generate_phase1_socle.py
-
-    - name: 5. Tests Recette Phase 1
-      if: always()
-      run: |
-        pytest -v 03-Application/Phase1/test_phase1_quality.py --junitxml=test-results-phase1.xml
-
-    - name: 6. Exécution Génération Phase 2
-      run: |
-        python3 03-Application/Phase2/generate_phase2_abox.py
-
-    - name: 7. Tests Recette Phase 2
-      if: always()
-      run: |
-        pytest -v 03-Application/Phase2/test_phase2_abox.py --junitxml=test-results-phase2.xml
-
-    - name: 8. Publication du rapport des résultats dans le résumé du Job
-      if: always()
-      uses: mikepennisi/build-junit-report@v5
-      with:
-        check_name: 'Rapport des Tests Pytest'
-        report_paths: 'test-results-*.xml'
-
-    - name: 9. Archivage des rapports de test en Artefact
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results-xml
-        path: test-results-*.xml
+      - name: Run tests
+        run: |
+          cd 00-Application/Tests
+          pytest -v
