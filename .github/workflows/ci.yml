@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Récupération du code
+      # 1. Récupération du repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -27,33 +27,37 @@ jobs:
         with:
           python-version: '3.12'
 
-      # 3. Installation des dépendances
+      # 3. Installation des dépendances complètes
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install rdflib pyshacl pytest faker anyio langsmith
+          pip install rdflib pyshacl pytest faker anyio langsmith pydantic
 
-      # 4. Exécution de la génération (Phase 1 & Phase 2)
-      - name: Run Data Generators
+      # 4. Exécution de la génération Phase 1 (Création du socle TBox)
+      - name: Run Phase 1 Generator
         run: |
-          python3 03-Application/Phase1/generate_phase1_socle.py || true
-          python3 03-Application/Phase2/generate_phase2_abox.py || true
+          python3 03-Application/Phase1/generate_phase1_socle.py
 
-      # 5. Exécution explicite de Pytest avec PYTHONPATH configuré
-      - name: Run Pytest
+      # 5. Exécution de la génération Phase 2 (Création de l'ABox)
+      - name: Run Phase 2 Generator
+        run: |
+          python3 03-Application/Phase2/generate_phase2_abox.py
+
+      # 6. Exécution des tests Pytest Phase 1 et Phase 2
+      - name: Run Pytest Suite
         env:
           PYTHONPATH: .
         run: |
-          pytest -v 03-Application/Test/ -o 'python_files=test_*.py *_test.py test*.py' --junitxml=test-results.xml
+          pytest -v 03-Application/Test/test_phase1_quality.py 03-Application/Test/test_phase2_abox.py --junitxml=test-results.xml
 
-      # 6. Publication du rapport dans GitHub Actions
+      # 7. Publication du rapport synthétique dans GitHub Actions
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: "test-results.xml"
 
-      # 7. Archivage de l'artefact XML
+      # 8. Archivage des rapports au format XML
       - name: Upload Test Results Artifact
         if: always()
         uses: actions/upload-artifact@v4
