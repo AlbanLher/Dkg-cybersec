@@ -184,13 +184,13 @@ DKG-CYBERSEC/
 ## 5. Comment utiliser
 - Cloner le repository GitHub.
 - Mettre en place un environnement virtuel avec le fichier `requirement.txt`.
-- Mettre en place Obsidian et ses pluggins
+- Mettre en place Obsidian et ses plugin
 - Gardez les /02-Donnes/Input_Phases/\*.* 
-- Déplacez les /02-Donnees/Snapshots_Pases/\*.*  et 02-Donnees/Master_Transversal/\*.*
+- Déplacez les /02-Donnees/Snapshots_Phases/\*.*  et 02-Donnees/Master_Transversal/\*.*
 - Relancer Phase par phase les script /03-Application/PhaseX/
-- Observez la re-génération des données déplacées ( ci-dessus)
+- Observez la re-génération des données déplacées ( ci-dessus )
 - Lancez les tests de la phase /03-Application/Test/test_phaseX...
-- Observez l'articulation des données entre les différent répertoires .ttl représentant les graphs avec leur étiquelle de confidentialité (TLP  _Turn Light Protocol_) avec les version md ou directement sur le ttl.
+- Observez l'articulation des données entre les différents répertoires. Les fichier _(.ttl)_ représentant les graphs avec leur étiquettes de confidentialité **TLP** (  _Turn Light Protocol_) avec les versions ( _.md_ ) ou directement sur le( _.ttl_ ).
   
 Avec les deux premières vagues une compréhension des principes de base se développera  et j'éspère la convction de leur puissance. l'IA n'a rien de magique. Mais ici la combinaison des modeles simple de NER ( Named Entity Recognition) et la superposition des Graph on perçois un mécanisme sur lequel on peut se reposer.  
 
