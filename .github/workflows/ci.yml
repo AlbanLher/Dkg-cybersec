@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install rdflib pyshacl pytest faker anyio langsmith pydantic
+          pip install rdflib pyshacl pytest faker anyio langsmith pydantic pydantic-settings
 
       # 4. Préparation de l'arborescence des dossiers de sortie
       - name: Ensure target directories exist
