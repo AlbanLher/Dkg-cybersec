@@ -182,8 +182,8 @@ DKG-CYBERSEC/
 👉 **[Pour plus de détails,  consulter l'index fichiers _( /!\ certaines vues peuvent requerir l'autorisation javascript et/ou obsidian)_](./00-Projet/Index_fichiers.md)**
 
 ## 5. Comment utiliser
-- Cloner le repository
-- Mettre en place un environnement virtuel avec le fichier requirement.txt
+- Cloner le repository GitHub.
+- Mettre en place un environnement virtuel avec le fichier `requirement.txt`.
 - Mettre en place Obsidian et ses pluggins
 - Gardez les /02-Donnes/Input_Phases/\*.* 
 - Déplacez les /02-Donnees/Snapshots_Pases/\*.*  et 02-Donnees/Master_Transversal/\*.*
