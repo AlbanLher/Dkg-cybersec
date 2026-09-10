@@ -207,5 +207,5 @@ Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé
 
 
 4. **Si besoin interagissez aec un LLM via les prompt**.
-    Respectez votre assistant LLM en appliquant les consignes des prompt de partage de donnée , de fourniture de contexte. De génération de Context_bundle en fin de phase, et d'ouverture de nouvelles discussions ..
+    Respectez votre assistant LLM en appliquant les consignes des prompt de partage de donnée , de fourniture de contexte. De génération de Context_bundle en fin de phase, et d'ouverture de nouvelles discussions .
       
