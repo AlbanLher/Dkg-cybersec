@@ -180,7 +180,22 @@ DKG-CYBERSEC/
 └── 03-Application/                     # Outillage Python, agents IA, API Gateway et suites PyTest
 ```
 👉 **[Pour plus de détails,  consulter l'index fichiers _( /!\ certaines vues peuvent requerir l'autorisation javascript et/ou obsidian)_](./00-Projet/Index_fichiers.md)**
-## 5. Réutilisation du Framework sur Votre Propre Domaine
+
+## 5. Comment utiliser
+- Cloner le repository
+- Mettre en place un environnement virtuel avec le fichier requirement.txt
+- Mettre en place Obsidian et ses pluggins
+- Gardez les /02-Donnes/Input_Phases/\*.* 
+- Déplacez les /02-Donnees/Snapshots_Pases/\*.*  et 02-Donnees/Master_Transversal/\*.*
+- Relancer Phase par phase les script /03-Application/PhaseX/
+- Observez la re-génération des données déplacées ( ci-dessus)
+- Lancez les tests de la phase /03-Application/Test/test_phaseX...
+- Observez l'articulation des données entre les différent répertoires .ttl représentant les graphs avec leur étiquelle de confidentialité (TLP  _Turn Light Protocol_) avec les version md ou directement sur le ttl.
+  
+Avec les deux premières vagues une compréhension des principes de base se développera  et j'éspère la convction de leur puissance. l'IA n'a rien de magique. Mais ici la combinaison des modeles simple de NER ( Named Entity Recognition) et la superposition des Graph on perçois un mécanisme sur lequel on peut se reposer.  
+
+
+## 6. Réutilisation du Framework sur Votre Propre Domaine
 
 Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé, Finance, Logistique) ?
 

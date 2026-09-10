@@ -27,6 +27,25 @@ neo4j-*
 .DS_Store
 Thumbs.db
 
+# Ignorer tout le répertoire de cache des modèles (HuggingFace / SentenceTransformers)
+03-Application/models/
+03-Application/models/cache/
+03-Application/models/cache/*
+
+# Ignorer les formats de poids et checkpoints volumineux
+*.bin
+*.safetensors
+*.pt
+*.onnx
+*.h5
+
+
+
+
+
+
+
+
 # Zone confidentielle
 .private/
 *.secret
