@@ -10,10 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1  # ✅ Version compatible Node.js 24
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5  # ✅ Version compatible Node.js 24
         with:
           python-version: '3.9'
 
