@@ -1,5 +1,6 @@
 name: CI - Tests et Validation
 
+# Déclenchement sur push/pull request sur la branche main
 on:
   push:
     branches: [ "main" ]
@@ -8,23 +9,41 @@ on:
 
 jobs:
   test:
+    # Exécution sur un runner Ubuntu (compatible avec Python 3.9+)
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.1.1  # ✅ Version compatible Node.js 24
 
-      - name: Set up Python
-        uses: actions/setup-python@v5  # ✅ Version compatible Node.js 24
+    steps:
+      # Étape 1 : Récupérer le code du dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v3  # ✅ Version stable et largement testée
+
+      # Étape 2 : Configurer Python 3.9
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4  # ✅ Version stable pour Python
         with:
           python-version: '3.9'
 
+      # Étape 3 : Installer les dépendances
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          # Si vous avez un requirements.txt :
+          # Si vous avez un fichier requirements.txt, décommentez la ligne suivante :
           # pip install -r requirements.txt
 
+      # Étape 4 : Exécuter les tests
       - name: Run tests
         run: |
           cd 00-Application/Tests
-          pytest -v
+          pytest -v  # -v pour un output détaillé
+
+      # Étape 5 (Optionnel) : Sauvegarder les résultats des tests
+      - name: Upload test results
+        if: always()  # Même si les tests échouent
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-results
+          path: |
+            00-Application/Tests/test-results.xml  # Si vous générez un rapport XML
+          # Pour générer un rapport XML, utilisez :
+          # pytest -v --junitxml=00-Application/Tests/test-results.xml
