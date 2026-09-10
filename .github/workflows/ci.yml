@@ -33,31 +33,39 @@ jobs:
           python -m pip install --upgrade pip
           pip install rdflib pyshacl pytest faker anyio langsmith pydantic
 
-      # 4. Exécution de la génération Phase 1 (Création du socle TBox)
+      # 4. Préparation de l'arborescence des dossiers de sortie
+      - name: Ensure target directories exist
+        run: |
+          mkdir -p 02-Donnees/Snapshots_Phases/Phase1_Socle
+          mkdir -p 02-Donnees/Snapshots_Phases/Phase2_ABox
+          mkdir -p 02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox
+          mkdir -p 02-Donnees/Master_Transversal/TLP_RED_Instances_ABox
+
+      # 5. Exécution de la génération Phase 1
       - name: Run Phase 1 Generator
         run: |
           python3 03-Application/Phase1/generate_phase1_socle.py
 
-      # 5. Exécution de la génération Phase 2 (Création de l'ABox)
+      # 6. Exécution de la génération Phase 2
       - name: Run Phase 2 Generator
         run: |
           python3 03-Application/Phase2/generate_phase2_abox.py
 
-      # 6. Exécution des tests Pytest Phase 1 et Phase 2
+      # 7. Exécution des tests Pytest
       - name: Run Pytest Suite
         env:
           PYTHONPATH: .
         run: |
           pytest -v 03-Application/Test/test_phase1_quality.py 03-Application/Test/test_phase2_abox.py --junitxml=test-results.xml
 
-      # 7. Publication du rapport synthétique dans GitHub Actions
+      # 8. Publication du rapport dans GitHub Actions
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: "test-results.xml"
 
-      # 8. Archivage des rapports au format XML
+      # 9. Archivage des rapports
       - name: Upload Test Results Artifact
         if: always()
         uses: actions/upload-artifact@v4
