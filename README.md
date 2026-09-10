@@ -199,7 +199,7 @@ Avec les deux premières vagues une compréhension des principes de base se dév
 
 Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé, Finance, Logistique) ?
 
-1. **Adoptez la démarche Spec-Driven :** Adaptez les exigences formelles dans `01-Principes_Spécification/USECASE_METIER/`.
+1. **Adoptez la démarche _Spec-Driven_  :** Adaptez les exigences formelles dans `01-Principes_Spécification/USECASE_METIER/`.
     
 2. **Adapters les données d'entrées correspondant au cas d'usage :** `/02-Donnees/Input_Phases/`).
     
