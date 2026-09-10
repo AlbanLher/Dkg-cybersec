@@ -1,4 +1,4 @@
-
+```
 ├── 00-Projet/                                        # Documents de la gestion de projet
 │   ├── AssistanceLLM/
 │   │   ├── Kits_Amorçage/                    # context bundle  (.md) permet aux nouvelles discussions LLM de collecter l'avancement
@@ -23,8 +23,10 @@
     ├── PhaseX/                                         #  Script des fonctionnalités
     └── Test/                                               #  Script de test vérifiant un ensemble d'exigences
 
+```
 ci-dessous vue sur les princpaux fichiers avec lien d'accés directe  (utilise plugins Obsidian )
 
+## Version dynamique avec Obsidan - plugins - javascript enables
 ###  1 - Index des répertoires `/01-Principes_Specification/[TRANSVERAL,USECASE_METIER,USECASE_TECHNIQUE]`
 
 ```dataviewjs
@@ -343,7 +345,7 @@ if (sortedInputPhases.length === 0) {
 
 
 
-##  5 - Index des répertoires `/03-Applications/PhaseX/`
+###  5 - Index des répertoires `/03-Applications/PhaseX/`
 
 
 ```dataviewjs
@@ -425,3 +427,38 @@ if (sortedPhases.length === 0) {
     dv.paragraph(html);
 }
 ```
+
+
+
+## Version Statique
+
+###  1 - Index des répertoires `/01-Principes_Specification/[TRANSVERAL,USECASE_METIER,USECASE_TECHNIQUE]`
+
+|Portée12|Phase|Document Spécification|Statut SPEC|
+|---|---|---|---|
+|**TRANSVERSAL**|**P1**|[SPC-FWK-P1-GOUVERNANCE_01.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/TRANSVERSAL/SPC-FWK-P1-GOUVERNANCE_01.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**TRANSVERSAL**|**P1**|[SPC-FWK-P1-T-RBOX_SHACL_01.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/TRANSVERSAL/SPC-FWK-P1-T-RBOX_SHACL_01.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**TRANSVERSAL**|**P2**|[SPC-FWK-P2-ABOX_01.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/TRANSVERSAL/SPC-FWK-P2-ABOX_01.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**TRANSVERSAL**|**P3**|[SPC-FWK-P3-CTI__Framework_External.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/TRANSVERSAL/SPC-FWK-P3-CTI__Framework_External.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**TRANSVERSAL**|**P5**|[SPC-FWK-P5-RULES_01__Reasoning_Rules_RBox_Inference.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/TRANSVERSAL/SPC-FWK-P5-RULES_01__Reasoning_Rules_RBox_Inference.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE METIER**|**P2**|[SPC-MET-P2-CARTO_01__Cartographie_Infrastructures.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_METIER/SPC-MET-P2-CARTO_01__Cartographie_Infrastructures.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE METIER**|**P3**|[SPC-MET-P3-SILENT_01__Scenario_Silent_Cascade.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_METIER/SPC-MET-P3-SILENT_01__Scenario_Silent_Cascade.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE METIER**|**P5**|[SPC-MET-P5-CTI_01__Ingestion_Traitement_Intelligence_sur_les_Menaces(CTI).md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_METIER/SPC-MET-P5-CTI_01__Ingestion_Traitement_Intelligence_sur_les_Menaces\(CTI\).md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE TECHNIQUE**|**P2**|[SPC-TEC-P2-ABOX_01__Instanciation_ABox_Cyber.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_TECHNIQUE/SPC-TEC-P2-ABOX_01__Instanciation_ABox_Cyber.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE TECHNIQUE**|**P5**|[SPC-TEC-P5-CONSO_01__AgentMITM_Consolidation_SKOS-RéconciliationSémantique.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_TECHNIQUE/SPC-TEC-P5-CONSO_01__AgentMITM_Consolidation_SKOS-R%C3%A9conciliationS%C3%A9mantique.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE TECHNIQUE**|**P5**|[SPC-TEC-P5-DATA_01_Raisonnement_Propagation_Silent_Cascade.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_TECHNIQUE/SPC-TEC-P5-DATA_01_Raisonnement_Propagation_Silent_Cascade.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+|**USECASE TECHNIQUE**|**P5**|[SPC-TEC-P5-NER_01__Ingestion_CTI_NER_Normalisation.md](app://obsidian.md/01-Principes_Sp%C3%A9cifications/USECASE_TECHNIQUE/SPC-TEC-P5-NER_01__Ingestion_CTI_NER_Normalisation.md)|![🟢](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f7e2.png) PASSED|
+
+
+###  2 - Index des répertoires `/02-Donnes/Snaphots_Phases/PhaseX/`
+
+
+|Phase & Intitulé6|Cadrage Phase (00-Projet)|Artefacts RDF (.ttl)|Doc Miroir (.md)|Autres Fichiers|
+|---|---|---|---|---|
+|**P1** : Socle TBox & SHACL CWA|[![📋](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f4cb.png) Phase_Content.md](app://obsidian.md/00-Projet/Phase1/Phase_Content.md)|[DKG_TBox_Master.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase1_Socle/DKG_TBox_Master.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)  <br>[DKG_SHACL_Master.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase1_Socle/DKG_SHACL_Master.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_TBox_Master.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase1_Socle/DKG_TBox_Master.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_TBox_Master.json](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase1_Socle/DKG_TBox_Master.json)|
+|**P2** : Cartographie ABox Interne|[![📋](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f4cb.png) Phase_Content.md](app://obsidian.md/00-Projet/Phase2/Phase_Content.md)|[DKG_ABox_Master.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase2_ABox/DKG_ABox_Master.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_ABox_Master.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase2_ABox/DKG_ABox_Master.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|—|
+|**P3** : Ingestion CTI Structurée|[![📋](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f4cb.png) Phase_Content.md](app://obsidian.md/00-Projet/Phase3/Phase_Content.md)|[DKG_ABox_CTI_External.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase3_CTI/DKG_ABox_CTI_External.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_ABox_CTI_External.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase3_CTI/DKG_ABox_CTI_External.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|—|
+|**P4** : Ingestion CTI Textuelle (NER)|[![📋](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f4cb.png) Phase_Content.md](app://obsidian.md/00-Projet/Phase4/Phase_Content.md)|[DKG_ABox_CTI_U_External.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase4_CTI/DKG_ABox_CTI_U_External.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_ABox_CTI_U_External.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase4_CTI/DKG_ABox_CTI_U_External.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|—|
+|**P5** : Agent MITM & Reasoning Base|[![📋](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f4cb.png) Phase_Content.md](app://obsidian.md/00-Projet/Phase5/Phase_Content.md)|[DKG_TBox_Master.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase5_Reasoning_MITM/DKG_TBox_Master.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)  <br>[DKG_MITM_Test_Alignment.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase5_Reasoning_MITM/DKG_MITM_Test_Alignment.ttl)  <br>[DKG_ABox_Infered.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase5_Reasoning_MITM/DKG_ABox_Infered.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_MITM_Test_Alignment.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase5_Reasoning_MITM/DKG_MITM_Test_Alignment.md)  <br>[DKG_TBox_Master.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase5_Reasoning_MITM/DKG_TBox_Master.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)  <br>[DKG_ABox_Infered.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase5_Reasoning_MITM/DKG_ABox_Infered.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|—|
+|**P6** : API Gateway & Ségrégation TLP|[![📋](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/1f4cb.png) Phase_Content.md](app://obsidian.md/00-Projet/Phase6/Phase_Content.md)|[DKG_ABox_Infered.ttl](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase6_NER_Local/DKG_ABox_Infered.ttl) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|[DKG_ABox_Infered.md](app://obsidian.md/02-Donnees/Snapshots_Phases/Phase6_NER_Local/DKG_ABox_Infered.md) ![⚙️](https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/72x72/2699.png)|—|
+> **Légende :** Les artefacts accompagnés de l'icône **`⚙️`** sont ceux configurés et référencés dans `03-Application/config.py`.
