@@ -1,37 +1,32 @@
 """
 03-Application/Phase5/skos_consolidator.py
 
-Consolidateur Sémantique SKOS & TBox - Phase 5 / Vague 2 & 3
-Conforme aux règles SSOT, Replay, Auto-Documentation et En-têtes Turtle.
+Consolidateur Sémantique SKOS & TBox - Phase 5
+Conforme aux règles SSOT, Replay, Auto-Documentation et SKOS intégré à TBox Master.
 """
 
 import logging
 import sys
 import shutil
 from pathlib import Path
-from rdflib import Graph, URIRef, SKOS, RDF, RDFS, OWL, SH, XSD
-
+from rdflib import Graph, SKOS, RDF, RDFS, OWL, SH, XSD
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
 APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-
-
-
-
 from config import (
     DIR_TBOX_AMBER,
     DIR_SNAPSHOT_P5,
     TBOX_MASTER_PATH,
-    SKOS_MASTER_PATH,
+    TBOX_MASTER_MD_PATH,
     DKG_TBOX,
     DKG_DATA,
     DKG_CTI
 )
 
-TB = "`" * 3  # Évite toute rupture de bloc Markdown/Triple-Backticks
+TB = "`" * 3  # Évite toute rupture de bloc Markdown
 
 logging.basicConfig(
     level=logging.INFO,
@@ -59,7 +54,7 @@ class SKOSConsolidator:
         graph.bind("rdf", RDF)
 
     def load_base_tbox(self) -> None:
-        """Charge la TBox principale pour appuyer la consolidation."""
+        """Charge la TBox principale (qui intègre SKOS)."""
         if Path(TBOX_MASTER_PATH).exists():
             self.master_graph.parse(str(TBOX_MASTER_PATH), format="turtle")
             logger.info(f"TBox Master chargée depuis {TBOX_MASTER_PATH}")
@@ -67,10 +62,9 @@ class SKOSConsolidator:
             logger.warning(f"Fichier TBox Master introuvable : {TBOX_MASTER_PATH}")
 
     def consolidate_alignment_graph(self, alignment_graph: Graph) -> int:
-        """Exécute la règle R-MITM-01 et intègre les déductions au graphe."""
+        """Exécute la règle R-MITM-01 et intègre les déductions au graphe TBox Master."""
         logger.info("Application de la règle de consolidation R-MITM-01...")
-        
-        # Ingestion sans espaces/sauts de ligne initiaux pour alignement pyparsing
+
         query = f"""
 PREFIX dkg: <{DKG_TBOX}>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -89,36 +83,36 @@ WHERE {{
 
         results = alignment_graph.query(query)
         initial_count = len(self.master_graph)
-        
+
         self.master_graph += alignment_graph
         for triple in results:
             self.master_graph.add(triple)
 
         added = len(self.master_graph) - initial_count
-        logger.info(f"Consolidation SKOS terminée : {added} triplets ajoutés/matérialisés.")
+        logger.info(f"Consolidation SKOS terminée : {added} triplets ajoutés/matérialisés dans TBox Master.")
         return added
 
     def save_and_document(self) -> None:
-        """Sauvegarde les artefacts SKOS selon le Principe de Replay et Auto-Doc."""
+        """Sauvegarde la TBox Master enrichie selon le Principe de Replay et Auto-Doc."""
         DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
         DIR_TBOX_AMBER.mkdir(parents=True, exist_ok=True)
 
-        snapshot_ttl = DIR_SNAPSHOT_P5 / SKOS_MASTER_PATH.name
-        snapshot_md = DIR_SNAPSHOT_P5 / "DOC_SKOS_MASTER.md"
+        snapshot_ttl = DIR_SNAPSHOT_P5 / TBOX_MASTER_PATH.name
+        snapshot_md = DIR_SNAPSHOT_P5 / TBOX_MASTER_MD_PATH.name
 
-        master_ttl = SKOS_MASTER_PATH
-        master_md = DIR_TBOX_AMBER / "DOC_SKOS_MASTER.md"
+        master_ttl = TBOX_MASTER_PATH
+        master_md = TBOX_MASTER_MD_PATH
 
         # 1. Sauvegarde Turtle avec en-têtes
         self._bind_namespaces(self.master_graph)
         self.master_graph.serialize(destination=str(snapshot_ttl), format="turtle")
-        logger.info(f"[📦] Snapshot SKOS TTL sauvegardé : {snapshot_ttl}")
+        logger.info(f"[📦] Snapshot TBox Master TTL sauvegardé : {snapshot_ttl}")
 
         # 2. Génération de la documentation Markdown Miroir
-        md_content = f"""# 📑 Livrable Phase 5 - Thésaurus & Consolidation SKOS
+        md_content = f"""# 📑 Livrable Phase 5 - Consolidation SKOS au sein de TBox Master
 
 **Classification :** `TLP:AMBER`  
-**Nombre de triplets consolidés :** `{len(self.master_graph)}`
+**Nombre de triplets dans TBox Master :** `{len(self.master_graph)}`
 
 ---
 
@@ -127,31 +121,31 @@ WHERE {{
 | Acronyme | Définition Complète | Contextualisation DKG |
 | :--- | :--- | :--- |
 | **OWL** | Web Ontology Language | Langage d'équivalence sémantique (`owl:sameAs`). |
-| **SKOS** | Simple Knowledge Organization System | Normalisation du thésaurus de concepts. |
+| **SKOS** | Simple Knowledge Organization System | Normalisation du thésaurus (directement intégré dans TBox Master). |
 | **SSOT** | Single Source of Truth | Source unique de vérité (`config.py`). |
-| **TBox** | Terminology Box | Définition du schéma sémantique et des concepts. |
+| **TBox** | Terminology Box | Définition du schéma sémantique, des règles et des concepts. |
 
 ---
 
-## 🔄 Flux de Consolidation SKOS / TBox
+## 🔄 Flux de Consolidation SKOS / TBox Master
 
 {TB}mermaid
 flowchart TD
     ALIGN[Alignement Agent MITM] --> CONSOL[Règle R-MITM-01]
-    TBOX[DKG_TBox_Master.ttl] --> CONSOL
-    CONSOL -->|skos:exactMatch / owl:sameAs| SKOS_M[DKG_SKOS_Master.ttl]
+    TBOX_IN[DKG_TBox_Master.ttl] --> CONSOL
+    CONSOL -->|skos:exactMatch / owl:sameAs| TBOX_OUT[DKG_TBox_Master.ttl Enrichi]
 {TB}
 
-*Document généré automatiquement post-consolidation SKOS.*
+*Document généré automatiquement post-consolidation SKOS dans TBox Master.*
 """
         with open(snapshot_md, "w", encoding="utf-8") as f:
             f.write(md_content)
-        logger.info(f"[📦] Snapshot SKOS MD généré : {snapshot_md}")
+        logger.info(f"[📦] Snapshot TBox Master MD généré : {snapshot_md}")
 
         # 3. Capitalisation Replay vers Master
         shutil.copy(snapshot_ttl, master_ttl)
         shutil.copy(snapshot_md, master_md)
-        logger.info(f"[✅] Synchronisation SKOS Master effectuée dans {DIR_TBOX_AMBER}")
+        logger.info(f"[✅] Synchronisation TBox Master effectuée dans {DIR_TBOX_AMBER}")
 
 
 def main():

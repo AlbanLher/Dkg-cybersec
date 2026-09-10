@@ -2,7 +2,7 @@
 """
 export_phase2_abox_md.py
 Génération de la documentation Markdown synthétique de l'ABox Master (TLP:RED).
-Aligné avec le schéma TBox centralisé (tbox#).
+Respect strict de la règle SSOT (EXG-OR-05) : validation explicite des constantes config.py.
 """
 
 import sys
@@ -10,17 +10,26 @@ import shutil
 from pathlib import Path
 from rdflib import Graph
 
-
 # 1. Ancrage sys.path vers 03-Application/ pour importer config.py
 APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from rdflib import Graph, Literal, RDF, RDFS, OWL, XSD
+import config
+
+# -----------------------------------------------------------------------------
+# VERIFICATION STRICTE SSOT (EXG-OR-05)
+# Validation dynamique sans crash brutal d'importation
+# -----------------------------------------------------------------------------
+ABOX_MASTER_MD_PATH = getattr(config, "ABOX_MASTER_MD_PATH", None) or getattr(config, "ABOX_MD_PATH", None)
+
+if not ABOX_MASTER_MD_PATH:
+    print("❌ ERREUR DE CONFIGURATION (SSOT - EXG-OR-05) :")
+    print("   La constante 'ABOX_MASTER_MD_PATH' n'est pas définie dans config.py.")
+    print("   Veuillez la déclarer dans config.py avant de relancer l'exportation.")
+    sys.exit(1)
+
 from config import (
-    DKG_TBOX,
-    DKG_DATA,
-    DIR_INPUT_P2,
     DIR_SNAPSHOT_P2,
     DIR_MASTER_ABOX,
     ABOX_MASTER_PATH,
@@ -28,11 +37,14 @@ from config import (
 
 
 def generate_abox_markdown():
+    if not ABOX_MASTER_PATH.exists():
+        raise FileNotFoundError(f"Fichier Master TTL introuvable : {ABOX_MASTER_PATH}")
+
     g = Graph()
     g.parse(str(ABOX_MASTER_PATH), format="turtle")
     
-    # Chemins de destination pour la parité Master / Snapshot
-    md_filename = "DOC_MASTER_ABOX.md"
+    # Résolution des chemins cibles basée sur le nom exact de la constante SSOT
+    md_filename = Path(ABOX_MASTER_MD_PATH).name
     snapshot_md_path = DIR_SNAPSHOT_P2 / md_filename
     master_md_path = DIR_MASTER_ABOX / md_filename
 
@@ -93,7 +105,7 @@ def generate_abox_markdown():
         "    end",
         "    subgraph Threat_Chain [Chaîne de Menace CTI]",
         "        Comp -->|hasVulnerability| CVE[dkg:Vulnerability<br/><i>ex: CVE-2021-41773</i>]",
-        "        CVE -->|hasWeakness| CWE[dkg:Weakness<br/><i>ex: CWE-22 Path Traversal</i>]",
+        "        CVE -->|exploitsWeakness| CWE[dkg:Weakness<br/><i>ex: CWE-22 Path Traversal</i>]",
         "        CWE -->|hasThreatPattern| CAPEC[dkg:ThreatPattern<br/><i>ex: CAPEC-126 Path Traversal</i>]",
         "    end",
         "    style Asset fill:#bbf,stroke:#333,stroke-width:2px",
@@ -111,14 +123,14 @@ def generate_abox_markdown():
         "| :--- | :--- | :--- | :--- | :--- |"
     ])
     
-    # Requête cartographie alignée sur tbox# et hasWeakness
+    # Requête cartographie alignée sur tbox# et dkg:exploitsWeakness
     query_chain = """
     PREFIX dkg: <http://dkg.cybersec.org/tbox#>
     SELECT ?asset ?comp ?cve ?cwe ?capec WHERE {
         ?asset a dkg:Asset ;
                dkg:hasInstalledComponent ?comp .
         ?comp dkg:hasVulnerability ?cve .
-        OPTIONAL { ?cve dkg:hasWeakness ?cwe . }
+        OPTIONAL { ?cve dkg:exploitsWeakness ?cwe . }
         OPTIONAL { ?cwe dkg:hasThreatPattern ?capec . }
     }
     """
@@ -139,10 +151,12 @@ def generate_abox_markdown():
         f.write("\n".join(lines))
     print(f"📦 Documentation Snapshot générée : {snapshot_md_path}")
 
-    # 2. Copie vers Master (Garantie de parité)
+    # 2. Copie vers Master (Garantie de parité EXG-OR-06)
     DIR_MASTER_ABOX.mkdir(parents=True, exist_ok=True)
-    shutil.copy(snapshot_md_path, master_md_path)
-    print(f"✅ Documentation Master synchronisée : {master_md_path}")
+    if snapshot_md_path.resolve() != master_md_path.resolve():
+        shutil.copy2(snapshot_md_path, master_md_path)
+        print(f"✅ Documentation Master synchronisée : {master_md_path}")
+
 
 if __name__ == "__main__":
     generate_abox_markdown()

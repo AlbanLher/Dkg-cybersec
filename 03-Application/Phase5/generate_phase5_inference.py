@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
 03-Application/generate_phase5_inference.py
-Pipeline d'Inférence Sémantique (Wave 3) & Validation SHACL.
-Conforme aux exigences SSOT, Replay, Auto-Doc et En-têtes Turtle.
+Pipeline d'Inférence Sémantique (Phase 5) & Validation SHACL.
+Conforme aux exigences SSOT, Replay, Auto-Doc et SKOS intégré à TBox Master.
 """
 
 import sys
 import shutil
 from pathlib import Path
-from rdflib import Graph, Namespace
+from rdflib import Graph
 import pyshacl
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
@@ -22,9 +22,9 @@ from config import (
     ABOX_CTI_PATH,
     RULES_MASTER_PATH,
     ABOX_INFERED_PATH,
+    ABOX_INFERED_MD_PATH,
     DIR_SNAPSHOT_P5,
     DIR_INFERED_RED,
-    DOC_INFERED_MD_PATH,
     DKG_TBOX,
     DKG_DATA,
     DKG_CTI,
@@ -32,10 +32,12 @@ from config import (
     XSD,
     RDFS,
     RDF,
+    OWL,
     SKOS
 )
 
-TB = "`" * 3  # Évite toute rupture de bloc Markdown/Triple-Backticks
+TB = "`" * 3  # Évite toute rupture de bloc Markdown
+
 
 def bind_mandatory_prefixes(graph: Graph):
     """Injecte l'intégralité des préfixes obligatoires."""
@@ -46,19 +48,21 @@ def bind_mandatory_prefixes(graph: Graph):
     graph.bind("xsd", XSD)
     graph.bind("rdfs", RDFS)
     graph.bind("skos", SKOS)
+    graph.bind("owl", OWL)
     graph.bind("rdf", RDF)
+
 
 def run_pipeline():
     print("======================================================================")
     print("🛡️ DKG-CyberSec — Moteur d'Inférence Sémantique & SHACL (Phase 5)")
     print("======================================================================")
 
-    # 1. Chargement des Graphes RDF (TBox, ABox Interne, ABox CTI, Règles)
+    # 1. Chargement des Graphes RDF (TBox Master avec SKOS, ABox Interne, ABox CTI, Règles)
     full_graph = Graph()
     bind_mandatory_prefixes(full_graph)
-    
+
     paths_to_load = [
-        ("TBox Master (TLP:AMBER)", TBOX_MASTER_PATH),
+        ("TBox Master incluant SKOS (TLP:AMBER)", TBOX_MASTER_PATH),
         ("ABox Interne (TLP:RED)", ABOX_RED_PATH),
         ("ABox CTI Externe (TLP:CLEAR)", ABOX_CTI_PATH),
         ("Règles Master (TLP:AMBER)", RULES_MASTER_PATH)
@@ -98,7 +102,7 @@ def run_pipeline():
     # 3. Principe de Replay & Capitalisation (ABox Infered TLP:RED)
     DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
     snapshot_ttl_path = DIR_SNAPSHOT_P5 / ABOX_INFERED_PATH.name
-    
+
     bind_mandatory_prefixes(full_graph)
     full_graph.serialize(destination=str(snapshot_ttl_path), format="ttl")
     print(f"[📦] Snapshot Turtle généré : {snapshot_ttl_path}")
@@ -122,9 +126,9 @@ def run_pipeline():
 
     print(f"[*] Conformité SHACL globale : {'CONFORME (PASS)' if final_conforms else 'NON CONFORME (FAIL)'}")
 
-    # 5. Auto-Documentation : Génération du fichier .md miroir sans rupture
-    snapshot_md_path = DIR_SNAPSHOT_P5 / DOC_INFERED_MD_PATH.name
-    master_md_path = DOC_INFERED_MD_PATH
+    # 5. Auto-Documentation : Génération de la documentation Markdown miroir
+    snapshot_md_path = DIR_SNAPSHOT_P5 / ABOX_INFERED_MD_PATH.name
+    master_md_path = ABOX_INFERED_MD_PATH
 
     md_content = f"""# 📑 Livrable Phase 5 - Inférence Sémantique & Unification du Graphe
 
@@ -142,6 +146,7 @@ def run_pipeline():
 | **CTI** | Cyber Threat Intelligence | Renseignements structurés externes (`TLP:CLEAR`). |
 | **KEV** | Known Exploited Vulnerabilities | Catalogue CISA des vulnérabilités exploitées. |
 | **SHACL** | Shapes Constraint Language | Langage W3C de validation de contraintes et de règles d'inférence. |
+| **SKOS** | Simple Knowledge Organization System | Thésaurus de concepts sémantiques hébergé dans TBox Master. |
 | **SSOT** | Single Source of Truth | Source de vérité unique de configuration (`config.py`). |
 | **TLP** | Traffic Light Protocol | Protocole de partage (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`). |
 
@@ -152,7 +157,7 @@ def run_pipeline():
 {TB}mermaid
 flowchart TD
     subgraph TLP_AMBER [Périmètre Socle - TLP:AMBER]
-        TBOX[DKG_TBox_Master.ttl]
+        TBOX[DKG_TBox_Master.ttl - avec SKOS]
         RULES[DKG_Rules_Master.ttl]
     end
 
@@ -195,16 +200,15 @@ flowchart TD
 *Document généré automatiquement post-pipeline Phase 5.*
 """
 
-    # Écriture Snapshot
     with open(snapshot_md_path, "w", encoding="utf-8") as f:
         f.write(md_content)
     print(f"[📦] Documentation Snapshot générée : {snapshot_md_path}")
 
-    # Synchronisation Master
     master_md_path.parent.mkdir(parents=True, exist_ok=True)
     if snapshot_md_path.resolve() != master_md_path.resolve():
         shutil.copy(snapshot_md_path, master_md_path)
         print(f"[✅] Documentation Master synchronisée : {master_md_path}")
+
 
 if __name__ == "__main__":
     run_pipeline()

@@ -16,20 +16,23 @@ if str(BASE_DIR) not in sys.path:
 
 from config import (
     ABOX_CTI_PATH,
+    ABOX_CTI_MD_PATH,
     DIR_CTI_CLEAR,
-    DOC_CTI_MD_PATH,
     DIR_SNAPSHOT_P3,
     DKG_TBOX,
     DKG_CTI
 )
 
+
 def generate_cti_markdown():
+    if not ABOX_CTI_PATH.exists():
+        raise FileNotFoundError(f"Fichier ABox CTI introuvable : {ABOX_CTI_PATH}")
+
     g = Graph()
     g.parse(str(ABOX_CTI_PATH), format="turtle")
 
-    md_filename = DOC_CTI_MD_PATH
-    snapshot_md_path = DIR_SNAPSHOT_P3 / md_filename
-    master_md_path = DIR_CTI_CLEAR / md_filename
+    snapshot_md_path = DIR_SNAPSHOT_P3 / ABOX_CTI_MD_PATH.name
+    master_md_path = ABOX_CTI_MD_PATH
 
     lines = [
         "# 📑 Livrable Phase 3 - ABox CTI Externe & Référentiels Menaces",
@@ -45,6 +48,7 @@ def generate_cti_markdown():
         "| Acronyme | Définition Complète | Contextualisation DKG |",
         "| :--- | :--- | :--- |",
         "| **APT** | Advanced Persistent Threat | Groupe d'attaquants hautement qualifiés menant des attaques ciblées et prolongées. |",
+        "| **CISA KEV** | Known Exploited Vulnerabilities Catalogue | Registre des vulnérabilités exploitées activement. |",
         "| **CTI** | Cyber Threat Intelligence | Renseignements structurés sur les menaces informatiques. |",
         "| **CVE** | Common Vulnerabilities and Exposures | Dictionnaire public des vulnérabilités de sécurité connues. |",
         "| **CWE** | Common Weakness Enumeration | Système de classification des faiblesses logicielles et matérielles. |",
@@ -59,7 +63,7 @@ def generate_cti_markdown():
         "",
         "```mermaid",
         "flowchart LR",
-        "    A[Sources CTI Structurées: NVD / MITRE] -->|Parsing JSON / XML| B(Extracteur Phase 3)",
+        "    A[Sources CTI Structurées: NVD / MITRE] -->|Parsing JSON| B(Ingesteur Phase 3)",
         "    B -->|Mappage Ontologique| C[Génération Triplets RDF]",
         "    C -->|Validation SHACL| D{Conforme?}",
         "    D -->|Non| E[Rejet / Error Log]",
@@ -99,7 +103,8 @@ def generate_cti_markdown():
         "graph TD",
         "    subgraph TLP:CLEAR [Chainage CTI Structuré]",
         "        CVE[dkg:Vulnerability / CVE] -->|dkg:cvssScore| SCORE[Score CVSS]",
-        "        CVE -->|dkg:hasWeakness| CWE[dkg:Weakness / CWE]",
+        "        CVE -->|dkg:isCisaKev| KEV[Drapeau CISA KEV]",
+        "        CVE -->|dkg:exploitsWeakness| CWE[dkg:Weakness / CWE]",
         "        CWE -->|dkg:hasThreatPattern| CAPEC[dkg:ThreatPattern / CAPEC]",
         "    end",
         "```",
@@ -108,29 +113,30 @@ def generate_cti_markdown():
         "",
         "## 🔗 Détail des Dépendances Multi-Hop (CVE -> CWE -> CAPEC)",
         "",
-        "| Vulnérabilité (CVE) | Score CVSS | Faiblesse (CWE) | Pattern d'Attaque (CAPEC) |",
-        "| :--- | :--- | :--- | :--- |"
+        "| Vulnérabilité (CVE) | Score CVSS | CISA KEV | Faiblesse (CWE) | Pattern d'Attaque (CAPEC) |",
+        "| :--- | :--- | :--- | :--- | :--- |"
     ])
     
     # Requête de parcours CTI
     query_chain = """
     PREFIX dkg: <http://dkg.cybersec.org/tbox#>
-    PREFIX cti: <http://dkg.cybersec.org/cti#>
     
-    SELECT ?cve ?score ?cwe ?capec WHERE {
+    SELECT ?cve ?score ?isKev ?cwe ?capec WHERE {
         ?cve a dkg:Vulnerability .
         OPTIONAL { ?cve dkg:cvssScore ?score . }
-        OPTIONAL { ?cve dkg:hasWeakness ?cwe . }
+        OPTIONAL { ?cve dkg:isCisaKev ?isKev . }
+        OPTIONAL { ?cve dkg:exploitsWeakness ?cwe . }
         OPTIONAL { ?cwe dkg:hasThreatPattern ?capec . }
     }
     """
     
     for row in g.query(query_chain):
         cve = str(row.cve).split("#")[-1] if "#" in str(row.cve) else str(row.cve).split("/")[-1]
-        score = str(row.score) if row.score else "N/A"
+        score = str(row.score) if row.score is not None else "N/A"
+        is_kev = "✅ Oui" if row.isKev and str(row.isKev).lower() == "true" else "❌ Non"
         cwe = str(row.cwe).split("#")[-1] if row.cwe and "#" in str(row.cwe) else (str(row.cwe).split("/")[-1] if row.cwe else "N/A")
         capec = str(row.capec).split("#")[-1] if row.capec and "#" in str(row.capec) else (str(row.capec).split("/")[-1] if row.capec else "N/A")
-        lines.append(f"| `{cve}` | `{score}` | `{cwe}` | `{capec}` |")
+        lines.append(f"| `{cve}` | `{score}` | {is_kev} | `{cwe}` | `{capec}` |")
 
     lines.extend(["", "---", "*Document généré automatiquement conformément aux exigences de livrables TLP:CLEAR.*"])
 
@@ -140,11 +146,12 @@ def generate_cti_markdown():
         f.write("\n".join(lines))
     print(f"📦 Documentation Snapshot générée : {snapshot_md_path}")
 
-    # 2. Synchronisation Master TLP:CLEAR (sécurité anti-SameFileError)
+    # 2. Synchronisation Master TLP:CLEAR
     DIR_CTI_CLEAR.mkdir(parents=True, exist_ok=True)
     if snapshot_md_path.resolve() != master_md_path.resolve():
         shutil.copy(snapshot_md_path, master_md_path)
         print(f"✅ Documentation Master synchronisée : {master_md_path}")
+
 
 if __name__ == "__main__":
     generate_cti_markdown()

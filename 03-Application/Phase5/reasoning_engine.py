@@ -1,7 +1,7 @@
 """
 03-Application/Phase5/reasoning_engine.py
 
-Moteur de Raisonnement Sémantique (Reasoning Engine) - Phase 5 / Vague 3
+Moteur de Raisonnement Sémantique (Reasoning Engine) - Phase 5
 Conforme aux règles SSOT, Replay, Auto-Documentation et En-têtes Turtle.
 """
 
@@ -10,21 +10,20 @@ import sys
 import time
 import shutil
 from pathlib import Path
-from rdflib import Graph, Literal, RDF, RDFS, OWL, SKOS
+from rdflib import Graph, RDF, RDFS, OWL, SKOS
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
 APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-
 from config import (
     ABOX_RED_PATH,
     ABOX_CTI_PATH,
     ABOX_INFERED_PATH,
+    ABOX_INFERED_MD_PATH,
     DIR_SNAPSHOT_P5,
     DIR_INFERED_RED,
-    DOC_INFERED_MD_PATH,
     DKG_TBOX,
     DKG_CTI,
     DKG_DATA,
@@ -32,7 +31,7 @@ from config import (
     XSD
 )
 
-TB = "`" * 3  # Évite toute rupture de bloc Markdown/Triple-Backticks
+TB = "`" * 3  # Évite toute rupture de bloc Markdown
 
 logging.basicConfig(
     level=logging.INFO,
@@ -64,7 +63,7 @@ class ReasoningEngine:
     def load_graphs(self) -> None:
         """Charge la ABox Interne (TLP:RED) et la ABox CTI (TLP:CLEAR)."""
         logger.info("Chargement des graphes sources pour le raisonnement...")
-        
+
         if Path(ABOX_RED_PATH).exists():
             self.graph_input.parse(str(ABOX_RED_PATH), format="turtle")
             logger.info(f"ABox Interne chargée depuis {ABOX_RED_PATH}")
@@ -142,19 +141,19 @@ class ReasoningEngine:
         return execution_time
 
     def save_and_document(self) -> None:
-        """Matérialise le graphe déduit et génère la documentation (Replay & Auto-Doc)."""
+        """Matérialise le graphe déduit et génère la documentation miroir (Replay & Auto-Doc)."""
         DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
         DIR_INFERED_RED.mkdir(parents=True, exist_ok=True)
 
         snapshot_ttl = DIR_SNAPSHOT_P5 / ABOX_INFERED_PATH.name
-        snapshot_md = DIR_SNAPSHOT_P5 / DOC_INFERED_MD_PATH.name
+        snapshot_md = DIR_SNAPSHOT_P5 / ABOX_INFERED_MD_PATH.name
 
         # 1. Sauvegarde Turtle Snapshot
         self._bind_namespaces(self.graph_infered)
         self.graph_infered.serialize(destination=str(snapshot_ttl), format="turtle")
         logger.info(f"[📦] Snapshot TTL généré : {snapshot_ttl}")
 
-        # 2. Génération Documentation Markdown
+        # 2. Génération Documentation Markdown Miroir
         md_content = f"""# 📑 Livrable Phase 5 - Raisonnement Sémantique & Inférences
 
 **Classification :** `TLP:RED`  
@@ -168,7 +167,7 @@ class ReasoningEngine:
 | :--- | :--- | :--- |
 | **CISA** | Cybersecurity and Infrastructure Security Agency | Agence fournissant le catalogue KEV. |
 | **KEV** | Known Exploited Vulnerabilities | Base des vulnérabilités activement exploitées. |
-| **RBox** | Relationship Box | Moteur d'inférence de propriétés et cascades. |
+| **SKOS** | Simple Knowledge Organization System | Normalisation du thésaurus de concepts intégré dans TBox. |
 | **TLP** | Traffic Light Protocol | Protocole de ségrégation des données. |
 
 ---
@@ -191,8 +190,8 @@ flowchart TD
 
         # 3. Capitalisation Replay vers Master
         shutil.copy(snapshot_ttl, ABOX_INFERED_PATH)
-        DOC_INFERED_MD_PATH.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy(snapshot_md, DOC_INFERED_MD_PATH)
+        ABOX_INFERED_MD_PATH.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(snapshot_md, ABOX_INFERED_MD_PATH)
         logger.info(f"[✅] Synchronisation Master effectuée vers {DIR_INFERED_RED}")
 
 

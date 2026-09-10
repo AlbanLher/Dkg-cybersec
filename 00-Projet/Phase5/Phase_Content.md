@@ -1,106 +1,158 @@
-# 📋 Phase 5 : [Nom de la Phase]
+# 📖 Complément Memo_UseCase — Phase 5 : Alignement, Superposition & Raisonnement Sémantique
 
-> **Statut** : [En cours / 🟢 Validée & Close]  
-> **Date de début** : [06/009/2026]  
-> **Date de clôture** : [JJ/MM/AAAA]  
+**Classification :** `TLP:AMBER` (Libre usage interne)
 
----
+**Public Cible :** Métier, RSSI, Chefs de Projet, Décideurs non-techniques
 
-## 🎯 1. Objectifs & Périmètre
-* **But principal** : [Description synthétique des ambitions de la phase]
-* **Livrables attendus** : [Liste des composants logiciels, schémas ou documents produits]
+**Objet :** Explication fonctionnelle des principes de superposition de graphes, de l'alignement IA (MITM) et de la chaîne d'exécution de la Phase 5.
 
----
+## 🎯 Message Clé pour la Direction & les Métiers
 
-## 🛠️ 2. Traçabilité des Livrables par Brique
+> **Cette présentation constitue la vision fonctionnelle cible de notre application.**
+> 
+> Elle démontre comment le Knowledge Graph transforme des données fragmentées, hétérogènes et cloisonnées en une **intelligence décisionnelle unifiée, automatisée et explicable**.
 
-### A. Spécification & Gouvernance (SPEC Framework)
-* **Spécification associée** : [`SPEC-XX-Titre.md`](../../01-Exigences/SPEC-XX.md)
-* **Exigences couvertes** : Explicitation des règles Métier/Framework adressées dans cette phase.
+## 1. Le Principe de Superposition de Graphes (Graph Overlay)
 
-### B. Instanciation & Use Case Pédagogique (Lisible Humain)
-* **Document d'illustration** : [`Human_UseCase.md`](./Human_UseCase.md)
-* **Description** : Scénario concrétisé démontrant la valeur métier sans jargon brut.
+### 💡 Le Concept Expliqué Simplement
 
-### C. Données & Ontologies (Data / Graph RDF)
-* **Artefacts Master** : [`Donnees_Master.ttl`](../../02-Donnees/Master_Transversal/...)
-* **Artefacts Snapshot** : [`Snapshot_Phase_X/`](../../02-Donnees/Snapshots_Phases/...)
+Imaginez que vous superposez des **calques transparents** sur une carte géographique :
 
-### D. Scripts & Outillage (Automation & CI/CD)
-* **Générateur** : [`generate_phaseX.py`](./generate_phaseX.py)
-* **Tests Qualité** : [`test_phaseX_quality.py`](./test_phaseX_quality.py)
-
----
-
-## 🏁 3. Synthèse de Clôture & Ressources
-
-### Résumé Exécutif
-[Synthèse globale de l'atterrissage de la phase, des acquis et de l'état du code/graphe]
-
-### Matrice Récapitulative des Livrables
-| Brique | Composant / Fichier | Description |
-| :--- | :--- | :--- |
-| **Framework** | [`SPEC-XX.md`](../../01-Exigences/...) | Spécification des contraintes & règles |
-| **Instanciation** | [`Human_UseCase.md`](./...) | Cas d'usage métier expliqué |
-| **Data** | [`Graphe_Master.ttl`](../../02-Donnees/...) | Fichiers RDF / Turtle générés |
-| **Script** | [`generate_phaseX.py`](./...) | Script de génération et synchronisation |
-
----
-
-## 📚 4. Pour aller plus loin (Ressources Pédagogiques)
-*(Liens documentaires et tutoriels pour approfondir les concepts de la phase)*
-* **[Concept 1]** : [Lien / Référence] — *Brève description du concept.*
-* **[Concept 2]** : [Lien / Référence] — *Brève description du concept.*
-
-
-
----
-
-
-
-### 🔑 Points clés de l'implémentation
-
-1. **Ancrage SSOT Strict** : Importation directe des constantes et des namespaces RDF de `config.py` (`ABOX_RED_PATH`, `ABOX_CTI_PATH`, `ABOX_INFERED_PATH`, `DKG_TBOX`, `DKG_CTI`).
+1. **Calque 1 (ABox Interne - TLP:RED) :** La carte de vos équipements SI (serveurs, bases de données, liens réseau).
     
-2. **Chaînage Avant (Forward Chaining)** : Les résultats de R-01 (`HighRiskAsset` via CISA KEV) sont réinjectés dans `graph_input` pour alimenter directement R-02 (`exposesToCascade` via propagation transitive `connectsTo+`).
+2. **Calque 2 (ABox CTI - TLP:CLEAR) :** Les renseignements sur la menace cyber mondiale (vulnérabilités CISA KEV, groupes d'attaquants APT).
     
-3. **Ségrégation TLP (EXG-SE-01)** : Tous les faits déduits du croisement CTI / Interne sont isolés et sauvegardés dans `DKG_ABox_Infered.ttl` (`TLP:RED`).
+3. **Calque 3 (TBox Master & SKOS - TLP:AMBER) :** Le dictionnaire des concepts métier, du thésaurus et des règles de sécurité.
     
-4. **Performance & Traçabilité (EXG-HW-01)** : Mesure du temps de calcul avec avertissement si la durée franchit le seuil des 5 secondes.
 
+Pris isolément, chaque calque est incomplet. En les **superposant**, le système fait apparaître des connexions invisibles à l'œil humain et matérialise instantanément de nouveaux risques.
 
+### 🖼️ Illustration Visuelle de la Superposition
 
-couverture des test :
+Extrait de code
 
-### 📊 Couverture des Critères d'Acceptation (EXG-)
+```mermaid
+graph TD
+    classDef red fill:#ffcccc,stroke:#ff0000,stroke-width:2px;
+    classDef clear fill:#e6f2ff,stroke:#0066cc,stroke-width:2px;
+    classDef amber fill:#fff2cc,stroke:#d6b656,stroke-width:2px;
+    classDef infered fill:#d5e8d4,stroke:#82b366,stroke-width:3px,stroke-dasharray: 5 5;
 
-|**Exigence**|**Intitulé**|**Stratégie de Validation Pytest**|
+    subgraph Calque_1 ["🔴 Calque SI Interne (TLP:RED)"]
+        SRV["Serveur_Pivot_01"]:::red
+        DB[("Database_Critical_01")]:::red
+        SRV -->|connectsTo| DB
+    end
+
+    subgraph Calque_2 ["🔵 Calque CTI Externe (TLP:CLEAR)"]
+        CVE["CVE-2024-21887"]:::clear
+        KEV["isCisaKev = True"]:::clear
+        CVE --- KEV
+    end
+
+    subgraph Calque_3 ["🟡 Calque Modèle & Règles (TLP:AMBER)"]
+        R1["Règle R-01 : Alerte KEV"]:::amber
+        R2["Règle R-02 : Silent Cascade"]:::amber
+    end
+
+    %% Superposition
+    SRV -.->|hasVulnerability| CVE
+
+    subgraph Calque_Inference ["🟢 Résultat Déduit (Inférence Sémantique)"]
+        HIGH_RISK["dkg:HighRiskAsset"]:::infered
+        CASCADE["dkg:exposesToCascade"]:::infered
+    end
+
+    SRV ==>|R-01 Déduit| HIGH_RISK
+    SRV ==>|R-02 Déduit| CASCADE
+    CASCADE ==> DB
+```
+
+## 2. Le Rapprochement Sémantique par Modèle IA (Agent MITM)
+
+### 💡 Pourquoi un Modèle IA ?
+
+Dans les systèmes informatiques, une même réalité est souvent nommée de manières différentes par divers outils ou équipes :
+
+- L'équipe Réseau écrit : `"Serveur Controleur de Domaine Active Directory"`
+    
+- L'équipe CTI / Analystes écrit : `"Serveur Contrôleur AD"`
+    
+
+Pour un ordinateur classique, ces deux chaînes de caractères sont **différentes**.
+
+### 🤖 Quel Modèle & Quel Rôle ?
+
+Nous intégrons un modèle de Traitement Automatique du Langage (NLP) local et souverain : **`all-MiniLM-L6-v2`** (via la bibliothèque _SentenceTransformers_).
+
+- **Son Rôle :** Il transforme chaque libellé texte en une **empreinte numérique (vectorisation)**. Il calcule ensuite la **distance sémantique** (similarité cosinus) entre l'entité candidate et l'annuaire existant.
+    
+- **Le Seuil de Décision (`0.85`) :**
+    
+    - **Si le score est $\ge 0.85$ :** Le modèle conclut qu'il s'agit du même élément. Le système crée automatiquement une équivalence sémantique officielle (`skos:exactMatch` / `owl:sameAs`).
+        
+    - **Si le score est $< 0.85$ :** Le système conserve l'entité comme indépendante pour éviter toute fausse fusion.
+        
+
+### 🖼️ Fonctionnement de la Réconciliation Sémantique
+
+Extrait de code
+
+```
+flowchart LR
+    classDef input fill:#e1d5e7,stroke:#9673a6,stroke-width:2px;
+    classDef ai fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px;
+    classDef match fill:#d5e8d4,stroke:#82b366,stroke-width:2px;
+    classDef reject fill:#f8cecc,stroke:#b85450,stroke-width:2px;
+
+    TXT["Candidat : 'Serveur Contrôleur AD'"]:::input --> VECT["Embedding Vectoriel (MiniLM)"]:::ai
+    VECT --> COS{"Similarité Cosinus avec la Base<br/>(ex: 'Serveur Controleur Active Directory')"}:::ai
+    
+    COS -->|Score >= 0.85<br/>ex: 0.94| MATCH["✅ MATCH VALIDÉ<br/>Génération de :<br/>- skos:exactMatch<br/>- owl:sameAs"]:::match
+    COS -->|Score < 0.85<br/>ex: 0.42| REJECT["❌ SEUIL NON ATTEINT<br/>Entité conservée séparée"]:::reject
+```
+
+## 3. Le Pipeline d'Exécution Complet
+
+Le pipeline de la Phase 5 s'exécute selon une chaîne industrielle rigoureuse, garantissant la **traçabilité**, la **reproductibilité (Principe de Replay)** et la **non-pollution des données**.
+
+Extrait de code
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as 👤 Administrateur / Pipeline
+    participant MITM as 🤖 Agent MITM (Phase5/mitm_agent.py)
+    participant SKOS as 📐 Consolidateur (Phase5/skos_consolidator.py)
+    participant REASON as ⚙️ Reasoning Engine (Phase5/reasoning_engine.py)
+    participant INF as 🛡️ Pipeline Global (generate_phase5_inference.py)
+    participant TBOX as 🗄️ TBox Master (TLP:AMBER)
+    participant ABOX as 🗄️ ABox Infered (TLP:RED)
+
+    Admin->>MITM: 1. Lancer l'interception et l'alignement IA
+    MITM->>MITM: Calcul similarité MiniLM (Seuil 0.85)
+    MITM-->>SKOS: Produit DKG_MITM_Alignment.ttl
+
+    Admin->>SKOS: 2. Lancer la consolidation SKOS
+    SKOS->>TBOX: Injecte skos:exactMatch / owl:sameAs dans DKG_TBox_Master.ttl
+    SKOS-->>Admin: Génère la documentation TBox Master (.md)
+
+    Admin->>REASON: 3. Lancer le moteur de règles
+    REASON->>REASON: Applique R-01 (CISA KEV) & R-02 (Silent Cascade)
+    REASON->>ABOX: Écrit les faits déduits dans DKG_ABox_Infered.ttl
+    REASON-->>Admin: Génère la documentation ABox Infered (.md)
+
+    Admin->>INF: 4. Lancer la validation SHACL globale
+    INF->>INF: Valide la conformité du graphe unifié
+    INF-->>Admin: Rapport SHACL PASS & Livrables finaux
+```
+
+## 4. Synthèse des Valeurs Ajoutées Métier
+
+|**Composant**|**Rôle Métier**|**Bénéfice Direct**|
 |---|---|---|
-|**EXG-HW-01**|Raisonnement Local Économe|Assertion `exec_time < 5.0` sur le temps renvoyé par `run_inference()`.|
-|**EXG-INF-01**|Inférence HighRiskAsset|Requête `ASK` validant la création des triplets `?asset a dkg:HighRiskAsset`.|
-|**EXG-INF-02**|Matérialisation Cascade|Requête `ASK` vérifiant la présence de la relation `?pivot dkg:exposesToCascade ?target`.|
-|**EXG-SE-01**|Ségrégation TLP Inférencée|Validation du chemin d'écriture `TLP_RED_Infered_Graph` et contrôle d'étanchéité sur `ABOX_CTI_PATH`.|
-
-### Exécution des tests
-
-Pour lancer cette suite de tests, il vous suffit d'exécuter la commande suivante depuis la racine du projet :
-
-### 📊 Synthèse de Couverture de la Phase 5
-
-|**Fichier Test Pytest**|**Exigences Validées**|
-|---|---|
-|`test_phase5_inference.py`|**EXG-INF-01**, **EXG-INF-02**, **EXG-SE-01**, **EXG-HW-01**|
-|`test_phase5_mitm.py`|**EXG-MITM-01**, **EXG-MITM-02**, **EXG-SKOS-01**, **EXG-SKOS-02**, **EXG-HW-01**|
-
-
-
-### 🛡️ Matrice de Traçabilité des Livrables de la Phase 5
-
-|**Composant**|**Fichier Source**|**Fichier Test Associé**|**Statut EXG**|
-|---|---|---|---|
-|**Règles d'Inférence & RBox**|`03-Application/Phase5/reasoning_engine.py`|`03-Application/Tests/test_phase5_inference.py`|`EXG-INF-01`, `EXG-INF-02`, `EXG-SE-01`, `EXG-HW-01`|
-|**Agent MITM & Embeddings**|`03-Application/Phase5/mitm_agent.py`|`03-Application/Tests/test_phase5_mitm.py`|`EXG-MITM-01`, `EXG-MITM-02`, `EXG-HW-01`|
-|**Consolidateur SKOS**|`03-Application/Phase5/skos_consolidator.py`|`03-Application/Tests/test_phase5_mitm.py`|`EXG-SKOS-01`, `EXG-SKOS-02`|
-|**Orchestrateur Pipeline**|`03-Application/Phase5/pipeline_phase5.py`|Global Execution Pipeline|Alignment SSOT `config.py`|
-
-Le pipeline de la Phase 5 est entièrement configuré. La suite de tests peut être lancée pour valider l'exécution.
+|**Superposition**|Fusionner le SI Interne et la CTI Externe.|Détection de vulnérabilités critiques contextuelles sans modifier la base SI source.|
+|**Agent MITM (IA)**|Réconcilier les synonymes et variantes de noms.|Suppression des doublons et alignement automatique des vocabulaires inter-équipes.|
+|**Thésaurus SKOS**|Structurer le vocabulaire métier unifié.|Garantie que la TBox Master reste la source unique de vérité (`SSOT`).|
+|**Reasoning Engine**|Déduire les risques cachés (Cascade).|Identification des chemins d'attaque menaçant les bases de données critiques.|
+|**Auto-Documentation**|Générer un miroir Markdown (`.md`) pour chaque `.ttl`.|Auditabilité complète et explicabilité des décisions pour les équipes de direction.|

@@ -1,33 +1,35 @@
-@prefix cti: <http://dkg.cybersec.org/cti#> .
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-cti:ABox_CTI_External a owl:Ontology ;
+dkg-cti:ABox_CTI_External a owl:Ontology ;
     rdfs:label "DKG External CTI Feed - TLP:CLEAR"@en .
 
-cti:CVE-2021-44228 a dkg:Vulnerability ;
+dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;
     dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:hasWeakness cti:CWE-502 ;
+    dkg:exploitsWeakness dkg-cti:CWE-502 ;
+    dkg:isCisaKev false ;
     rdfs:comment "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints."@en .
 
-cti:CVE-2023-4863 a dkg:Vulnerability ;
+dkg-cti:CVE-2023-4863 a dkg:Vulnerability ;
     dkg:cvssScore "8.8"^^xsd:float ;
-    dkg:hasWeakness cti:CWE-119 ;
+    dkg:exploitsWeakness dkg-cti:CWE-119 ;
+    dkg:isCisaKev false ;
     rdfs:comment "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187."@en .
 
-cti:CAPEC-100 a dkg:ThreatPattern ;
+dkg-cti:CAPEC-100 a dkg:ThreatPattern ;
     rdfs:label "Overflow Buffers"@en ;
     rdfs:comment "Attacker targets a buffer overflow vulnerability to execute shellcode or cause DoS."@en .
 
-cti:CAPEC-586 a dkg:ThreatPattern ;
+dkg-cti:CAPEC-586 a dkg:ThreatPattern ;
     rdfs:label "Object Injection"@en ;
     rdfs:comment "An attacker injects malicious objects into an application to execute arbitrary code."@en .
 
-cti:CWE-119 a dkg:Weakness ;
-    dkg:hasThreatPattern cti:CAPEC-100 .
+dkg-cti:CWE-119 a dkg:Weakness ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-100 .
 
-cti:CWE-502 a dkg:Weakness ;
-    dkg:hasThreatPattern cti:CAPEC-586 .
+dkg-cti:CWE-502 a dkg:Weakness ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-586 .
 

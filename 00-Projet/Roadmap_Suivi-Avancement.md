@@ -1,203 +1,97 @@
-# 🗺️ Roadmap Produit & Backlog Évolutif : DKG-CyberSec & Agent IA SOC
+***Roadmap Produit & Backlog Évolutif : DKG-CyberSec & Agent IA SOC***
 
-
-| Avancement -> | Vague | Phase |  étape  |
-| :-----------: | :---: | :---: | :-----: |
-|               |   3   |   5   |    1    |
-|               |       |       | Cadrage |
-
----
-## 1  -  Suivi d'avancement par Phases et Etapes
-
-_des liens vous permettent d'accéder à :_
-- Phase_content.md de chaque phase décrivant les étapes et livrables de cette phase
-- Exemple de Specification resultant pour le Framework
-- Exemple de livrable en version human .md de l'instanciation sur Use Case
-
-
-
-| Vague |                     Phase<br>Content                     | Titre                                                                                                                                                                  |      Status      |                                                    Exemple<br>SPEC                                                    |                               Exemple <br>d'instantiation                                |                                          Commentaire                                           |
-| :---: | :------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------: | :-------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------: |
-|   1   |         [**Phase1**](./Phase1/Phase_Content.md)          | initialisation Socle Modèle Canonique & Qualité<br>- TBox (class Datatype) , <br>- RBox { relations, Inverse)<br>- SHACL (shapes & validation)}<br>dans un cas simple. | Reprise en cours | [SPEC-01](06-Archives/Specifications_Framework/SPEC-01_Socle_Structurel_Framework_TBox_RBox_SHACL.md) |     [TBox_Human](../../02-Donnees/Snapshots_Phases/Phase_1_Socle/DKG_TBox_Master.md)     |   Comprendre les enjeux du socle<br>Ajout manuel des Acronymes T-R-A Box dans lexique du .md   |
-|   1   |          [**Phase2**](2-ABox/Phase_Content.md)           | initialisation de l'instanciation interne<br>- - ABox                                                                                                                  |   A reprendre.   |                                                        SPEC-02                                                        | [ABox_Human](../02-Donnees/Master_Transversal/TLP_RED_Instances_ABox/DKG_ABox_Master.md) |                                                                                                |
-|   2   | [**Phase3**](./3-EnrichissementExterne/Phase_Content.md) | Enrichissement avec des donnéesExterne<br>+ Gouvernance ( TLP )                                                                                                        |   A Reprendre    |                                                                                                                       |                                                                                          | Comprendre l'articulation de TBox, RBox, ABox ref [lien](Phase3/Articulation_des_T-R-A_Box.md) |
-|       |                        **Phase4**                        |                                                                                                                                                                        |                  |                                                                                                                       |                                                                                          |                                                                                                |
-
+La roadmap est contruite en 3 niveaux
+- ***Vague :*** Regroupement de principes pedagogique intégrés dans le dévelopement
+- ***Phase :*** Décomposition de la vague autour de sous ensemble ou fonctionnel ou architecturaux
+- ***Etape :*** Application strique commune a toutes les phase de dévelopement "Spec-Driven"
 
 ---
 
-## 2  -  Roadmap : vision du graph de synthèse par Vagues et Phases
+## 1  -  Roadmap  vision des principe pédagogiques par vagues
 
-Voici le tableau de correspondance exact pour remettre à plat l'alignement des spécifications :
-
-| **Vague**                                              | **Bloc du Schéma (Phase)**                | **Numéro de Phase** | **Spécifications Associées**                          |
-| ------------------------------------------------------ | ----------------------------------------- | ------------------- | ----------------------------------------------------- |
-| **Vague 1**<br><br>  <br><br>_(Socle Interne)_         | A1 : TBox TLP:AMBER                       | **Phase 1**         | `SPEC-SOCLE-00`, `SPEC-SOCLE-01`, `SPEC-SOCLE-02`     |
-|                                                        | A2 : ABox Interne TLP:RED                 | **Phase 2**         | `SPEC-METIER-UC01`, `SPEC-TECH-UC01`                  |
-| **Vague 2**<br><br>  <br><br>_(Ingestion & Alignment)_ | B1 : Flux CTI TLP:CLEAR                   | **Phase 3**         | `SPEC-SOCLE-03`                                       |
-|                                                        | B2 : NER / Unstructured CTI               | **Phase 4**         | `SPEC-TECH-UC04`                                      |
-|                                                        | B3/B4 : Reprise & Parentèse Consolidation | **Phase 5**         | Agent MITM / Consolidation TBox SKOS                  |
-| **Vague 3**<br><br>  <br><br>_(Raisonnement)_          | C1/C2 : SWRL, SPARQL & HighRiskAsset      | **Phase 6**         | `SPEC-SOCLE-04`, `SPEC-METIER-UC02`, `SPEC-TECH-UC03` |
-| **Vague 4**<br><br>  <br><br>_(Agent & RAG)_           | D1/D2/D3 : Vectorisation, Text-to-SPARQL  | **Phase 7 à 9**     | _(Spécifications Vague 4 à venir)_                    |
-| **Vague 5**<br><br>  <br><br>_(SOAR & Autonomie)_      | E1/E2 : Streaming SIEM/EDR, Playbooks     | **Phase 10 & 11**   | _(Spécifications Vague 5 à venir)_                    |
+| **Vague** | **Titre**                                                     | **Sens & Principes Pédagogiques (P#)**                                                                                                                                                                                                                                                      | **Status**     |
+| --------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| **V1**    | **Socle Structurel & <br>Cartographie Interne**               | **Principes :** (P1) Usage des standards (OWL2, SKOS, SHACL), <br>(P2) Confidentialité native (TLP:AMBER / TLP:RED).<br><br>**Cas d'usage minimal :** PC individuel.                                                                                                                        | 🟢 **PASSED**  |
+| **V2**    | **Ingestion CTI, NER & <br>Alignement Primitif**              | **Principes :** (P3) Superposition de graphes, <br>(P4) Rapprochement sémantique (NER).<br><br>**Cas d'usage :** Superposer la CTI externe (NVD, CISA KEV) et le texte brut.                                                                                                                | 🟢 **PASSED**  |
+| **V3**    | **Industrialisation, <br>Micro-Agents & Multi-Contextes PME** | **Principe :** (P5) Structure IA Agentique.<br><br>**Cas d'usage :** Passer au niveau Micro-Entreprise (API Gateway, Agents de logs & Veille CTI).                                                                                                                                          | 🟡 **ACTIVE**  |
+| **V4**    | **Désambiguïsation Sémantique, <br>SKOS & Human-in-the-Loop** | **Principe :** (P6) Maintien de la cohérence du graphe face à la croissance des données.<br><br>**Cas d'usage :** Finesse taxonomique SKOS & Arbitrage Humain (MITM).                                                                                                                       | ⚪ **Planifié** |
+| **V5**    | **Agent Copilot SOC, <br>GraphRAG & Fine-Tuning Continu**     | **Principe :** (P7) Agents locaux qui s'améliorent grâce aux données du DKG.<br><br>**Cas d'usage :** Entraînement/LoRA continu du SLM sur le DKG pour un Copilot explicable.                                                                                                               | ⚪ **Planifié** |
+| **V6**    | **Streaming Temps Réel & <br>SOAR Adaptatif (POC Ciblé)**     | **Principe :** (P8) Démonstration de valeur sur boucle de réaction courte.<br><br>**Cas d'usage ciblé :** Reactivité SIEM/EDR temps réel sur le cas PC **OU**<br>Analyse d'impact statique sur PME (éviter la sur-simulation d'infrastructures). <br>Déclenchement de playbooks YARA/Sigma. | ⚪ **Planifié** |
 
 
 
+## 2 - Tableau Détaillé des Vagues & Phases (Niveau Micro)
+### 2.1 - Vue Tableau
 
-```mermaid
-graph TD
-    subgraph V1 [Vague 1: Socle & Cartographie Interne]
-        A1[TBox TLP:AMBER] --> A2[ABox Interne TLP:RED]
-    end
-
-    subgraph V2 [Vague 2: Ingestion CTI Externe, NER & Alignment]
-        B1[Flux CTI TLP:CLEAR] --> B2[NER / Unstructured CTI]
-        B2 --> B3[Reprise des Spécifications]
-        
-        %% Parenthesis / Transition
-        subgraph V2_Sub [Parenthese: Consolidation Sémantique]
-            B4[Agent d'Alignement & Fusion TBox<br/>STIX / UCO / EU AI Act]
-        end
-        
-        B3 --> B4
-    end
-
-    subgraph V3 [Vague 3: Moteur de Raisonnement]
-        C1[Règles SWRL / SPARQL Construct] --> C2[Déductions & HighRiskAsset]
-    end
-
-    subgraph V4 [Vague 4: Agent SOC, RAG Hybride & Fine-Tuning]
-        D1[Vectorisation / Embeddings] --> D2[Fine-Tuning Text-to-SPARQL]
-        D2 --> D3[Agent GraphRAG Explicable]
-    end
-
-    subgraph V5 [Vague 5: Continuous Improvement & SOAR]
-        E1[Streaming SIEM/EDR] --> E2[Autonomie & Playbooks YARA/Sigma]
-    end
-
-    V1 --> V2
-    B4 --> C1
-    V3 --> V4
-    V4 --> V5
-```
-
-
-
-
-
+| **Vague** | **Phase** | **Intitulé Fonctionnel**           | **Objectif Technique / Livrable**                                                       |  **Statut**   |
+| :-------: | :-------: | ---------------------------------- | --------------------------------------------------------------------------------------- | :-----------: |
+|  **V1**   |  **P1**   | Socle TBox & SHACL CWA             | Ontologie Master OWL2 (`TLP:AMBER`) et formes SHACL.                                    | 🟢 **PASSED** |
+|           |  **P2**   | Cartographie ABox Interne          | Actifs, logiciels et failles d'un PC individuel (`TLP:RED`).                            | 🟢 **PASSED** |
+|  **V2**   |  **P3**   | Ingestion CTI Structurée           | Flux NVD, CAPEC, CISA KEV (`TLP:CLEAR`).                                                | 🟢 **PASSED** |
+|           |  **P4**   | Ingestion CTI Textuelle (NER)      | Extraction d'entités CTI avec score de confiance `dkg:nerConfidenceScore`.              | 🟢 **PASSED** |
+|           |  **P5**   | Agent MITM & Reasoning Base        | Moteur d'inférence R-01/R-02 et alignement vectoriel Cosinus MiniLM.                    | 🟢 **PASSED** |
+|  **V3**   |  **P6**   | API Gateway & Ségrégation TLP      | Endpoint SPARQL/GraphQL sécurisé avec filtrage dynamique par niveau d'habilitation.     | 🟡 **ACTIVE** |
+|           |  **P7**   | Micro-Agents Télémétrie PME        | Agent Surveillance Logs (EDR) & Agent Veille CTI Externe. Extension topologie PME.      |  ⚪ Planifié   |
+|           |  **P8**   | SOC Dashboard & Replay Ops         | Dynamic Overlay du graphe, vue multi-calques et automatisation CI/CD.                   |  ⚪ Planifié   |
+|  **V4**   |  **P9**   | Taxonomies SKOS & Poly-hiérarchies | Structuration fine des domaines produits/familles et gestion des périmètres étanches.   |  ⚪ Planifié   |
+|           |  **P10**  | Agent MITM Human-in-the-Loop       | Interface d'arbitrage actif quand $0.65 \le \text{Score} < 0.85$. Enrichissement guidé. |  ⚪ Planifié   |
+|  **V5**   |  **P11**  | GraphRAG & NL-to-SPARQL            | Indexation hybride du DKG, explicabilité par sous-graphes RDF de preuves.               |  ⚪ Planifié   |
+|           |  **P12**  | Fine-Tuning Continu SLM            | Dataset d'entraînement automatique DKG ➔ SPARQL et ré-entraînement LoRA/QLoRA.          |  ⚪ Planifié   |
+|  **V6**   |  **P13**  | Streaming SIEM & SOAR              | Ingestion en continu d'événements et génération de playbooks YARA/Sigma.                |  ⚪ Planifié   |
+### 2.2 - Vue Graph
 
 ```mermaid
-graph TD
-    subgraph V1 [Vague 1: Socle & Cartographie Interne]
-        A1[TBox TLP:AMBER] --> A2[ABox Interne TLP:RED]
-    end
-    subgraph V2 [Vague 2: Ingestion CTI Externe & NER]
-        B1[Flux CTI TLP:CLEAR] --> B2[NER / Unstructured CTI]
-        %% B2 --> B3[Superposition Cross-TLP]
-    end
-    subgraph V3 [Vague 3: Moteur de Raisonnement]
-        C1[Règles SWRL / SPARQL Construct] --> C2[Déductions & HighRiskAsset]
-    end
-    subgraph V4 [Vague 4: Agent SOC, RAG Hybride & Fine-Tuning]
-        D1[Vectorisation / Embeddings] --> D2[Fine-Tuning Text-to-SPARQL]
-        D2 --> D3[Agent GraphRAG Explicable]
-    end
-    subgraph V5 [Vague 5: Continuous Improvement & SOAR]
-        E1[Streaming SIEM/EDR] --> E2[Autonomie & Playbooks YARA/Sigma]
+graph TB
+    %% Styles de statut
+    classDef passed fill:#d4edda,stroke:#28a745,stroke-width:2px,color:#155724;
+    classDef active fill:#fff3cd,stroke:#ffc107,stroke-width:2px,color:#856404;
+    classDef planned fill:#f8f9fa,stroke:#6c757d,stroke-width:1px,stroke-dasharray: 5 5,color:#383d41;
+
+    subgraph V1 ["🌊 Vague 1 : Socle Structurel & Cartographie Interne (🟢 PASSED)"]
+        direction LR
+        P1["Phase 1: TBox & SHACL CWA<br/>(TLP:AMBER)"] --> P2["Phase 2: ABox Interne<br/>(TLP:RED)"]
     end
 
-    V1 --> V2
-    V2 --> V3
-    V3 --> V4
-    V4 --> V5
+    subgraph V2 ["🌊 Vague 2 : Ingestion CTI, NER & Alignement MITM (🟢 PASSED)"]
+        direction LR
+        P3["Phase 3: Flux CTI Structurés<br/>(TLP:CLEAR)"] --> P4["Phase 4: CTI Non-Structurée<br/>& NER"] --> P5["Phase 5: Agent MITM,<br/>SKOS & Reasoning Base"]
+    end
+
+    subgraph V3 ["🌊 Vague 3 : Industrialisation API & Multi-Contextes PME (🟡 ACTIVE)"]
+        direction LR
+        P6["Phase 6: API Gateway Cross-TLP<br/>& Security Engine"] --> P7["Phase 7: Micro-Agents<br/>Logs EDR & Veille CTI"] --> P8["Phase 8: SOC Dashboard<br/>Dynamic Overlay & Replay"]
+    end
+
+    subgraph V4 ["🌊 Vague 4 : Désambiguïsation Sémantique & HITL (⚪ Planifié)"]
+        direction LR
+        P9["Phase 9: Taxonomies SKOS<br/>& Poly-hiérarchies"] --> P10["Phase 10: Agent MITM<br/>Human-in-the-Loop"]
+    end
+
+    subgraph V5 ["🌊 Vague 5 : Copilot SOC & Fine-Tuning Continu (⚪ Planifié)"]
+        direction LR
+        P11["Phase 11: GraphRAG<br/>& NL-to-SPARQL"] --> P12["Phase 12: Fine-Tuning SLM<br/>Dataset DKG -> SPARQL"]
+    end
+
+    subgraph V6 ["🌊 Vague 6 : Streaming Temps Réel & SOAR Adaptatif (⚪ Planifié)"]
+        direction LR
+        P13["Phase 13: Streaming SIEM/EDR<br/>& Playbooks YARA/Sigma"]
+    end
+
+    %% Chaînage des Vagues
+    V1 ==> V2
+    V2 ==> V3
+    V3 ==> V4
+    V4 ==> V5
+    V5 ==> V6
+
+    %% Application des classes
+    class P1,P2,P3,P4,P5 passed;
+    class P6 active;
+    class P7,P8,P9,P10,P11,P12,P13 planned;
 ```
 
+## 3  -  Backlog Non Intégré
 
-## 3  -  Backlog Détaillé par Vague
+Idées non encore intégrées à la Roadmap Vague/Phase
 
-### 🌊 Vague 1 : Socle Ontologique & Cartographie Interne (`TLP:AMBER` / `TLP:RED`)
 
-> **Valeur Agent :** L'Agent accède au schéma du SI et à la cartographie des actifs de l'entreprise.
-
-#### 📌 Epic 1.1 : Socle Modèle TBox & Valimateur SHACL (`TLP:AMBER`)
-
-- [x] **US-1.1.1 (Ontologie Master) :** Définir la TBox OWL2/RDFS pour unifier les concepts (`Asset`, `SoftwareComponent`, `Vulnerability`, `Weakness`, `ThreatPattern`).
-    
-- [x] **US-1.1.2 (Validation SHACL) :** Rédiger les formes SHACL sous CWA pour interdire les données orphelines et imposer l'intégrité des liens.
-    
-- [x] **US-1.1.3 (CI/CD Pipeline) :** Automatiser les tests de validation SHACL et d'intégrité sous GitHub Actions.
-    
-
-#### 📌 Epic 1.2 : Instanciation ABox Master Interne (`TLP:RED`)
-
-- [x] **US-1.2.1 (Instances Métier) :** Générer l'ABox des équipements et failles réelles sous `02-Donnees/Master_Transversal/TLP_RED_Instances_ABox/`.
-    
-- [x] **US-1.2.2 (Auto-Documentation) :** Générer les livrables Markdown auto-documentés avec glossaire des acronymes et diagrammes Mermaid.
-    
-- [x] **US-1.2.3 (Rituel 5S & SSOT) :** Rapatrier la totalité des constantes de chemins et namespaces dans `03-Application/config.py`.
-    
-
-### 🌊 Vague 2 : Ingestion CTI Externe, NER & Superposition (`TLP:CLEAR`)
-
-> **Valeur Agent :** L'Agent superpose les données de menaces mondiales sur la cartographie interne sans compromettre la confidentialité des actifs.
-
-#### 📌 Epic 2.1 : Ingestion CTI Structurée & Superposition Cross-TLP
-
-- [ ] **US-2.1.1 (Ingestion Référentiels) :** Importer les flux publics (NVD, MITRE ATT&CK, CISA KEV) sous `02-Donnees/Master_Transversal/TLP_CLEAR_CTI_External/`.
-    
-- [ ] **US-2.1.2 (Superposition Sémantique) :** Connecter les instances internes `TLP:RED` aux nœuds CTI `TLP:CLEAR` via la TBox commune `TLP:AMBER`.
-    
-- [ ] **US-2.1.3 (Rituel 5S Inter-Vague) :** Mettre à jour `config.py` pour intégrer les nouveaux répertoires et valider la séparation logique/physique.
-    
-
-#### 📌 Epic 2.2 : Unstructured CTI & Extraction NER
-
-- [ ] **US-2.2.1 (NER Cyber) :** Déployer un modèle de NER (Named Entity Recognition) pour extraire les entités et relations depuis des bulletins de sécurité textuels (PDF, blogs).
-    
-- [ ] **US-2.2.2 (Mapping RDF) :** Convertir les prédictions NER en triples RDF valides et les injecter dans la ABox CTI.
-    
-
-### 🌊 Vague 3 : Moteur de Raisonnement Sémantique & Inférence
-
-> **Valeur Agent :** L'Agent bénéficie de faits enrichis et de calculs d'impacts automatisés multi-graphes.
-
-#### 📌 Epic 3.1 : Règles d'Inférence & Scoring de Menace
-
-- [ ] **US-3.1.1 (Règles SWRL / CONSTRUCT) :** Écrire les règles d'inférence déduisant les nœuds critiques (ex: marquer `dkg:HighRiskAsset` si un composant porte une CVE exploitée selon CISA KEV).
-    
-- [ ] **US-3.1.2 (Validation des Déductions) :** S'assurer que les faits dérivés héritent du niveau de classification TLP le plus strict du chemin de preuve.
-    
-- [ ] **US-3.1.3 (Export Markdown Enrichi) :** Générer la synthèse Markdown de la ABox enrichie après raisonnement.
-    
-
-### 🌊 Vague 4 : Agent SOC Copilot, RAG Hybride & Fine-Tuning
-
-> **Valeur Agent :** Un assistant conversationnel L1/L2 interroge le DKG, offre une recherche hybride et explique son raisonnement de manière déterministe.
-
-#### 📌 Epic 4.1 : Vectorisation Hybride & GraphRAG
-
-- [ ] **US-4.1.1 (Embeddings & Graph Vectorization) :** Indexer les sous-graphes et descriptions textuelles dans une base vectorielle pour permettre la recherche sémantique floue.
-    
-- [ ] **US-4.1.2 (Pipeline NL-to-SPARQL) :** Développer le composant de traduction des questions de l'analyste en requêtes SPARQL optimisées.
-    
-- [ ] **US-4.1.3 (Explicabilité & Traces de Preuves) :** Exposer dans chaque réponse de l'Agent la sous-structure RDF (triples) utilisée pour construire la conclusion.
-    
-
-#### 📌 Epic 4.2 : Fine-Tuning Spécialisé Agent SOC
-
-- [ ] **US-4.2.1 (Fine-Tuning Text-to-SPARQL) :** Fine-tuner un SLM (type Mistral/Llama) sur le schéma TBox pour garantir un taux de syntaxe SPARQL valide > 98%.
-    
-- [ ] **US-4.2.2 (Instruction Tuning Analyste) :** Adapter le comportement conversationnel de l'Agent pour respecter le jargon SOC, la concision et la sécurité TLP.
-    
-- [ ] **US-4.2.3 (Évaluation Ragas / LangSmith) :** Évaluer la fidélité, le taux d'hallucination (proche de 0%) et la pertinence des réponses de l'Agent.
-    
-
-### 🌊 Vague 5 : Continuous Improvement — Flux Temps Réel & SOAR
-
-> **Valeur Agent :** L'Agent devient réactif aux événements temps réel et proactif dans la proposition de remédiations.
-
-#### 📌 Epic 5.1 : Ingestion SIEM & Autonomie Agentique
-
-- [ ] **US-5.1.1 (Streaming Data RDF) :** Ingestion en continu d'événements/alertes SIEM sous forme de triples RDF horodatés.
-    
-- [ ] **US-5.1.2 (Génération de Playbooks SOAR) :** Permettre à l'Agent de générer automatiquement des règles de détection (YARA, Sigma) et des plans de remédiation soumis à validation humaine (Human-in-the-loop).

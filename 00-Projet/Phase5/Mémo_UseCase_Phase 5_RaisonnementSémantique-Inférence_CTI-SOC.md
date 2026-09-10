@@ -1,297 +1,158 @@
-# Mémo Use Case : Phase 5 - Raisonnement Sémantique & Inférence CTI/SOC
+# 📖 Complément Memo_UseCase — Phase 5 : Alignement, Superposition & Raisonnement Sémantique
 
+**Classification :** `TLP:AMBER` (Libre usage interne)
 
-# 📄 Mémo Use Case : Phase 5 – Anticiper les Cyberattaques par la Sémantique
+**Public Cible :** Métier, RSSI, Chefs de Projet, Décideurs non-techniques
 
-**À destination des** : Responsables Métier, Risk Managers, RSSI & Décideurs
+**Objet :** Explication fonctionnelle des principes de superposition de graphes, de l'alignement IA (MITM) et de la chaîne d'exécution de la Phase 5.
 
-**Sujet** : Comment la combinaison de nos données internes et de l'intelligence cyber externe permet d'identifier les risques masqués.
+## 🎯 Message Clé pour la Direction & les Métiers
 
-## 1. La Situation "Avant" : La Vision Morcelée de nos SI
+> **Cette présentation constitue la vision fonctionnelle cible de notre application.**
+> 
+> Elle démontre comment le Knowledge Graph transforme des données fragmentées, hétérogènes et cloisonnées en une **intelligence décisionnelle unifiée, automatisée et explicable**.
 
-Aujourd'hui, nos équipes gèrent deux flux d'informations séparés :
+## 1. Le Principe de Superposition de Graphes (Graph Overlay)
 
-1. **L'inventaire interne (Graphe ABox)** : La cartographie de nos serveurs, bases de données et dépendances logicielle.
+### 💡 Le Concept Expliqué Simplement
+
+Imaginez que vous superposez des **calques transparents** sur une carte géographique :
+
+1. **Calque 1 (ABox Interne - TLP:RED) :** La carte de vos équipements SI (serveurs, bases de données, liens réseau).
     
-2. **Le flux externe (CTI)** : Les alertes mondiales sur les nouvelles failles de sécurité découvertes quotidiennement.
+2. **Calque 2 (ABox CTI - TLP:CLEAR) :** Les renseignements sur la menace cyber mondiale (vulnérabilités CISA KEV, groupes d'attaquants APT).
     
-
-Sans rapprochement automatisé, l'organisation manque de visibilité sur les chaînes d'impact réelles :
-
-
-```mermaid
-graph TD
-    subgraph "Système d'Information Interne (Données Red)"
-        A[Serveur Pivot Web] -->|Connecté à| B[Base de Données Critique]
-        A -->|Héberge| C[Composant Logiciel X]
-    end
-
-    subgraph "Threat Intelligence Externe (Données Clear)"
-        D[Faille CVE-2024-21887] -.->|Présente dans| E[Registre CISA KEV - Attaques Actives]
-    end
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#ff9999,stroke:#333,stroke-width:2px
-    style D fill:#ffff99,stroke:#333,stroke-width:2px
-    style E fill:#ffcc99,stroke:#333,stroke-width:2px
-```
-
-- **Le problème** : Rien dans nos bases de données traditionnelles n'indique explicitement que le _Serveur Pivot Web_ met directement en danger la _Base de Données Critique_. Les liens existent, mais ils sont **invisibles** sans analyse croisée.
+3. **Calque 3 (TBox Master & SKOS - TLP:AMBER) :** Le dictionnaire des concepts métier, du thésaurus et des règles de sécurité.
     
 
-## 2. Le Rapprochement : Marier le Contexte Interne et la Menace Externe
+Pris isolément, chaque calque est incomplet. En les **superposant**, le système fait apparaître des connexions invisibles à l'œil humain et matérialise instantanément de nouveaux risques.
 
-### L'Enjeu des Modèles Sémantiques (SKOS & Ontologies)
-
-Pour que deux systèmes informatiques se comprennent, ils doivent parler la même langue.
-
-- **L'Ontologie (TBox)** définit les règles métier (ex. _"Un serveur qui contient une faille active devient un Actif à Haut Risque"_).
-    
-- **Le Référentiel Sémantique (SKOS)** fait le pont entre des termes différents utilisés en interne et en externe (ex. comprendre que _"Serveur Web 01"_, _"Web-Srv-Prod"_ et _"IP 192.168.1.10"_ désignent la même entité).
-    
-
-### Le Mécanisme de Rapprochement
-
-Grâce au moteur de raisonnement, le système croise automatiquement la topologie interne avec les bases de menaces mondiales :
-
-1. **Rapprochement Syntaxique & Vectoriel** : Identification automatique que le _Composant X_ de notre serveur correspond à la _Faille CVE-2024-21887_.
-    
-2. **Enrichissement Contextuel** : Si la faille est inscrite au registre des attaques actives (CISA KEV), le serveur est immédiatement requalifié.
-    
-
-## 3. Ce qui en Découle : La Révélation du Risque ("Silent Cascade")
-
-Le moteur de raisonnement applique des règles logiques pour déduire de **nouvelles informations stratégiques** qui n'existaient pas dans les fichiers d'origine.
+### 🖼️ Illustration Visuelle de la Superposition
 
 Extrait de code
 
 ```mermaid
 graph TD
-    subgraph "Connaissances Déduites (Inférence Sémantique)"
-        A[Serveur Pivot Web] ==>|1. Alerte : Déclaré 'HighRiskAsset'| A
-        A ==>|2. Règle Cascade : exposesToCascade| B[Base de Données Critique]
+    classDef red fill:#ffcccc,stroke:#ff0000,stroke-width:2px;
+    classDef clear fill:#e6f2ff,stroke:#0066cc,stroke-width:2px;
+    classDef amber fill:#fff2cc,stroke:#d6b656,stroke-width:2px;
+    classDef infered fill:#d5e8d4,stroke:#82b366,stroke-width:3px,stroke-dasharray: 5 5;
+
+    subgraph Calque_1 ["🔴 Calque SI Interne (TLP:RED)"]
+        SRV["Serveur_Pivot_01"]:::red
+        DB[("Database_Critical_01")]:::red
+        SRV -->|connectsTo| DB
     end
 
-    style A fill:#ff6666,stroke:#333,stroke-width:3px
-    style B fill:#cc0000,stroke:#fff,stroke-width:3px
+    subgraph Calque_2 ["🔵 Calque CTI Externe (TLP:CLEAR)"]
+        CVE["CVE-2024-21887"]:::clear
+        KEV["isCisaKev = True"]:::clear
+        CVE --- KEV
+    end
+
+    subgraph Calque_3 ["🟡 Calque Modèle & Règles (TLP:AMBER)"]
+        R1["Règle R-01 : Alerte KEV"]:::amber
+        R2["Règle R-02 : Silent Cascade"]:::amber
+    end
+
+    %% Superposition
+    SRV -.->|hasVulnerability| CVE
+
+    subgraph Calque_Inference ["🟢 Résultat Déduit (Inférence Sémantique)"]
+        HIGH_RISK["dkg:HighRiskAsset"]:::infered
+        CASCADE["dkg:exposesToCascade"]:::infered
+    end
+
+    SRV ==>|R-01 Déduit| HIGH_RISK
+    SRV ==>|R-02 Déduit| CASCADE
+    CASCADE ==> DB
 ```
 
-### Bénéfices Métier & Décisionnels
+## 2. Le Rapprochement Sémantique par Modèle IA (Agent MITM)
 
-- **Visualisation des Chemins d'Attaque Invisibles** : Matérialisation de la relation `exposesToCascade`. Les équipes de sécurité voient instantanément qu'un pirate prenant le contrôle du _Serveur Web_ peut directement rebondir vers la _Base de Données Critique_.
+### 💡 Pourquoi un Modèle IA ?
+
+Dans les systèmes informatiques, une même réalité est souvent nommée de manières différentes par divers outils ou équipes :
+
+- L'équipe Réseau écrit : `"Serveur Controleur de Domaine Active Directory"`
     
-- **Priorisation Stratégique des Correctifs** : Au lieu de corriger des milliers de failles sans distinction, les équipes concentrent leurs efforts sur les serveurs qui exposent des données critiques.
+- L'équipe CTI / Analystes écrit : `"Serveur Contrôleur AD"`
     
-- **Respect Garanti de la Confidentialité (TLP)** : Les règles d'isolation étanches évitent toute fuite d'informations sensibles sur notre architecture interne vers des services tiers externes.
 
----
----
+Pour un ordinateur classique, ces deux chaînes de caractères sont **différentes**.
 
-# 🏗️ Schéma d'Architecture Technique & Pipeline IA / Sémantique
+### 🤖 Quel Modèle & Quel Rôle ?
 
-**Objectif** : Expliciter le rôle de chaque composant logicielle, modèle sémantique/vectoriel et fichier `.ttl` dans le pipeline de rapprochement et de déduction.
+Nous intégrons un modèle de Traitement Automatique du Langage (NLP) local et souverain : **`all-MiniLM-L6-v2`** (via la bibliothèque _SentenceTransformers_).
 
-```
-                  ┌────────────────────────────────────────────────────────┐
-                  │                 MODÈLES & REFERENTIELS                 │
-                  │  • TBox / Ontologie (dkg.ttl / config.py)             │
-                  │  • SKOS / Taxonomie (DKG_SKOS_Master.ttl)             │
-                  │  • Modèle IA (SentenceTransformers / Vectorizer)      │
-                  └───────────────────┬────────────────────────────────────┘
-                                      │
- ┌──────────────────────────┐         │         ┌──────────────────────────┐
- │    DONNÉES INTERNES      │         │         │     DONNÉES EXTERNES     │
- │   DKG_ABox_Master.ttl    │         │         │ DKG_ABox_CTI_External.ttl│
- │        (TLP:RED)         │         │         │       (TLP:CLEAR)        │
- └────────────┬─────────────┘         │         └────────────┬─────────────┘
-              │                       │                      │
-              │                       ▼                      │
-              │         ┌──────────────────────────┐         │
-              └────────►│ Phase5/reconciliation.py │◄────────┘
-                        │ (Vector Match & Threshold)│
-                        └─────────────┬────────────┘
-                                      │ [Candidats Reconciliés]
-                                      ▼
-                        ┌──────────────────────────┐
-                        │ Phase5/reasoning_engine.py│
-                        │(SPARQL CONSTRUCT / R-01/02)
-                        └─────────────┬────────────┘
-                                      │
-                                      ▼
-                        ┌──────────────────────────┐
-                        │   DKG_ABox_Infered.ttl   │
-                        │    (Graphe Déduit RED)   │
-                        └──────────────────────────┘
+- **Son Rôle :** Il transforme chaque libellé texte en une **empreinte numérique (vectorisation)**. Il calcule ensuite la **distance sémantique** (similarité cosinus) entre l'entité candidate et l'annuaire existant.
+    
+- **Le Seuil de Décision (`0.85`) :**
+    
+    - **Si le score est $\ge 0.85$ :** Le modèle conclut qu'il s'agit du même élément. Le système crée automatiquement une équivalence sémantique officielle (`skos:exactMatch` / `owl:sameAs`).
+        
+    - **Si le score est $< 0.85$ :** Le système conserve l'entité comme indépendante pour éviter toute fausse fusion.
+        
+
+### 🖼️ Fonctionnement de la Réconciliation Sémantique
+
+Extrait de code
+
+```mermaid
+flowchart LR
+    classDef input fill:#e1d5e7,stroke:#9673a6,stroke-width:2px;
+    classDef ai fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px;
+    classDef match fill:#d5e8d4,stroke:#82b366,stroke-width:2px;
+    classDef reject fill:#f8cecc,stroke:#b85450,stroke-width:2px;
+
+    TXT["Candidat : 'Serveur Contrôleur AD'"]:::input --> VECT["Embedding Vectoriel (MiniLM)"]:::ai
+    VECT --> COS{"Similarité Cosinus avec la Base<br/>(ex: 'Serveur Controleur Active Directory')"}:::ai
+    
+    COS -->|Score >= 0.85<br/>ex: 0.94| MATCH["✅ MATCH VALIDÉ<br/>Génération de :<br/>- skos:exactMatch<br/>- owl:sameAs"]:::match
+    COS -->|Score < 0.85<br/>ex: 0.42| REJECT["❌ SEUIL NON ATTEINT<br/>Entité conservée séparée"]:::reject
 ```
 
-### 📂 Rôle des Fichiers Scripts Python
+## 3. Le Pipeline d'Exécution Complet
 
-- **`config.py`** : **Single Source of Truth (SSOT)**. Définit les préfixes RDF (`dkg:`, `dkg-data:`, `dkg-cti:`), les seuils de similarité vectorielle et l'emplacement absolu de tous les fichiers du projet.
-    
-- **`Phase5/reconciliation.py`** : **Module de Rapprochement IA**.
-    
-    - Charge les entités issues des deux ABox.
-        
-    - Génère des embeddings (représentations vectorielles) des libellés et des identifiants via un modèle NLP/IA (ex: `SentenceTransformers`).
-        
-    - Aligne la taxonomie grâce au fichier SKOS (`DKG_SKOS_Master.ttl`) pour calculer un `alignmentScore` (ex: `dkg-data:cand_01 dkg:alignmentScore "0.278..."`).
-        
-- **`Phase5/reasoning_engine.py`** : **Moteur de Raisonnement Sémantique**.
-    
-    - Fusionne en mémoire les graphes d'entrée.
-        
-    - Applique la règle **R-01 (CISA KEV)** pour qualifier les `HighRiskAsset`.
-        
-    - Applique la règle **R-02 (Silent Cascade)** pour calculer le chaînage arrière/avant (`connectsTo+`) et matérialiser les relations `exposesToCascade`.
-        
-    - Exporte les résultats dans `DKG_ABox_Infered.ttl` sans altérer les sources CTI (Ségrégation TLP).
-        
+Le pipeline de la Phase 5 s'exécute selon une chaîne industrielle rigoureuse, garantissant la **traçabilité**, la **reproductibilité (Principe de Replay)** et la **non-pollution des données**.
 
-### 📄 Rôle des Fichiers RDF / Turtle (`.ttl`)
+Extrait de code
 
-**1. La Couche Modèles & Schémas (TBox & SKOS)**
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as 👤 Administrateur / Pipeline
+    participant MITM as 🤖 Agent MITM (Phase5/mitm_agent.py)
+    participant SKOS as 📐 Consolidateur (Phase5/skos_consolidator.py)
+    participant REASON as ⚙️ Reasoning Engine (Phase5/reasoning_engine.py)
+    participant INF as 🛡️ Pipeline Global (generate_phase5_inference.py)
+    participant TBOX as 🗄️ TBox Master (TLP:AMBER)
+    participant ABOX as 🗄️ ABox Infered (TLP:RED)
 
-- **`DKG_SKOS_Master.ttl`** : Contient le thésaurus, les synonymes (`skos:altLabel`), les traductions (`skos:prefLabel` "Threat Actor"@en / "Acteur de Menace"@fr) et les métadonnées de score de rapprochement (`dkg:alignmentScore`). Il guide l'IA dans l'alignement des termes non identiques.
-    
-- **`dkg.ttl` (TBox)** : Contient la structure ontologique stricte — définitions des classes (`owl:Class` comme `dkg:Asset`, `dkg:Vulnerability`) et des propriétés (`owl:ObjectProperty` comme `dkg:hasInstalledComponent`, `dkg:hasVulnerability`).
-    
+    Admin->>MITM: 1. Lancer l'interception et l'alignement IA
+    MITM->>MITM: Calcul similarité MiniLM (Seuil 0.85)
+    MITM-->>SKOS: Produit DKG_MITM_Alignment.ttl
 
-**2. La Couche Données / Instances (ABox)**
+    Admin->>SKOS: 2. Lancer la consolidation SKOS
+    SKOS->>TBOX: Injecte skos:exactMatch / owl:sameAs dans DKG_TBox_Master.ttl
+    SKOS-->>Admin: Génère la documentation TBox Master (.md)
 
-- **`DKG_ABox_Master.ttl`** : Données brutes de l'entreprise (Serveurs, DBs, IPs). Marqué TLP:RED (Strictement Confidentiel).
-    
-- **`DKG_ABox_CTI_External.ttl`** : Données de menace externes (CVE, bulletins CISA KEV, CAPEC). Marqué TLP:CLEAR (Public).
-    
-- **`DKG_ABox_Infered.ttl`** : **Résultat final**. Fichier généré automatiquement qui ne contient **que les nouveaux faits déduits par l'IA et le moteur de règles** (`HighRiskAsset`, `exposesToCascade`).
+    Admin->>REASON: 3. Lancer le moteur de règles
+    REASON->>REASON: Applique R-01 (CISA KEV) & R-02 (Silent Cascade)
+    REASON->>ABOX: Écrit les faits déduits dans DKG_ABox_Infered.ttl
+    REASON-->>Admin: Génère la documentation ABox Infered (.md)
 
-
-
----
----
-
-**Projet** : DKG (Dynamic Knowledge Graph) - Security Operations Center  
-**Conformité** : SPEC-SOCLE-04 / Vague 3  
-**Date** : 2026-09-06  
-
----
-
-## 1. Objectifs Métier
-
-L'objectif de cette phase est d'enrichir le graphe de connaissances ABox interne (TLP:RED) à l'aide des données de Threat Intelligence externes (TLP:CLEAR) via un moteur d'inférence SPARQL/SWRL.
-
-* **Détection automatique des actifs critiques exposés** : Qualification `HighRiskAsset` lorsqu'une vulnérabilité est confirmée CISA KEV.
-* **Analyse de propagation d'attaque** : Matérialisation de la relation `exposesToCascade` pour identifier les chemins menant vers des ressources critiques.
-* **Ségrégation stricte TLP (EXG-SE-01)** : Isolation complète des données déduites confidentielles pour empêcher la fuite d'informations vers les flux externes.
-
----
-
-## 2. Règles d'Inférence Implémentées
-
-### R-01 : Qualification Actif à Haut Risque (`CISA KEV`)
-* **Déclencheur** : Un actif héberge un composant vulnérable listé dans la base CISA KEV (`dkg:isCisaKev true`).
-* **Inférence** : L'actif reçoit la classe `dkg:HighRiskAsset` et le motif `dkg:hasRiskReason`.
-
-### R-02 : Inférence d'Exposition en Cascade (`Silent Cascade`)
-* **Déclencheur** : Un actif qualifié `HighRiskAsset` possède des connexions réseau directs ou indirects (`dkg:connectsTo+`) vers un actif de niveau `CRITICAL`.
-* **Inférence** : Création d'une liaison directe `dkg:exposesToCascade` entre le pivot d'attaque et la cible critique.
-
----
-
-## 3. Sécurisation & Performance (SLA)
-
-| Critère | Exigence Métier | Résultat / Statut |
-| :--- | :--- | :--- |
-| **SLA Temps d'exécution (EXG-HW-01)** | Inférence complète `< 5.0s` | **Validé** (~0.10s sur ABox de test) |
-| **Ségrégation TLP (EXG-SE-01)** | `DKG_ABox_Infered.ttl` isolé en TLP:RED | **Validé** (Aucune pollution de la CTI source) |
-| **Intégration CI/CD** | Validation par tests `pytest` automatisés | **Passé** (9/9 tests validés) |
-
----
-
-## 4. Livrables Associés
-
-* `Phase5/reasoning_engine.py` : Moteur de traitement SPARQL CONSTRUCT.
-* `DKG_ABox_Infered.ttl` : Graphe des règles et faits déduits.
-* `DKG_SKOS_Master.md` : Extrait lisible de la taxonomie métier.
-
-
-
-
----
-
----
-
-
-Voici la représentation détaillée et concrète du cas d'usage, illustrée par un schéma d'alignement et des données précises.
-
-### **1. Cas Concret d'Alignement : Label RED vs Label CTI**
-
-Pour illustrer le rapprochement, prenons une entité découverte sur le réseau interne et une menace répertoriée dans la base externe.
-
-```
-+-----------------------------------------------------------------------------------+
-|                               ABOX RED (Interne)                                  |
-|  URI : <dkg-data:server_ad_01>                                                    |
-|  Type : dkg:Server                                                                |
-|  skos:prefLabel : "Serveur Contrôleur de Domaine Active Directory"                |
-+-----------------------------------------------------------------------------------+
-                                          │
-                                          │  Vectorisation NLP
-                                          ▼  (384 dimensions)
-                          Score de similarité cosinus = 0.88
-                                          ▲  (Seuil >= 0.85)
-                                          │
-+-----------------------------------------------------------------------------------+
-|                               ABOX CTI (Externe)                                  |
-|  URI : <dkg-data:candidate_ad_dc>                                                 |
-|  Type : dkg:ThreatTarget                                                          |
-|  skos:prefLabel : "Serveur Controleur AD"                                         |
-+-----------------------------------------------------------------------------------+
-                                          │
-                                          │  Génération d'équivalence
-                                          ▼
-                      <candidate_ad_dc> owl:sameAs <server_ad_01>
+    Admin->>INF: 4. Lancer la validation SHACL globale
+    INF->>INF: Valide la conformité du graphe unifié
+    INF-->>Admin: Rapport SHACL PASS & Livrables finaux
 ```
 
-### **2. Mécanique de Vectorisation & Rattachement**
+## 4. Synthèse des Valeurs Ajoutées Métier
 
-- **À quoi sont attachés les vecteurs ?**
-    
-    Les vecteurs **ne sont pas stockés directement dans le graphe RDF** (pour éviter de lourdes structures de données vectorielles dans le fichier Turtle). Ils sont générés à la volée par l'Agent MITM et attachés en mémoire aux **chaînes de caractères des littéraux** (`skos:prefLabel` ou `rdfs:label`).
-    
-- **Dimension de la Vectorisation :**
-    
-    Le modèle d'embedding utilisé est **`all-MiniLM-L6-v2`** (SentenceTransformers).
-    
-    - **Dimension vectorielle :** **$384$ dimensions** (vecteur de flottants de taille 384 : $[v_1, v_2, \dots, v_{384}]$).
-        
-    - **Empreinte :** Modèle ultra-léger (~80 Mo), permettant des inférences locales en **$< 100\text{ ms}$**.
-        
-
-### **3. Rapprochement des Calques & Résultat Final**
-
-```
- [Calque RED (Interne)]                  [Calque CTI (Externe)]
-+----------------------+                +--------------------+
-|  server_ad_01        |                |  CVE-2024-21887    |
-|  (Critical DB link)  |                |  (isCisaKev = true)|
-+----------+-----------+                +---------+----------+
-           │                                      │
-           │           owl:sameAs                 │
-           └──────────────────────────────────────┘
-                              │
-                              ▼
-        [Calque Ingestion / Inférence (Inferred ABox)]
-       +-----------------------------------------------+
-       | Matérialisation des règles SPARQL :           |
-       |  1. server_ad_01  a  dkg:HighRiskAsset        |
-       |  2. server_ad_01  dkg:exposesToCascade db_01  |
-       +-----------------------------------------------+
-```
-
-### **4. Rôle Précis des Scripts dans la Chaîne de Traitement**
-
-|**Script**|**Entrée**|**Action Technique / Algorithme**|**Sortie**|
-|---|---|---|---|
-|**`mitm_agent.py`**|Libellé texte brut (`skos:prefLabel`)|Extract `skos:prefLabel` $\rightarrow$ Vectorisation MiniLM ($384\text{d}$) $\rightarrow$ Cosine Similarity vs Index local $\rightarrow$ Filtrage ($\ge 0.85$).|Sous-graphe RDF d'alignement (`skos:exactMatch`, `owl:sameAs`, `dkg:alignmentScore`).|
-|**`skos_consolidator.py`**|Sous-graphe d'alignement + `DKG_TBox_Master.ttl`|Ingestion et requête SPARQL `CONSTRUCT` (Règle `R-MITM-01`). Fusionne les équivalences validées dans le thésaurus central.|`DKG_SKOS_Master.ttl` + Documentation Markdown & Mermaid automatique.|
-|**`reasoning_engine.py`**|`ABox RED` + `ABox CTI` + `SKOS Master`|Exécution des règles SPARQL métier :<br><br>  <br><br>• **R-01 :** Assigne `HighRiskAsset` si lié à une vulnérabilité CISA KEV.<br><br>  <br><br>• **R-02 :** Assigne `exposesToCascade` si connecté à un actif `CRITICAL`.|`DKG_ABox_Infered.ttl` (Isolé en `TLP:AMBER` pour éviter de polluer le `TLP:CLEAR`).|
+|**Composant**|**Rôle Métier**|**Bénéfice Direct**|
+|---|---|---|
+|**Superposition**|Fusionner le SI Interne et la CTI Externe.|Détection de vulnérabilités critiques contextuelles sans modifier la base SI source.|
+|**Agent MITM (IA)**|Réconcilier les synonymes et variantes de noms.|Suppression des doublons et alignement automatique des vocabulaires inter-équipes.|
+|**Thésaurus SKOS**|Structurer le vocabulaire métier unifié.|Garantie que la TBox Master reste la source unique de vérité (`SSOT`).|
+|**Reasoning Engine**|Déduire les risques cachés (Cascade).|Identification des chemins d'attaque menaçant les bases de données critiques.|
+|**Auto-Documentation**|Générer un miroir Markdown (`.md`) pour chaque `.ttl`.|Auditabilité complète et explicabilité des décisions pour les équipes de direction.|

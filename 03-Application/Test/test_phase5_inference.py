@@ -1,22 +1,25 @@
+"""
+03-Application/Tests/test_phase5_inference.py
+
+Suite de tests automatisés Pytest pour le moteur d'inférence sémantique (Phase 5).
+Valide la conformité aux exigences :
+- EXG-HW-01  : Performance d'exécution (< 5 secondes)
+- EXG-INF-01 : Inférence HighRiskAsset (Règle R-01 CISA KEV)
+- EXG-INF-02 : Matérialisation Cascade (Règle R-02 Silent Cascade)
+- EXG-SE-01  : Isolation TLP & Non-pollution des graphes sources
+"""
+
 import sys
 import time
 import pytest
 from pathlib import Path
 from _pytest.monkeypatch import MonkeyPatch
-from rdflib import Graph, URIRef, Literal, RDF, XSD
-
-# Ancrage du chemin racine 03-Application
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
+from rdflib import Graph, URIRef, Literal, RDF, XSD, SKOS, OWL, SH
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
 APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
-
-
-
-
 
 from Phase5.reasoning_engine import ReasoningEngine
 from config import DKG_TBOX, DKG_DATA, DKG_CTI
@@ -25,20 +28,25 @@ from config import DKG_TBOX, DKG_DATA, DKG_CTI
 @pytest.fixture(scope="module")
 def setup_mock_graphs(tmp_path_factory):
     """
-    Génère les graphes d'entrée ABox RED et ABox CTI temporaires avec les motifs R-01 et R-02.
+    Génère les graphes d'entrée ABox RED, ABox CTI et dossiers de sortie temporaires.
     """
     tmp_dir = tmp_path_factory.mktemp("phase5_inference_data")
     mock_abox_red = tmp_dir / "DKG_ABox_Master.ttl"
     mock_abox_cti = tmp_dir / "DKG_ABox_CTI_External.ttl"
     mock_infered = tmp_dir / "DKG_ABox_Infered.ttl"
+    mock_infered_md = tmp_dir / "DKG_ABox_Infered.md"
+    mock_snapshot_dir = tmp_dir / "Snapshots"
 
     # 1. Graphe ABox RED (Interne)
     abox_red_graph = Graph()
+    abox_red_graph.bind("dkg", DKG_TBOX)
+    abox_red_graph.bind("dkg-data", DKG_DATA)
+    abox_red_graph.bind("dkg-cti", DKG_CTI)
+
     srv_pivot = URIRef(f"{DKG_DATA}server_pivot_01")
     target_db = URIRef(f"{DKG_DATA}db_critical_01")
     vuln_cve = URIRef(f"{DKG_CTI}CVE-2024-21887")
 
-    # Ingestion pour R-01 et R-02
     abox_red_graph.add((srv_pivot, RDF.type, URIRef(f"{DKG_TBOX}Asset")))
     abox_red_graph.add((srv_pivot, URIRef(f"{DKG_TBOX}hasVulnerability"), vuln_cve))
     abox_red_graph.add((srv_pivot, URIRef(f"{DKG_TBOX}connectsTo"), target_db))
@@ -49,6 +57,9 @@ def setup_mock_graphs(tmp_path_factory):
 
     # 2. Graphe ABox CTI (Externe)
     abox_cti_graph = Graph()
+    abox_cti_graph.bind("dkg", DKG_TBOX)
+    abox_cti_graph.bind("dkg-cti", DKG_CTI)
+
     abox_cti_graph.add((vuln_cve, RDF.type, URIRef(f"{DKG_TBOX}Vulnerability")))
     abox_cti_graph.add((vuln_cve, URIRef(f"{DKG_TBOX}isCisaKev"), Literal(True, datatype=XSD.boolean)))
     abox_cti_graph.serialize(destination=str(mock_abox_cti), format="turtle")
@@ -56,7 +67,9 @@ def setup_mock_graphs(tmp_path_factory):
     return {
         "abox_red_path": mock_abox_red,
         "abox_cti_path": mock_abox_cti,
-        "infered_path": mock_infered
+        "infered_path": mock_infered,
+        "infered_md_path": mock_infered_md,
+        "snapshot_dir": mock_snapshot_dir
     }
 
 
@@ -73,6 +86,8 @@ def execution_context(setup_mock_graphs):
     mp.setattr(re_module, "ABOX_RED_PATH", paths["abox_red_path"], raising=False)
     mp.setattr(re_module, "ABOX_CTI_PATH", paths["abox_cti_path"], raising=False)
     mp.setattr(re_module, "ABOX_INFERED_PATH", paths["infered_path"], raising=False)
+    mp.setattr(re_module, "ABOX_INFERED_MD_PATH", paths["infered_md_path"], raising=False)
+    mp.setattr(re_module, "DIR_SNAPSHOT_P5", paths["snapshot_dir"], raising=False)
 
     engine = ReasoningEngine()
     exec_duration = engine.run_inference()
@@ -139,6 +154,7 @@ def test_exg_se_01_tlp_segregation(execution_context):
     paths = execution_context["paths"]
     
     assert paths["infered_path"].exists(), "Violation EXG-SE-01 : Le fichier ABox Infered n'a pas été créé."
+    assert paths["infered_md_path"].exists(), "Violation EXG-SE-01 : Le document Markdown miroir n'a pas été créé."
     
     cti_graph = Graph()
     cti_graph.parse(str(paths["abox_cti_path"]), format="turtle")

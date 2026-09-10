@@ -1,62 +1,84 @@
 # 📑 Fiche d'Étape : Phase 3 — Ingestion CTI Externe & Superposition Cross-TLP (`TLP:CLEAR`)
 
 > **Nom du Projet :** DKG-CyberSec  
-> **Phase :** 3 (Vague 2 — Ingestion CTI Externe & Superposition)  
-> **Statut :** 🟢 En cours (Étape 1 : Cadrage & Spécification)  
-> **Classification TLP globale de la phase :** `TLP:CLEAR` (Superposition avec `TLP:RED` via `TLP:AMBER`)  
+> **Phase :** 3 (Vague 2 — Ingestion CTI Externe & Superposition Cross-TLP)  
+> **Statut :** 🟢 En cours (Spécification et Alignement SSOT)  
+> **Classification TLP globale :** `TLP:CLEAR` (Graphe CTI Externe) avec superposition vers `TLP:RED` via le socle `TLP:AMBER`  
 > **Responsable :** Équipe SOC / Architecture DKG  
 
 ---
 
-## 🎯 1. Objectifs & Alignment Métier
+## 🎯 1. Objectifs & Alignement Métier
 
 ### 1.1 Contexte & Enjeux Métier
-Dans le cadre de l'évolution du Knowledge Graph SOC, la cartographie des actifs internes (`TLP:RED`) développée en Vague 1 doit être enrichie par des sources de menaces externes (`TLP:CLEAR` : NVD, MITRE ATT&CK, CISA KEV). 
+Dans le cadre de l'évolution du Knowledge Graph SOC (DKG), la cartographie de l'infrastructure interne (`TLP:RED`) construite en Vague 1 doit être enrichie de renseignements sur les menaces issues de sources ouvertes (`TLP:CLEAR` : NVD, MITRE ATT&CK, CISA KEV).
 
-L'objectif principal est de permettre à l'Agent IA SOC de corréler l'infrastructure sensible avec la CTI publique sans compromettre la confidentialité des actifs internes et en conservant une stricte étanchéité logique et physique.
+L'objectif principal est de permettre à l'Agent IA SOC de corréler la topologie du SI avec les données de vulnérabilités et de motifs d'attaque mondiaux sans compromettre la confidentialité des actifs internes et en conservant une ségrégation stricte des graphes.
 
-**📌 Hypothèse de Cadrage — Conformité au Socle TBox/RBox (Phase 4)** :
-_L'ingestion CTI non structurée via NER traite exclusivement les entités et relations strictement conformes au socle TBox/RBox existant (`TLP:AMBER`). Tout besoin d'extension ontologique (découverte de nouveaux concepts ou affinement de relations) est explicitement différé à la **Phase 5**, où le moteur de raisonnement et l'évolution dynamique de la TBox/RBox seront traités de manière consolidée._
-
+**📌 Hypothèse de Cadrage — Alignment Ontologique & Découpage** :
+- **Phase 3 (Vague 2)** : Ingestion structurée CTI, validation SHACL et superposition sémantique Cross-TLP (`TLP:RED` ➔ `TLP:CLEAR`).
+- **Phase 4 & 5 (Vague 2)** : Traitement NER non-structuré et consolidation dynamique TBox / SKOS.
+- **Phase 6 (Vague 3)** : Exécution du moteur de raisonnement (SWRL / SPARQL CONSTRUCT) et matérialisation des déductions (`dkg:HighRiskAsset`).
 
 ### 1.2 Inscription dans le Scénario Fil Rouge ("Silent Cascade")
-Le scénario d'attaque fil rouge nécessite de relier l'équipement critique interne `Serv-Prod-01` (`TLP:RED`) exécutant `Apache 2.4.49` à la vulnérabilité publique **`CVE-2021-41773`** (`TLP:CLEAR`), elle-même rattachée à la faiblesse **`CWE-22`** (Path Traversal), au motif d'attaque **`CAPEC-126`**, et identifiée comme activement exploitée dans le catalogue **CISA KEV**.
+Le scénario d'attaque fil rouge nécessite de connecter le serveur de production interne `Serv-Prod-01` (`TLP:RED`) exécutant le composant `Apache 2.4.49` à la vulnérabilité publique **`CVE-2021-41773`** (`TLP:CLEAR`), elle-même rattachée à la faiblesse **`CWE-22`** (Path Traversal), au motif d'attaque **`CAPEC-126`**, et listée dans le catalogue **CISA KEV**.
 
 ---
 
-## ⚙️ 2. Matrice de Gouvernance & Découpage TLP (Seiton 5S)
+## 📚 2. Glossaire des Acronymes & Concepts
 
-Le découpage physique et logique des artefacts dans le respect de la démarche 5S et du Single Source of Truth (SSOT) s'établit comme suit :
-
-| Niveau TLP      | Portée Métier                            | Emplacement Physique (`02-Donnees/`)         | Artefacts RDF & Fichiers                                  |
-| :-------------- | :--------------------------------------- | :------------------------------------------- | :-------------------------------------------------------- |
-| **`TLP:AMBER`** | Ontologie TBox & Formes SHACL combinées  | `Master_Transversal/TLP_AMBER_Socle_TBox/`   | `DKG_TBox_Master.ttl`                                     |
-| **`TLP:RED`**   | ABox Cartographie Interne (Confidentiel) | `Master_Transversal/TLP_RED_Instances_ABox/` | `DKG_ABox_Master.ttl`                                     |
-| **`TLP:CLEAR`** | ABox CTI Externe (Référentiels publics)  | `Master_Transversal/TLP_CLEAR_CTI_External/` | `DKG_ABox_CTI_External.ttl`<br/>`02_SYNTHESE_ABOX_CTI.md` |
+| Acronyme / Concept | Signification / Définition | Périmètre & Application DKG |
+| :--- | :--- | :--- |
+| **ABox** | Assertion Component (Graphe de Faits) | Contient les instances réelles (`TLP:RED` et `TLP:CLEAR`). |
+| **CAPEC** | Common Attack Pattern Enumeration and Classification | Motifs d'attaque normés sous `dkg:ThreatPattern`. |
+| **CISA KEV** | Known Exploited Vulnerabilities Catalogue | Drapeau `dkg:isCisaKev` (`xsd:boolean`) pour cibler l'exploitation active. |
+| **CTI** | Cyber Threat Intelligence | Flux d'intelligence sur les menaces sous `TLP:CLEAR`. |
+| **CVE** | Common Vulnerabilities and Exposures | Identifiants de vulnérabilités sous `dkg:Vulnerability`. |
+| **CWE** | Common Weakness Enumeration | Faiblesses logicielles/structurelles sous `dkg:Weakness`. |
+| **DKG** | Dynamic Knowledge Graph | Graphe de connaissances dynamique du SOC CyberSec. |
+| **NVD** | National Vulnerability Database | Source principale des scores CVSS et descriptions CVE. |
+| **RBox** | Relationship Component (Graphe de Propriétés) | Définit les hiérarchies de propriétés (`dkg:exploitsWeakness`). |
+| **SHACL** | Shapes Constraint Language | Langage de validation de contraintes sur les graphes RDF. |
+| **SSOT** | Single Source of Truth | Source unique de vérité centralisée dans `03-Application/config.py`. |
+| **TBox** | Terminology Component (Schéma Ontologique) | Définitions des classes et propriétés sous `TLP:AMBER`. |
+| **TLP** | Traffic Light Protocol | Protocole de ségrégation de l'information (`RED`, `AMBER`, `CLEAR`). |
 
 ---
 
-## 🧬 3. Spécifications Techniques & Schéma sémantique
+## ⚙️ 3. Matrice de Gouvernance & Architecture 5S (Seiton)
 
-### 3.1 Superposition Cross-TLP (Graphe de Référence)
-Les instances internes `TLP:RED` pointent vers des URIs du Namespace `TLP:CLEAR` via les propriétés définies dans la TBox `TLP:AMBER`. Aucune donnée sensible interne n'est exposée dans le graphe CTI.
+Le découpage physique et logique respecte le principe SSOT formalisé dans `03-Application/config.py` :
+
+| Niveau TLP | Portée Métier | Variable SSOT (Chemin) | Artefacts RDF & Documentation |
+| :--- | :--- | :--- | :--- |
+| **`TLP:AMBER`** | Socle TBox / RBox & Shapes SHACL | `DIR_MASTER_TBOX` | `TBOX_MASTER_PATH`<br/>`SHACL_MASTER_PATH` |
+| **`TLP:RED`** | ABox Cartographie Interne SI | `DIR_MASTER_ABOX` | `ABOX_MASTER_PATH`<br/>`ABOX_MASTER_MD_PATH` |
+| **`TLP:CLEAR`** | Entrées CTI Brutes (JSON) | `DIR_INPUTS_P3` | `INPUT_CTI_JSON_PATH` |
+| **`TLP:CLEAR`** | ABox CTI Externe Générée | `DIR_CTI_CLEAR` | `ABOX_CTI_PATH`<br/>`ABOX_CTI_MD_PATH` |
+| **`TLP:RED`** | Graphe Inféré (Phase 6) | `DIR_INFERED_RED` | `ABOX_INFERED_PATH` |
+
+---
+
+## 🧬 4. Diagramme de Architecture & Superposition Sémantique
+
+Le schéma Mermaid ci-dessous illustre la séparation étanche des trois zones TLP et les points d'ancrage Cross-TLP :
 
 ```mermaid
 graph TD
-    subgraph TLP_RED_Scope [Zone Confidentielle - TLP:RED]
+    subgraph TLP_RED [Zone Confidentielle - TLP:RED -ABox SI-]
         A["dkg-data:Serv-Prod-01<br/>a dkg:Asset"]
         C["dkg-data:Apache-2.4.49<br/>a dkg:SoftwareComponent"]
         A -->|dkg:hasInstalledComponent| C
     end
 
-    subgraph TLP_AMBER_Scope [Socle Ontologique - TLP:AMBER]
-        T1[dkg:Vulnerability]
-        T2[dkg:Weakness]
-        T3[dkg:ThreatPattern]
+    subgraph TLP_AMBER [Socle Ontologique Common - TLP:AMBER -TBox / RBox-]
+        T1["dkg:Vulnerability"]
+        T2["dkg:Weakness"]
+        T3["dkg:ThreatPattern"]
     end
 
-    subgraph TLP_CLEAR_Scope [Zone Publique / CTI - TLP:CLEAR]
-        CVE["dkg-cti:CVE-2021-41773<br/>a dkg:Vulnerability<br/>dkg:isCisaKev true"]
+    subgraph TLP_CLEAR [Zone Publique CTI - TLP:CLEAR -ABox CTI Externe-]
+        CVE["dkg-cti:CVE-2021-41773<br/>a dkg:Vulnerability<br/>dkg:cvssScore 7.5<br/>dkg:isCisaKev true"]
         CWE["dkg-cti:CWE-22<br/>a dkg:Weakness"]
         CAPEC["dkg-cti:CAPEC-126<br/>a dkg:ThreatPattern"]
         
@@ -64,74 +86,34 @@ graph TD
         CWE -->|dkg:hasThreatPattern| CAPEC
     end
 
+    %% Lien Cross-TLP (RED vers CLEAR via AMBER)
     C -->|dkg:hasVulnerability| CVE
 
-    style TLP_RED_Scope fill:#ffebee,stroke:#c62828
-    style TLP_AMBER_Scope fill:#fff3e0,stroke:#ef6c00
-    style TLP_CLEAR_Scope fill:#e8f5e9,stroke:#2e7d32
+    style TLP_RED fill:#ffebee,stroke:#c62828,stroke-width:2px
+    style TLP_AMBER fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    style TLP_CLEAR fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
 ```
 
-### 3.2 Impact SSOT dans `03-Application/config.py`
+---
 
-Ajout et formalisation des constantes globales :
-- `DIR_CTI
-- `ABOX_CTI_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.ttl"`
-- C_CTI_MD_PATH = DIR_CTI_CLEAR / "02_SYNTHESE_ABOX_CTI.md"`
-- `DKG_CTI = Namespace("http://dkg.cybersec.org/cti#")`
+## 📋 5. Plan de Déroulement de la Phase 3
 
-## 📋 4. Plan de Déroulement des 4 Étapes de la Phase
+### 🔲 Étape 1 : Cadre & Alignement SSOT
+- [x] Correction des nommages de constantes dans `config.py` (`DIR_CTI_CLEAR`, `ABOX_CTI_PATH`, `ABOX_CTI_MD_PATH`).
+- [x] Enregistrement officiel du Namespace RDF `DKG_CTI` (`http://dkg.cybersec.org/cti#`).
+- [x] Standardisation du prédicat RBox canonique `dkg:exploitsWeakness`.
 
-### 🔲 Étape 1 : Cadrage & Spécification (Cette fiche)
+### 🔲 Étape 2 : Génération ABox CTI (`TLP:CLEAR`)
+- [ ] Lecture du flux d'entrée `INPUT_CTI_JSON_PATH` (`external_nvd_capec_feed.json`).
+- [ ] Exécution du script d'ingestion/génération de l'ABox CTI (`ABOX_CTI_PATH`).
+- [ ] Normalisation des types de données (`xsd:float` pour `cvssScore`, `xsd:boolean` pour `isCisaKev`).
 
-- [x] Spécification des schémas de superposition sémantique TLP:RED -> TLP:CLEAR.
-    
-- [x] Alignement avec le scénario d'attaque "Silent Cascade".
-    
-- [x] Validation du découpage 5S et intégration des constantes SSOT.
-    
+### 🔲 Étape 3 : Validation SHACL & Tests PyTest
+- [ ] Validation SHACL sous CWA sur le graphe d'union (`TBox` + `ABox RED` + `ABox CTI`).
+- [ ] Vérification de l'absence de violations SHACL ou de nœuds orphelins.
+- [ ] Exécution de la suite de tests automatisés `test_phase3_quality.py`.
 
-### 🔲 Étape 2 : Développement & Génération
-
-- [ ] Mise à jour du fichier SSOT `03-Application/config.py`.
-    
-- [ ] Écriture du script d'ingestion/génération `03-Application/generate_phase3_cti_abox.py`.
-    
-- [ ] Instanciation de `CVE-2021-41773`, `CWE-22`, `CAPEC-126` et du booléen `isCisaKev`.
-    
-
-### 🔲 Étape 3 : Validation SHACL & Tests Pytest
-
-- [ ] Rédaction du test automatisé `tests/test_phase3_cti_validation.py`.
-    
-- [ ] Validation de la conformité SHACL sur l'union des graphes (`TBox/SHACL` + `ABox RED` + `ABox CTI`).
-    
-- [ ] Vérification de l'absence de nœuds CTI orphelins (CWA).
-    
-
-### 🔲 Étape 4 : Documentation & Recette (Rituel 5S)
-
-- [ ] Génération automatisée du rapport Markdown `02_SYNTHESE_ABOX_CTI.md`.
-    
-- [ ] Contrôle d'étanchéité des répertoires TLP (Seiri/Seiton).
-    
-- [ ] Validation du jalon et préparation du passage à la Wave 3 (Moteur de Raisonnement).
-
-
-
-### 📋 Résumé du workflow accompli (Phase 2.5)
-
-**1.Cadrage & Spécifications :**Documents normatifs.
-
-Rédaction de `SPEC-03` (Framework CTI Externe) et `SPEC-UC-02` (Scénario Silent Cascade).
-
-**2.Mise à jour TBox Master :**Édition manuelle validée.
-
-Déclaration des propriétés CTI (`cvssScore`, `isCisaKev`, `exploitsWeakness`, `hasThreatPattern`) et de la forme SHACL `dkg:VulnerabilityShape`.
-
-**3.Script d'Ingestion ABox CTI :**03-Application/generate_phase3_cti_abox.py.
-
-Génération automatisée de `DKG_ABox_CTI_External.ttl` et de sa synthèse Markdown.
-
-**4.Validation Continuelle :**Pytest & SHACL.
-
-Création du test `test_phase3_cti_validation.py` pour valider l'intégrité globale.
+### 🔲 Étape 4 : Auto-Documentation & Clôture 5S
+- [ ] Génération automatisée de la documentation miroir Markdown `ABOX_CTI_MD_PATH`.
+- [ ] Validation de la parité et de la traçabilité dans `DIR_SNAPSHOT_P3`.
+- [ ] Préparation du passage à la Phase 4 (Ingestion CTI Non-Structurée / NER).

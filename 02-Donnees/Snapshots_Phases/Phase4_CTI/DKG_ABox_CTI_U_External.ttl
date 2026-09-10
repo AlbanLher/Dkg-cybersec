@@ -1,0 +1,20 @@
+@prefix ns1: <http://dkg.cybersec.org/tbox#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://dkg.cybersec.org/cti#ThreatActor-APT29> a ns1:ThreatActor ;
+    rdfs:label "APT29"@en ;
+    ns1:exploitsVulnerability <http://dkg.cybersec.org/cti#CVE-2024-21887> ;
+    ns1:hasThreatPattern <http://dkg.cybersec.org/cti#Pattern-SpearphishingLink-T1566_002> ;
+    ns1:nerConfidenceScore "0.98"^^xsd:float ;
+    skos:altLabel "APT"@en .
+
+<http://dkg.cybersec.org/cti#CVE-2024-21887> a ns1:Vulnerability ;
+    rdfs:label "CVE-2024-21887"@en ;
+    ns1:nerConfidenceScore "0.99"^^xsd:float .
+
+<http://dkg.cybersec.org/cti#Pattern-SpearphishingLink-T1566_002> a ns1:ThreatPattern ;
+    rdfs:label "Spearphishing Link (T1566.002)"@en ;
+    ns1:nerConfidenceScore "0.92"^^xsd:float .
+

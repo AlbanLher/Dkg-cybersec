@@ -6,10 +6,10 @@ Pour stopper cette dérive et garantir que **la TBox Master reste la source uniq
 
 ### Audit des Écarts : TBox Socle vs Dérives Phase 5
 
-|**Élément**|**Socle Canonique (DKG_TBox_Master.ttl)**|**Dérives Identifiées (Phase 5 / Rules / NER)**|**Impact**|
-|---|---|---|---|
-|**Classe Composant**|`dkg:SoftwareComponent`|`dkg:Component`|Inférence muette (TargetShape invalide)|
-|**Prédicat Hôte**|`dkg:hasInstalledComponent`|`dkg:hostsComponent`|Rupture de la chaîne de jointure SPARQL|
-|**Prédicat Inverse**|`dkg:isComponentOf`|`dkg:isInstalledComponentOf`|Duplication de prédicats non reconnus|
-|**Propriété KEV**|`dkg:isCisaKev`|`dkg-cti:isCisaKevListed`|Échec du filtre SPARQL CONSTRUCT|
-|**URI Namespace**|`[http://dkg.cybersec.org/tbox#](http://dkg.cybersec.org/tbox#)`|`.../schema#`, `.../data/`, `.../cti#`|Graphe fragmenté en sous-graphes orphelins|
+| **Élément**          | **Socle Canonique (DKG_TBox_Master.ttl)**                        | **Dérives Identifiées (Phase 5 / Rules / NER)** | **Impact**                                 |
+| -------------------- | ---------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------ |
+| **Classe Composant** | `dkg:SoftwareComponent`                                          | `dkg:Component`                                 | Inférence muette (TargetShape invalide)    |
+| **Prédicat Hôte**    | `dkg:hasInstalledComponent`                                      | `dkg:hostsComponent`                            | Rupture de la chaîne de jointure SPARQL    |
+| **Prédicat Inverse** | `dkg:isComponentOf`                                              | `dkg:isInstalledComponentOf`                    | Duplication de prédicats non reconnus      |
+| **Propriété KEV**    | `dkg:isCisaKev`                                                  | `dkg-cti:isCisaKevListed`                       | Échec du filtre SPARQL CONSTRUCT           |
+| **URI Namespace**    | `[http://dkg.cybersec.org/tbox#](http://dkg.cybersec.org/tbox#)` | `.../schema#`, `.../data/`, `.../cti#`          | Graphe fragmenté en sous-graphes orphelins |

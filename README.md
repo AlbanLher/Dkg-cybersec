@@ -1,164 +1,191 @@
-Le projet DKG-CyberSec  vise a 
-- Proposer un Framework de développement d'agent IA basé sur les Graphes de Connaissance dynamiques (DKG). 
-- Le mettre en oeuvre sur un cas d'usage Cybersecurité pour l'illustrer et le guider.
+# DKG-Framework : Ingénierie de Graphes Sémantiques & IA Collaborateur
 
-> **Une approche Spec-Driven, modulaire et hautement gouvernée pour construire des Graphes de Connaissances Cyber souverains et conformes aux standards du W3C.**.  Un dossier de spécifications de développement constitue un des principaux objectifs du dossier framework du projet .
+> **Un Framework Spec-Driven, AGILE et souverain pour concevoir des Graphes de Connaissances Dynamiques (DKG) sous la gouvernance stricte des standards W3C (OWL2, SKOS, SHACL).**  
+> *Démonstrateur étalon appliqué au domaine de la Cybersécurité & du SOC.*
 
+---
 
+## 🚦 État d'Avancement Macro (Roadmap par Vagues)
 
-##  1.    Vision & Ambition du Projet
+| Vague | Titre & Horizon | Principes Pédagogiques (P#) | Statut |
+| :---: | :--- | :--- | :---: |
+| **V1** | **Socle Structurel & Cartographie** | (P1) Standards W3C, (P2) Confidentialité native TLP (Cas minimal PC) | 🟢 **PASSED** |
+| **V2** | **Ingestion, NER & Alignement** | (P3) Superposition de graphes, (P4) Rapprochement sémantique (NER & Inférence) | 🟢 **PASSED** |
+| **V3** | **Industrialisation & Multi-Contextes** | (P5) Architecture Agentique & Micro-agents distribués (Cas PME) | 🟡 **ACTIVE** |
+| **V4** | **Désambiguïsation & Human-in-the-Loop** | (P6) Maintien de la cohérence face à la croissance : SKOS & Arbitrage Humain (MITM) | ⚪ **Planifié** |
+| **V5** | **Agent Copilot & Fine-Tuning Continu** | (P7) Modèle local ré-entraîné (LoRA) sur DKG pour un Copilot explicable | ⚪ **Planifié** |
+| **V6** | **Streaming Temps Réel & Reaction** | (P8) Démonstration de valeur sur boucle courte (SIEM/EDR / Analyse d'impact) | ⚪ **Planifié** |
 
-Nous avons tous fait l'expérience de mal-entendus entre nous et un tiers ou en tant qu'observateur dans un échange entre deux tiers, et nous avons tous passé beaucoup de temps pour s'assurer que les équipes comprennent bien les objectifs a atteindre. 
-Combien de fois les réunion de retour d'expérience intègrent : "Il faut améliorer la communication" ?
-Les enjeux d’efficacité opérationnelle et de niveau de qualité des produits et services semblent très importants.
+👉 **[Pour plus de détails,  consulter la Roadmap complète](./00-Projet/Roadmap_Suivi-Avancement.md)**
 
-Les technologies nous permettent enfin grâce aux agents IA basés sur les Graph de connaissance d'améliorer le partage des connaissance tout en gardant les niveaux de confidentialité. 
+---
 
-Mais ce n'est pas de la magie, ces technologies restent sous la gouvernance des équipes. Mais elles permettent une dynamique de capitalisation et d'amélioration continue difficilement imaginable auparavant.
+## 1. Vision & Ambition du Framework
 
-Ce projet vise a faire un petit démonstrateur trés simple qui permette de percevoir les concepts mis en oeuvre mais aussi d'appréhender  les enjeux et promesse présentés dans cette vision.
+### Le Constat : Le Défi Humain & Informatique du "Sens Partagé"
+Nous avons tous vécu ces quiproquos inépuisables entre équipes ou lors de retours d'expérience qui se concluent invariablement par : *"Il faut améliorer la communication"*. Les ambiguïtés lexicales, le jargon cloisonné et la perte de contexte coûtent une énergie considérable et dégradent la qualité opérationnelle.
 
-En cybersécurité, les données d'intelligence sur les menaces (CTI), les inventaires d'actifs et les vulnérabilités sont souvent cloisonnés dans des silos hétérogènes.
-Le projet **DKG-CyberSec** répond à ce défi en proposant :
+Les technologies d'IA basées sur les **Graphes de Connaissances Dynamiques (DKG)** apportent enfin une solution pour partager le sens tout en respectant les niveaux de confidentialité. Mais il n'y a pas de magie : pour éviter les fausses équivalences et les hallucinations, ces technologies doivent rester **sous la gouvernance formelle des équipes**.
 
-1. **Un Framework d'Ingénierie Ontologique Rigoureux** : Une méthodologie réutilisable axée sur le développement piloté par les spécifications (_Spec-Driven Development_), la validation automatisée par SHACL/Pytest et une traçabilité stricte par phase.
-    
-2. **Une Application Concrète au Domaine Cyber / SOC** : Un modèle opérationnel permettant de relier en temps réel la connaissance théorique des menaces aux réalités du terrain d'un Centre d'Opérations de Sécurité (SOC).
+### L'Objectif : Un Framework Générique & Didactique
+**Le projet DKG-Framework n'a pas pour fin ultime la cybersécurité.** Son but premier est d'offrir un **cadre d'ingénierie réutilisable** pour tout domaine exigeant (Santé, Finance, Aéronautique, Industrie) nécessitant :
+* Une capitalisation continue des connaissances sans perte de cohérence.
+* Un contrôle strict de la qualité des données (Closed World Assumption).
+* Une interopérabilité native entre systèmes hétérogènes.
 
-3. **Econome en ressource** : pour le POC usecase l'objectif est de tourner en inférence en local sur PC sans GPU avec 16Go RAM. Recours au cloud GPU pour fine tuning si besoin. 
-4. **co-developement avec LLM cadré** : Methodologie de dévelopement avec IA , intégrant l'amélioration continue ([SPEC & PROMPT](PROJECT_CONTEXT_PROMPT.md) )
+### Le Cas d'Usage Cyber : Un Démonstrateur Étalon Exigeant
+Pour prouver la puissance du Framework, nous l'illustrons sur le domaine de la **Cybersécurité (SOC)** : un univers caractérisé par des silos de données majeurs (CTI externes, logs d'équipements, inventaires d'actifs, failles CVE). Si le Framework réussit à maintenir la cohérence d'un DKG Cyber, il peut être appliqué à n'importe quel domaine métier.
 
+---
 
-- La [Roadmap_Suivi d'Avancement est disponible ici](Roadmap_Suivi-Avancement.md)
+## 2. Methodologie & Co-Développement IA 
 
-
-##  2.   Le Cas d'Usage Métier pour illustrer les principes  : Cybersecurité & SOC
-[Description du Cas d'Usage](./00-Projet/Use_Case.md)
-
-### Principes & Fonctionnalités Clés du Framework :
-
-- **Déduction & Raisonnement (OWL 2)** : Calcul automatique des relations inverses (ex: si un actif possède un composant, le composant est automatiquement rattaché à l'actif).
-    
-- **Alignement Lexical & Multilingue (SKOS)** : Normalisation des synonymes et jargons métiers (ex: lier _CVE_, _Faille de sécurité_ et _Vulnerability_ sur le même concept).
-    
-- **Gouvernance & Qualité Stricte (SHACL)** : Validation sous _Closed World Assumption_ (CWA) pour interdire les données corrompues (ex: rejet automatique d'un score CVSS supérieur à 10.0 ou mal typé).
-    
-- **Souveraineté & Classification (TLP)** : Marquage natif du niveau de confidentialité de l'information (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`).
-    
-
-
-## 3.    Méthodologie Itérative & Phases du  Projet  &  Architecture IA Hybride
-
+Ce projet est aussi l'occasion d'innover dans la methodologie. L'approche "Spec Driven" traditionnelle est appliquée, mais articulée avec :
+- Le **développement assisté par LLM**,  et les pratiques pour éviter les hallucination et les dérives.
+- les outils : **Obisian** , 
+### 2.1. Methode Spec Driven
 ```mermaid
-graph TD
-    subgraph Phase_Execution [Pendant la Phase --Effet ZOOM - Focus Tactique--]
-        Direction1[Focalisation sur le livrable immédiat]
-        Direction2[Respect des contraintes SHACL & TLP de la phase]
-        Direction3[Exécution du cycle 'Generate -> Export -> Test']
-    end
+	graph LR
+		R[Roadmap]
+		M[Methodo]
+		subgraph VP[Vagues & Phases]
+			direction LR
+		    subgraph P1[Prompt_Cadrage_Spec]
+			    direction LR
+			    C[Cadrage] --> Sp[Specification] 
+		    end
+     		subgraph P2[Prompt_Dev]
+	     		direction LR
+		    	D[DonnéesEntrée]
+			    subgraph Sc[Scipt]
+				    direction LR
+				    A[Application] --> T[Test]
+			    end
+			    D --> Sc
+		    end
+		    subgraph P3[Prompt_Bilan]
+			    direction LR
+			    B[Bilan]
+			end
+		    P1 --> P2 --> P3
+		end
+		R --> VP    
+```
+
+### 2.2. Assistance LLM
+Gestion de l'attention du LLM
+- Ouvrir une nouvelle discussion a chaque Phase voire entre deux étapes si les échanges ont été trop nombreux.
+- Garantir un recallage de context avec : context_bundel.md généré a chaque fin de phase.
+- Liste de Prompt et rappel de fichierq a transmettre 
+		- Prompt master conservé par le LLM
+		- Prompt d'étapes illustés ci dessus avec fichiers
+		- et fichier config.py les variables chemins, nomfichiers, Namespace
+- Fichiers a transmettre : Roamap, config.py
+		  
+#### A. Les 3 Prompts d'étape
+1. **Prompt 1 / Cadrage & Spécifications (`[CONTEXT: CADRAGE-SPEC]`) :** Validation des pré-requis, écriture des `SPEC-*.md` et modélisation TBox (interdiction de coder).
+2. **Prompt 2 / Dev, Data & Tests (`[CONTEXT: DEV-DATA]`) :** Génération du code Python, ingestion RDF Turtle (`.ttl`) et validation PyTest/SHACL sous contrainte SSOT (`config.py`).
+3. **Prompt 3 / Rétrospective 5S & Clôture (`[CONTEXT: RETRO-5S]`) :** Replay vers le Master, auto-documentation Markdown (`DOC_*.md`) et mise à jour d'état.
+
+#### B. Le Context Bundle (State Vector)
+Afin de ne jamais dépasser la fenêtre d'attention du LLM et conserver un alignement parfait, le projet maintient un **Context Bundle maître** récapitulant l'état exact du graphe, les variables de configuration et l'historique des phases clôturées.
+
+👉 **[Découvrir le Guide Méthodologique & les Prompts Intra-Phase](PROJECT_CONTEXT_PROMPT.md)**
+
+
+
+### 2.3. Outils {Obsidian..}
+	
+Obsidian s’avère être un outil particulièrement bien adapté. Il est recommandé de l'utiliser avec ses plugins
+- JupyMD
+- mermaid view
+- vscode Editor
+- Templater
+- DataView
+  --> Permet d'automatiser les consolidation et générer des vues dynamiquement (dispo sous github a vérifier)
+
+
+---
+
+## 3. Les Grands Principes du Framework
+
+### 3.1 - Principes pédagogique
+
+* **Usage des Standards W3C (OWL2, SKOS, SHACL)** : Modélisation formelle pour éviter tout enfer propriétaire.
+* **Gouvernance & Qualité Stricte (SHACL CWA)** : Contrôle systématique aux portes d'entrée du graphe (*Closed World Assumption*).
+* **Gestion de la Confidentialité (TLP)** : Marquage natif de la sensibilité de la donnée (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`).
+* **Maîtrise de la Croissance & Désambiguïsation (Vague 4)** : Utilisation de taxonomies SKOS et de l'agent **Human-in-the-Loop (MITM)** pour arbitrer les concepts ambigus ($0.65 \le \text{Score} < 0.85$) et éviter l'explosion sémantique.
+* **Souveraineté & Sobriété** : Capacité d'exécution complète sur PC standard (16Go RAM, sans GPU dédié).
+
+
+### 3.2 - L'Articulations des Technologies : Qui fait quoi ? (Anti-Overlap)
+
+Une idée reçue voudrait que la puissance des grands LLM permette de s'affranchir de la modélisation formelle ou du typage applicatif. **Notre approche prouve exactement l'inverse** : plus le LLM est puissant, plus ses garde-fous doivent être explicites pour garantir un résultat déterministe et souverain.
+
+Chaque brique de l'architecture possède un rôle étanche et complémentaire :
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           LLM / SLM LOCAL                               │
+│  • Exploration textuelle, NER, formulation d'hypothèses, SPARQL RAG     │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │ (Interface via Pydantic V2)
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      PYDANTIC V2 & config.py (SSOT)                     │
+│  • Typage applicatif strict, Immutabilité, Adresses de fichiers (Path)  │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │ (Injection & Validation)
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     STANDARDS W3C (OWL2, SKOS, SHACL)                   │
+│  • Garde-fou formel, Raisonnement déterministe, Closed World (CWA)      │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 1. `config.py` & Pydantic V2 : Le Socle Applicatif (SSOT Code)
+
+- **Son rôle :** Il constitue la Source Unique de Vérité (_Single Source of Truth_) pour l'environnement d'exécution Python.
     
-    subgraph Inter_Phase [Inter-Phase & Inter-Vague --Effet DÉZOOM - Vision Stratégique--]
-        Scope1[Recul et nettoyage 5S]
-        Scope2[Alignement de config.py avec les nouvelles structures]
-        Scope3[Mise à jour du Backlog / Roadmap Produit Agent SOC]
-        Scope4[Vérification de la cohérence cross-TLP]
-    end
-
-    Phase_Execution -->|Fin de Phase| Inter_Phase
-    Inter_Phase -->|Feu Vert Roadmap| Phase_Execution
-```
-
-
-
-
-
-
-
-Le projet **DKG-CyberSec** ne se limite pas à un graphe statique : il constitue le **cerveau opérationnel d'un Agent IA collaborateur** conçu pour épauler les équipes Cyber dans la gestion intégrale de leur SOC (à la manière d'une "micro-entreprise" de défense numérique).
-
-```
- ┌─────────────────────────────────────────────────────────────────────────┐
- │                   AGENT IA COLLABORATEUR (Assistant SOC)                 │
- └────────────────────────────────────┬────────────────────────────────────┘
-                                      │
-         ┌────────────────────────────┴────────────────────────────┐
-         ▼                                                         ▼
-┌───────────────────────────────┐                         ┌─────────────────┐
-│     Couche Exploratoire &     │                         │ Couche Formelle │
-│          Nuancée              │                         │   & Déterministe│
-├───────────────────────────────┤                         ├─────────────────┤
-│ • Ingestion Textuelle (NER)   │───(Enrichissement)─────>│ • Knowledge     │
-│ • Vectorisation & Graph RAG   │                         │   Graph OWL/SKOS│
-│ • Fine-Tuning de LLM Cyber    │<──(Rétro-Ingestion)─────│ • Base Neo4j    │
-│ • Capture des subtilités      │                         │ • Rules SHACL   │
-└───────────────────────────────┘                         └─────────────────┘
-```
-
-#### A. Le Triptyque Technique Cible
-
-1. **Graphe Property Graph & SPARQL (Neo4j)** : Projection opérationnelle des données TBox/ABox pour offrir des requêtes de cheminement ultra-rapides (_graph traversal_) et des analyses d'impact visuelles en temps réel pour l'analyste SOC.
-    
-2. **Pipelines NLP / NER & Vectorisation (Graph RAG)** : Extraction d'entités nommées (_Named Entity Recognition_) à partir de flux non structurés (bulletins CTI, rapports d'incidents, advisories de sécurité) pour mapper automatiquement les concepts textuels vers le DKG.
-    
-3. **Fine-Tuning Continu du LLM** : Ré-entraînement régulier des modèles de langage locaux sur les données qualifiées du graphe. Cela permet à l'IA d'assimiler les nuances, le jargon métier et la terminologie spécifique à l'organisation.
+- **Sa valeur ajoutée :** Grâce à `pydantic-settings` et à des modèles immutables (`frozen=True`), il valide les chemins de fichiers, les variables d'environnement, les seuils de confiance (ex: $0.65 \le \text{Score} < 0.85$) et les espaces de noms (_Namespaces_) **avant même d'interroger la mémoire RDF**. Il interdit toute chaîne de caractères "en dur" dans le code.
     
 
-#### B. La Boucle de Feedback & Rétro-Ingestion
+#### 2. Standards W3C (OWL2, SKOS, SHACL) : Le Garde-Fou Sémantique (SSOT Métier)
 
-L'IA ne se contente pas de lire le graphe : elle formule des hypothèses, identifie des incohérences ou propose des raffinements. En cas de doute ou lors de l'arrivée de nouvelles menaces ambiguës, l'Agent IA déclenche un processus de **re-digestion des données d'entrée** pour réévaluer et affiner la base de connaissances.
+- **Son rôle :** Garantir la cohérence logique et l'intégrité de la base de connaissances.
+    
+- **Sa valeur ajoutée :** Là où le LLM raisonne par probabilités, OWL2 déduit par logique formelle (ex: relations inverses) et SHACL valide sous contrainte _Closed World Assumption_ (CWA). Une assertion proposée par l'IA est **rejetée sans sommation par SHACL** si elle ne respecte pas le schéma du domaine.
+    
 
-#### C. Une Rigueur Formelle & Explicable
+#### 3. Le LLM Collaborateur : Le Moteur d'Inférence & d'Extraction
 
-Malgré la flexibilité apportée par le LLM et la vectorisation, **la décision finale reste 100 % déterministe et explicable**. C'est le Knowledge Graph ontologique (OWL + SHACL) qui sert de "garde-fou" (_Ground Truth_) : aucune assertion générée par l'IA ne peut être intégrée dans le SOC Master sans valider les contraintes formelles SHACL.
+- **Son rôle :** Capturer l'ambiguïté du monde réel (texte brut CTI, logs non structurés, langage naturel).
+    
+- **Sa valeur ajoutée :** Il ne cherche pas à remplacer l'ontologie ni le code Python ; il sert de "pont" capable de traduire la complexité textuelle vers les structures Pydantic, qui sont ensuite validées par SHACL avant d'intégrer le Graphe Master.
+    
 
-#### D. Cycle de Vie des Phases Projet
-
-Le projet est a ses début. L'organisation par étape contribue aussi a consolider l'aspect "Dynamique" nécessaire à l'évolution du Graphe de Connaissance
-```
-┌─────────────────┐     Gate 1     ┌─────────────────┐     Gate 2     ┌─────────────────┐                    ┌──────────────────┐
-│     PHASE 1     │───────────────>│     PHASE 2     │───────────────>│     PHASE 3     │───............───> │     PHASE XX     │
-│ Socle TBox/SKOS │   (Pytest /    │Instanciation des│   (Validation  │ Données Externes│  maturation des    │     A VENIR      │
-│  & Rules SHACL  │  Checklist)    │  données ABox   │   Qualité)     │  principe TLP   │ concepts&fonctions │neo4j, NER, ..    │
-└─────────────────┘                └─────────────────┘                └─────────────────┘                    └──────────────────┘
-     🟢 CLOSE                           🟡 EN COURS                       ⚪ PLANIFIÉ
-```
+> **En résumé :** Le LLM propose, Pydantic structure, SHACL/OWL dispose. Aucune technologie ne chevauche le périmètre de l'autre (_zero overlap_).
+---
 
 
-[Phase Projet](Phases_Projet.md)
-
-
-
-
-##  4.   Structure du Référentiel
-
-Le dépôt est organisé selon une hiérarchie stricte facilitant la séparation entre gouvernance, données et outillage :
+## 4. Structure du Référentiel
 
 ```
 DKG-CYBERSEC/
-├── 00-Projet/                          # Gouvernance, Checklists de Cadrage et suivi des Phases
-│   ├── SPEC-00_Exigences.md            # Matrice globale des exigences projet (EXG-*)
-│   ├── PhasesProjet.md                 # Tableau de bord d'avancement global
-│   └── Cadrage_Checklist.md            # Gatekeeper d'évaluation inter-phases
+├── 00-Projet/                          # Gouvernance, checklists, Roadmap et livrables Phase_Content.md
 ├── 01-Principes_Spécification/         # Spécifications fonctionnelles et techniques (SPEC-XX)
-├── 02-Donnees/                         # Graphes RDF Turtle, Datasets Master et Snapshots figés
-└── 03-Application/                     # Outillage Python, scripts de génération et tests CI/CD
+├── 02-Donnees/                         # Artefacts RDF Turtle (.ttl) et auto-documentation miroir (.md)
+│   ├── Snapshots_Phases/               # Historique figé par Phase
+│   └── Master_Transversal/             # Graphe unifié consolidé (TBox, ABox RED/CLEAR)
+└── 03-Application/                     # Outillage Python, agents IA, API Gateway et suites PyTest
 ```
+👉 **[Pour plus de détails,  consulter l'index fichiers _( /!\ certaines vues peuvent requerir l'autorisation javascript et/ou obsidian)_](./00-Projet/Index_fichiers.md)**
+## 5. Réutilisation du Framework sur Votre Propre Domaine
 
-##  5.   Rejoindre la Communauté & Réutiliser le Framework
+Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé, Finance, Logistique) ?
 
-### Vous souhaitez réutiliser le Framework sur votre propre Use Case ?
-
-Ce Framework n'est pas limité à la cybersécurité ! Sa structure (OWL + SKOS + SHACL + Spec-Driven) est conçue pour être appliquée à tout domaine exigeant une gouvernance de données stricte (Santé, Finance, Aéronautique, Logistique) :
-1. Adoptez la matrice d'exigences **`SPEC-00`** comme socle de qualité.
-2. Modélisez votre domaine dans `01-Exigences/`.
-3. Exploitez notre chaîne de scripts d'automatisation et de validation SHACL.
+1. **Adoptez la démarche Spec-Driven :** Définissez vos exigences formelles dans `01-Principes_Spécification/`.
     
-
-### Vous souhaitez contribuer au DKG-CyberSec ?
-Les contributions sont les bienvenues ! Que ce soit pour :
-- Enrichir l'ontologie Cyber (intégration de STIX 2.1, ATT&CK, TAXII).
-- Ajouter de nouvelles Shapes SHACL de validation.
-- Proposer des connecteurs d'ingestion d'ABox.
+2. **Utilisez le Triptyque de Prompts :** Guidez votre LLM collaborateur via les modèles du dossier [`PROJECT_CONTEXT_PROMPT.md`](https://www.google.com/search?q=PROJECT_CONTEXT_PROMPT.md).
     
-
-Consultez nos [Spécifications Projets (`SPEC-00`)](https://www.google.com/search?q=./00-Projet/SPEC-00_Exigences_Projet.md) pour comprendre nos règles de contribution et lancez-vous !
+3. **Instanciez la TBox & SHACL :** Déployez votre propre vocabulaire métier tout en réutilisant nos scripts de validation et de gestion des environnements.

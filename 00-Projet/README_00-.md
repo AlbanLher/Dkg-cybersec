@@ -76,6 +76,37 @@ Le projet **DKG-CyberSec** ne se limite pas à un graphe statique : il constitue
 └───────────────────────────────┘                         └─────────────────┘
 ```
 
+L'Agent SOC ne se contente pas d'interroger le graphe via SPARQL ou GraphRAG ; il apprend continuellement de la croissance du DKG :
+
+```
+ ┌───────────────────────────────────────────────────────────────────────────┐
+ │                   AGENT IA COLLABORATEUR (Assistant SOC)                  │
+ └─────────────────────────────────────┬─────────────────────────────────────┘
+                                       │
+          ┌────────────────────────────┴────────────────────────────┐
+          ▼                                                         ▼
+┌───────────────────────────────┐                         ┌──────────────────┐
+│     Couche Exploratoire &     │                         │  Couche Formelle │
+│          Nuancée              │                         │   & Déterministe │
+├───────────────────────────────┤                         ├──────────────────┤
+│ • Ingestion Textuelle (NER)   │───(1. Enrichissement)──>│ • Knowledge      │
+│ • Vectorisation & Graph RAG   │                         │   Graph OWL/SKOS │
+│ • Text-to-SPARQL / SLM        │                         │ • Rules SHACL    │
+│ • Fine-Tuning Continu (LoRA)  │<──(2. Rétro-Training)───│ • Triplet Store  │
+└───────────────────────────────┘                         └──────────────────┘
+```
+- **Enrichissement** : Les flux bruts (CTI, logs) sont nettoyés, alignés (MITM) et validés (SHACL) pour enrichir le DKG.
+    
+- **Rétro-Training / Fine-Tuning Continu** : Le DKG validé (TBox + ABox + Inferred) sert de **dataset d'entraînement qualifié** pour ré-entraîner / fine-tuner périodiquement le Small Language Model (SLM) local via LoRA/QLoRA. Cela garantit :
+    
+    - Une parfaite maîtrise de la syntaxe SPARQL adaptée aux nouvelles classes et propriétés.
+        
+    - Une assimilation du vocabulaire et du jargon métier propre à l'organisation/micro-entreprise.
+
+
+
+
+
 #### A. Le Triptyque Technique Cible
 
 1. **Graphe Property Graph & SPARQL (Neo4j)** : Projection opérationnelle des données TBox/ABox pour offrir des requêtes de cheminement ultra-rapides (_graph traversal_) et des analyses d'impact visuelles en temps réel pour l'analyste SOC.

@@ -1,119 +1,230 @@
 """
 03-Application/config.py
 Single Source of Truth (SSOT) - Configuration centralisée du projet DKG-CyberSec.
-
-Répertoires                :    Préfixés par DIR_ (ex: DIR_TBOX_AMBER, DIR_ABOX_RED)
-Fichiers RDF / Artefacts   :    Terminés par _PATH (ex: TBOX_MASTER_PATH, ABOX_RED_PATH)
-Namespaces RDF             :    En MAJUSCULES (ex: DKG, DKG_DATA, SH)
-
+Sécurisé et validé par Pydantic V2 (EXG-OR-05, EXG-OR-07).
+Phase 5 Active : Support Raisonnement, Inférence & Agent MITM (SKOS intégré à TBox Master).
 """
 
 from pathlib import Path
+from typing import Annotated
 from rdflib import Namespace
+from pydantic import Field, AnyHttpUrl, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-# ==========================================
-# 1. CHEMINS DE REPERTOIRES (DIR)
-# ==========================================
+class DKGConfig(BaseSettings):
+    """
+    Modèle Pydantic V2 centralisant et validant l'intégralité des paramètres applicatifs.
+    """
+    model_config = SettingsConfigDict(
+        env_prefix="DKG_",
+        env_file=".env",
+        extra="ignore"
+    )
 
-# Ancrage dynamique depuis 03-Application/config.py
-DIR_APP = Path(__file__).resolve().parent
-DIR_ROOT = DIR_APP.parent  # Pointe directement vers Workspace/
-DIR_DATA = DIR_ROOT / "02-Donnees"
+    # --------------------------------------------------------------------------
+    # 1. SOCLE REPERTOIRES
+    # --------------------------------------------------------------------------
+    dir_app: Path = Field(default_factory=lambda: Path(__file__).resolve().parent)
+    
+    @property
+    def dir_root(self) -> Path:
+        return self.dir_app.parent
 
-# (Phase1) Socle
-DIR_SNAPSHOT_P1 = DIR_DATA / "Snapshots_Phases" / "Phase1_Socle"
-DIR_MASTER_TBOX = DIR_DATA / "Master_Transversal" / "TLP_AMBER_Socle_TBox"
+    @property
+    def dir_data(self) -> Path:
+        return self.dir_root / "02-Donnees"
 
-# (Phase2) ABoc
-DIR_INPUT_P2 = DIR_DATA / "Input_Phases" / "Phase2_ABox"
-DIR_SNAPSHOT_P2 = DIR_DATA / "Snapshots_Phases" / "Phase2_ABox"
-DIR_MASTER_ABOX = DIR_DATA / "Master_Transversal" / "TLP_RED_Instances_ABox"
+    # Répertoires Snapshots & Masters (Phases 1 à 4)
+    @property
+    def dir_snapshot_p1(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase1_Socle"
+
+    @property
+    def dir_master_tbox(self) -> Path:
+        return self.dir_data / "Master_Transversal" / "TLP_AMBER_Socle_TBox"
+
+    @property
+    def dir_input_p2(self) -> Path:
+        return self.dir_data / "Input_Phases" / "Phase2_ABox"
+
+    @property
+    def dir_snapshot_p2(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase2_ABox"
+
+    @property
+    def dir_master_abox(self) -> Path:
+        return self.dir_data / "Master_Transversal" / "TLP_RED_Instances_ABox"
+
+    @property
+    def dir_inputs_p3(self) -> Path:
+        return self.dir_data / "Input_Phases" / "Phase3_CTI"
+
+    @property
+    def dir_snapshot_p3(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase3_CTI"
+
+    @property
+    def dir_cti_abox(self) -> Path:
+        return self.dir_data / "Master_Transversal" / "TLP_CLEAR_CTI_External"
+
+    # Découpage TLP
+    @property
+    def dir_tbox_amber(self) -> Path:
+        return self.dir_master_tbox
+
+    @property
+    def dir_abox_red(self) -> Path:
+        return self.dir_master_abox
+
+    @property
+    def dir_cti_clear(self) -> Path:
+        return self.dir_cti_abox
+
+    @property
+    def dir_infered_red(self) -> Path:
+        return self.dir_data / "Master_Transversal" / "TLP_RED_Infered_Graph"
+
+    @property
+    def dir_inputs_p4(self) -> Path:
+        return self.dir_data / "Input_Phases" / "Phase4_CTI"
+
+    @property
+    def dir_snapshot_p4(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase4_CTI"
+
+    @property
+    def dir_unstructured_cti(self) -> Path:
+        return self.dir_cti_clear / "Raw_Sources"
+
+    # Répertoires Phase 5 (Reasoning & MITM)
+    @property
+    def dir_snapshot_p5(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase5_Reasoning_MITM"
+
+    @property
+    def dir_models(self) -> Path:
+        return self.dir_app / "models" / "cache"
+
+    @property
+    def dir_embedding_model(self) -> Path:
+        return self.dir_models / "embeddings"
+
+    @property
+    def dir_ner_model(self) -> Path:
+        return self.dir_models / "ner"
+
+    # --------------------------------------------------------------------------
+    # 2. SEUILS & PARAMETRES IA
+    # --------------------------------------------------------------------------
+    embedding_model_name: str = Field(default="sentence-transformers/all-MiniLM-L6-v2")
+    mitm_similarity_threshold: float = Field(default=0.85, ge=0.0, le=1.0)
+    
+    ner_model_name: str = Field(default="urchade/gliner_large-v2.1")
+    ner_fallback_model_name: str = Field(default="dslim/bert-base-NER")
+
+    # --------------------------------------------------------------------------
+    # 3. NAMESPACES RDF (Validation d'URL)
+    # --------------------------------------------------------------------------
+    dkg_tbox_uri: str = "http://dkg.cybersec.org/tbox#"
+    dkg_data_uri: str = "http://dkg.cybersec.org/data#"
+    dkg_cti_uri: str = "http://dkg.cybersec.org/cti#"
+
+    @field_validator("dkg_tbox_uri", "dkg_data_uri", "dkg_cti_uri")
+    @classmethod
+    def validate_rdf_uri(cls, v: str) -> str:
+        if not (v.startswith("http://") or v.startswith("https://")):
+            raise ValueError(f"L'URI RDF doit débuter par http:// ou https:// : {v}")
+        if not (v.endswith("#") or v.endswith("/")):
+            raise ValueError(f"L'URI de namespace RDF doit se terminer par '#' ou '/' : {v}")
+        return v
+
+    def ensure_directories_exist(self) -> None:
+        """Garantit l'existence de tous les dossiers critiques au lancement."""
+        target_dirs = [
+            self.dir_master_tbox, self.dir_master_abox, self.dir_cti_abox,
+            self.dir_inputs_p3,  self.dir_snapshot_p3,
+            self.dir_inputs_p4,  self.dir_snapshot_p4,
+            self.dir_infered_red, self.dir_models, self.dir_embedding_model,
+            self.dir_ner_model, self.dir_snapshot_p5
+        ]
+        for d in target_dirs:
+            d.mkdir(parents=True, exist_ok=True)
 
 
-# (Phase3) Enrichissement Externe et non structuré + TLP
-DIR_INPUTS_P3 = DIR_DATA / "Input_Phases" / "Phase3_CTI"
-DIR_SNAPSHOT_P3 = DIR_DATA / "Snapshots_Phases" / "Phase3_CTI"
-DIR_CTI_ABOX = DIR_DATA / "Master_Transversal" / "TLP_CLEAR_CTI_External" 
+# ==============================================================================
+# INSTANCIATION & EXPORT COMPATIBLE (SSOT)
+# ==============================================================================
+_settings = DKGConfig()
+_settings.ensure_directories_exist()
 
+# 1. CHEMINS DE REPERTOIRES (DIR_)
+DIR_APP = _settings.dir_app
+DIR_ROOT = _settings.dir_root
+DIR_DATA = _settings.dir_data
 
-##  Découpage TLP Strict (Seiton 5S)
-DIR_TBOX_AMBER = DIR_MASTER_TBOX
-DIR_ABOX_RED = DIR_DATA / "Master_Transversal" / "TLP_RED_Instances_ABox"
-DIR_CTI_CLEAR = DIR_CTI_ABOX  # Wave 2 / Phase 3 & 4
-DIR_INFERED_RED = DIR_DATA / "Master_Transversal" / "TLP_RED_Infered_Graph"  # Wave 3 / Phase 5
+DIR_SNAPSHOT_P1 = _settings.dir_snapshot_p1
+DIR_MASTER_TBOX = _settings.dir_master_tbox
 
-# (Phase4) Source des bulletins bruts pour le NER
-DIR_INPUTS_P4 = DIR_DATA / "Input_Phases" / "Phase4_CTI"
-DIR_SNAPSHOT_P4 = DIR_DATA / "Snapshots_Phases" / "Phase4_CTI"
-DIR_UNSTRUCTURED_CTI = DIR_CTI_CLEAR / "Raw_Sources"
+DIR_INPUT_P2 = _settings.dir_input_p2
+DIR_SNAPSHOT_P2 = _settings.dir_snapshot_p2
+DIR_MASTER_ABOX = _settings.dir_master_abox
 
-# (Phase5) A Locale
-DIR_SNAPSHOT_P5 = DIR_DATA / "Snapshots_Phases" / "Phase5_Reasoning_MITM"
-DIR_MODELS = DIR_APP / "models" / "cache"
-DIR_EMBEDDING_MODEL = DIR_MODELS / "embeddings"
+DIR_INPUTS_P3 = _settings.dir_inputs_p3
+DIR_SNAPSHOT_P3 = _settings.dir_snapshot_p3
+DIR_CTI_ABOX = _settings.dir_cti_abox
 
-# (Phase6) A Locale
-DIR_SNAPSHOT_P6 = DIR_DATA / "Snapshots_Phases" / "Phase5_NER_Local"
-DIR_MODELS = DIR_APP / "models" / "cache"
-DIR_NER_MODEL = DIR_MODELS / "ner"
-DIR_EMBEDDING_MODEL = DIR_MODELS / "embeddings"
+DIR_TBOX_AMBER = _settings.dir_tbox_amber
+DIR_ABOX_RED = _settings.dir_abox_red
+DIR_CTI_CLEAR = _settings.dir_cti_clear
+DIR_INFERED_RED = _settings.dir_infered_red
 
-# Alias de répertoires pour la Phase 5 & Socle IA
-# BASE_DIR = DIR_ROOT
-# DATA_DIR = DIR_DATA
-# APP_DIR = DIR_APP
-# ONTOLOGY_DIR = DIR_ONTOLOGY
+DIR_INPUTS_P4 = _settings.dir_inputs_p4
+DIR_SNAPSHOT_P4 = _settings.dir_snapshot_p4
+DIR_UNSTRUCTURED_CTI = _settings.dir_unstructured_cti
 
+DIR_SNAPSHOT_P5 = _settings.dir_snapshot_p5
+DIR_MODELS = _settings.dir_models
+DIR_EMBEDDING_MODEL = _settings.dir_embedding_model
+DIR_NER_MODEL = _settings.dir_ner_model
 
+# 2. ARTEFACTS ET FICHIERS RDF (_PATH)
+TBOX_MASTER_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.ttl"
+TBOX_MASTER_MD_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.md"
 
-# ==========================================
-# 2. ARTEFACTS ET FICHIERS RDF
-# ==========================================
-
-# TBox & SHACL (TLP:AMBER)
-TBOX_MASTER_PATH  = DIR_MASTER_TBOX / "DKG_TBox_Master.ttl"
 SHACL_MASTER_PATH = DIR_MASTER_TBOX / "DKG_SHACL_Master.ttl"
+SHACL_MASTER_MD_PATH = DIR_MASTER_TBOX / "DKG_SHACL_Master.md"
 
-# ABox Interne (TLP:RED)
 ABOX_MASTER_PATH = DIR_MASTER_ABOX / "DKG_ABox_Master.ttl"
-ABOX_RED_PATH = DIR_MASTER_ABOX / "DKG_ABox_Master.ttl"
+ABOX_MASTER_MD_PATH = DIR_MASTER_ABOX / "DKG_ABox_Master.md"
 
+ABOX_RED_PATH = ABOX_MASTER_PATH
 
-# ABox CTI Externe (TLP:CLEAR) - Wave 2 / Phase 3 & 4
 INPUT_CTI_JSON_PATH = DIR_INPUTS_P3 / "external_nvd_capec_feed.json"
-ABOX_CTI_PATH = DIR_CTI_CLEAR /  "DKG_ABox_CTI_External.ttl"
-DOC_CTI_MD_PATH =  "DOC_CTI_ABOX.md"
+ABOX_CTI_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.ttl"
+ABOX_CTI_MD_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.md"
 
-# ABox & Rules Inférence / SKOS (Phase 5)
+INPUT_CTI_U_JSON_PATH = DIR_INPUTS_P4 / "bulletin_apt29.txt"
+ABOX_CTI_U_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_U_External.ttl"
+ABOX_CTI_U_MD_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_U_External.md"
+
 RULES_MASTER_PATH = DIR_TBOX_AMBER / "DKG_Rules_Master.ttl"
-SKOS_MASTER_PATH = DIR_TBOX_AMBER / "DKG_SKOS_Master.ttl"
+RULES_MASTER_MD_PATH = DIR_TBOX_AMBER / "DKG_Rules_Master.md"
+
 ABOX_INFERED_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.ttl"
-DOC_INFERED_MD_PATH = DIR_INFERED_RED / "DOC_ABOX_INFERED_2.md"
+ABOX_INFERED_MD_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.md"
 
+# 3. SOCLE IA LOCAL
+EMBEDDING_MODEL_NAME = _settings.embedding_model_name
+MITM_SIMILARITY_THRESHOLD = _settings.mitm_similarity_threshold
+NER_MODEL_NAME = _settings.ner_model_name
+NER_FALLBACK_MODEL_NAME = _settings.ner_fallback_model_name
 
-# ==========================================
-# 3. SOCLE IA LOCAL (Phase5 & 6)
-# ==========================================
-
-# Phase 5 : Embeddings pour Agent MITM (Air-Gapped)
-EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-MITM_SIMILARITY_THRESHOLD = 0.85
-
-# Phase 6 : Modèles NER (Réservés pour la Phase 6)
-NER_MODEL_NAME = "urchade/gliner_large-v2.1"
-NER_FALLBACK_MODEL_NAME = "dslim/bert-base-NER"
-
-
-
-# ==========================================
 # 4. NAMESPACES RDF CENTRALISÉS
-# ==========================================
-DKG_TBOX = Namespace("http://dkg.cybersec.org/tbox#")
-DKG_DATA = Namespace("http://dkg.cybersec.org/data#")
-DKG_CTI = Namespace("http://dkg.cybersec.org/cti#")  # Namespace CTI Externe
+DKG_TBOX = Namespace(_settings.dkg_tbox_uri)
+DKG_DATA = Namespace(_settings.dkg_data_uri)
+DKG_CTI = Namespace(_settings.dkg_cti_uri)
 
-# Standard W3C Namespaces
 SH = Namespace("http://www.w3.org/ns/shacl#")
 XSD = Namespace("http://www.w3.org/2001/XMLSchema#")
 RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")

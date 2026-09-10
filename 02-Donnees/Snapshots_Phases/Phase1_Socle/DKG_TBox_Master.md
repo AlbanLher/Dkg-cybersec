@@ -1,50 +1,80 @@
-# Extrait Sémantique : DKG_TBox_Master.ttl
-**Source** : `02-Donnees/Snapshots_Phases/Phase1_Socle/DKG_TBox_Master.ttl`  
-**Nombre total de triplets** : `106`  
+# 📚 Documentation du Socle Ontologique (Phase 1)
+
+> **Classification** : `TLP:AMBER` | **Domaine** : CyberSécurité & DKG
 
 ---
-## 1. Classes déclarées
-* **`Asset`** (`Asset`): Ressource informatique du SI (serveur, poste, équipement réseau).
-* **`SoftwareComponent`** (`SoftwareComponent`): Composant logiciel, bibliothèque ou dépendance système.
-* **`TLPMarking`** (`TLPMarking`): Niveau de classification et de partage de l'information.
-* **`ThreatPattern`** (`ThreatPattern`): Motif ou schéma d'attaque documenté (CAPEC).
-* **`Vulnerability`** (`Vulnerability`): Faiblesse logicielle exploitable répertoriée (CVE).
-* **`Weakness`** (`Weakness`): Famille d'erreur logicielle sous-jacente (CWE).
 
-## 2. Propriétés
-* **`assetId`** [DatatypeProperty]: asset identifier
-* **`componentId`** [DatatypeProperty]: component identifier
-* **`cveId`** [DatatypeProperty]: CVE identifier
-* **`cvssScore`** [DatatypeProperty]: CVSS score
-* **`cweId`** [DatatypeProperty]: CWE identifier
-* **`hasInstalledComponent`** [ObjectProperty]: has installed component
-* **`hasTLPMarking`** [ObjectProperty]: has TLP marking
-* **`hasVulnerability`** [ObjectProperty]: has vulnerability
-* **`hasWeakness`** [ObjectProperty]: has weakness
-* **`hostname`** [DatatypeProperty]: hostname
-* **`isComponentOf`** [ObjectProperty]: is component of
-* **`isVulnerabilityOf`** [ObjectProperty]: is vulnerability of
+## 📖 1. Glossaire des Acronymes
 
-## 3. Échantillon de Triplets (Top 20)
-| Sujet | Prédicat | Objet |
+| Acronyme | Définition | Contextualisation |
 | :--- | :--- | :--- |
-| `isComponentOf` | `inverseOf` | `hasInstalledComponent` |
-| `TLPMarking` | `definition` | `Niveau de classification et de partage de l'information.` |
-| `hasVulnerability` | `prefLabel` | `has vulnerability` |
-| `Vulnerability` | `definition` | `Faiblesse logicielle exploitable répertoriée (CVE).` |
-| `ThreatPattern` | `definition` | `Motif ou schéma d'attaque documenté (CAPEC).` |
-| `hasWeakness` | `prefLabel` | `has weakness` |
-| `hasTLPMarking` | `comment` | `Applique une classification TLP sur l'entité` |
-| `Asset` | `label` | `Asset` |
-| `TLPMarking` | `altLabel` | `Niveau de confidentialité` |
-| `assetId` | `domain` | `Asset` |
-| `isVulnerabilityOf` | `type` | `ObjectProperty` |
-| `Vulnerability` | `prefLabel` | `Vulnerability` |
-| `hasWeakness` | `prefLabel` | `est de type faiblesse` |
-| `isVulnerabilityOf` | `prefLabel` | `is vulnerability of` |
-| `hasVulnerability` | `comment` | `Lie un composant à une vulnérabilité connue` |
-| `ThreatPattern` | `altLabel` | `Mode opératoire d'attaque` |
-| `cveId` | `range` | `string` |
-| `cveId` | `prefLabel` | `identifiant CVE` |
-| `cvssScore` | `prefLabel` | `CVSS score` |
-| `ThreatPattern` | `label` | `ThreatPattern` |
+| **TBox** | Terminological Box | Structure des classes et axiomes ontologiques |
+| **RBox** | Role Box | Propriétés, rôles et axiomes d'inversion |
+| **SKOS** | Simple Knowledge Organization System | Représentation lexicale et bilinguisme |
+| **SHACL** | Shapes Constraint Language | Validation de contraintes de qualité sous CWA |
+| **TLP** | Traffic Light Protocol | Protocole de partage de l'information |
+
+---
+
+## 📐 2. Architecture Graphique du Socle (Mermaid)
+
+```mermaid
+classDiagram
+    class Asset {
+        +string assetId
+        +string hostname
+    }
+    class SoftwareComponent {
+        +string componentId
+    }
+    class Vulnerability {
+        +string cveId
+        +float cvssScore
+    }
+    class Weakness {
+        +string cweId
+    }
+    class ThreatPattern
+    class TLPMarking
+
+    Asset "1" --> "*" SoftwareComponent : hasInstalledComponent
+    SoftwareComponent "1" --> "1" Asset : isComponentOf
+    SoftwareComponent "1" --> "*" Vulnerability : hasVulnerability
+    Vulnerability "1" --> "*" SoftwareComponent : isVulnerabilityOf
+    Vulnerability "1" --> "*" Weakness : hasWeakness
+    owl_Thing --> "1" TLPMarking : hasTLPMarking
+```
+
+---
+
+## 🏷️ 3. Résumé Synthétique des Classes TBox
+
+| Classe | Label FR (`skos:prefLabel`) | Label EN | Définition (`skos:definition`) |
+| :--- | :--- | :--- | :--- |
+| `Asset` | Actif | Asset | Ressource informatique du SI (serveur, poste, équipement réseau). |
+| `SoftwareComponent` | Composant Logiciel | Software Component | Composant logiciel, bibliothèque ou dépendance système. |
+| `Vulnerability` | Vulnérabilité | Vulnerability | Faiblesse logicielle exploitable répertoriée (CVE). |
+| `Weakness` | Faiblesse | Weakness | Famille d'erreur logicielle sous-jacente (CWE). |
+| `ThreatPattern` | Schéma de Menace | Threat Pattern | Motif ou schéma d'attaque documenté (CAPEC). |
+| `TLPMarking` | Marquage TLP | TLP Marking | Niveau de classification et de partage de l'information. |
+
+---
+
+## 🔗 4. Rôles et Inverses RBox
+
+| Propriété | Domaine | Portée | Inverse (`owl:inverseOf`) | Libellé FR |
+| :--- | :--- | :--- | :--- | :--- |
+| `hasInstalledComponent` | `Asset` | `SoftwareComponent` | `isComponentOf` | a pour composant |
+| `isComponentOf` | `SoftwareComponent` | `Asset` | `hasInstalledComponent` | est composant de |
+| `hasVulnerability` | `SoftwareComponent` | `Vulnerability` | `isVulnerabilityOf` | a pour vulnérabilité |
+| `isVulnerabilityOf` | `Vulnerability` | `SoftwareComponent` | `hasVulnerability` | impacte le composant |
+| `hasWeakness` | `Vulnerability` | `Weakness` | N/A | est de type faiblesse |
+| `hasTLPMarking` | `owl:Thing` | `TLPMarking` | N/A | a pour marquage TLP |
+
+---
+
+## 🛡️ 5. Validation SHACL (Contraintes de Surface)
+
+| Shape Cible | Propriété contrôlée | Datatype | Contrainte CWA |
+| :--- | :--- | :--- | :--- |
+| `dkg:VulnerabilityShape` | `dkg:cvssScore` | `xsd:float` | `sh:maxInclusive 10.0` |

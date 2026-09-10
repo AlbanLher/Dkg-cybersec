@@ -1,34 +1,71 @@
-# Extrait Sémantique : DKG_ABox_CTI_External.ttl
-**Source** : `02-Donnees/Master_Transversal/TLP_CLEAR_CTI_External/DKG_ABox_CTI_External.ttl`  
-**Nombre total de triplets** : `32`  
+# 📑 Livrable Phase 3 - ABox CTI Externe & Référentiels Menaces
+
+**Classification :** `TLP:CLEAR` (Public / Partageable)  
+**Source Turtle :** `DKG_ABox_CTI_External.ttl`  
+**Nombre total de triples RDF :** 22  
 
 ---
-## 1. Classes déclarées
-_Aucune classe explicitement déclarée._
 
-## 2. Propriétés
-_Aucune propriété explicitement déclarée._
+## 📖 Glossaire & Acronymes
 
-## 3. Échantillon de Triplets (Top 20)
-| Sujet | Prédicat | Objet |
+| Acronyme | Définition Complète | Contextualisation DKG |
 | :--- | :--- | :--- |
-| `CAPEC-100` | `type` | `ThreatPattern` |
-| `CVE-2023-4863` | `hasWeakness` | `CWE-119` |
-| `CAPEC-100` | `label` | `Overflow Buffers` |
-| `CWE-119` | `type` | `Weakness` |
-| `Pattern-SpearphishingLink-T1566_002` | `label` | `Spearphishing Link (T1566.002)` |
-| `CVE-2023-4863` | `comment` | `Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187.` |
-| `CVE-2021-44228` | `comment` | `Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints.` |
-| `CAPEC-586` | `type` | `ThreatPattern` |
-| `CWE-502` | `type` | `Weakness` |
-| `CAPEC-586` | `comment` | `An attacker injects malicious objects into an application to execute arbitrary code.` |
-| `CWE-502` | `hasThreatPattern` | `CAPEC-586` |
-| `Pattern-SpearphishingLink-T1566_002` | `type` | `ThreatPattern` |
-| `ThreatActor-APT29` | `altLabel` | `APT` |
-| `CVE-2023-4863` | `type` | `Vulnerability` |
-| `ABox_CTI_External` | `type` | `Ontology` |
-| `CAPEC-586` | `label` | `Object Injection` |
-| `CVE-2021-44228` | `hasWeakness` | `CWE-502` |
-| `CWE-119` | `hasThreatPattern` | `CAPEC-100` |
-| `ThreatActor-APT29` | `nerConfidenceScore` | `0.98` |
-| `CVE-2024-21887` | `type` | `Vulnerability` |
+| **APT** | Advanced Persistent Threat | Groupe d'attaquants hautement qualifiés menant des attaques ciblées et prolongées. |
+| **CISA KEV** | Known Exploited Vulnerabilities Catalogue | Registre des vulnérabilités exploitées activement. |
+| **CTI** | Cyber Threat Intelligence | Renseignements structurés sur les menaces informatiques. |
+| **CVE** | Common Vulnerabilities and Exposures | Dictionnaire public des vulnérabilités de sécurité connues. |
+| **CWE** | Common Weakness Enumeration | Système de classification des faiblesses logicielles et matérielles. |
+| **CAPEC** | Common Attack Pattern Enumeration and Classification | Référentiel des schémas et patterns d'attaque. |
+| **CVSS** | Common Vulnerability Scoring System | Système standardisé d'évaluation de la sévérité des vulnérabilités. |
+| **TLP** | Traffic Light Protocol | Norme de classification du niveau de partage de l'information. |
+| **RDF** | Resource Description Framework | Modèle de données en graphe sous forme de triplets (Sujet-Prédicat-Objet). |
+
+---
+
+## 🔄 Flux d'Ingestion Structuré (Pipeline Phase 3)
+
+```mermaid
+flowchart LR
+    A[Sources CTI Structurées: NVD / MITRE] -->|Parsing JSON| B(Ingesteur Phase 3)
+    B -->|Mappage Ontologique| C[Génération Triplets RDF]
+    C -->|Validation SHACL| D{Conforme?}
+    D -->|Non| E[Rejet / Error Log]
+    D -->|Oui| F[Snapshot Phase 3]
+    F -->|Synchronisation| G[Master CTI TLP:CLEAR]
+```
+
+---
+
+## 📊 Synthèse des Entités CTI Ingestées
+
+| Classe Schéma (`dkg:`) | Nombre d'Instances |
+| :--- | :--- |
+| `dkg:Vulnerability` | **2** |
+| `dkg:ThreatPattern` | **2** |
+| `dkg:Weakness` | **2** |
+
+---
+
+## 🔗 Cartographie du Référentiel CTI Externe
+
+```mermaid
+graph TD
+    subgraph TLP:CLEAR [Chainage CTI Structuré]
+        CVE[dkg:Vulnerability / CVE] -->|dkg:cvssScore| SCORE[Score CVSS]
+        CVE -->|dkg:isCisaKev| KEV[Drapeau CISA KEV]
+        CVE -->|dkg:exploitsWeakness| CWE[dkg:Weakness / CWE]
+        CWE -->|dkg:hasThreatPattern| CAPEC[dkg:ThreatPattern / CAPEC]
+    end
+```
+
+---
+
+## 🔗 Détail des Dépendances Multi-Hop (CVE -> CWE -> CAPEC)
+
+| Vulnérabilité (CVE) | Score CVSS | CISA KEV | Faiblesse (CWE) | Pattern d'Attaque (CAPEC) |
+| :--- | :--- | :--- | :--- | :--- |
+| `CVE-2021-44228` | `10.0` | ❌ Non | `CWE-502` | `CAPEC-586` |
+| `CVE-2023-4863` | `8.8` | ❌ Non | `CWE-119` | `CAPEC-100` |
+
+---
+*Document généré automatiquement conformément aux exigences de livrables TLP:CLEAR.*
