@@ -1,6 +1,7 @@
 name: DKG CyberSec CI Pipeline
 
 on:
+  workflow_dispatch: # Permet le déclenchement manuel via l'onglet Actions
   push:
     branches: [ "main", "master" ]
   pull_request:
