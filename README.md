@@ -6,7 +6,8 @@
 | ![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg) | ![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg) | ![CI-Tests](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/ci.yml/badge.svg) |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 
-![[DKG_OA_1.png]]
+![](DKG_OA_1.png)
+
 
 ---
 ## 🚦 État d'Avancement Macro (Roadmap par Vagues)
