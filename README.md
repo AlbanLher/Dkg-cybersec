@@ -3,25 +3,30 @@
 > **Un Framework Spec-Driven, AGILE et souverain pour concevoir des Graphes de Connaissances Dynamiques (DKG) sous la gouvernance stricte des standards W3C (OWL2, SKOS, SHACL).**  
 > *Démonstrateur étalon appliqué au domaine de la Cybersécurité & du SOC.*
 
+| ![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg) | ![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg) | ![CI-Tests](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/ci.yml/badge.svg) |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+![](DKG_OA_1.png)
+
 ---
 
 ## 🚦 État d'Avancement Macro (Roadmap par Vagues)
 
-| Vague | Titre & Horizon | Principes Pédagogiques (P#) | Statut |
-| :---: | :--- | :--- | :---: |
-| **V1** | **Socle Structurel & Cartographie** | (P1) Standards W3C, (P2) Confidentialité native TLP (Cas minimal PC) | 🟢 **PASSED** |
-| **V2** | **Ingestion, NER & Alignement** | (P3) Superposition de graphes, (P4) Rapprochement sémantique (NER & Inférence) | 🟢 **PASSED** |
-| **V3** | **Industrialisation & Multi-Contextes** | (P5) Architecture Agentique & Micro-agents distribués (Cas PME) | 🟡 **ACTIVE** |
+| Vague  | Titre & Horizon                          | Principes Pédagogiques (P#)                                                         |     Statut     |
+| :----: | :--------------------------------------- | :---------------------------------------------------------------------------------- | :------------: |
+| **V1** | **Socle Structurel & Cartographie**      | (P1) Standards W3C, (P2) Confidentialité native TLP (Cas minimal PC)                | 🟢 **PASSED**  |
+| **V2** | **Ingestion, NER & Alignement**          | (P3) Superposition de graphes, (P4) Rapprochement sémantique (NER & Inférence)      | 🟢 **PASSED**  |
+| **V3** | **Industrialisation & Multi-Contextes**  | (P5) Architecture Agentique & Micro-agents distribués (Cas PME)                     | 🟡 **ACTIVE**  |
 | **V4** | **Désambiguïsation & Human-in-the-Loop** | (P6) Maintien de la cohérence face à la croissance : SKOS & Arbitrage Humain (MITM) | ⚪ **Planifié** |
-| **V5** | **Agent Copilot & Fine-Tuning Continu** | (P7) Modèle local ré-entraîné (LoRA) sur DKG pour un Copilot explicable | ⚪ **Planifié** |
-| **V6** | **Streaming Temps Réel & Reaction** | (P8) Démonstration de valeur sur boucle courte (SIEM/EDR / Analyse d'impact) | ⚪ **Planifié** |
-
-###   [Test](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/python-tests.yml) 
-Tous les tests sont situés dans [`00-Application/Tests/`](https://github.com/AlbanLher/Dkg-cybersec/tree/main/00-Application/Tests). 
-**Statut** : ✅ **100% des tests passent** (dernière exécution : 10/09/2026). 
-Pour les exécuter localement : ```bash cd 00-Application/Tests pytest``
+| **V5** | **Agent Copilot & Fine-Tuning Continu**  | (P7) Modèle local ré-entraîné (LoRA) sur DKG pour un Copilot explicable             | ⚪ **Planifié** |
+| **V6** | **Streaming Temps Réel & Reaction**      | (P8) Démonstration de valeur sur boucle courte (SIEM/EDR / Analyse d'impact)        | ⚪ **Planifié** |
 
 👉 **[Pour plus de détails sur la roadmap ,consulter la Roadmap complète](./00-Projet/Roadmap_Suivi-Avancement.md)**
+
+
+| ![CI-Tests](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/ci.yml/badge.svg) | Pour exécuter les tests localement :`bash cd 00-Application/Tests pytest` |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+
+
 
 ---
 
