@@ -1,4 +1,4 @@
-name: CI - Tests et Validation
+name: CI - Tests et Validation Intégrale
 
 on:
   workflow_dispatch:
@@ -27,45 +27,42 @@ jobs:
         with:
           python-version: '3.12'
 
-      # 3. Installation des dépendances complètes
+      # 3. Installation des dépendances complètes (incluant sentence-transformers, rdflib, pyshacl, pydantic, etc.)
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install rdflib pyshacl pytest faker anyio langsmith pydantic pydantic-settings
+          pip install rdflib pyshacl pytest faker anyio langsmith pydantic pydantic-settings sentence-transformers
 
-      # 4. Préparation de l'arborescence des dossiers de sortie
+      # 4. Préparation de l'arborescence des dossiers de sortie (Socle, ABox, CTI, Snapshots)
       - name: Ensure target directories exist
         run: |
           mkdir -p 02-Donnees/Snapshots_Phases/Phase1_Socle
           mkdir -p 02-Donnees/Snapshots_Phases/Phase2_ABox
+          mkdir -p 02-Donnees/Snapshots_Phases/Phase5_Inference
           mkdir -p 02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox
           mkdir -p 02-Donnees/Master_Transversal/TLP_RED_Instances_ABox
 
-      # 5. Exécution de la génération Phase 1
-      - name: Run Phase 1 Generator
+      # 5. Exécution des générateurs / flux amont si nécessaire
+      - name: Run Phase 1 & 2 Generators
         run: |
           python3 03-Application/Phase1/generate_phase1_socle.py
-
-      # 6. Exécution de la génération Phase 2
-      - name: Run Phase 2 Generator
-        run: |
           python3 03-Application/Phase2/generate_phase2_abox.py
 
-      # 7. Exécution des tests Pytest
-      - name: Run Pytest Suite
+      # 6. Exécution de la Suite Pytest Exhaustive (Phases 1 à 6)
+      - name: Run Full Pytest Suite
         env:
           PYTHONPATH: .
         run: |
-          pytest -v 03-Application/Test/test_phase1_quality.py 03-Application/Test/test_phase2_abox.py --junitxml=test-results.xml
+          pytest -v 03-Application/Test/ 03-Application/Tests/ --junitxml=test-results.xml
 
-      # 8. Publication du rapport dans GitHub Actions
+      # 7. Publication des résultats de test dans l'interface GitHub
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: "test-results.xml"
 
-      # 9. Archivage des rapports
+      # 8. Archivage des rapports XML pour traçabilité
       - name: Upload Test Results Artifact
         if: always()
         uses: actions/upload-artifact@v4
