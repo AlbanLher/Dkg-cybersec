@@ -31,7 +31,7 @@ if (roadmapFile) {
 }
 
 if (phasesList.length === 0) {
-    phasesList.push({ code: "P01", nom: "Phase Initiale", statut: "⚪ Planifié" });
+    phasesList.push({ code: "P1", nom: "Socle TBox & SHACL CWA", statut: "🟢 PASSED" });
 }
 
 // 2. Sélection de la Phase
@@ -50,7 +50,7 @@ let porteeCode = "FWK";
 if (selectedType === "USECASE_METIER") porteeCode = "MET";
 if (selectedType === "USECASE_TECHNIQUE") porteeCode = "TEC";
 
-// 4. Titre complet et Titre court Snake_Case
+// 4. Titres et Description
 let rawTitle = tp.file.title;
 let defaultCleanTitle = rawTitle.replace(/^SPEC-[^-]+-/, "").replace(/_/g, " ");
 const specTitre = await tp.system.prompt("Titre complet de la spécification :", defaultCleanTitle);
@@ -62,12 +62,11 @@ let defaultSnake = specTitre.toLowerCase()
     .replace(/^_|_$/g, "");
 
 const titreSnake = await tp.system.prompt("Titre court (snake_case) :", defaultSnake);
+const specDescription = await tp.system.prompt("Résumé / Description courte (1 phrase) :", "");
 
-// Numéro de révision par défaut (numérique)
+// Numéro de révision et Référence Unique
 const revisionNum = 1;
 const revisionSuffix = String(revisionNum).padStart(2, "0");
-
-// Génération de la Référence Unique (ex: SPC-TECH-P06-api_gateway_01)
 const specReference = `SPC-${porteeCode}-${targetPCode}-${titreSnake}_${revisionSuffix}`;
 
 // 5. Publics visés
@@ -87,18 +86,31 @@ const publicList = chosenPublic
     ? chosenPublic.split(",").map(p => p.trim()).filter(p => p.length > 0)
     : ["Architectes Ontologues"];
 
-// 6. Injection dans les propriétés YAML (Frontmatter)
+// 6. Injection unifiée dans le Frontmatter YAML
 app.fileManager.processFrontMatter(tp.config.target_file, (fm) => {
     fm["type"] = "spec";
     fm["reference"] = specReference;
     fm["revision"] = revisionNum;
     fm["titre"] = specTitre;
     fm["titre_court"] = titreSnake;
+    fm["description"] = specDescription;
     fm["phase_code"] = targetPCode;
     fm["phase_nom"] = pNom;
     fm["statut"] = pStatut;
     fm["portee"] = selectedType;
     fm["public_vise"] = publicList;
+    
+    if (!fm["exigences"]) {
+        fm["exigences"] = [
+            {
+                id: `EXG-${targetPCode}-01`,
+                domaine: "SE",
+                titre: "Titre de l'exigence",
+                description: "Critère formel vérifiable",
+                test: "PyTest / SHACL"
+            }
+        ];
+    }
 });
 -%>
 ---
@@ -107,6 +119,7 @@ reference: <% specReference %>
 revision: <% revisionNum %>
 titre: "<% specTitre %>"
 titre_court: <% titreSnake %>
+description: "<% specDescription %>"
 phase_code: <% targetPCode %>
 phase_nom: "<% pNom %>"
 statut: "<% pStatut %>"
@@ -116,9 +129,7 @@ public_vise:
 ---
 # 📜 <% specTitre %>
 
-
-
-## 📖 1. Résumé Executif & Glossaire
+## 📖 1. Résumé Exécutif & Glossaire
 
 ### 1.1 Objectif
 [Décrire en 2-3 phrases le but de cette spécification et sa valeur pour le projet]
@@ -133,45 +144,24 @@ public_vise:
 graph TD
     A[Composant A] --> B[Composant B]
 ```
+📐 3. Spécifications Formelles
+3.1 Axiomes, Structures RDF & Inférences (ou Scénario Métier)
+[Description formelle, snippets Turtle, règles SWRL/SHACL ou diagramme d'attaque]
 
-## 📐 3. Spécifications Formelles
+3.2 Directives d'Implémentation Code & Scripts
+[Modules Python associés, fonctions de génération, contraintes bas niveau]
 
-<!-- SECTION A ADAPTER SELON LE NIVEAU DE SPECIFICATION -->
+📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
+Identifiant	Domaine	Intitulé de l'Exigence	Description & Critères d'Acceptation	Mode de Test / Asset
+EXG-SE-01	SE	Nom de l'exigence	Critère formel vérifiable.	Pytest / SPARQL / SHACL
+🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
+Scripts de Génération / Exécution : 03-Application/[script].py
 
-### Option A : Si Niveau METIER (SOC / Fonctionnel)
-#### 3.1 Scenario Métier & Kill Chain
-[Diagramme Mermaid / Schéma ASCII de l'attaque ou du cas d'usage]
+Suite de Test Associée : tests/test_[exigence].py
 
-#### 3.2 Modélisation Conceptuelle & Traçabilité TLP
-[Description des entités métier et requêtes SPARQL d'analyse]
+Artefacts Produits : [Fichier_Maître.ttl]
 
----
+📚 6. Documents Liés & Références
+[SPEC-PARENTE] : [Lien vers la spec de niveau supérieur ou dépendante]
 
-### Option B : Si Niveau TECHNIQUE ou SOCLE (Dev / Ontologie)
-#### 3.1 Axiomes, Structures RDF & Inférences
-[Snippets Turtle, règles SWRL/SHACL, schémas TBox/RBox]
 
-#### 3.2 Directives d'Implémentation Code & Scripts
-[Modules Python associés, fonctions de génération]
-
----
-
-## 📊 4. Matrice d'Exigences & Critères d'Acceptation (`EXG-`)
-
-| Identifiant | Domaine | Intitulé de l'Exigence | Description & Critères d'Acceptation | Mode de Test / Asset |
-| :--- | :---: | :--- | :--- | :--- |
-| **EXG-XX-01** | `XX` | Nom de l'exigence | Critère formel vérifiable. | Pytest / SPARQL / SHACL |
-
----
-
-## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
-
-* **Scripts de Génération / Exécution** : `03-Application/[script].py`
-* **Suite de Test Associée** : `tests/test_[exigence].py`
-* **Artefacts Produits** : `[Fichier_Maître.ttl]`
-
----
-
-## 📚 6. Documents Liés & Références
-
-* **[SPEC-PARENTE]** : [Lien vers la spec de niveau supérieur ou dépendante]

@@ -1,0 +1,3 @@
+[2026-09-16T13:15:20.675970] CLIENT=agent-cti-public | TLP=CLEAR | STATUS=ERROR | RESULTS=0 | INFO=Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'PREFIX'  (at char 0), (line:1, col:1)
+[2026-09-16T13:15:20.681803] CLIENT=soc-analyst-l2 | TLP=AMBER | STATUS=ERROR | RESULTS=0 | INFO=Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'PREFIX'  (at char 0), (line:1, col:1)
+[2026-09-16T13:15:20.694825] CLIENT=cert-investigator-l3 | TLP=RED | STATUS=ERROR | RESULTS=0 | INFO=Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'PREFIX'  (at char 0), (line:1, col:1)

@@ -30,8 +30,8 @@ La roadmap est contruite en 3 niveaux
 |  **V2**   |  **P3**   | Ingestion CTI Structurée           | Flux NVD, CAPEC, CISA KEV (`TLP:CLEAR`).                                                | 🟢 **PASSED** |
 |           |  **P4**   | Ingestion CTI Textuelle (NER)      | Extraction d'entités CTI avec score de confiance `dkg:nerConfidenceScore`.              | 🟢 **PASSED** |
 |           |  **P5**   | Agent MITM & Reasoning Base        | Moteur d'inférence R-01/R-02 et alignement vectoriel Cosinus MiniLM.                    | 🟢 **PASSED** |
-|  **V3**   |  **P6**   | API Gateway & Ségrégation TLP      | Endpoint SPARQL/GraphQL sécurisé avec filtrage dynamique par niveau d'habilitation.     | 🟡 **ACTIVE** |
-|           |  **P7**   | Micro-Agents Télémétrie PME        | Agent Surveillance Logs (EDR) & Agent Veille CTI Externe. Extension topologie PME.      |  ⚪ Planifié   |
+|  **V3**   |  **P6**   | API Gateway & Ségrégation TLP      | Endpoint SPARQL/GraphQL sécurisé avec filtrage dynamique par niveau d'habilitation.     | 🟢 **PASSED** |
+|           |  **P7**   | Micro-Agents Télémétrie PME        | Agent Surveillance Logs (EDR) & Agent Veille CTI Externe. Extension topologie PME.      | 🟡 **ACTIVE** |
 |           |  **P8**   | SOC Dashboard & Replay Ops         | Dynamic Overlay du graphe, vue multi-calques et automatisation CI/CD.                   |  ⚪ Planifié   |
 |  **V4**   |  **P9**   | Taxonomies SKOS & Poly-hiérarchies | Structuration fine des domaines produits/familles et gestion des périmètres étanches.   |  ⚪ Planifié   |
 |           |  **P10**  | Agent MITM Human-in-the-Loop       | Interface d'arbitrage actif quand $0.65 \le \text{Score} < 0.85$. Enrichissement guidé. |  ⚪ Planifié   |

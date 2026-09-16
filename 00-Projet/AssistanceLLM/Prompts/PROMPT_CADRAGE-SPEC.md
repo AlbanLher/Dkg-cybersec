@@ -7,7 +7,7 @@
 
 ## Périmètre d'Action
 - Répertoires : `00-Projet/PhaseX/`, `01-Principes_Spécification/`
-- Objectif : Valider les pré-requis, définir le périmètre fonctionnel, formaliser les SPEC (Transversal, UC, Tech) et définir le schéma des données d'entrée.
+- Objectif : Valider les pré-requis, définir le périmètre fonctionnel, formaliser les SPEC (TRANSVERSAL, USECASE_METIER, USECASE_TECHNIQUE) et définir le schéma des données d'entrée.
 
 ## 📋 Directives & Check-list Cadrage
 - [ ] **Gatekeeper Phase N-1 :** Confirmer la clôture 100% PASSED de la phase précédente.
@@ -18,5 +18,5 @@
 ## 📤 Livrables Attendus
 1. `00-Projet/PhaseX/Phase_Content.md` (Objectifs, étapes, livrables)
 2. `00-Projet/PhaseX/Memo_UseCase_PhaseX.md` (Explication métier + Diagramme Mermaid)
-3. `01-Principes_Spécification/SPEC-0X_....md` (Spécification technique détaillée)
+3. `01-Principes_Spécification/(TRANSVERSAL/USECASE_METIER/USECASE_TECHNIQUE)/SPEC_(FWK/MET/TEC)/##...md` (Spécification technique détaillée)
 *(Interdiction de produire du code applicatif Python dans ce step)*

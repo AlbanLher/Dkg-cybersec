@@ -1,19 +1,23 @@
-# Phase 6 : API Gateway SPARQL/GraphQL & Ségrégation TLP
+# Phase 6 — API Gateway Cross-TLP & Security Engine
 
-## 1. Objectifs Fonctionnels & Techniques
-- **Passerelle de Requêtage Sécurisée** : Exposer une API unifiée (endpoints SPARQL/GraphQL) permettant d'interroger le DKG-CyberSec.
-- **Filtrage Dynamique par Marquage TLP** : Garantir l'isolation des données selon les habilitations du client (CLEAR, AMBER, RED) sans fuite de contexte inter-calques.
-- **Moteur Graphique Multi-Niveaux** : Permettre des requêtes ciblant les sous-graphes (TBox, ABox Interne, CTI Externe, Graphe Inféré).
+# Phase 6 — API Gateway Cross-TLP & Security Engine
 
-## 2. Étapes de Déploiement
-1. **Cadrage & Spécifications (Étape 1)** : Validation du schéma Pydantic V2 de sécurité et de la matrice de contrôle d'accès TLP dans `01-Principes_Spécifications/USECASE_TECHNIQUE/`.
-2. **Implémentation API (Étape 2)** : Développement de `api_gateway.py` avec FastAPI/GraphQL et filtrage dynamique SPARQL (Graph Union filtré).
-3. **Tests & Recette (Étape 3)** : Exécution de `test_phase6_api.py` (PyTest) pour valider l'étanchéité des rôles CLEAR/AMBER/RED et la conformité des réponses[cite: 1].
+## 1. Objectifs de la Phase
+- Exposer une interface d'interrogation dynamique (SPARQL & abstractions GraphQL/JSON) sur le graphe unifié DKG.
+- Implémenter un moteur d'isolation dynamique et strict des accès en fonction du niveau d'habilitation TLP de l'appelant (TLP:CLEAR, TLP:AMBER, TLP:RED).
+- Garantir le principe de non-fuite d'information (Information Leakage Prevention) : un jeton TLP:CLEAR ne doit jamais percevoir l'existence ou les relations vers des entités TLP:AMBER ou TLP:RED.
+- Assurer la traçabilité complète des requêtes via un journal d'audit en Snapshot et Master (`api_gateway_audit.log`).
+
+## 2. Étapes de Réalisation
+1. **Étape 1 (Cadrage & Contrats) :** Formalisation des spécifications (FWK et TEC), schémas Pydantic V2 d'habilitation et contrats de requêtes.
+2. **Étape 2 (Sous-graphes TLP) :** Construction dynamique des sous-graphes d'union selon le contexte d'habilitation TLP (CLEAR / AMBER / RED).
+3. **Étape 3 (Moteur de Filtrage SPARQL) :** Validation et exécution des requêtes SPARQL sur le graphe filtré.
+4. **Étape 4 (Validation SHACL & Non-Régression) :** Contrôle de conformité SHACL sous Closed World Assumption (CWA) et exécution de la suite PyTest.
+5. **Étape 5 (Auto-Documentation & Replay) :** Génération des bilans `.md` et synchronisation Snapshots / Masters.
 
 ## 3. Livrables Attendus
 - `00-Projet/Phase6/Phase_Content.md`
 - `00-Projet/Phase6/Memo_UseCase_Phase6.md`
-- `01-Principes_Spécifications/USECASE_TECHNIQUE/SPEC-TECH-UC06_API_Gateway_CrossTLP.md`
-- `03-Application/Phase6/schemas.py`
-- `03-Application/Phase6/api_gateway.py`
-- `03-Application/Test/test_phase6_api.py`
+- `01-Principes_Spécifications/TRANSVERSAL/SPEC-FWK-P6_Matrice_Habilitations_TLP.md`
+- `01-Principes_Spécifications/USECASE_TECHNIQUE/SPEC-TEC-P06_API_Gateway_TLP.md`
+- `02-Donnees/Input_Phases/Phase6_API_Gateway/sample_query_payloads.json`

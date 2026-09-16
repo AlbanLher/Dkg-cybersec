@@ -1,0 +1,26 @@
+[
+  {
+    "success": false,
+    "client_id": "agent-cti-public",
+    "tlp_applied": "CLEAR",
+    "results_count": 0,
+    "bindings": [],
+    "error_message": "Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'PREFIX'  (at char 0), (line:1, col:1)"
+  },
+  {
+    "success": false,
+    "client_id": "soc-analyst-l2",
+    "tlp_applied": "AMBER",
+    "results_count": 0,
+    "bindings": [],
+    "error_message": "Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'PREFIX'  (at char 0), (line:1, col:1)"
+  },
+  {
+    "success": false,
+    "client_id": "cert-investigator-l3",
+    "tlp_applied": "RED",
+    "results_count": 0,
+    "bindings": [],
+    "error_message": "Expected {SelectQuery | ConstructQuery | DescribeQuery | AskQuery}, found 'PREFIX'  (at char 0), (line:1, col:1)"
+  }
+]

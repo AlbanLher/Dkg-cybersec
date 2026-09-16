@@ -69,58 +69,7 @@ Ce bundle garantit un niveau maximal de **complétude** (traçabilité intégral
 ## ⚙️ 2. Fichier SSOT `config.py` Intégral (Active Runtime Only)
 
 
-```python
-"""
-config.py - Single Source of Truth (SSOT) - DKG-CyberSec Phase 5
-"""
-
-import os
-from pathlib import Path
-from rdflib import Namespace
-
-# --- ANCRAGE DES DOSSIERS SYSTEME ---
-BASE_DIR = Path(__file__).resolve().parent
-DIR_DONNEES = BASE_DIR / "02-Donnees"
-DIR_APPLICATION = BASE_DIR / "03-Application"
-DIR_MODELS = BASE_DIR / "04-Models"
-
-# --- REPERTOIRES LIVRABLES MASTER & SNAPSHOTS ---
-DIR_MASTER_TRANSVERSAL = DIR_DONNEES / "Master_Transversal"
-DIR_TBOX_AMBER = DIR_MASTER_TRANSVERSAL / "TLP_AMBER_TBox"
-DIR_ABOX_RED = DIR_MASTER_TRANSVERSAL / "TLP_RED_ABox"
-DIR_CTI_CLEAR = DIR_MASTER_TRANSVERSAL / "TLP_CLEAR_CTI_External"
-
-DIR_SNAPSHOTS = DIR_DONNEES / "Snapshots_Phases"
-DIR_SNAPSHOT_P5 = DIR_SNAPSHOTS / "Phase5_MITM_Inference"
-
-# --- MODEL CACHE PATHS (AIR-GAPPED) ---
-DIR_EMBEDDING_MODEL = DIR_MODELS / "sentence-transformers_all-MiniLM-L6-v2"
-EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-
-# --- NAMESPACES SPARQL / RDFLIB ---
-DKG_TBOX = Namespace("http://dkg.cybersec.org/tbox#")
-DKG_DATA = Namespace("http://dkg.cybersec.org/data#")
-DKG_CTI = Namespace("http://dkg.cybersec.org/cti#")
-SH = Namespace("http://www.w3.org/ns/shacl#")
-
-# --- PARAMETRES METIER & SEUILS ---
-MITM_SIMILARITY_THRESHOLD = 0.85
-NER_CONFIDENCE_THRESHOLD = 0.85
-
-# --- CHEMINS DES ARTEFACTS TTL & MD (PHASE 5) ---
-PATH_TBOX_MASTER = DIR_TBOX_AMBER / "DKG_TBox_Master.ttl"
-PATH_TBOX_MASTER_MD = DIR_TBOX_AMBER / "DOC_DKG_TBox_Master.md"
-
-PATH_ABOX_INTERNAL = DIR_ABOX_RED / "DKG_ABox_Internal.ttl"
-PATH_ABOX_CTI_STRUCT = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.ttl"
-PATH_ABOX_CTI_UNSTRUCT = DIR_CTI_CLEAR / "DKG_ABox_CTI_U_External.ttl"
-
-PATH_ABOX_INFERED = DIR_ABOX_RED / "DKG_ABox_Infered.ttl"
-PATH_ABOX_INFERED_MD = DIR_ABOX_RED / "DOC_DKG_ABox_Infered.md"
-
-PATH_MITM_ALIGNMENT = DIR_TBOX_AMBER / "DKG_MITM_Alignment.ttl"
-PATH_MITM_ALIGNMENT_MD = DIR_TBOX_AMBER / "DOC_DKG_MITM_Alignment.md"
-```
+fichier attaché au prompt
 
 ## 📐 3. Contrats d'Interface & Schémas Canoniques (Phase 5)
 

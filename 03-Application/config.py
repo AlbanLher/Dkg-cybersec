@@ -2,11 +2,11 @@
 03-Application/config.py
 Single Source of Truth (SSOT) - Configuration centralisée du projet DKG-CyberSec.
 Sécurisé et validé par Pydantic V2 (EXG-OR-05, EXG-OR-07).
-Phase 5 Active : Support Raisonnement, Inférence & Agent MITM (SKOS intégré à TBox Master).
+Phase 6 Active : Support API Gateway, Security Engine & Isolation TLP.
 """
 
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, List
 from rdflib import Namespace
 from pydantic import Field, AnyHttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -114,6 +114,19 @@ class DKGConfig(BaseSettings):
     def dir_ner_model(self) -> Path:
         return self.dir_models / "ner"
 
+    # Répertoires Phase 6 (API Gateway & Security)
+    @property
+    def dir_snapshot_p6(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase6_API_Gateway"
+
+    @property
+    def dir_inputs_p6(self) -> Path:
+        return self.dir_data / "Input_Phases" / "Phase6_API_Gateway"
+
+    @property
+    def dir_projet_p6(self) -> Path:
+        return self.dir_root / "00-Projet" / "Phase6"
+
     # --------------------------------------------------------------------------
     # 2. SEUILS & PARAMETRES IA
     # --------------------------------------------------------------------------
@@ -146,7 +159,8 @@ class DKGConfig(BaseSettings):
             self.dir_inputs_p3,  self.dir_snapshot_p3,
             self.dir_inputs_p4,  self.dir_snapshot_p4,
             self.dir_infered_red, self.dir_models, self.dir_embedding_model,
-            self.dir_ner_model, self.dir_snapshot_p5
+            self.dir_ner_model, self.dir_snapshot_p5,
+            self.dir_inputs_p6,  self.dir_snapshot_p6, self.dir_projet_p6
         ]
         for d in target_dirs:
             d.mkdir(parents=True, exist_ok=True)
@@ -188,6 +202,10 @@ DIR_MODELS = _settings.dir_models
 DIR_EMBEDDING_MODEL = _settings.dir_embedding_model
 DIR_NER_MODEL = _settings.dir_ner_model
 
+DIR_SNAPSHOT_P6 = _settings.dir_snapshot_p6
+DIR_INPUTS_P6 = _settings.dir_inputs_p6
+DIR_PROJET_P6 = _settings.dir_projet_p6
+
 # 2. ARTEFACTS ET FICHIERS RDF (_PATH)
 TBOX_MASTER_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.ttl"
 TBOX_MASTER_MD_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.md"
@@ -213,6 +231,16 @@ RULES_MASTER_MD_PATH = DIR_TBOX_AMBER / "DKG_Rules_Master.md"
 
 ABOX_INFERED_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.ttl"
 ABOX_INFERED_MD_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.md"
+
+INPUT_P6_QUERY_PAYLOAD = DIR_INPUTS_P6 / "sample_query_payloads.json"
+PATH_P6_GATEWAY_LOG = DIR_SNAPSHOT_P6 / "api_gateway_audit.log"
+
+# Paramètres de Sécurité & Filtrage TLP
+API_GATEWAY_HOST = "127.0.0.1"
+API_GATEWAY_PORT = 8000
+TLP_CLEAR_READ_GRAPH = [ABOX_CTI_PATH, ABOX_CTI_U_PATH]
+TLP_AMBER_READ_GRAPH = TLP_CLEAR_READ_GRAPH + [TBOX_MASTER_PATH]
+TLP_RED_READ_GRAPH = TLP_AMBER_READ_GRAPH + [ABOX_MASTER_PATH, ABOX_INFERED_PATH]
 
 # 3. SOCLE IA LOCAL
 EMBEDDING_MODEL_NAME = _settings.embedding_model_name
