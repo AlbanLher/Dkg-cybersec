@@ -53,7 +53,7 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          pytest -v 03-Application/Test/ 03-Application/Tests/ --junitxml=test-results.xml
+          pytest -v 03-Application/Test/ 03-Application/Test/ --junitxml=test-results.xml
 
       # 7. Publication des résultats de test dans l'interface GitHub
       - name: Publish Test Results
