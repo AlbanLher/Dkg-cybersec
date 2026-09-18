@@ -23,21 +23,21 @@ La roadmap est contruite en 3 niveaux
 ## 2 - Tableau Détaillé des Vagues & Phases (Niveau Micro)
 ### 2.1 - Vue Tableau
 
-| **Vague** | **Phase** | **Intitulé Fonctionnel**           | **Objectif Technique / Livrable**                                                       |  **Statut**   |
-| :-------: | :-------: | ---------------------------------- | --------------------------------------------------------------------------------------- | :-----------: |
-|  **V1**   |  **P1**   | Socle TBox & SHACL CWA             | Ontologie Master OWL2 (`TLP:AMBER`) et formes SHACL.                                    | 🟢 **PASSED** |
-|           |  **P2**   | Cartographie ABox Interne          | Actifs, logiciels et failles d'un PC individuel (`TLP:RED`).                            | 🟢 **PASSED** |
-|  **V2**   |  **P3**   | Ingestion CTI Structurée           | Flux NVD, CAPEC, CISA KEV (`TLP:CLEAR`).                                                | 🟢 **PASSED** |
-|           |  **P4**   | Ingestion CTI Textuelle (NER)      | Extraction d'entités CTI avec score de confiance `dkg:nerConfidenceScore`.              | 🟢 **PASSED** |
-|           |  **P5**   | Agent MITM & Reasoning Base        | Moteur d'inférence R-01/R-02 et alignement vectoriel Cosinus MiniLM.                    | 🟢 **PASSED** |
-|  **V3**   |  **P6**   | API Gateway & Ségrégation TLP      | Endpoint SPARQL/GraphQL sécurisé avec filtrage dynamique par niveau d'habilitation.     | 🟢 **PASSED** |
-|           |  **P7**   | Micro-Agents Télémétrie PME        | Agent Surveillance Logs (EDR) & Agent Veille CTI Externe. Extension topologie PME.      | 🟡 **ACTIVE** |
-|           |  **P8**   | SOC Dashboard & Replay Ops         | Dynamic Overlay du graphe, vue multi-calques et automatisation CI/CD.                   |  ⚪ Planifié   |
-|  **V4**   |  **P9**   | Taxonomies SKOS & Poly-hiérarchies | Structuration fine des domaines produits/familles et gestion des périmètres étanches.   |  ⚪ Planifié   |
-|           |  **P10**  | Agent MITM Human-in-the-Loop       | Interface d'arbitrage actif quand $0.65 \le \text{Score} < 0.85$. Enrichissement guidé. |  ⚪ Planifié   |
-|  **V5**   |  **P11**  | GraphRAG & NL-to-SPARQL            | Indexation hybride du DKG, explicabilité par sous-graphes RDF de preuves.               |  ⚪ Planifié   |
-|           |  **P12**  | Fine-Tuning Continu SLM            | Dataset d'entraînement automatique DKG ➔ SPARQL et ré-entraînement LoRA/QLoRA.          |  ⚪ Planifié   |
-|  **V6**   |  **P13**  | Streaming SIEM & SOAR              | Ingestion en continu d'événements et génération de playbooks YARA/Sigma.                |  ⚪ Planifié   |
+| **Vague** | **Phase** | **Intitulé Fonctionnel**           | **Objectif Technique / Livrable**                                                              |  **Statut**   |
+| :-------: | :-------: | ---------------------------------- | ---------------------------------------------------------------------------------------------- | :-----------: |
+|  **V1**   |  **P1**   | Socle TBox & SHACL CWA             | Ontologie Master OWL2 (`TLP:AMBER`) et formes SHACL.                                           | 🟢 **PASSED** |
+|           |  **P2**   | Cartographie ABox Interne          | Actifs, logiciels et failles d'un PC individuel (`TLP:RED`).                                   | 🟢 **PASSED** |
+|  **V2**   |  **P3**   | Ingestion CTI Structurée           | Flux NVD, CAPEC, CISA KEV (`TLP:CLEAR`).                                                       | 🟢 **PASSED** |
+|           |  **P4**   | Ingestion CTI Textuelle (NER)      | Extraction d'entités CTI avec score de confiance `dkg:nerConfidenceScore`.                     | 🟢 **PASSED** |
+|           |  **P5**   | Agent MITM & Reasoning Base        | Moteur d'inférence R-01/R-02 et alignement vectoriel Cosinus MiniLM.                           | 🟢 **PASSED** |
+|  **V3**   |  **P6**   | API Gateway & Ségrégation TLP      | Endpoint SPARQL/GraphQL sécurisé avec filtrage dynamique par niveau d'habilitation.            | 🟢 **PASSED** |
+|           |  **P7**   | Micro-Agents Télémétrie            | Agent Veille CTI Externe. Extension topologie family.                                          | 🟢 **PASSED** |
+|           |  **P8**   | SOC Dashboard & Replay Ops         | Agent surveillance Logs, Dynamic Overlay du graphe, vue multi-calques et automatisation CI/CD. | 🟡 **ACTIVE** |
+|  **V4**   |  **P9**   | Taxonomies SKOS & Poly-hiérarchies | Structuration fine des domaines produits/familles et gestion des périmètres étanches.          |  ⚪ Planifié   |
+|           |  **P10**  | Agent MITM Human-in-the-Loop       | Interface d'arbitrage actif quand $0.65 \le \text{Score} < 0.85$. Enrichissement guidé.        |  ⚪ Planifié   |
+|  **V5**   |  **P11**  | GraphRAG & NL-to-SPARQL            | Indexation hybride du DKG, explicabilité par sous-graphes RDF de preuves.                      |  ⚪ Planifié   |
+|           |  **P12**  | Fine-Tuning Continu SLM            | Dataset d'entraînement automatique DKG ➔ SPARQL et ré-entraînement LoRA/QLoRA.                 |  ⚪ Planifié   |
+|  **V6**   |  **P13**  | Streaming SIEM & SOAR              | Ingestion en continu d'événements et génération de playbooks YARA/Sigma.                       |  ⚪ Planifié   |
 ### 2.2 - Vue Graph
 
 ```mermaid
@@ -85,9 +85,9 @@ graph TB
     V5 ==> V6
 
     %% Application des classes
-    class P1,P2,P3,P4,P5 passed;
-    class P6 active;
-    class P7,P8,P9,P10,P11,P12,P13 planned;
+    class P1,P2,P3,P4,P5,P6,P7 passed;
+    class P8 active;
+    class P9,P10,P11,P12,P13 planned;
 ```
 
 ## 3  -  Backlog Non Intégré

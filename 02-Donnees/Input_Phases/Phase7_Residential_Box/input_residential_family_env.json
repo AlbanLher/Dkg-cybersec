@@ -1,0 +1,44 @@
+{
+  "household_assets": [
+    {
+      "asset_id": "asset_win10_01",
+      "name": "PC Windows 10 Bureau",
+      "ip_address": "192.168.1.10",
+      "os": "Windows 10",
+      "exposed_services": ["SMB"],
+      "zone": "LAN"
+    },
+    {
+      "asset_id": "asset_fedora_01",
+      "name": "PC Fedora 44 Plex",
+      "ip_address": "192.168.1.20",
+      "os": "Fedora 44",
+      "exposed_services": ["Plex Media Server"],
+      "zone": "WAN_EXPOSED"
+    },
+    {
+      "asset_id": "asset_cam_01",
+      "name": "Caméra Surveillance IP",
+      "ip_address": "192.168.1.50",
+      "os": "Embedded Linux",
+      "exposed_services": ["Telnet"],
+      "zone": "IoT_LAN"
+    },
+    {
+      "asset_id": "asset_tablet_01",
+      "name": "Tablette Android Enfants",
+      "ip_address": "192.168.1.100",
+      "os": "Android 9 (Obsolete)",
+      "exposed_services": [],
+      "zone": "LAN"
+    },
+    {
+      "asset_id": "asset_thermostat_01",
+      "name": "Thermostat Connecté",
+      "ip_address": "192.168.1.200",
+      "os": "RTOS",
+      "exposed_services": ["HTTP API Unauthenticated"],
+      "zone": "IoT_LAN"
+    }
+  ]
+}

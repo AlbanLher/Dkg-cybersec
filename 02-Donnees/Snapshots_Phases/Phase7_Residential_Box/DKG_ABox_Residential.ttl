@@ -1,0 +1,37 @@
+@prefix dkg_data: <http://dkg.cybersec.org/data#> .
+@prefix dkg_tbox: <http://dkg.cybersec.org/tbox#> .
+
+dkg_data:asset_cam_01 a dkg_tbox:ResidentialAsset ;
+    dkg_tbox:exposesService "Telnet" ;
+    dkg_tbox:hasAssetName "Caméra Surveillance IP" ;
+    dkg_tbox:hasIpAddress "192.168.1.50" ;
+    dkg_tbox:hasNetworkZone "IoT_LAN" ;
+    dkg_tbox:hasOperatingSystem "Embedded Linux" .
+
+dkg_data:asset_fedora_01 a dkg_tbox:ResidentialAsset ;
+    dkg_tbox:exposesService "Plex Media Server" ;
+    dkg_tbox:hasAssetName "PC Fedora 44 Plex" ;
+    dkg_tbox:hasIpAddress "192.168.1.20" ;
+    dkg_tbox:hasNetworkZone "WAN_EXPOSED" ;
+    dkg_tbox:hasOperatingSystem "Fedora 44" .
+
+dkg_data:asset_tablet_01 a dkg_tbox:ResidentialAsset ;
+    dkg_tbox:hasAssetName "Tablette Android Enfants" ;
+    dkg_tbox:hasIpAddress "192.168.1.100" ;
+    dkg_tbox:hasNetworkZone "LAN" ;
+    dkg_tbox:hasOperatingSystem "Android 9 (Obsolete)" .
+
+dkg_data:asset_thermostat_01 a dkg_tbox:ResidentialAsset ;
+    dkg_tbox:exposesService "HTTP API Unauthenticated" ;
+    dkg_tbox:hasAssetName "Thermostat Connecté" ;
+    dkg_tbox:hasIpAddress "192.168.1.200" ;
+    dkg_tbox:hasNetworkZone "IoT_LAN" ;
+    dkg_tbox:hasOperatingSystem "RTOS" .
+
+dkg_data:asset_win10_01 a dkg_tbox:ResidentialAsset ;
+    dkg_tbox:exposesService "SMB" ;
+    dkg_tbox:hasAssetName "PC Windows 10 Bureau" ;
+    dkg_tbox:hasIpAddress "192.168.1.10" ;
+    dkg_tbox:hasNetworkZone "LAN" ;
+    dkg_tbox:hasOperatingSystem "Windows 10" .
+

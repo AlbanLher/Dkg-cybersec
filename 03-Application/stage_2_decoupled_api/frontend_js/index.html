@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DKG-CyberSec - SOC Résidentiel (Client Découplé)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- En-Tête -->
+        <header class="mb-8 border-b border-gray-700 pb-4">
+            <h1 class="text-3xl font-bold text-green-400">🛡️ DKG-CyberSec SOC Dashboard</h1>
+            <p class="text-gray-400">Architecture Découplée : Frontend HTML/JS ➡️ FastAPI Backend ➡️ Moteur Sémantique / Agents</p>
+        </header>
+
+        <!-- Actions / Contrôles -->
+        <div class="mb-8 flex gap-4">
+            <button onclick="loadAudit()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded shadow transition">
+	        🚀 Lancer l'Audit SOC du Foyer
+	    </button>
+	    <button onclick="loadInventory()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded shadow transition">
+	        📂 Voir l'Inventaire Actuel
+	    </button>
+	    <!-- Bouton de bascule de source -->
+	    <button id="toggle-source-btn" onclick="toggleDataSource()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded shadow transition">
+	        🔄 Mode Actuel : Poste Local (TLP:RED)
+	    </button>
+        </div>
+
+        <!-- Zone d'affichage des résultats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Panneau de Gauche : Inventaire / État -->
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+                <h2 id="inventory-title" class="text-xl font-bold mb-4 text-blue-400">📂 Inventaire des Actifs</h2>
+                <div id="inventory-container" class="space-y-3">
+                    <p class="text-gray-400">Clique sur "Voir l'Inventaire Actuel" pour charger les actifs.</p>
+                </div>
+            </div>
+            <!-- Panneau de DROITE : Rapport de l'Agent Conseil / Audit -->
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+                <!-- Assure-toi que id="audit-title" est bien présent ici -->
+                <h2 id="audit-title" class="text-xl font-bold mb-4 text-green-400">🤖 Rapport de l'Agent Conseil</h2>
+                <div id="audit-container" class="space-y-3">
+                    <p class="text-gray-400">En attente du lancement de l'audit...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Actions / Contrôles -->
+    <script src="app.js"></script>
+</body>
+</html>

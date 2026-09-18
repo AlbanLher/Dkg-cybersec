@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "source_id": "cisa_kev",
+      "name": "CISA Known Exploited Vulnerabilities",
+      "type": "Structured",
+      "protocol": "HTTPS",
+      "endpoint_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "timeout_seconds": 10,
+      "enabled": true,
+      "description": "Catalogue officiel des vulnérabilités activement exploitées."
+    },
+    {
+      "source_id": "cert_fr_feed",
+      "name": "CERT-FR Actualités / Avis",
+      "type": "Unstructured",
+      "protocol": "HTTPS",
+      "endpoint_url": "https://www.cert.ssi.gouv.fr/feed/",
+      "timeout_seconds": 10,
+      "enabled": false,
+      "description": "Flux RSS des avis et alertes de sécurité du CERT-FR."
+    }
+  ]
+}

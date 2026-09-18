@@ -1,69 +1,54 @@
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-data: <http://dkg.cybersec.org/data#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-dkg-data:ABox_Master a owl:Ontology ;
-    rdfs:label "DKG ABox Master - Operational Cyber Security Graph"@fr .
+dkg-data:ResidentialSnapshot a dkg-data:SecuritySnapshot ;
+    dkg-data:hasSecurityRisk [ a dkg-data:SecurityRisk ;
+            dkg-data:recommendedAction "Isoler l'équipement asset_cam_01 ou désactiver le service non sécurisé." ;
+            dkg-data:riskDescription "Service à haut risque détecté (Telnet) sur l'actif Caméra Surveillance IP." ;
+            dkg-data:riskLevel "HIGH" ],
+        [ a dkg-data:SecurityRisk ;
+            dkg-data:recommendedAction "Désactiver l'UPnP et fermer la redirection de port WAN pour Plex." ;
+            dkg-data:riskDescription "Le serveur Plex est directement exposé sur le WAN via la Box FAI." ;
+            dkg-data:riskLevel "CRITICAL" ] ;
+    dkg-data:hasTLP "TLP:RED" .
 
-dkg-data:TLP-CLEAR a dkg:TLPMarking ;
-    rdfs:label "TLP:CLEAR"@en .
+dkg-data:asset_cam_01 a dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:ipAddress "192.168.1.50" ;
+    dkg-data:operatingSystem "Embedded Linux" ;
+    dkg-data:runsService [ dkg-data:serviceName "Telnet" ;
+            dkg-data:servicePort 23 ;
+            dkg-data:serviceStatus "Exposed" ] .
 
-dkg-data:TLP-GREEN a dkg:TLPMarking ;
-    rdfs:label "TLP:GREEN"@en .
+dkg-data:asset_fedora_01 a dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:ipAddress "192.168.1.20" ;
+    dkg-data:operatingSystem "Fedora 44" ;
+    dkg-data:runsService [ dkg-data:serviceName "Plex Media Server" ;
+            dkg-data:servicePort 32400 ;
+            dkg-data:serviceStatus "Active" ] .
 
-dkg-data:Asset-Srv-Auth-02 a dkg:Asset ;
-    rdfs:label "Serveur Authentification Central"@fr ;
-    dkg:hasInstalledComponent dkg-data:Comp-Log4j-2-14 ;
-    dkg:hasTLPMarking dkg-data:TLP-RED .
+dkg-data:asset_tablet_01 a dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:ipAddress "192.168.1.100" ;
+    dkg-data:operatingSystem "Android 9 (Obsolete)" .
 
-dkg-data:Asset-Srv-Prod-01 a dkg:Asset ;
-    rdfs:label "Serveur Web Frontend Production"@fr ;
-    dkg:hasInstalledComponent dkg-data:Comp-Apache-2-4-49 ;
-    dkg:hasTLPMarking dkg-data:TLP-AMBER .
+dkg-data:asset_thermostat_01 a dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:ipAddress "192.168.1.200" ;
+    dkg-data:operatingSystem "RTOS" ;
+    dkg-data:runsService [ dkg-data:serviceName "HTTP API Unauthenticated" ;
+            dkg-data:servicePort 80 ;
+            dkg-data:serviceStatus "Exposed" ] .
 
-dkg-data:CAPEC-126 a dkg:ThreatPattern ;
-    rdfs:label "Path Traversal"@en ;
-    rdfs:comment "An attacker manipulates path references to access files outside the intended folder."@en .
+dkg-data:asset_win10_01 a dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:ipAddress "192.168.1.10" ;
+    dkg-data:operatingSystem "Windows 10" ;
+    dkg-data:runsService [ dkg-data:serviceName "SMB" ;
+            dkg-data:servicePort 445 ;
+            dkg-data:serviceStatus "Active" ] .
 
-dkg-data:CAPEC-63 a dkg:ThreatPattern ;
-    rdfs:label "Simple Pass-Through"@en ;
-    rdfs:comment "Attacker executes arbitrary code by passing commands through input fields."@en .
-
-dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
-    rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
-    dkg:cvssScore "7.5"^^xsd:float ;
-    dkg:exploitsWeakness dkg-data:CWE-22 ;
-    dkg:isVulnerabilityOf dkg-data:Comp-Apache-2-4-49 .
-
-dkg-data:CVE-2021-44228 a dkg:Vulnerability ;
-    rdfs:label "Log4Shell Remote Code Execution"@en ;
-    dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:exploitsWeakness dkg-data:CWE-78 ;
-    dkg:isVulnerabilityOf dkg-data:Comp-Log4j-2-14 .
-
-dkg-data:CWE-22 a dkg:Weakness ;
-    rdfs:label "Improper Limitation of a Pathname to a Restricted Directory"@en ;
-    dkg:hasThreatPattern dkg-data:CAPEC-126 .
-
-dkg-data:CWE-78 a dkg:Weakness ;
-    rdfs:label "Improper Neutralization of Special Elements used in an OS Command"@en ;
-    dkg:hasThreatPattern dkg-data:CAPEC-63 .
-
-dkg-data:TLP-AMBER a dkg:TLPMarking ;
-    rdfs:label "TLP:AMBER"@en .
-
-dkg-data:TLP-RED a dkg:TLPMarking ;
-    rdfs:label "TLP:RED"@en .
-
-dkg-data:Comp-Apache-2-4-49 a dkg:SoftwareComponent ;
-    rdfs:label "Apache HTTP Server v2.4.49"@fr ;
-    dkg:hasVulnerability dkg-data:CVE-2021-41773 ;
-    dkg:isComponentOf dkg-data:Asset-Srv-Prod-01 .
-
-dkg-data:Comp-Log4j-2-14 a dkg:SoftwareComponent ;
-    rdfs:label "Apache Log4j Core v2.14.1"@fr ;
-    dkg:hasVulnerability dkg-data:CVE-2021-44228 ;
-    dkg:isComponentOf dkg-data:Asset-Srv-Auth-02 .
+dkg-data:Box_FAI_Livebox a dkg-data:Gateway ;
+    dkg-data:wanExposureRisk true .
 

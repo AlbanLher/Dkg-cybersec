@@ -1,6 +1,7 @@
 # 🗺️ Master Index des Spécifications & Matrice d'Exigences
 
-## 1. Cartographie des Spécifications
+## Tableau Humain
+### 1. Cartographie des Spécifications
 ```dataview
 TABLE WITHOUT ID
     reference AS "Référence",
@@ -13,74 +14,8 @@ WHERE type = "spec"
 SORT phase_code ASC, reference ASC
 ```
 
-## 1.bis
-```dataviewjs
-let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
-let rows = ["Fichier_Source\tDomaine\tID_Exigence\tTitre_Court"];
 
-for (let page of pages) {
-    let file = page.file.name;
-    
-    let processEx = (dom, ex) => {
-        let id = ex.id || "SANS_ID";
-        let titre = ex.titre || ex.intitule || "Sans titre";
-        rows.push(`${file}\t${dom}\t${id}\t${titre}`);
-    };
-
-    if (page.exigences_par_domaine) {
-        for (let dom in page.exigences_par_domaine) {
-            let list = page.exigences_par_domaine[dom];
-            if (Array.isArray(list)) {
-                list.forEach(ex => processEx(dom, ex));
-            }
-        }
-    } else if (Array.isArray(page.exigences)) {
-        page.exigences.forEach(ex => processEx(page.domaine || "General", ex));
-    }
-}
-
-dv.header(4, "🗺️ Cartographie des Spécifications (Format TSV)");
-dv.paragraph("```tsv\n" + rows.join("\n") + "\n```");
-```
-
-
-
-
-## 2. Matrice Consolidée Traçabilité Exigences (`EXG-`)
-```dataview
-TABLE WITHOUT ID
-    ex.id AS "Réf. Exigence",
-    phase_code AS "Phase",
-    ex.domaine AS "Domaine",
-    ex.titre AS "Intitulé Exigence",
-    ex.description AS "Critère d'Acceptation",
-    ex.test AS "Mode de Test",
-    statut AS "Statut Phase"
-FROM "01-Principes_Spécifications"
-WHERE type = "spec" AND exigences
-FLATTEN exigences AS ex
-SORT ex.id ASC
-```
-
-## 3. 
-```dataview
-TABLE WITHOUT ID
-    ex.id AS "Réf. Exigence",
-    domaine AS "Domaine",
-    ex.titre AS "Intitulé Exigence",
-    ex.desc AS "Critère d'Acceptation",
-    ex.val AS "Mode de Test"
-FROM "01-Principes_Spécifications"
-WHERE type = "spec" AND exigences_par_domaine
-FLATTEN objectPairs(exigences_par_domaine) AS p
-FLATTEN p.key AS domaine
-FLATTEN p.value AS ex
-SORT ex.id ASC
-```
-
-
-## 4. 
-
+### 2. Matrice Consolidée Traçabilité Exigences (`EXG-`)
 ```dataviewjs
 let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
 let rows = [];
@@ -130,6 +65,45 @@ if (rows.length === 0) {
 ```
 
 
+
+## Tableau LLM formaat TSV _( Tab-Separated Values )_
+### 3.Cartographie des Spécifications
+```dataviewjs
+let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
+let rows = ["Fichier_Source\tDomaine\tID_Exigence\tTitre_Court"];
+
+for (let page of pages) {
+    let file = page.file.name;
+    
+    let processEx = (dom, ex) => {
+        let id = ex.id || "SANS_ID";
+        let titre = ex.titre || ex.intitule || "Sans titre";
+        rows.push(`${file}\t${dom}\t${id}\t${titre}`);
+    };
+
+    if (page.exigences_par_domaine) {
+        for (let dom in page.exigences_par_domaine) {
+            let list = page.exigences_par_domaine[dom];
+            if (Array.isArray(list)) {
+                list.forEach(ex => processEx(dom, ex));
+            }
+        }
+    } else if (Array.isArray(page.exigences)) {
+        page.exigences.forEach(ex => processEx(page.domaine || "General", ex));
+    }
+}
+
+dv.header(4, "🗺️ Cartographie des Spécifications (Format TSV)");
+dv.paragraph("```tsv\n" + rows.join("\n") + "\n```");
+```
+
+
+
+
+
+### 4. Matrice Consolidée Traçabilité Exigences
+
+
 ```dataviewjs
 let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
 let lines = ["ID\tDomaine\tTitre\tCritère\tTest"];
@@ -167,4 +141,76 @@ for (let page of pages) {
 // Rendu en bloc de code texte brut facilement copiable
 dv.header(4, "📋 Master Index Compact (Format TSV pour LLM)");
 dv.paragraph("```tsv\n" + lines.join("\n") + "\n```");
+```
+### 5. - Matrice Consolidée Traçabilité Exigences décomposées par App_Layer
+```dataviewjs
+let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
+
+// En-têtes complets correspondant à votre structure d'exigence souhaitée
+let header = "ID\tDomaine\tTitre\tCritère\tTest";
+let layers = {
+    "Core": [header],
+    "Agent": [header],
+    "Interface": [header]
+};
+
+function getAppLayer(domaine) {
+    if (!domaine) return "Interface";
+    let d = String(domaine).trim().toUpperCase();
+    
+    // Core : Modèle sémantique, Ontologie, Schémas, Formes
+    if (["TB", "SH", "ONT"].includes(d)) return "Core";
+    
+    // Agent : Inférence, Analyse, CTI, Traitement de texte, Intelligence/MITM
+    if (["IN", "CT", "IA"].includes(d)) return "Agent";
+    
+    // Interface : Organisation, Sécurité, Qualité, Technique, Hardware, etc.
+    return "Interface";
+}
+
+for (let page of pages) {
+    let pageDomaine = page.domaine || page.domain || "General";
+    
+    let processEx = (dom, ex) => {
+        let id = ex.id || "-";
+        let titre = ex.titre || ex.intitule || "-";
+        let desc = ex.desc || ex.description || "-";
+        let val = ex.val || ex.test || "-";
+        
+        // Nettoyage des retours à la ligne potentiels dans les descriptions pour ne pas casser le format TSV
+        desc = String(desc).replace(/(\r\n|\n|\r)/gm, " ");
+        val = String(val).replace(/(\r\n|\n|\r)/gm, " ");
+
+        // Détermination du domaine effectif et de la couche
+        let effectiveDom = dom || pageDomaine;
+        if (ex.id) {
+            let match = ex.id.match(/^EXG-([A-Z]+)-/);
+            if (match) effectiveDom = match[1];
+        }
+        
+        let targetLayer = getAppLayer(effectiveDom);
+        layers[targetLayer].push(`${id}\t${effectiveDom}\t${titre}\t${desc}\t${val}`);
+    };
+
+    if (page.exigences_par_domaine) {
+        for (let dom in page.exigences_par_domaine) {
+            let list = page.exigences_par_domaine[dom];
+            if (Array.isArray(list)) {
+                list.forEach(ex => processEx(dom, ex));
+            }
+        }
+    } else if (Array.isArray(page.exigences)) {
+        page.exigences.forEach(ex => processEx(pageDomaine, ex));
+    }
+}
+
+// Génération dynamique des 3 blocs TSV d'exigences complètes
+for (let layerName of ["Core", "Agent", "Interface"]) {
+    dv.header(4, `📋 Matrice des Exigences — Couche : ${layerName} (Format TSV complet)`);
+    if (layers[layerName].length > 1) {
+        dv.paragraph("```tsv\n" + layers[layerName].join("\n") + "\n```");
+    } else {
+        dv.paragraph("_Aucune exigence pour cette couche._");
+    }
+}
 ```

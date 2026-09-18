@@ -127,6 +127,23 @@ class DKGConfig(BaseSettings):
     def dir_projet_p6(self) -> Path:
         return self.dir_root / "00-Projet" / "Phase6"
 
+    # Phase 7 Foyer 
+    @property
+    def dir_snapshot_p7(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase7_Residential_Box"
+
+    @property
+    def dir_inputs_p7(self) -> Path:
+        return self.dir_data / "Input_Phases" / "Phase7_Residential_Box"
+
+    @property
+    def dir_projet_p7(self) -> Path:
+        return self.dir_root / "00-Projet" / "Phase7"
+
+    @property
+    def dir_private_red(self) -> Path:
+        return self.dir_root / ".private"
+
     # --------------------------------------------------------------------------
     # 2. SEUILS & PARAMETRES IA
     # --------------------------------------------------------------------------
@@ -160,7 +177,9 @@ class DKGConfig(BaseSettings):
             self.dir_inputs_p4,  self.dir_snapshot_p4,
             self.dir_infered_red, self.dir_models, self.dir_embedding_model,
             self.dir_ner_model, self.dir_snapshot_p5,
-            self.dir_inputs_p6,  self.dir_snapshot_p6, self.dir_projet_p6
+            self.dir_inputs_p6,  self.dir_snapshot_p6, self.dir_projet_p6,
+            self.dir_inputs_p7,  self.dir_snapshot_p7, self.dir_projet_p7,
+            self.dir_private_red
         ]
         for d in target_dirs:
             d.mkdir(parents=True, exist_ok=True)
@@ -206,6 +225,14 @@ DIR_SNAPSHOT_P6 = _settings.dir_snapshot_p6
 DIR_INPUTS_P6 = _settings.dir_inputs_p6
 DIR_PROJET_P6 = _settings.dir_projet_p6
 
+DIR_SNAPSHOT_P7 = _settings.dir_snapshot_p7
+DIR_INPUTS_P7 = _settings.dir_inputs_p7
+DIR_PROJET_P7 = _settings.dir_projet_p7
+
+PROJECT_ROOT = _settings.dir_root
+DIR_PRIVATE_RED = _settings.dir_private_red
+DIR_PRIVATE_RED.mkdir(parents=True, exist_ok=True)
+
 # 2. ARTEFACTS ET FICHIERS RDF (_PATH)
 TBOX_MASTER_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.ttl"
 TBOX_MASTER_MD_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.md"
@@ -234,6 +261,17 @@ ABOX_INFERED_MD_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.md"
 
 INPUT_P6_QUERY_PAYLOAD = DIR_INPUTS_P6 / "sample_query_payloads.json"
 PATH_P6_GATEWAY_LOG = DIR_SNAPSHOT_P6 / "api_gateway_audit.log"
+
+INPUT_RESIDENTIAL_JSON_PATH = DIR_INPUTS_P7 / "input_residential_family_env.json"
+ABOX_RESIDENTIAL_PATH = DIR_SNAPSHOT_P7 / "DKG_ABox_Residential.ttl"
+
+EXTERNAL_SOURCES_CONFIG_PATH = DIR_INPUTS_P7 / "external_sources_config.json"
+EXTERNAL_SOURCES_CATALOG_PATH = DIR_INPUTS_P7 / "external_sources_catalog.json"
+
+# Chemins TLP:RED sécurisés et non versionnés
+SECURE_INPUT_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "input_residential_family_env.json"
+SECURE_ABOX_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "DKG_ABox_Residential.ttl"
+
 
 # Paramètres de Sécurité & Filtrage TLP
 API_GATEWAY_HOST = "127.0.0.1"

@@ -1,0 +1,22 @@
+{
+  "sources": [
+    {
+      "source_id": "src_nvd_vulnerabilities",
+      "name": "National Vulnerability Database",
+      "type": "structured",
+      "format": "json",
+      "endpoint_or_path": "external_nvd_capec_feed.json",
+      "target_tlp": "TLP:CLEAR",
+      "phase_reference": "Phase3"
+    },
+    {
+      "source_id": "src_cert_bulletins",
+      "name": "CERT-FR / ANSSI Advisories",
+      "type": "unstructured",
+      "format": "text",
+      "endpoint_or_path": "bulletin_apt29.txt",
+      "target_tlp": "TLP:CLEAR",
+      "phase_reference": "Phase4"
+    }
+  ]
+}

@@ -52,7 +52,7 @@ if (selectedType === "USECASE_TECHNIQUE") porteeCode = "TEC";
 
 // 4. Titres et Description
 let rawTitle = tp.file.title;
-let defaultCleanTitle = rawTitle.replace(/^SPEC-[^-]+-/, "").replace(/_/g, " ");
+let defaultCleanTitle = rawTitle.replace(/^SPC-[^-]+-[^-]+-/, "").replace(/_/g, " ");
 const specTitre = await tp.system.prompt("Titre complet de la spécification :", defaultCleanTitle);
 
 let defaultSnake = specTitre.toLowerCase()
@@ -64,14 +64,15 @@ let defaultSnake = specTitre.toLowerCase()
 const titreSnake = await tp.system.prompt("Titre court (snake_case) :", defaultSnake);
 const specDescription = await tp.system.prompt("Résumé / Description courte (1 phrase) :", "");
 
-// Numéro de révision et Référence Unique
+// Numéro de révision et Référence Unique (Format canonique SPC-[PORTÉE]-[PHASE]-[TITRE]_[REV])
 const revisionNum = 1;
 const revisionSuffix = String(revisionNum).padStart(2, "0");
 const specReference = `SPC-${porteeCode}-${targetPCode}-${titreSnake}_${revisionSuffix}`;
 
 // 5. Publics visés
 const publicPresets = [
-    "Architectes Ontologues, Développeurs DevSecOps",
+    "Architectes Ontologues",
+    "Développeurs DevSecOps",
     "Analystes CTI / SOC, Lead Tech",
     "Architectes Ontologues, Analystes CTI / SOC",
     "✏️ Autre combinaison..."
@@ -86,7 +87,7 @@ const publicList = chosenPublic
     ? chosenPublic.split(",").map(p => p.trim()).filter(p => p.length > 0)
     : ["Architectes Ontologues"];
 
-// 6. Injection unifiée dans le Frontmatter YAML
+// 6. Injection unifiée dans le Frontmatter YAML incluant les exigences structurées
 app.fileManager.processFrontMatter(tp.config.target_file, (fm) => {
     fm["type"] = "spec";
     fm["reference"] = specReference;
@@ -106,7 +107,7 @@ app.fileManager.processFrontMatter(tp.config.target_file, (fm) => {
                 id: `EXG-${targetPCode}-01`,
                 domaine: "SE",
                 titre: "Titre de l'exigence",
-                description: "Critère formel vérifiable",
+                description: "Critère formel vérifiable.",
                 test: "PyTest / SHACL"
             }
         ];
@@ -126,42 +127,60 @@ statut: "<% pStatut %>"
 portee: <% selectedType %>
 public_vise:
 <% publicList.map(p => `  - "${p}"`).join("\n") %>
+exigences:
+  - id: EXG-<% targetPCode %>-01
+    domaine: SE
+    titre: "Exigence Initiale"
+    description: "Description formelle et critères d'acceptation."
+    test: "PyTest / SPARQL / SHACL"
 ---
 # 📜 <% specTitre %>
 
 ## 📖 1. Résumé Exécutif & Glossaire
 
 ### 1.1 Objectif
-[Décrire en 2-3 phrases le but de cette spécification et sa valeur pour le projet]
+[Décrire en 2-3 phrases le but de cette spécification, son rôle dans l'architecture DKG-CyberSec et sa valeur métier/technique.]
 
 ### 1.2 Glossaire Métier & Technique
 | Acronyme / Concept | Définition | Contexte DKG |
 | :--- | :--- | :--- |
-| **Exemple** | Définition courte | Application dans le graphe |
+| **DKG** | Dynamic Knowledge Graph | Graphe de connaissances dynamique du projet. |
 
-## 🏗️ 2. Spécification & Modélisation
+## 🏗️ 2. Périmètre & Rôle de la Spécification
+- **Positionnement dans l'Architecture** : [Préciser s'il s'agit d'un socle transversal, d'un cas d'usage métier ou d'une implémentation technique].
+- **Gouvernance & Validation** : Validé par l'Architecte Sémantique et IA SOC.
+
 ```mermaid
 graph TD
     A[Composant A] --> B[Composant B]
 ```
-📐 3. Spécifications Formelles
-3.1 Axiomes, Structures RDF & Inférences (ou Scénario Métier)
-[Description formelle, snippets Turtle, règles SWRL/SHACL ou diagramme d'attaque]
+## 📐 3. Spécifications Formelles & Règles
 
-3.2 Directives d'Implémentation Code & Scripts
-[Modules Python associés, fonctions de génération, contraintes bas niveau]
+### 3.1 Axiomes, Structures RDF ou Scénario Métier
 
-📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
-Identifiant	Domaine	Intitulé de l'Exigence	Description & Critères d'Acceptation	Mode de Test / Asset
-EXG-SE-01	SE	Nom de l'exigence	Critère formel vérifiable.	Pytest / SPARQL / SHACL
-🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
-Scripts de Génération / Exécution : 03-Application/[script].py
+[Description détaillée, règles formelles, schémas de données ou flux d'agents]
 
-Suite de Test Associée : tests/test_[exigence].py
+### 3.2 Directives d'Implémentation Code & Scripts
 
-Artefacts Produits : [Fichier_Maître.ttl]
+[Règles d'utilisation des objets de `config.py`, contraintes d'immutabilité Pydantic V2, séparation TLP]
 
-📚 6. Documents Liés & Références
-[SPEC-PARENTE] : [Lien vers la spec de niveau supérieur ou dépendante]
+## 📊 4. Matrice dings Exigences & Critères d'Acceptation (EXG-)
 
+|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
+|---|---|---|---|---|
+|**EXG-<% targetPCode %>-01**|`SE`|Exigence Initiale|Description formelle et critères d'acceptation.|Pytest / SPARQL / SHACL|
 
+## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
+
+- **Scripts de Génération / Exécution** : `03-Application/[script].py`
+    
+- **Suites de Tests Associées** : `tests/test_[module].py`
+    
+- **Critères d'Acceptation** : [Validation syntaxique, tests unitaires]
+    
+- **Artefacts Produits** : [Fichier_Maître.ttl]
+    
+
+## 📚 6. Documents Liés & Références
+
+- **[SPEC-PARENTE]** : [Lien vers la spécification de niveau supérieur ou dépendante]

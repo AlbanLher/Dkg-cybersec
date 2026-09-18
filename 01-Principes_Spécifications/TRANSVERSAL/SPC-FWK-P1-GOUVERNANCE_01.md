@@ -271,17 +271,17 @@ docs/specs/
 
 Tout composant, fichier de spécification, dictionnaire YAML ou code Python **doit obligatoirement** rattacher ses exigences à l'un des domaines officiels ci-dessous [`EXG-OR-08`]. L'ajout d'un nouveau domaine nécessite un amendement de cette spécification de Gouvernance.
 
-|**Code Domaine**|**Nom Complet**|**Description & Périmètre**|**Exemples de Périmètre**|
-|---|---|---|---|
-|**`CT`**|Cyber Threat Intelligence|Modélisation des données CTI externes, vulnérabilités et menaces.|CVE, CWE, CAPEC, CISA KEV, scores CVSS.|
-|**`HW`**|Hardware & Infrastructures|Contraintes matérielles, d'exécution locale et de performance système.|Limites RAM 16 Go, absence de GPU, mode Air-Gapped.|
-|**`IN`**|Inférence & Graph Analytics|Règles de raisonnement sémantique, déduction de liens et calculs de propagation.|Détection de cascade de risque, classe `HighRiskAsset`.|
-|**`OR`**|Organisation & Processus|Gouvernance du projet, méthodologie Spec-Driven et standards de livraison.|Traçabilité des phases, conventions Git, parité Master/Snapshot.|
-|**`QU`**|Qualité & Conformité|Règles de validation de la qualité des données et métriques d'intégrité.|Contrôles pySHACL, fermetures CWA, 0 violation SHACL.|
-|**`SE`**|Sécurité & Isolation|Étanchéité, marquage TLP et politiques de contrôle d'accès aux graphes.|Ségrégation TLP:CLEAR vs TLP:RED, isolation des snapshots.|
-|**`SH`**|SHACL Shapes|Modélisation abstraite et concrète des formes de validation de structures.|`sh:NodeShape`, `sh:PropertyShape`, méta-shapes.|
-|**`TB`**|TBox & Ontologies Master|Définition formelle des classes, propriétés, relations inverses et SKOS.|Classes OWL, `rdfs:domain`/`range`, `owl:inverseOf`, SKOS.|
-|**`TEC`**|Technique & Core Framework|Socle applicatif, gestion des types de données, immutabilité et bas niveau.|Schemas Pydantic V2, horodatage UTC, immutabilité payloads.|
+| **Code Domaine** | **Nom Complet**             | **Description & Périmètre**                                                      | **Exemples de Périmètre**                                        |
+| ---------------- | --------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| **`CT`**         | Cyber Threat Intelligence   | Modélisation des données CTI externes, vulnérabilités et menaces.                | CVE, CWE, CAPEC, CISA KEV, scores CVSS.                          |
+| **`HW`**         | Hardware & Infrastructures  | Contraintes matérielles, d'exécution locale et de performance système.           | Limites RAM 16 Go, absence de GPU, mode Air-Gapped.              |
+| **`IN`**         | Inférence & Graph Analytics | Règles de raisonnement sémantique, déduction de liens et calculs de propagation. | Détection de cascade de risque, classe `HighRiskAsset`.          |
+| **`OR`**         | Organisation & Processus    | Gouvernance du projet, méthodologie Spec-Driven et standards de livraison.       | Traçabilité des phases, conventions Git, parité Master/Snapshot. |
+| **`QU`**         | Qualité & Conformité        | Règles de validation de la qualité des données et métriques d'intégrité.         | Contrôles pySHACL, fermetures CWA, 0 violation SHACL.            |
+| **`SE`**         | Sécurité & Isolation        | Étanchéité, marquage TLP et politiques de contrôle d'accès aux graphes.          | Ségrégation TLP:CLEAR vs TLP:RED, isolation des snapshots.       |
+| **`SH`**         | SHACL Shapes                | Modélisation abstraite et concrète des formes de validation de structures.       | `sh:NodeShape`, `sh:PropertyShape`, méta-shapes.                 |
+| **`TB`**         | TBox & Ontologies Master    | Définition formelle des classes, propriétés, relations inverses et SKOS.         | Classes OWL, `rdfs:domain`/`range`, `owl:inverseOf`, SKOS.       |
+| **`TEC`**        | Technique & Core Framework  | Socle applicatif, gestion des types de données, immutabilité et bas niveau.      | Schemas Pydantic V2, horodatage UTC, immutabilité payloads.      |
 
 > ⚠️ **Règle de nettoyage 5S (Remplacement des codes obsolètes) :**
 > 
