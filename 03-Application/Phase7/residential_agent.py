@@ -99,7 +99,7 @@ def run_residential_pipeline() -> tuple[Path, Path]:
     
     # 2. Chargement CTI Externe
     cti_agent = ExternalCTIAgent()
-    cti_entries = cti_agent.load_cti_database()
+    cti_entries = cti_agent.fetch_all_cti()
     
     # 3. Corrélation des Risques
     correlation_agent = CorrelationAgent()
