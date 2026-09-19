@@ -104,7 +104,7 @@ def run_residential_pipeline() -> tuple[Path, Path]:
     # 3. Corrélation des Risques
     correlation_agent = CorrelationAgent()
     risks = correlation_agent.analyze_risks(env_data, cti_entries)
-    
+   
     # 4. Construction du Graphe RDF enrichi
     g = Graph()
     g.bind("dkg-data", DKG_DATA)
@@ -113,13 +113,25 @@ def run_residential_pipeline() -> tuple[Path, Path]:
     g.add((snapshot_ref, RDF.type, URIRef(DKG_DATA.SecuritySnapshot)))
     g.add((snapshot_ref, URIRef(DKG_DATA.hasTLP), Literal("TLP:RED")))
     
+    # Marquage TLP global et partagé pour référence
+    tlp_red_ref = URIRef(DKG_DATA["TLP-RED"])
+    g.add((tlp_red_ref, RDF.type, URIRef(DKG_DATA.TLPMarking)))
+    
     gw_ref = URIRef(DKG_DATA[env_data.network_environment.gateway_name])
     g.add((gw_ref, RDF.type, URIRef(DKG_DATA.Gateway)))
+    g.add((gw_ref, RDF.type, URIRef(DKG_DATA.Asset))) # Intégrité TBox
+    g.add((gw_ref, URIRef(DKG_DATA.hasTLPMarking), tlp_red_ref))
     g.add((gw_ref, URIRef(DKG_DATA.wanExposureRisk), Literal(env_data.network_environment.wan_exposure_risk)))
     
     for asset in env_data.assets:
         asset_ref = URIRef(DKG_DATA[asset.host_id])
+        # Double typage pour satisfaire la hiérarchie TBox (Asset + HostAsset)
+        g.add((asset_ref, RDF.type, URIRef(DKG_DATA.Asset)))
         g.add((asset_ref, RDF.type, URIRef(DKG_DATA.HostAsset)))
+        
+        # Application indispensable du marquage TLP:RED sur chaque actif (SPEC-METIER)
+        g.add((asset_ref, URIRef(DKG_DATA.hasTLPMarking), tlp_red_ref))
+        
         g.add((asset_ref, URIRef(DKG_DATA.operatingSystem), Literal(asset.os)))
         g.add((asset_ref, URIRef(DKG_DATA.ipAddress), Literal(asset.ip_address)))
         g.add((asset_ref, URIRef(DKG_DATA.connectedToGateway), gw_ref))
@@ -127,11 +139,18 @@ def run_residential_pipeline() -> tuple[Path, Path]:
         for srv in asset.local_services:
             srv_node = BNode()
             g.add((asset_ref, URIRef(DKG_DATA.runsService), srv_node))
+            g.add((srv_node, RDF.type, URIRef(DKG_DATA.SoftwareComponent))) # Typage propre du service
             g.add((srv_node, URIRef(DKG_DATA.serviceName), Literal(srv.name)))
             g.add((srv_node, URIRef(DKG_DATA.servicePort), Literal(srv.port)))
             g.add((srv_node, URIRef(DKG_DATA.serviceStatus), Literal(srv.status)))
+            
+            # Si une CVE est associée, on structure le lien vers la vulnérabilité
+            if srv.associated_cve:
+                cve_node = URIRef(DKG_DATA[srv.associated_cve])
+                g.add((srv_node, URIRef(DKG_DATA.hasVulnerability), cve_node))
+                g.add((cve_node, RDF.type, URIRef(DKG_DATA.Vulnerability)))
 
-    # Injection des risques corrélés dans le graphe RDF
+    # Injection des risques corrélés dans le graphe RDF avec typage rigoureux des Nœuds
     for r in risks:
         risk_node = BNode()
         g.add((snapshot_ref, URIRef(DKG_DATA.hasSecurityRisk), risk_node))
@@ -139,6 +158,7 @@ def run_residential_pipeline() -> tuple[Path, Path]:
         g.add((risk_node, URIRef(DKG_DATA.riskLevel), Literal(r.risk_level)))
         g.add((risk_node, URIRef(DKG_DATA.riskDescription), Literal(r.description)))
         g.add((risk_node, URIRef(DKG_DATA.recommendedAction), Literal(r.recommended_action)))
+
 
     # 5. Sérialisation Snapshot Turtle
     output_turtle.parent.mkdir(parents=True, exist_ok=True)
