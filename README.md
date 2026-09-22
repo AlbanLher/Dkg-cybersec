@@ -39,10 +39,12 @@ Nous avons tous vécu ces quiproquos inépuisables entre équipes ou lors de ret
 Les technologies d'IA basées sur les **Graphes de Connaissances Dynamiques (DKG)** apportent enfin une solution pour partager le sens tout en respectant les niveaux de confidentialité. Mais il n'y a pas de magie : pour éviter les fausses équivalences et les hallucinations, ces technologies doivent rester **sous la gouvernance formelle des équipes**.
 
 ### L'Objectif : Un Framework Générique & Didactique
-**Le projet DKG-Framework n'a pas pour fin ultime la cybersécurité.** Son but premier est d'offrir un **cadre d'ingénierie réutilisable** pour tout domaine exigeant (Santé, Finance, Aéronautique, Industrie) nécessitant :
-* Une capitalisation continue des connaissances sans perte de cohérence.
-* Un contrôle strict de la qualité des données (Closed World Assumption).
-* Une interopérabilité native entre systèmes hétérogènes.
+**Le projet DKG-Framework n'a pas pour fin ultime la cybersécurité.** Son but premier est d'offrir un **cadre d'ingénierie réutilisable** pour tout domaine exigeant (Santé, Finance, Aéronautique, Industrie) nécessitant 
+
+### L'Évolution par Double Hélice : De la Pédagogie à l'Application
+La construction de ce Framework ne suit pas une simple ligne de code linéaire, mais une **double hélice alternant deux dynamiques** :
+1. **Les Vagues de Blocs Techniques Pédagogiques :** Explorer et poser les fondamentaux scientifiques et normatifs (standards W3C, OWL2, SKOS, SHACL CWA, ségrégation TLP).
+2. **Les Vagues de Développement Applicatif :** Incarner ces briques dans un produit concret et souverain — en partant d'un **SOC personnel sur PC local** (Vagues 1 et 2), puis en étendant l'application vers des cas d'usage **Micro-Entreprise** avec de nouveaux micro-agents de télémétrie, des analyses de journaux et une gestion rigoureuse des ressources locales.
 
 ### Le Cas d'Usage Cyber : Un Démonstrateur Étalon Exigeant
 Pour prouver la puissance du Framework, nous l'illustrons sur le domaine de la **Cybersécurité (SOC)** : un univers caractérisé par des silos de données majeurs (CTI externes, logs d'équipements, inventaires d'actifs, failles CVE). Si le Framework réussit à maintenir la cohérence d'un DKG Cyber, il peut être appliqué à n'importe quel domaine métier.

@@ -29,10 +29,10 @@ La roadmap est contruite en 3 niveaux
 | --------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | **V1**    | **Socle Structurel & <br>Cartographie Interne**               | **Principes :** (P1) Usage des standards (OWL2, SKOS, SHACL), <br>(P2) Confidentialité native (TLP:AMBER / TLP:RED).<br><br>**Cas d'usage minimal :** PC individuel.                                                                                                                        | 🟢 **PASSED**  |
 | **V2**    | **Ingestion CTI, NER & <br>Alignement Primitif**              | **Principes :** (P3) Superposition de graphes, <br>(P4) Rapprochement sémantique (NER).<br><br>**Cas d'usage :** Superposer la CTI externe (NVD, CISA KEV) et le texte brut.                                                                                                                | 🟢 **PASSED**  |
-| **V3**    | **Industrialisation, <br>Micro-Agents & Multi-Contextes PME** | **Principe :** (P5) Structure IA Agentique.<br><br>**Cas d'usage :** Passer au niveau Micro-Entreprise (API Gateway, Agents de logs & Veille CTI).                                                                                                                                          | 🟡 **ACTIVE**  |
-| **V4**    | **Désambiguïsation Sémantique, <br>SKOS & Human-in-the-Loop** | **Principe :** (P6) Maintien de la cohérence du graphe face à la croissance des données.<br><br>**Cas d'usage :** Finesse taxonomique SKOS & Arbitrage Humain (MITM).                                                                                                                       | ⚪ **Planifié** |
-| **V5**    | **Agent Copilot SOC, <br>GraphRAG & Fine-Tuning Continu**     | **Principe :** (P7) Agents locaux qui s'améliorent grâce aux données du DKG.<br><br>**Cas d'usage :** Entraînement/LoRA continu du SLM sur le DKG pour un Copilot explicable.                                                                                                               | ⚪ **Planifié** |
-| **V6**    | **Streaming Temps Réel & <br>SOAR Adaptatif (POC Ciblé)**     | **Principe :** (P8) Démonstration de valeur sur boucle de réaction courte.<br><br>**Cas d'usage ciblé :** Reactivité SIEM/EDR temps réel sur le cas PC **OU**<br>Analyse d'impact statique sur PME (éviter la sur-simulation d'infrastructures). <br>Déclenchement de playbooks YARA/Sigma. | ⚪ **Planifié** |
+| **V3**    | **Industrialisation, <br>Micro-Agents & Multi-Contextes PME** | **Principe :** (P5) Structure IA Agentique.<br><br>**Cas d'usage :** Passer au niveau Micro-Entreprise (API Gateway, Agents de logs & Veille CTI).                                                                                                                                          | 🟢 **PASSED** |
+| **V4**    | **SKOS, Green IT & Compliance **                              | **Principe :** (P8) Montée en charge fonctionnelle avec la gestion de conformité, SKOS pilier des la finesse lexicale et du multilinguisme . Et mise en application d'un dévelopement eco-responsable                                                                           | 🟡 **ACTIVE** |
+| **V5**    | **GraphRAG & Multi-Engine Neo4j**                             | **Principe :** (P11) Renforcement des ressources       | ⚪ **Planifié** |
+| **V6**    | **OC Distribué & SOAR**                                        | **Principe :** (P13) Role d'un PC local centralisateur, mais aidé par les autres équipements | ⚪ **Planifié** |
 
 ### 2.2 - Vue Graph
 
@@ -86,7 +86,7 @@ graph TB
 ## 3 - Tableau Détaillé des Vagues & Phases (Niveau Micro)
 
 
-
+	
 |**Phase**|**Intitulé Fonctionnel & Technique**|**Objectif, Livrables & Matrice d'Exigences**|**Statut**|
 |---|---|---|---|
 |**P1**|Socle TBox & SHACL CWA|Ontologie Master OWL2, Validation SHACL sous CWA, SSOT (`config.py`).<br>_(EXG-OR-01..05, EXG-TB-01..03, EXG-QU-01..03, EXG-SH-01)_|🟢 **PASSED**|
