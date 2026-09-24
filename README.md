@@ -2,6 +2,7 @@
 
 > **Un Framework Spec-Driven, AGILE et souverain pour concevoir des Graphes de Connaissances Dynamiques (DKG) sous la gouvernance stricte des standards W3C (OWL2, SKOS, SHACL).**  
 > *Démonstrateur étalon appliqué au domaine de la Cybersécurité & du SOC.*
+Ce framework associé à un outil de sudation vise aussi à présenter les limites de charge de cette approche, et présenter les conséquences d'un passage aux outils performants de base graph comme neo4j ( au prix de quelques écarts par rapport aux standards )
 
 | ![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg) | ![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg) | ![CI-Tests](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/ci.yml/badge.svg) |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -11,6 +12,53 @@
 
 ---
 ## 🚦 État d'Avancement Macro (Roadmap par Vagues)
+
+
+Vague	Titre & Horizon	Sens & Principes Pédagogiques (P#)	Statut
+V1	Socle Structurel & Cartographie Interne	
+
+(P1) Standards W3C (OWL2, SKOS, SHACL)
+
+(P2) Confidentialité native (TLP:AMBER / TLP:RED).
+
+Cas d'usage : PC individuel.
+	🟢 PASSED
+V2	Ingestion CTI, NER & Alignement Primitif	
+
+(P3) Superposition de graphes
+
+(P4) Rapprochement sémantique et NER local.
+
+Cas d'usage : CTI externe (NVD, CISA KEV) & texte brut.
+	🟢 PASSED
+V3	Industrialisation, Micro-Agents & Multi-Contextes PME	
+
+(P5) Structure IA Agentique et API Gateway sécurisée.
+
+Cas d'usage : Micro-entreprise, passerelle SPARQL immutable.
+	🟢 PASSED
+V4	Gouvernance Agentique, Filtrage Frugal & Conformité	
+
+(P8) Architecture multi-agents (HitM), découpage incrémental et conformité RGPD.
+
+Cas d'usage : SOC Résidentiel et audit réglementaire.
+	🟡 ACTIVE
+V5	GraphRAG Hybride, Fine-Tuning d'Intuition & Arbitrage	
+
+(P11) Bといえばle d'intuition sémantique LLM et structuration lexicale avancée SKOS (FR/EN).
+
+Cas d'usage : Navigation contextuelle dans de grands volumes.
+	⚪ Planifié
+V6	SOC Distribué, Émulation Edge & Banc d'Essai	
+
+(P13) Calcul distribué (Map-Reduce SPARQL), génération procédurale et production d'abaques de limites.
+
+Cas d'usage : Stress-testing et mesure de la sobriété.
+	⚪ Planifié
+
+
+
+
 
 | Vague  | Titre & Horizon                          | Principes Pédagogiques (P#)                                                         |     Statut     |
 | :----: | :--------------------------------------- | :---------------------------------------------------------------------------------- | :------------: |
