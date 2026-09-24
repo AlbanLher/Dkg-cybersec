@@ -6,13 +6,53 @@ La roadmap est contruite en 3 niveaux
 - ***Etape :*** Application strique commune a toutes les phase de dévelopement "Spec-Driven"
 
 ---
+
+Les Piliers Techniques In négociables
+
+    Adhérence W3C Stricte (100% OWL2 / SKOS / SHACL) : Toute la logique repose sur des standards ouverts garantissant la traçabilité formelle, la réversibilité et la validation logique sous Closed World Assumption (CWA).
+
+    Sécurité & Isolation Native (TLP Matrix) : Une ségrégation absolue et permanente des données garantit qu'aucun flux public (TLP:CLEAR) ne se mélange ou ne fuit vers les espaces sensibles du foyer ou des actifs internes (TLP:RED).
+
+    Green-by-Design & Local-First : L'ensemble de l'architecture est calibré pour tourner en local et en mode Air-Gapped (ex: poste standard de 16 Go de RAM, sans GPU dédié), minimisant l'empreinte carbone et matérielle.
+
+---
+
+La Quête de la Limite et l'Arbitrage de Rupture (W3C vs Moteurs Propriétaires)
+
+L'une des finalités majeures du projet est de pousser l'architecture W3C standard (RDF/OWL/SHACL) à son point de rupture absolu.
+
+    La démarche empirique : Plutôt que d'adopter prématurément ou par dogme une base de graphes hautement performante mais non-standard (type Neo4j), nous fatiguons le modèle standard par la montée en charge, le partitionnement incrémental et le calcul distribué sur l'Edge.
+
+    L'analyse des conséquences de la rupture : Lorsque le système atteint sa limite structurelle (saturations RAM, explosion des temps de résolution SPARQL sous contrainte logique), le projet documente formellement la nécessité d'une rupture technologique.
+
+        Ce qui est gagné en cas de bascule : Vitesse de parcours relationnel brut, scalabilité transactionnelle massive.
+
+        Ce qui est sacrifié : Perte de la sémantique formelle native, complexité accrue de traduction vers des modèles de graphes de propriétés (Property Graphs), et dépendance à un écosystème propriétaire.
+
+4. Repousser les Limites par l'Intelligence et le Découpage
+
+Avant d'atteindre ce point de rupture, le projet repousse les frontières volumétriques grâce à trois ruptures architecturales :
+
+    Le Partitionnement & la Mise à Niveau Incrémentale : Éviter les traitements monolithiques. Les données sont découpées en sous-graphes, et seules les modifications (deltas) sont injectées et validées.
+
+    L'Intuition Sémantique par Fine-Tuning Ponctuel : Utiliser des ressources cloud de manière transitoire pour doter les LLMs d'une "boussole topologique", ciblant chirurgicalement les fragments nécessaires.
+
+    Le Maillage Distribué sur l'Edge (Map-Reduce Sémantique) : Décharger le poste central en mettant à contribution les ressources dormantes des équipements surveillés.
+
+5. Preuve Scientifique & Abaques de Performance
+
+Chaque limite n'est pas devinée, elle est mesurée. À travers notre banc d'essai et nos outils de simulation, le projet produit des abaques visuels croisant volume de triplets, empreinte matérielle et temps de calcul, traçant de manière irréfutable la frontière objective entre la frugalité des standards W3C et la nécessité industrielle d'une base de graphes spécialisée.
+
+---
 ## 1 - Principes Directeurs & Logique d'Évolution
 
 ```
 [V1..3 - Phase 1-7 : Socle PoC & Métier] ➔ [V4 : Poly-hiérarchies & Green IT] ➔ [V5 : GraphRAG & Multi-Engine] ➔ [V6 : SOAR & Scalabilité Industrialisée]
 ```
 
-1. **Combinaison Didactique & Applicative :** Chaque vague équilibre le développement de briques techniques pédagogiques (ex. inférence, vectorisation, hybridation SPARQL/Cypher) et de démonstrateurs métiers très concrets (SOC PME, PC centralisateur, audit RGPD/NIST).
+1. **Combinaison Didactique & Applicative :** Chaque vague équilibre le développement de briques techniques pédagogiques (ex. inférence, vectorisation, hybridation SPARQL/Cypher) et de démonstrateurs métiers très concrets (SOC , PC centralisateur, audit RGPD/NIST).
+
+2. Évaluer les limites auxquelles le matériel et l'environnement (assez...fonctions SOC) peut aller sans devoir céder la main aux outils de base graph performant comme neo4j. Et en évaluer les conséquences des écarts aux standards W3C associé.
     
 2. **Architecture SOC Décentralisée & Distribuée (PC Central + Relais) :** Le PC SOC local agit comme nœud centraliseur de connaissance (DKG), assisté par des agents légers/relais (Windows, Android) qui collectent les logs/télémétrie, soulagent les ressources et réinjectent le contexte.
     
@@ -24,6 +64,81 @@ La roadmap est contruite en 3 niveaux
 
 ## 2  -  Roadmap  vision des principe pédagogiques par vagues
 ### 2.1 - Vue Tableau
+
+
+Vague	Titre & Horizon	Sens & Principes Pédagogiques (P#)	Statut
+V1	Socle Structurel & Cartographie Interne	
+
+(P1) Standards W3C (OWL2, SKOS, SHACL)
+
+(P2) Confidentialité native (TLP:AMBER / TLP:RED).
+
+Cas d'usage : PC individuel.
+	🟢 PASSED
+V2	Ingestion CTI, NER & Alignement Primitif	
+
+(P3) Superposition de graphes
+
+(P4) Rapprochement sémantique et NER local.
+
+Cas d'usage : CTI externe (NVD, CISA KEV) & texte brut.
+	🟢 PASSED
+V3	Industrialisation, Micro-Agents & Multi-Contextes PME	
+
+(P5) Structure IA Agentique et API Gateway sécurisée.
+
+Cas d'usage : Micro-entreprise, passerelle SPARQL immutable.
+	🟢 PASSED
+V4	Gouvernance Agentique, Filtrage Frugal & Conformité	
+
+(P8) Architecture multi-agents (HitM), découpage incrémental et conformité RGPD.
+
+Cas d'usage : SOC Résidentiel et audit réglementaire.
+	🟡 ACTIVE
+V5	GraphRAG Hybride, Fine-Tuning d'Intuition & Arbitrage	
+
+(P11) Bといえばle d'intuition sémantique LLM et structuration lexicale avancée SKOS (FR/EN).
+
+Cas d'usage : Navigation contextuelle dans de grands volumes.
+	⚪ Planifié
+V6	SOC Distribué, Émulation Edge & Banc d'Essai	
+
+(P13) Calcul distribué (Map-Reduce SPARQL), génération procédurale et production d'abaques de limites.
+
+Cas d'usage : Stress-testing et mesure de la sobriété.
+	⚪ Planifié
+
+
+
+
+La Quête de la Limite et l'Arbitrage de Rupture (W3C vs Moteurs Propriétaires)
+
+L'une des finalités majeures du projet est de pousser l'architecture W3C standard (RDF/OWL/SHACL) à son point de rupture absolu.
+
+    La démarche empirique : Plutôt que d'adopter prématurément ou par dogme une base de graphes hautement performante mais non-standard (type Neo4j), nous fatiguons le modèle standard par la montée en charge, le partitionnement incrémental et le calcul distribué sur l'Edge.
+
+    L'analyse des conséquences de la rupture : Lorsque le système atteint sa limite structurelle (saturations RAM, explosion des temps de résolution SPARQL sous contrainte logique), le projet documente formellement la nécessité d'une rupture technologique.
+
+        Ce qui est gagné en cas de bascule : Vitesse de parcours relationnel brut, scalabilité transactionnelle massive.
+
+        Ce qui est sacrifié : Perte de la sémantique formelle native, complexité accrue de traduction vers des modèles de graphes de propriétés (Property Graphs), et dépendance à un écosystème propriétaire.
+
+4. Repousser les Limites par l'Intelligence et le Découpage
+
+Avant d'atteindre ce point de rupture, le projet repousse les frontières volumétriques grâce à trois ruptures architecturales :
+
+    Le Partitionnement & la Mise à Niveau Incrémentale : Éviter les traitements monolithiques. Les données sont découpées en sous-graphes, et seules les modifications (deltas) sont injectées et validées.
+
+    L'Intuition Sémantique par Fine-Tuning Ponctuel : Utiliser des ressources cloud de manière transitoire pour doter les LLMs d'une "boussole topologique", ciblant chirurgicalement les fragments nécessaires.
+
+    Le Maillage Distribué sur l'Edge (Map-Reduce Sémantique) : Décharger le poste central en mettant à contribution les ressources dormantes des équipements surveillés.
+
+5. Preuve Scientifique & Abaques de Performance
+
+Chaque limite n'est pas devinée, elle est mesurée. À travers notre banc d'essai et nos outils de simulation, le projet produit des abaques visuels croisant volume de triplets, empreinte matérielle et temps de calcul, traçant de manière irréfutable la frontière objective entre la frugalité des standards W3C et la nécessité industrielle d'une base de graphes spécialisée.
+
+
+
 
 | **Vague** | **Titre**                                                     | **Sens & Principes Pédagogiques (P#)**                                                                                                                                                                                                                                                      | **Status**     |
 | --------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -84,6 +199,18 @@ graph TB
 
 
 ## 3 - Tableau Détaillé des Vagues & Phases (Niveau Micro)
+
+
+Phase	Titre de la Phase	Vague rattachée	Objectif / Périmètre Technique	Statut
+P1	Socle TBox & SKOS	Vague 1	Méta-architecture ontologique, RBox et contraintes SHACL initiales.	🟢 PASSED
+P2	ABox Interne & Cartographie TLP:RED	Vague 1	Instanciation des actifs du SI et marquage strict de criticité.	🟢 PASSED
+P3	Ingestion CTI Externe & Alignement	Vague 2	Intégration des flux publics de menaces (TLP:CLEAR).	🟢 PASSED
+P4	Pipeline NER & CTI Textuelle	Vague 2	Extraction d'entités cyber hors texte brut par modèle local.	🟢 PASSED
+P5	Inférence, Agent MITM & Silent Cascade	Vague 3	Réconciliation sémantique et propagation des risques de rebond.	🟢 PASSED
+P6	API Gateway & Sécurité SPARQL	Vague 3	Point d'entrée unique immuable et audit des requêtes transverses.	🟢 PASSED
+P7	SOC Résidentiel & API Agnostique	Vague 3	Orchestration locale des actifs du foyer et restitution IHM.	🟢 PASSED
+P8	SOC Orchestrator, Découpage & RGPD	Vague 4	Boucle d'agents multi-rôles, mises à niveau incrémentales et traçabilité.	🟡 ACTIVE
+P9	Finesse Lexicale SKOS & Green Profiling	Vague 4	Internationalisation (FR/EN), internationalisation et automatisation des profils de ressources.	⚪ Planifié
 
 
 	
