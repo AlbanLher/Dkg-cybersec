@@ -57,6 +57,21 @@ graph TD
 
     hitm_gateway.py gère l'invite de commande interactive ou l'API de validation.
 
+
+
+Nouvelle exigence à intégrer (EXG-P8-07) :
+
+    Domaine : TEC
+
+    Intitulé : Compatibilité MCP (Model Context Protocol)
+
+    Description : Les fonctions d'orchestration et de filtrage doivent être encapsulables sous forme de serveurs/outils MCP (mcp tools) pour permettre une exposition directe aux agents LLM.
+
+    Mode de Test : PyTest / MCP SDK validation.
+
+
+
+
 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 Identifiant	Domaine	Intitulé de l'Exigence	Description & Critères d'Acceptation	Mode de Test / Asset
 EXG-P8-05	TEC	API Asynchrone	Pilotage asynchrone avec timeout de 30s.	PyTest / AsyncIO Suite
