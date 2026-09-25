@@ -139,6 +139,18 @@ Chaque limite n'est pas devinée, elle est mesurée. À travers notre banc d'ess
 
 
 
+Vague	Titre & Horizon	Sens & Principes Pédagogiques (P#) & Livrables Clés	Statut
+V5	GraphRAG Hybride, Standardisation MCP & Fine-Tuning	
+
+(P11) Implémentation du protocole MCP pour exposer le graphe en tant que Resources et les scripts en tant que Tools, fine-tuning d'intuition sémantique et structuration SKOS (FR/EN).
+
+Cas d'usage : Navigation contextuelle normalisée pour les agents.
+	⚪ Planifié
+
+
+
+
+
 
 | **Vague** | **Titre**                                                     | **Sens & Principes Pédagogiques (P#)**                                                                                                                                                                                                                                                      | **Status**     |
 | --------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
