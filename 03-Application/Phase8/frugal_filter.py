@@ -1,57 +1,63 @@
-"""
-03-Application/frugal_filter.py
-Module de filtrage frugal et de transformation en deltas RDF (Phase 8).
-Respecte les contraintes Green Dev et Air-Gapped.
-"""
+---
+type: spec
+reference: SPC-TEC-P8-soc_orchestrator_agent_01
+revision: 2
+titre: "Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM"
+titre_court: soc_orchestrator_agent_mcp
+description: "Spécification technique actualisée des scripts de la Phase 8 conçus comme des outils natifs MCP (Model Context Protocol)."
+phase_code: P8
+phase_nom: "SOC Orchestrator, Découpage & RGPD"
+statut: "🟡 ACTIVE"
+portee: USECASE_TECHNIQUE
+public_vise:
+  - Développeurs DevSecOps
+  - Analystes CTI / SOC, Lead Tech
+exigences:
+  - id: EXG-P8-05
+    domaine: TEC
+    titre: "API Asynchrone de l'Orchestrateur"
+    description: "Le composant soc_orchestrator.py doit piloter les agents de manière asynchrone avec un timeout de 30 secondes."
+    test: "PyTest / AsyncIO Test Suite"
+  - id: EXG-P8-06
+    domaine: TEC
+    titre: "Pipeline NER Local Frugal"
+    description: "Le filtrage des données externes s'appuie exclusivement sur le modèle local (gliner_small-v2.1) sans appel cloud."
+    test: "PyTest / Air-Gapped Verification"
+  - id: EXG-P8-07
+    domaine: TEC
+    titre: "Architecture MCP-Ready"
+    description: "Les fonctions Python exposées doivent respecter un typage strict et des structures de retour sérialisables, permettant un wrapping direct en 'MCP Tools'."
+    test: "PyTest / MCP Interface Verification"
+---
 
-import json
-from pathlib import Path
-from rdflib import Graph, Literal, RDF, URIRef
-from config import (
-    INPUT_PHASE8_REGULATION_PATH,
-    DELTA_BUFFER_PATH,
-    DKG_TBOX,
-    DKG_DATA,
-    MAX_TRIPLES_IN_MEMORY
-)
+# 📜 Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM
 
-def run_frugal_filtering() -> Path:
-    """
-    Simule ou exécute un filtrage amont des données externes (ex: RGPD Art. 32)
-    pour ne produire qu'un sous-ensemble minimal de triplets (delta).
-    """
-    print("[FrugalFilter] Début du filtrage frugal des données externes...")
-    
-    delta_graph = Graph()
-    delta_graph.bind("dkg", DKG_TBOX)
-    delta_graph.bind("data", DKG_DATA)
+## 📖 1. Résumé Exécutif & Glossaire
 
-    # Chargement du flux source si disponible, sinon création d'un delta par défaut
-    if INPUT_PHASE8_REGULATION_PATH.exists():
-        with open(INPUT_PHASE8_REGULATION_PATH, "r", encoding="utf-8") as f:
-            feed_data = json.load(f)
-            # Traitement frugal des exigences (ex: chiffrement, intégrité)
-            for item in feed_data.get("requirements", []):
-                req_uri = URIRef(f"{DKG_DATA}RegRequirement_{item.get('id')}")
-                delta_graph.add((req_uri, RDF.type, DKG_TBOX.RegulatoryConstraint))
-                delta_graph.add((req_uri, DKG_TBOX.hasDescription, Literal(item.get('description'))))
-    else:
-        # Fallback par défaut pour test unitaire autonome
-        default_uri = URIRef(f"{DKG_DATA}RegRequirement_GDPR_Art32")
-        delta_graph.add((default_uri, RDF.type, DKG_TBOX.RegulatoryConstraint))
-        delta_graph.add((default_uri, DKG_TBOX.hasDescription, Literal("Mandatory encryption and resilience for internal assets.")))
+### 1.1 Objectif
+Spécifier l'implémentation logicielle de la Phase 8 en adoptant une approche **MCP-Ready**. Les fonctions métier sont isolées et typées afin d'être exposées directement comme des outils (`tools`) et des ressources (`resources`) aux agents LLM dans la future Vague 5.
 
-    # Vérification de la contrainte Green Dev (Plafond RAM)
-    triple_count = len(delta_graph)
-    if triple_count > MAX_TRIPLES_IN_MEMORY:
-        raise ValueError(f"[FrugalFilter] Erreur Green Dev : Le delta dépasse le seuil autorisé ({triple_count} > {MAX_TRIPLES_IN_MEMORY})")
+### 1.2 Glossaire Métier & Technique
+| Acronyme / Concept | Définition | Contexte DKG |
+| :--- | :--- | :--- |
+| **MCP** | Model Context Protocol | Protocole standardisé d'exposition d'outils et de données aux LLMs. |
+| **Tool** | Fonction exécutable par un agent | Encapsulation d'un script d'audit ou de filtrage. |
 
-    # Sauvegarde du delta dans le tampon
-    DELTA_BUFFER_PATH.parent.mkdir(parents=True, exist_ok=True)
-    delta_graph.serialize(destination=str(DELTA_BUFFER_PATH), format="turtle")
-    print(f"[FrugalFilter] Delta frugal généré avec succès : {triple_count} triplets stockés dans {DELTA_BUFFER_PATH}")
-    
-    return DELTA_BUFFER_PATH
+## 🏗️ 2. Périmètre & Rôle de la Spécification
+* **Positionnement dans l'Architecture :** Implémentation modulaire prête pour l'intégration MCP et l'orchestration locale (*Air-Gapped*).
 
-if __name__ == "__main__":
-    run_frugal_filtering()
+## 📐 3. Spécifications Formelles & Contrats d'Interface MCP
+* **Contrat Frugal :** `run_frugal_filtering()` agit comme un `MCP Tool` retournant le chemin du delta et ses métadonnées.
+* **Contrat Orchestrateur :** `run_soc_audit_pipeline()` centralise la boucle d'exécution et renvoie un rapport JSON standardisable.
+
+## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
+
+| Identifiant | Domaine | Intitulé de l'Exigence | Description & Critères d'Acceptation | Mode de Test / Asset |
+| :--- | :--- | :--- | :--- | :--- |
+| **EXG-P8-05** | TEC | API Asynchrone | Pilotage asynchrone avec timeout de 30s. | PyTest / AsyncIO Suite |
+| **EXG-P8-06** | TEC | Pipeline NER Local | Exécution 100% Air-Gapped du modèle GLiNER. | PyTest / Air-Gapped Check |
+| **EXG-P8-07** | TEC | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check |
+
+## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
+* **Scripts associés :** `03-Application/frugal_filter.py`, `03-Application/soc_orchestrator.py`, `03-Application/hitm_gateway.py`.
+* **Suites de Tests :** `tests/test_soc_orchestrator.py`.
