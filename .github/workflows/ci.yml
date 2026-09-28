@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   test:
-  - name: Set up environment and test
+    name: Set up environment and test
     runs-on: ubuntu-latest
 
     steps:
