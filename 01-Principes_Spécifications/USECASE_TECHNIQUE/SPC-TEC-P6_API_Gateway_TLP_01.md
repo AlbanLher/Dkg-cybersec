@@ -108,10 +108,11 @@ class SPARQLQueryResponse(BaseModel):
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-TE-01**|`TE`|Immutabilité Payloads|Modification interdite sur l'objet instancié (`frozen=True`).|PyTest (`test_pydantic_immutability`)|
-|**EXG-TE-02**|`TE`|Standard Horodatage UTC|Utilisation de `timezone.utc` compatible Python 3.14+.|PyTest / Audit Log|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                      | **Mode de Test / Asset**              |
+| --------------- | ---------------- | ----------- | -------------------------- | ------------------------------------------------------------- | ------------------------------------- |
+| **EXG-TE-01**   | EXG-TEC-P6-GAT_1 | `TE`        | Immutabilité Payloads      | Modification interdite sur l'objet instancié (`frozen=True`). | PyTest (`test_pydantic_immutability`) |
+| **EXG-TE-02**   | EXG-TEC-P6-GAT_2 | `TE`        | Standard Horodatage UTC    | Utilisation de `timezone.utc` compatible Python 3.14+.        | PyTest / Audit Log                    |
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

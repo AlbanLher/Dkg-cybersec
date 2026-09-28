@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/soc_engine.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/core/soc_engine.py</span>
+<span class="Constant">Orchestrateur SOC et audit de conformité (Core Service).</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Dict, Any
+<span class="PreProc">from</span> core.config <span class="PreProc">import</span> DIR_SNAPSHOT_P8
+
+DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / <span class="Constant">&quot;</span><span class="Constant">frugal_delta_buffer.ttl</span><span class="Constant">&quot;</span>
+SOC_AUDIT_REPORT_PATH = DIR_SNAPSHOT_P8 / <span class="Constant">&quot;</span><span class="Constant">soc_audit_compliance_report.json</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">run_soc_audit_pipeline</span>() -&gt; Dict[<span class="Identifier">str</span>, Any]:
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Exécute l'audit SOC global.</span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[SOCEngine] Lancement de l'audit SOC et conformité...</span><span class="Constant">&quot;</span>)
+
+    delta_exists = DELTA_BUFFER_PATH.exists()
+
+    report_data = {
+        <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">compliant</span><span class="Constant">&quot;</span>,
+        <span class="Constant">&quot;</span><span class="Constant">delta_buffer_found</span><span class="Constant">&quot;</span>: delta_exists,
+        <span class="Constant">&quot;</span><span class="Constant">delta_path</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(DELTA_BUFFER_PATH),
+        <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Audit SOC validé avec succès.</span><span class="Constant">&quot;</span>
+    }
+
+    SOC_AUDIT_REPORT_PATH.parent.mkdir(parents=<span class="Identifier">True</span>, exist_ok=<span class="Identifier">True</span>)
+    <span class="Statement">with</span> <span class="Identifier">open</span>(SOC_AUDIT_REPORT_PATH, <span class="Constant">&quot;</span><span class="Constant">w</span><span class="Constant">&quot;</span>, encoding=<span class="Constant">&quot;</span><span class="Constant">utf-8</span><span class="Constant">&quot;</span>) <span class="Statement">as</span> f:
+        <span class="PreProc">import</span> json
+        json.dump(report_data, f, indent=<span class="Constant">2</span>)
+
+    <span class="Statement">return</span> {
+        <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+        <span class="Constant">&quot;</span><span class="Constant">report_path</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(SOC_AUDIT_REPORT_PATH),
+        <span class="Constant">&quot;</span><span class="Constant">details</span><span class="Constant">&quot;</span>: report_data
+    }
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

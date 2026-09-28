@@ -123,15 +123,17 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-TB-01**|`TB`|Espace de Noms & Séparateur `#`|Obligation d'utiliser le séparateur `#` pour la TBox/RBox.|Parsing RDF|
-|**EXG-TB-02**|`TB`|Typage OWL Strict|100% des classes et propriétés doivent avoir un typage OWL formel.|Parsing OWL / SPARQL|
-|**EXG-TB-03**|`TB`|Déclaration Domaine & Portée|Interdiction de déclarer une `owl:ObjectProperty` sans `rdfs:domain` ni `rdfs:range`.|Requête SPARQL TBox|
-|**EXG-TB-04**|`TB`|Sémantique RBox & Inverses|Toute propriété d'objet possède une propriété inverse liée par `owl:inverseOf`.|Check Inverses SPARQL|
-|**EXG-TB-05**|`TB`|Couche Lexicale SKOS|Prescriptions `skos:prefLabel` (FR/EN) et `skos:definition` obligatoires.|Validation SKOS|
-|**EXG-QU-01**|`QU`|Couplage TBox ↔ SHACL|100% des classes `owl:Class` possèdent au moins une `sh:NodeShape` dédiée.|Execution pySHACL|
-|**EXG-SH-01**|`SH`|Shapes Structurales Abstraites|Présence de contraintes SHACL conformes aux spécifications W3C.|Execution SHACL|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                              | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------------------------- | ------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-TB-01**   | EXG-FWK-P1-T-R_1 | `TB`        | Espace de Noms & Séparateur `#` | Obligation d'utiliser le séparateur `#` pour la TBox/RBox.                            | Parsing RDF              |
+| **EXG-TB-02**   | EXG-FWK-P1-T-R_2 | `TB`        | Typage OWL Strict               | 100% des classes et propriétés doivent avoir un typage OWL formel.                    | Parsing OWL / SPARQL     |
+| **EXG-TB-03**   | EXG-FWK-P1-T-R_3 | `TB`        | Déclaration Domaine & Portée    | Interdiction de déclarer une `owl:ObjectProperty` sans `rdfs:domain` ni `rdfs:range`. | Requête SPARQL TBox      |
+| **EXG-TB-04**   | EXG-FWK-P1-T-R_4 | `TB`        | Sémantique RBox & Inverses      | Toute propriété d'objet possède une propriété inverse liée par `owl:inverseOf`.       | Check Inverses SPARQL    |
+| **EXG-TB-05**   | EXG-FWK-P1-T-R_5 | `TB`        | Couche Lexicale SKOS            | Prescriptions `skos:prefLabel` (FR/EN) et `skos:definition` obligatoires.             | Validation SKOS          |
+| **EXG-QU-01**   | EXG-FWK-P1-T-R_6 | `QU`        | Couplage TBox ↔ SHACL           | 100% des classes `owl:Class` possèdent au moins une `sh:NodeShape` dédiée.            | Execution pySHACL        |
+| **EXG-SH-01**   | EXG-FWK-P1-T-R_7 | `SH`        | Shapes Structurales Abstraites  | Présence de contraintes SHACL conformes aux spécifications W3C.                       | Execution SHACL          |
+
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

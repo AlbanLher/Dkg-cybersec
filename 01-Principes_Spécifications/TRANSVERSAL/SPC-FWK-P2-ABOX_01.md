@@ -84,11 +84,12 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-QU-02**|`QU`|Intégrité & Datatypes CWA|Interdiction de pointer vers une instance orpheline ; contrôle strict des typages `xsd` et plages.|pySHACL CWA|
-|**EXG-QU-03**|`QU`|Sanity Check Zero Violation|0 violation `sh:Violation` détectée lors du contrôle automatisé pySHACL.|Pytest / SHACL|
-|**EXG-TB-04**|`TB`|Matérialisation des Inverses|Conformité et existence des paires de relations inverses d'instances.|SPARQL / Reasoner|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**   | **Description & Critères d'Acceptation**                                                           | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ---------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-QU-02**   | EXG-FWK-P2-ABO_1 | `QU`        | Intégrité & Datatypes CWA    | Interdiction de pointer vers une instance orpheline ; contrôle strict des typages `xsd` et plages. | pySHACL CWA              |
+| **EXG-QU-03**   | EXG-FWK-P2-ABO_2 | `QU`        | Sanity Check Zero Violation  | 0 violation `sh:Violation` détectée lors du contrôle automatisé pySHACL.                           | Pytest / SHACL           |
+| **EXG-TB-04**   | EXG-FWK-P2-ABO_3 | `TB`        | Matérialisation des Inverses | Conformité et existence des paires de relations inverses d'instances.                              | SPARQL / Reasoner        |
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

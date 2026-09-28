@@ -1,6 +1,18 @@
 context_bundle_cumulative:
   project_info:
     name: "DKG-CyberSec"
+    vague: 3
+    phase :P7"
+    status: "🟢 PASSED"
+    current_milestone: "Phase 7 Finalized - SOC Résidentiel & Local"
+    environment:
+      python_version: "3.14+"
+      pytest_version: "9.1+"
+      ssot_config: "03-Application/config.py"
+
+context_bundle_cumulative:
+  project_info:
+    name: "DKG-CyberSec"
     version: "1.0.0-P07"
     status: "🟢 ALL_PHASES_PASSED"
     current_milestone: "Phase 7 Finalized - SOC Résidentiel & Local"
@@ -9,56 +21,40 @@ context_bundle_cumulative:
       pytest_version: "9.1+"
       ssot_config: "03-Application/config.py"
 
-  global_roadmap_matrix:
-    P01: { name: "Socle TBox & SKOS", status: "🟢 PASSED", scope: "TLP:AMBER", asset: "TBox Master & Rules" }
-    P02: { name: "ABox & Instances Internal", status: "🟢 PASSED", scope: "TLP:RED", asset: "ABox Master Red" }
-    P03: { name: "Ingestion CTI Externe", status: "🟢 PASSED", scope: "TLP:CLEAR", asset: "ABox CTI Feeds" }
-    P04: { name: "CTI Textuelle & NLP", status: "🟢 PASSED", scope: "TLP:CLEAR", asset: "GLiNER NLP Annotations" }
-    P05: { name: "Inférence & Agent MITM", status: "🟢 PASSED", scope: "TLP:RED", asset: "Agent MITM & Inferred Graph" }
-    P06: { name: "API Gateway & Security Engine", status: "🟢 PASSED", scope: "CROSS-TLP", asset: "Gateway SPARQL & Audit Engine" }
-    P07: { name: "SOC Résidentiel & Local", status: "🟢 PASSED", scope: "CROSS-TLP", asset: "Home SOC Orchestrator & UI" }
+  master_roadmap_reference: "Intégration de la Vue des Vagues (V1 à V6) & Vue des Spécifications (P1 à P8)"
 
-  validated_codebase:
-    config_ssot: "03-Application/config.py"
-    core_modules:
-      p7_orchestrator: "03-Application/Phase7/home_soc_orchestrator.py"
-      p7_local_agent: "03-Application/Phase7/local_inventory_agent.py"
-      p7_cti_agent: "03-Application/Phase7/external_cti_agent.py"
-      p7_api_backend: "03-Application/stage_2_decoupled_api/api_backend.py"
-      p7_frontend: "03-Application/stage_2_decoupled_api/frontend_js/app.js"
-    test_suites:
-      p5_tests: "03-Application/Test/test_phase5_inference.py"
-      p6_tests: "03-Application/Test/test_phase6_gateway.py"
-      p7_tests: "03-Application/Test/test_phase7_residential.py"
+  
+  mandatory_context_checklist:
+    - document: "Roadmap Vagues & Phases"
+      purpose: "Cadrage macro, sens pédagogique et statut d'avancement global."
+    - document: "Tableau des Spécifications (Spec Registry)"
+      purpose: "Référentiel des spécifications par phase (Framework, Technique, Métier)."
+    - document: "Tableau des Exigences (EXG-)"
+      purpose: "Cahier des charges contractuel, unitaire et testable."
+    - document: "Fichier de configuration unique (config.py)"
+      purpose: "Source Unique de Vérité (SSOT) des chemins et paramètres techniques."
 
-  master_transversal_assets:
-    directory: "02-Donnees/Master_Transversal/"
-    graphs:
-      - "TBOX_Master.ttl"
-      - "ABox_Master_RED.ttl"
-      - "CTI_CLEAR.ttl"
-      - "ABox_Inferred_RED.ttl"
-      - "abox_residential_family.ttl"
-      - "abox_local_tlp_red.ttl"
-    documentation_mirrors:
-      - "DOC_Phase5_Inference_Master.md"
-      - "DOC_Phase6_Gateway_Master.md"
-      - "DOC_abox_residential_family.md"
-      - "DOC_abox_local_tlp_red.md"
-
-  specifications_registry:
-    framework_specs:
-      - "01-Principes_Spécifications/TRANSVERSAL/SPEC-FWK-P6_Matrice_Habilitations_TLP.md"
-    technical_specs:
-      - "01-Principes_Spécifications/USECASE_TECHNIQUE/SPEC-TEC-P06_API_Gateway_TLP.md"
-      - "01-Principes_Spécifications/USECASE_TECHNIQUE/SPEC-TEC-P07_SOC_Residentiel.md"
+  architecture_topology:
+    description: "Cartographie des flux, isolation des niveaux de classification et frontières d'exécution."
+    layers:
+      - layer_name: "Couche IHM / Client"
+        components: ["Dashboard Streamlit / JS App", "API Gateway (FastAPI)"]
+      - layer_name: "Couche Agents & Orchestration"
+        components: ["Home SOC Orchestrator", "Agent MITM", "Agent Orchestrateur SOC (HitM)"]
+      - layer_name: "Couche Sémantique & Moteur de Règles"
+        components: ["TBox Master (OWL/SKOS/SHACL)", "Moteur d'Inférence SPARQL / pySHACL"]
+      - layer_name: "Couche Données & Ségrégation TLP"
+        components: 
+          - "TLP:CLEAR (CTI Externe, Standards publics)"
+          - "TLP:AMBER (Règles de gouvernance, TBox)"
+          - "TLP:RED (Actifs du foyer, Vulnérabilités internes - Air-Gapped)"
 
   security_and_compliance:
     pydantic_mode: "ConfigDict(frozen=True)"
     time_standard: "datetime.now(timezone.utc)"
     shacl_validation: "Closed World Assumption (CWA)"
-    isolation_guarantee: "0 leakage of TLP:RED/AMBER triples to TLP:CLEAR tokens"
-
-  next_phase_bootstrap:
-    target_phase: "Clôture du Projet / Déploiement Final et Archivage"
-    inputs_required: "Full Cumulative Context Bundle P07"
+    tlp_matrix_rules:
+      tlp_clear: "Données publiques et flux CTI externes partagés sans restriction."
+      tlp_amber: "Données sensibles limitées au cercle interne de confiance et de gouvernance TBox."
+      tlp_red: "Données hautement confidentielles du foyer, des actifs et des vulnérabilités (étanchéité absolue requise)."
+    isolation_guarantee: "0 leakage of TLP:RED/AMBER triples to TLP:CLEAR tokens under any circumstances."

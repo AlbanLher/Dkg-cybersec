@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/stage_2_decoupled_api/frontend_js/app.js.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="javascript">
+<meta name="settings" content="use_css,no_foldcolumn,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.Comment { color: #00ffff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Statement">const</span> API_BASE_URL = <span class="Constant">&quot;<a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a>&quot;</span>;
+<span class="Statement">let</span> currentSourceMode = <span class="Constant">&quot;local&quot;</span>; <span class="Comment">// &quot;local&quot; ou &quot;family&quot;</span>
+
+<span class="Statement">function</span> toggleDataSource() <span class="Identifier">{</span>
+    <span class="Statement">const</span> btn = <span class="Statement">document</span>.getElementById(<span class="Constant">&quot;toggle-source-btn&quot;</span>);
+    <span class="Statement">if</span> (currentSourceMode === <span class="Constant">&quot;local&quot;</span>) <span class="Identifier">{</span>
+        currentSourceMode = <span class="Constant">&quot;family&quot;</span>;
+        btn.innerText = <span class="Constant">&quot;🔄 Mode Actuel : Cas d'École (Famille)&quot;</span>;
+        btn.className = <span class="Constant">&quot;bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded shadow transition&quot;</span>;
+    <span class="Identifier">}</span> <span class="Statement">else</span> <span class="Identifier">{</span>
+        currentSourceMode = <span class="Constant">&quot;local&quot;</span>;
+        btn.innerText = <span class="Constant">&quot;🔄 Mode Actuel : Poste Local (TLP:RED)&quot;</span>;
+        btn.className = <span class="Constant">&quot;bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded shadow transition&quot;</span>;
+    <span class="Identifier">}</span>
+    <span class="Comment">// Recharge automatiquement l'inventaire avec la nouvelle source</span>
+    loadInventory();
+<span class="Identifier">}</span>
+
+<span class="Statement">async</span> <span class="Statement">function</span> loadInventory() <span class="Identifier">{</span>
+    <span class="Statement">const</span> container = <span class="Statement">document</span>.getElementById(<span class="Constant">&quot;inventory-container&quot;</span>);
+    <span class="Statement">const</span> title = <span class="Statement">document</span>.getElementById(<span class="Constant">&quot;inventory-title&quot;</span>);
+
+    <span class="Statement">if</span> (title) title.innerText = <span class="Constant">`📂 Inventaire (</span><span class="Special">${currentSourceMode === </span><span class="Constant">'local'</span><span class="Special"> ? </span><span class="Constant">'Poste Local TLP:RED'</span><span class="Special"> : </span><span class="Constant">'Cas d</span><span class="Special">\'</span><span class="Constant">École Famille'</span><span class="Special">}</span><span class="Constant">)`</span>;
+    <span class="Statement">if</span> (container) container.innerHTML = <span class="Constant">&quot;&lt;p class='text-yellow-400'&gt;Chargement de l'inventaire depuis l'API...&lt;/p&gt;&quot;</span>;
+
+    <span class="Statement">try</span> <span class="Identifier">{</span>
+        <span class="Statement">const</span> response = <span class="Statement">await</span> fetch(<span class="Constant">`</span><span class="Special">${API_BASE_URL}</span><span class="Constant">/api/v1/inventory?source=</span><span class="Special">${currentSourceMode}</span><span class="Constant">`</span>);
+        <span class="Statement">if</span> (!response.ok) <span class="Statement">throw</span> <span class="Statement">new</span> Error(<span class="Constant">&quot;Erreur réseau lors de la récupération de l'inventaire.&quot;</span>);
+
+        <span class="Statement">const</span> data = <span class="Statement">await</span> response.json();
+        <span class="Statement">let</span> html = <span class="Constant">`&lt;p class=&quot;text-sm text-gray-400 mb-2&quot;&gt;Source : &lt;span class=&quot;text-green-400 font-mono&quot;&gt;</span><span class="Special">${data.source_mode}</span><span class="Constant">&lt;/span&gt; | Total actifs : </span><span class="Special">${data.household_assets.length}</span><span class="Constant">&lt;/p&gt;`</span>;
+
+        data.household_assets.forEach(asset =&gt; <span class="Identifier">{</span>
+            html += <span class="Constant">`</span>
+<span class="Constant">                &lt;div class=&quot;bg-gray-700 p-3 rounded mb-2 border-l-4 </span><span class="Special">${currentSourceMode === </span><span class="Constant">'local'</span><span class="Special"> ? </span><span class="Constant">'border-purple-500'</span><span class="Special"> : </span><span class="Constant">'border-yellow-500'</span><span class="Special">}</span><span class="Constant">&quot;&gt;</span>
+<span class="Constant">                    &lt;strong&gt;</span><span class="Special">${asset.name}</span><span class="Constant">&lt;/strong&gt; (</span><span class="Special">${asset.ip_address}</span><span class="Constant">)&lt;br&gt;</span>
+<span class="Constant">                    &lt;span class=&quot;text-xs text-gray-300&quot;&gt;OS: </span><span class="Special">${asset.os}</span><span class="Constant"> | Zone: </span><span class="Special">${asset.zone}</span><span class="Constant">&lt;/span&gt;&lt;br&gt;</span>
+<span class="Constant">                    &lt;span class=&quot;text-xs text-blue-300&quot;&gt;Services: </span><span class="Special">${asset.exposed_services.join(</span><span class="Constant">', '</span><span class="Special">)}</span><span class="Constant">&lt;/span&gt;</span>
+<span class="Constant">                &lt;/div&gt;</span>
+<span class="Constant">            `</span>;
+        <span class="Identifier">}</span>);
+        <span class="Statement">if</span> (container) container.innerHTML = html;
+    <span class="Identifier">}</span> <span class="Statement">catch</span> (error) <span class="Identifier">{</span>
+        <span class="Statement">if</span> (container) container.innerHTML = <span class="Constant">`&lt;p class=&quot;text-red-400&quot;&gt;Erreur : </span><span class="Special">${error.message}</span><span class="Constant">.&lt;/p&gt;`</span>;
+    <span class="Identifier">}</span>
+<span class="Identifier">}</span>
+
+
+<span class="Statement">async</span> <span class="Statement">function</span> loadAudit() <span class="Identifier">{</span>
+    <span class="Statement">const</span> container = <span class="Statement">document</span>.getElementById(<span class="Constant">&quot;audit-container&quot;</span>);
+    <span class="Statement">const</span> title = <span class="Statement">document</span>.getElementById(<span class="Constant">&quot;audit-title&quot;</span>);
+    title.innerText = <span class="Constant">`🛡️ Audit SOC en cours (</span><span class="Special">${currentSourceMode.toUpperCase()}</span><span class="Constant">)...`</span>;
+    container.innerHTML = <span class="Constant">&quot;&lt;p class='text-yellow-400'&gt;Exécution de l'analyse sémantique et corrélation CTI...&lt;/p&gt;&quot;</span>;
+
+    <span class="Statement">try</span> <span class="Identifier">{</span>
+        <span class="Statement">const</span> response = <span class="Statement">await</span> fetch(<span class="Constant">`</span><span class="Special">${API_BASE_URL}</span><span class="Constant">/api/v1/audit?source=</span><span class="Special">${currentSourceMode}</span><span class="Constant">`</span>);
+        <span class="Statement">if</span> (!response.ok) <span class="Statement">throw</span> <span class="Statement">new</span> Error(<span class="Constant">`Erreur HTTP : </span><span class="Special">${response.status}</span><span class="Constant">`</span>);
+
+        <span class="Statement">const</span> data = <span class="Statement">await</span> response.json();
+        title.innerText = <span class="Constant">`🛡️ Résultats de l'Audit (</span><span class="Special">${data.source_mode.toUpperCase()}</span><span class="Constant">)`</span>;
+
+        <span class="Statement">let</span> html = <span class="Constant">`&lt;div class=&quot;space-y-4&quot;&gt;`</span>;
+
+        <span class="Comment">// Encart de traçabilité sémantique</span>
+        html += <span class="Constant">`</span>
+<span class="Constant">            &lt;div class=&quot;bg-gray-900 p-3 rounded border border-blue-500 text-xs text-gray-300&quot;&gt;</span>
+<span class="Constant">                &lt;strong class=&quot;text-blue-400&quot;&gt;🧠 Traçabilité du Rapprochement Sémantique :&lt;/strong&gt;&lt;br&gt;</span>
+<span class="Constant">                - Source active : &lt;span class=&quot;text-green-400 font-mono&quot;&gt;</span><span class="Special">${data.source_mode}</span><span class="Constant">&lt;/span&gt;&lt;br&gt;</span>
+<span class="Constant">                - Moteur : Corrélation entre les services exposés (JSON) et les CVE de la base CTI.</span>
+<span class="Constant">            &lt;/div&gt;</span>
+<span class="Constant">        `</span>;
+
+        <span class="Statement">const</span> reports = data.audit_data || <span class="Identifier">[]</span>;
+
+        <span class="Statement">if</span> (reports.length === <span class="Constant">0</span>) <span class="Identifier">{</span>
+            html += <span class="Constant">`&lt;p class=&quot;text-green-400&quot;&gt;Aucun rapport d'actif généré pour cette source.&lt;/p&gt;`</span>;
+        <span class="Identifier">}</span> <span class="Statement">else</span> <span class="Identifier">{</span>
+            reports.forEach(rep =&gt; <span class="Identifier">{</span>
+                <span class="Statement">let</span> borderColor = <span class="Constant">&quot;border-green-500&quot;</span>;
+                <span class="Statement">if</span> (rep.risk_level &amp;&amp; rep.risk_level.includes(<span class="Constant">&quot;CRITIQUE&quot;</span>)) borderColor = <span class="Constant">&quot;border-red-500&quot;</span>;
+                <span class="Statement">else</span> <span class="Statement">if</span> (rep.risk_level &amp;&amp; rep.risk_level.includes(<span class="Constant">&quot;MOYEN&quot;</span>)) borderColor = <span class="Constant">&quot;border-yellow-500&quot;</span>;
+
+                html += <span class="Constant">`</span>
+<span class="Constant">                    &lt;div class=&quot;bg-gray-700 p-4 rounded border-l-4 </span><span class="Special">${borderColor}</span><span class="Constant">&quot;&gt;</span>
+<span class="Constant">                        &lt;div class=&quot;flex justify-between items-center mb-1&quot;&gt;</span>
+<span class="Constant">                            &lt;strong&gt;🖥️ </span><span class="Special">${rep.asset_name || </span><span class="Constant">'Actif Inconnu'</span><span class="Special">}</span><span class="Constant">&lt;/strong&gt;</span>
+<span class="Constant">                            &lt;span class=&quot;text-xs px-2 py-0.5 rounded bg-gray-800 text-gray-200&quot;&gt;</span><span class="Special">${rep.risk_level || </span><span class="Constant">'FAIBLE'</span><span class="Special">}</span><span class="Constant">&lt;/span&gt;</span>
+<span class="Constant">                        &lt;/div&gt;</span>
+<span class="Constant">                        &lt;p class=&quot;text-xs text-gray-300 mb-2&quot;&gt;IP : </span><span class="Special">${rep.ip || </span><span class="Constant">'N/A'</span><span class="Special">}</span><span class="Constant"> | Zone : </span><span class="Special">${rep.zone || </span><span class="Constant">'N/A'</span><span class="Special">}</span><span class="Constant">&lt;/p&gt;</span>
+<span class="Constant">                `</span>;
+
+                <span class="Comment">// Gestion robuste des menaces (qu'elles soient sous forme de texte ou d'objet)</span>
+                <span class="Statement">if</span> (rep.matched_threats &amp;&amp; rep.matched_threats.length &gt; <span class="Constant">0</span>) <span class="Identifier">{</span>
+                    html += <span class="Constant">`&lt;div class=&quot;bg-gray-800 p-2 rounded mb-2 text-xs&quot;&gt;</span>
+<span class="Constant">                                &lt;strong class=&quot;text-red-400&quot;&gt;⚠️ Menaces &amp; Applicatifs mis en cause :&lt;/strong&gt;</span>
+<span class="Constant">                                &lt;ul class=&quot;list-disc list-inside mt-1 space-y-1&quot;&gt;`</span>;
+
+                    rep.matched_threats.forEach(t =&gt; <span class="Identifier">{</span>
+                        <span class="Statement">if</span> (<span class="Statement">typeof</span> t === <span class="Constant">'string'</span>) <span class="Identifier">{</span>
+                            html += <span class="Constant">`&lt;li&gt;&lt;span class=&quot;text-yellow-300 font-mono&quot;&gt;</span><span class="Special">${t}</span><span class="Constant">&lt;/span&gt;&lt;/li&gt;`</span>;
+                        <span class="Identifier">}</span> <span class="Statement">else</span> <span class="Identifier">{</span>
+                            html += <span class="Constant">`&lt;li&gt;&lt;span class=&quot;text-yellow-300 font-mono&quot;&gt;</span><span class="Special">${t.cve || </span><span class="Constant">'CVE'</span><span class="Special">}</span><span class="Constant">&lt;/span&gt; (Composant : &lt;span class=&quot;text-white&quot;&gt;</span><span class="Special">${t.component || </span><span class="Constant">'N/A'</span><span class="Special">}</span><span class="Constant">&lt;/span&gt; ➔ Service : &lt;span class=&quot;text-blue-300&quot;&gt;</span><span class="Special">${t.service_matched || </span><span class="Constant">'N/A'</span><span class="Special">}</span><span class="Constant">&lt;/span&gt;)&lt;/li&gt;`</span>;
+                        <span class="Identifier">}</span>
+                    <span class="Identifier">}</span>);
+                    html += <span class="Constant">`&lt;/ul&gt;&lt;/div&gt;`</span>;
+                <span class="Identifier">}</span> <span class="Statement">else</span> <span class="Identifier">{</span>
+                    html += <span class="Constant">`&lt;p class=&quot;text-xs text-green-400 mb-2&quot;&gt;✔️ Aucune menace sémantique corrélée.&lt;/p&gt;`</span>;
+                <span class="Identifier">}</span>
+
+                html += <span class="Constant">`</span>
+<span class="Constant">                        &lt;div class=&quot;text-xs text-blue-300&quot;&gt;</span>
+<span class="Constant">                            &lt;strong&gt;Recommandations :&lt;/strong&gt;</span>
+<span class="Constant">                            &lt;ul class=&quot;list-disc list-inside mt-1&quot;&gt;</span>
+<span class="Constant">                                </span><span class="Special">${(rep.recommendations || [</span><span class="Constant">'Aucune recommandation'</span><span class="Special">]).map(rec =&gt; </span><span class="Constant">`&lt;li&gt;</span><span class="Special">${rec}</span><span class="Constant">&lt;/li&gt;`</span><span class="Special">).join(</span><span class="Constant">''</span><span class="Special">)}</span>
+<span class="Constant">                            &lt;/ul&gt;</span>
+<span class="Constant">                        &lt;/div&gt;</span>
+<span class="Constant">                    &lt;/div&gt;</span>
+<span class="Constant">                `</span>;
+            <span class="Identifier">}</span>);
+        <span class="Identifier">}</span>
+        html += <span class="Constant">`&lt;/div&gt;`</span>;
+        container.innerHTML = html;
+
+    <span class="Identifier">}</span> <span class="Statement">catch</span> (error) <span class="Identifier">{</span>
+        console.error(<span class="Constant">&quot;Erreur Audit:&quot;</span>, error);
+        container.innerHTML = <span class="Constant">`&lt;p class=&quot;text-red-400 font-bold&quot;&gt;Erreur lors du chargement de l'audit :&lt;br&gt;&lt;span class=&quot;text-xs font-normal&quot;&gt;</span><span class="Special">${error.message}</span><span class="Constant">&lt;/span&gt;&lt;/p&gt;`</span>;
+    <span class="Identifier">}</span>
+<span class="Identifier">}</span>
+
+<span class="Comment">// Fonction pour récupérer et afficher le rapport de conformité de la Phase 8</span>
+<span class="Statement">async</span> <span class="Statement">function</span> loadComplianceReport() <span class="Identifier">{</span>
+    <span class="Statement">const</span> container = <span class="Statement">document</span>.getElementById(<span class="Constant">'compliance-status-container'</span>);
+    <span class="Statement">if</span> (!container) <span class="Statement">return</span>;
+
+    <span class="Statement">try</span> <span class="Identifier">{</span>
+        <span class="Statement">const</span> response = <span class="Statement">await</span> fetch(<span class="Constant">`</span><span class="Special">${API_BASE_URL}</span><span class="Constant">/api/v1/compliance/report`</span>);
+        <span class="Statement">if</span> (!response.ok) <span class="Statement">throw</span> <span class="Statement">new</span> Error(<span class="Constant">`Erreur HTTP: </span><span class="Special">${response.status}</span><span class="Constant">`</span>);
+
+        <span class="Statement">const</span> data = <span class="Statement">await</span> response.json();
+        <span class="Statement">const</span> metrics = data.resource_profiling;
+
+        <span class="Statement">let</span> html = <span class="Constant">`</span>
+<span class="Constant">            &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;&gt;</span>
+<span class="Constant">                &lt;div class=&quot;bg-gray-700 p-4 rounded border-l-4 border-purple-500&quot;&gt;</span>
+<span class="Constant">                    &lt;p class=&quot;text-sm text-gray-200&quot;&gt;&lt;strong&gt;Portée :&lt;/strong&gt; </span><span class="Special">${data.compliance_scope}</span><span class="Constant">&lt;/p&gt;</span>
+<span class="Constant">                    &lt;p class=&quot;text-sm text-gray-200 mt-1&quot;&gt;&lt;strong&gt;Cadre :&lt;/strong&gt; </span><span class="Special">${data.framework}</span><span class="Constant">&lt;/p&gt;</span>
+<span class="Constant">                    &lt;p class=&quot;text-sm text-gray-200 mt-1&quot;&gt;&lt;strong&gt;Triplets normatifs :&lt;/strong&gt; &lt;span class=&quot;text-blue-300 font-mono&quot;&gt;</span><span class="Special">${data.standards_triplets_count}</span><span class="Constant">&lt;/span&gt;&lt;/p&gt;</span>
+<span class="Constant">                &lt;/div&gt;</span>
+<span class="Constant">                &lt;div class=&quot;bg-gray-700 p-4 rounded border-l-4 border-green-500&quot;&gt;</span>
+<span class="Constant">                    &lt;h4 class=&quot;font-bold text-green-400 mb-1&quot;&gt;🌱 Profiling Green-by-Design&lt;/h4&gt;</span>
+<span class="Constant">                    &lt;p class=&quot;text-xs text-gray-300&quot;&gt;Statut : &lt;span class=&quot;text-green-300 font-mono&quot;&gt;</span><span class="Special">${metrics.status}</span><span class="Constant">&lt;/span&gt;&lt;/p&gt;</span>
+<span class="Constant">                    &lt;p class=&quot;text-xs text-gray-300&quot;&gt;Temps d'exécution : &lt;span class=&quot;text-white font-mono&quot;&gt;</span><span class="Special">${metrics.execution_time_ms}</span><span class="Constant"> ms&lt;/span&gt;&lt;/p&gt;</span>
+<span class="Constant">                    &lt;p class=&quot;text-xs text-gray-300&quot;&gt;Pic mémoire : &lt;span class=&quot;text-white font-mono&quot;&gt;</span><span class="Special">${metrics.memory_peak_mb}</span><span class="Constant"> Mo&lt;/span&gt;&lt;/p&gt;</span>
+<span class="Constant">                &lt;/div&gt;</span>
+<span class="Constant">            &lt;/div&gt;</span>
+<span class="Constant">            &lt;div class=&quot;mt-4 bg-gray-900 p-3 rounded border border-gray-700 text-xs&quot;&gt;</span>
+<span class="Constant">                &lt;details class=&quot;cursor-pointer&quot;&gt;</span>
+<span class="Constant">                    &lt;summary class=&quot;font-bold text-purple-300&quot;&gt;Afficher l'échantillon des règles normatives (TLP:CLEAR)&lt;/summary&gt;</span>
+<span class="Constant">                    &lt;ul class=&quot;list-disc list-inside mt-2 space-y-1 text-gray-300&quot;&gt;</span>
+<span class="Constant">                        </span><span class="Special">${data.standards_sample.map(item =&gt; </span><span class="Constant">`&lt;li&gt;&lt;span class=&quot;text-blue-300 font-mono&quot;&gt;</span><span class="Special">${item.predicate.split(</span><span class="Constant">'#'</span><span class="Special">).pop()}</span><span class="Constant">&lt;/span&gt; : </span><span class="Special">${item.object}</span><span class="Constant">&lt;/li&gt;`</span><span class="Special">).join(</span><span class="Constant">''</span><span class="Special">)}</span>
+<span class="Constant">                    &lt;/ul&gt;</span>
+<span class="Constant">                &lt;/details&gt;</span>
+<span class="Constant">            &lt;/div&gt;</span>
+<span class="Constant">        `</span>;
+        container.innerHTML = html;
+    <span class="Identifier">}</span> <span class="Statement">catch</span> (error) <span class="Identifier">{</span>
+        console.error(<span class="Constant">&quot;Erreur chargement conformité:&quot;</span>, error);
+        container.innerHTML = <span class="Constant">`&lt;p class=&quot;text-red-400 text-sm&quot;&gt;❌ Impossible de charger le rapport de conformité depuis l'API.&lt;/p&gt;`</span>;
+    <span class="Identifier">}</span>
+<span class="Identifier">}</span>
+
+<span class="Comment">// Chargement automatique au démarrage de la page</span>
+<span class="Statement">document</span>.addEventListener(<span class="Constant">'DOMContentLoaded'</span>, () =&gt; <span class="Identifier">{</span>
+    loadComplianceReport();
+<span class="Identifier">}</span>);
+
+
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

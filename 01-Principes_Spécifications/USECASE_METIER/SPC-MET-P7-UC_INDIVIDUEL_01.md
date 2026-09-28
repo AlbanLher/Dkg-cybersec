@@ -90,11 +90,12 @@ Avant toute installation de logiciel sur un actif du foyer, l'Agent Conseil exé
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-P7-01**|`MET`|Cartographie Résidentielle|Ingestion et validation des 5 actifs du foyer[cite: 5].|PyTest / Schéma Pydantic V2|
-|**EXG-P7-02**|`MET`|Analyse d'Exposition WAN|Détection des services exposés couplée aux flux TLP:CLEAR[cite: 5].|PyTest / Validation SPARQL|
-|**EXG-P7-03**|`MET`|Restitution & Agent Conseil|Génération du rapport de risque et arbitrage de pré-installation.|Validation Markdown / Test API|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**  | **Description & Critères d'Acceptation**                            | **Mode de Test / Asset**       |
+| --------------- | ---------------- | ----------- | --------------------------- | ------------------------------------------------------------------- | ------------------------------ |
+| **EXG-P7-01**   | EXG-MET-P5-CTI_1 | `MET`       | Cartographie Résidentielle  | Ingestion et validation des 5 actifs du foyer[cite: 5].             | PyTest / Schéma Pydantic V2    |
+| **EXG-P7-02**   | EXG-MET-P5-CTI_2 | `MET`       | Analyse d'Exposition WAN    | Détection des services exposés couplée aux flux TLP:CLEAR[cite: 5]. | PyTest / Validation SPARQL     |
+| **EXG-P7-03**   | EXG-MET-P5-CTI_3 | `MET`       | Restitution & Agent Conseil | Génération du rapport de risque et arbitrage de pré-installation.   | Validation Markdown / Test API |
+
 
 
 ## 🛡️ 5. Outillage & Traçabilité

@@ -1,0 +1,8 @@
+{
+    "execution_time_ms": 2.09,
+    "memory_peak_mb": 84.93,
+    "memory_delta_mb": 0.18,
+    "triplets_generated": 4,
+    "concepts_extracted": 1,
+    "status": "SUCCESS"
+}

@@ -64,10 +64,13 @@ let defaultSnake = specTitre.toLowerCase()
 const titreSnake = await tp.system.prompt("Titre court (snake_case) :", defaultSnake);
 const specDescription = await tp.system.prompt("Résumé / Description courte (1 phrase) :", "");
 
-// Numéro de révision et Référence Unique (Format canonique SPC-[PORTÉE]-[PHASE]-[TITRE]_[REV])
+// Numéro de révision et Référence Unique
 const revisionNum = 1;
 const revisionSuffix = String(revisionNum).padStart(2, "0");
 const specReference = `SPC-${porteeCode}-${targetPCode}-${titreSnake}_${revisionSuffix}`;
+
+// Génération automatique d'un UID d'exigence cohérent (ex: EXG-FWK-P1-GOU_1)
+const defaultExUid = `EXG-${porteeCode}-${targetPCode}-${titreSnake.toUpperCase().substring(0, 3)}_1`;
 
 // 5. Publics visés
 const publicPresets = [
@@ -87,7 +90,7 @@ const publicList = chosenPublic
     ? chosenPublic.split(",").map(p => p.trim()).filter(p => p.length > 0)
     : ["Architectes Ontologues"];
 
-// 6. Injection unifiée dans le Frontmatter YAML incluant les exigences structurées
+// 6. Injection unifiée dans le Frontmatter YAML incluant l'UID de l'exigence
 app.fileManager.processFrontMatter(tp.config.target_file, (fm) => {
     fm["type"] = "spec";
     fm["reference"] = specReference;
@@ -100,12 +103,12 @@ app.fileManager.processFrontMatter(tp.config.target_file, (fm) => {
     fm["statut"] = pStatut;
     fm["portee"] = selectedType;
     fm["public_vise"] = publicList;
-    
     if (!fm["exigences"]) {
         fm["exigences"] = [
             {
-                id: `EXG-${targetPCode}-01`,
-                domaine: "SE",
+                uid: defaultExUid,
+                id: `EXG-OR-01`,
+                domaine: "OR",
                 titre: "Titre de l'exigence",
                 description: "Critère formel vérifiable.",
                 test: "PyTest / SHACL"
@@ -128,8 +131,9 @@ portee: <% selectedType %>
 public_vise:
 <% publicList.map(p => `  - "${p}"`).join("\n") %>
 exigences:
-  - id: EXG-<% targetPCode %>-01
-    domaine: SE
+  - id: EXG-OR-01
+	uid: <% defaultExUid %>
+    domaine: OR
     titre: "Exigence Initiale"
     description: "Description formelle et critères d'acceptation."
     test: "PyTest / SPARQL / SHACL"
@@ -139,21 +143,22 @@ exigences:
 ## 📖 1. Résumé Exécutif & Glossaire
 
 ### 1.1 Objectif
-[Décrire en 2-3 phrases le but de cette spécification, son rôle dans l'architecture DKG-CyberSec et sa valeur métier/technique.]
+Décrire en 2-3 phrases le but de cette spécification, son rôle dans l'architecture DKG-CyberSec et sa valeur métier/technique.
 
 ### 1.2 Glossaire Métier & Technique
-| Acronyme / Concept | Définition | Contexte DKG |
-| :--- | :--- | :--- |
-| **DKG** | Dynamic Knowledge Graph | Graphe de connaissances dynamique du projet. |
+| Acronyme / Concept | Définition              | Contexte DKG                                 |
+| :----------------- | :---------------------- | :------------------------------------------- |
+| **DKG**            | Dynamic Knowledge Graph | Graphe de connaissances dynamique du projet. |
 
 ## 🏗️ 2. Périmètre & Rôle de la Spécification
-- **Positionnement dans l'Architecture** : [Préciser s'il s'agit d'un socle transversal, d'un cas d'usage métier ou d'une implémentation technique].
+- **Positionnement dans l'Architecture** : Préciser s'il s'agit d'un socle transversal, d'un cas d'usage métier ou d'une implémentation technique.
 - **Gouvernance & Validation** : Validé par l'Architecte Sémantique et IA SOC.
 
 ```mermaid
 graph TD
     A[Composant A] --> B[Composant B]
 ```
+
 ## 📐 3. Spécifications Formelles & Règles
 
 ### 3.1 Axiomes, Structures RDF ou Scénario Métier
@@ -164,11 +169,11 @@ graph TD
 
 [Règles d'utilisation des objets de `config.py`, contraintes d'immutabilité Pydantic V2, séparation TLP]
 
-## 📊 4. Matrice dings Exigences & Critères d'Acceptation (EXG-)
+## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-<% targetPCode %>-01**|`SE`|Exigence Initiale|Description formelle et critères d'acceptation.|Pytest / SPARQL / SHACL|
+|**UID**|**ID**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
+|---|---|---|---|---|---|
+|**<% defaultExUid %>**|`EXG-OR-01`|`OR`|Exigence Initiale|Description formelle et critères d'acceptation.|Pytest / SPARQL / SHACL|
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

@@ -2,12 +2,12 @@
 type: spec
 reference: SPC-MET-P8-incremental_graph_partitioning_01
 revision: 1
-titre: "Méthodologie de Partitionnement et Mise à Niveau Incrémentale"
+titre: Méthodologie de Partitionnement et Mise à Niveau Incrémentale
 titre_court: incremental_graph_partitioning
-description: "Définit les règles de découpage des graphes et d'injection par deltas pour respecter la contrainte Green Dev (< 16 Go RAM)."
+description: Définit les règles de découpage des graphes et d'injection par deltas pour respecter la contrainte Green Dev (< 16 Go RAM).
 phase_code: P8
-phase_nom: "SOC Orchestrator, Découpage & RGPD"
-statut: "🟡 ACTIVE"
+phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
+statut: 🟡 ACTIVE
 portee: USECASE_METIER
 public_vise:
   - Architectes Ontologues
@@ -15,14 +15,14 @@ public_vise:
 exigences:
   - id: EXG-P8-03
     domaine: MET
-    titre: "Interdiction des Rechargements Monolithiques"
-    description: "Le système ne doit jamais charger l'intégralité des graphes en mémoire vive ; seules les partitions ciblées et les deltas sont traités."
-    test: "Profiling RAM PyTest / Max Triples"
+    titre: Interdiction des Rechargements Monolithiques
+    description: Le système ne doit jamais charger l'intégralité des graphes en mémoire vive ; seules les partitions ciblées et les deltas sont traités.
+    test: Profiling RAM PyTest / Max Triples
   - id: EXG-P8-04
     domaine: MET
-    titre: "Validation Incrémentale par Deltas"
+    titre: Validation Incrémentale par Deltas
     description: "Les ajouts réglementaires (ex: RGPD Art. 32) sont injectés sous forme de fichiers temporaires Turtle fusionnés après validation SHACL."
-    test: "SPARQL / SHACL validation suite"
+    test: SPARQL / SHACL validation suite
 ---
 
 # 📜 Méthodologie de Partitionnement et Mise à Niveau Incrémentale
@@ -49,18 +49,22 @@ graph LR
     C --> D{Validation SHACL}
     D -->|Succès| E[Fusion Incrémentale Partition]
 ```
-📐 3. Spécifications Formelles & Règles
-3.1 Règles de Partitionnement
+## 📐 3. Spécifications Formelles & Règles
+### 3.1 Règles de Partitionnement
 
-    Séparation physique des fichiers de données (external_clear.ttl, internal_red.ttl, delta_buffer.ttl).
+Séparation physique des fichiers de données (external_clear.ttl, internal_red.ttl, delta_buffer.ttl).
 
-    Plafond strict défini dans config.py : MAX_TRIPLES_IN_MEMORY = 50000.
+Plafond strict défini dans config.py : MAX_TRIPLES_IN_MEMORY = 50000.
 
-📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
-Identifiant	Domaine	Intitulé de l'Exigence	Description & Critères d'Acceptation	Mode de Test / Asset
-EXG-P8-03	MET	Interdiction Monolithique	Respect du plafond RAM et chargement par partitions.	Profiling RAM PyTest
-EXG-P8-04	MET	Validation Incrémentale	Fusion par deltas validés par contraintes SHACL.	SPARQL / SHACL validation
-🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
+## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
+
+| Identifiant | UID              | Domaine | Intitulé de l'Exigence    | Description & Critères d'Acceptation                 | Mode de Test / Asset      |
+| ----------- | ---------------- | ------- | ------------------------- | ---------------------------------------------------- | ------------------------- |
+| EXG-P8-03   | EXG-MET-P8-inc_1 | MET     | Interdiction Monolithique | Respect du plafond RAM et chargement par partitions. | Profiling RAM PyTest      |
+| EXG-P8-04   | EXG-MET-P8-inc_2 | MET     | Validation Incrémentale   | Fusion par deltas validés par contraintes SHACL.     | SPARQL / SHACL validation |
+
+
+# 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 
     Scripts de Génération / Exécution : 03-Application/incremental_engine.py
 

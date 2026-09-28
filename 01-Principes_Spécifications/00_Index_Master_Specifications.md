@@ -21,6 +21,9 @@ let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "sp
 let rows = [];
 
 for (let page of pages) {
+    // Récupération de la référence de la spec (depuis le frontmatter 'reference' ou à défaut le nom du fichier)
+    let specRef = page.reference || page.file.name;
+
     // Cas 1 : Structure sous 'exigences_par_domaine'
     if (page.exigences_par_domaine) {
         let dict = page.exigences_par_domaine;
@@ -29,7 +32,8 @@ for (let page of pages) {
             if (Array.isArray(list)) {
                 for (let ex of list) {
                     rows.push([
-                        ex.id || "-",
+                        specRef,
+                        ex.uid || ex.id || "-",
                         ex.domaine || key,
                         ex.titre || ex.intitule || "-",
                         ex.desc || ex.description || "-",
@@ -43,7 +47,8 @@ for (let page of pages) {
     else if (page.exigences && Array.isArray(page.exigences)) {
         for (let ex of page.exigences) {
             rows.push([
-                ex.id || "-",
+                specRef,
+                ex.uid || ex.id || "-",
                 ex.domaine || "-",
                 ex.titre || ex.intitule || "-",
                 ex.desc || ex.description || "-",
@@ -56,9 +61,11 @@ for (let page of pages) {
 if (rows.length === 0) {
     dv.paragraph("⚠️ **Aucune exigence trouvée.** Vérifiez que vos fichiers dans `01-Principes_Spécifications` possèdent bien `type: spec` dans leur frontmatter.");
 } else {
-    rows.sort((a, b) => (a[0] || "").localeCompare(b[0] || ""));
+    // Tri par référence de spec puis par ID/UID d'exigence
+    rows.sort((a, b) => (a[0] + a[1]).localeCompare(b[0] + b[1]));
+    
     dv.table(
-        ["Réf. Exigence", "Domaine", "Intitulé Exigence", "Critère d'Acceptation", "Mode de Test"],
+        ["Spécification Source", "ID / UID Exigence", "Domaine", "Intitulé Exigence", "Critère d'Acceptation", "Mode de Test"],
         rows
     );
 }
@@ -66,81 +73,56 @@ if (rows.length === 0) {
 
 
 
-## Tableau LLM formaat TSV _( Tab-Separated Values )_
-### 3.Cartographie des Spécifications
 ```dataviewjs
 let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
-let rows = ["Fichier_Source\tDomaine\tID_Exigence\tTitre_Court"];
+let rows = [];
 
 for (let page of pages) {
-    let file = page.file.name;
-    
-    let processEx = (dom, ex) => {
-        let id = ex.id || "SANS_ID";
-        let titre = ex.titre || ex.intitule || "Sans titre";
-        rows.push(`${file}\t${dom}\t${id}\t${titre}`);
-    };
-
-    if (page.exigences_par_domaine) {
-        for (let dom in page.exigences_par_domaine) {
-            let list = page.exigences_par_domaine[dom];
-            if (Array.isArray(list)) {
-                list.forEach(ex => processEx(dom, ex));
-            }
-        }
-    } else if (Array.isArray(page.exigences)) {
-        page.exigences.forEach(ex => processEx(page.domaine || "General", ex));
-    }
-}
-
-dv.header(4, "🗺️ Cartographie des Spécifications (Format TSV)");
-dv.paragraph("```tsv\n" + rows.join("\n") + "\n```");
-```
-
-
-
-
-
-### 4. Matrice Consolidée Traçabilité Exigences
-
-
-```dataviewjs
-let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
-let lines = ["ID\tDomaine\tTitre\tCritère\tTest"];
-
-for (let page of pages) {
-    // Cas 1 : Dictionnaire par domaine
+    // Cas 1 : Structure sous 'exigences_par_domaine' (dictionnaire)
     if (page.exigences_par_domaine) {
         let dict = page.exigences_par_domaine;
-        for (let dom of Object.keys(dict)) {
-            let list = dict[dom];
+        for (let key of Object.keys(dict)) {
+            let list = dict[key];
             if (Array.isArray(list)) {
                 for (let ex of list) {
-                    let id = ex.id || "-";
-                    let titre = ex.titre || ex.intitule || "-";
-                    let desc = ex.desc || ex.description || "-";
-                    let val = ex.val || ex.test || "-";
-                    lines.push(`${id}\t${dom}\t${titre}\t${desc}\t${val}`);
+                    rows.push([
+                        ex.uid || ex.id || "-",
+                        ex.id || "-",
+                        ex.domaine || key,
+                        ex.titre || ex.intitule || "-",
+                        ex.desc || ex.description || "-",
+                        ex.val || ex.test || "-"
+                    ]);
                 }
             }
         }
-    } 
-    // Cas 2 : Liste simple d'exigences
+    }
+    // Cas 2 : Structure sous 'exigences' (liste à plat présente dans votre YAML)
     else if (page.exigences && Array.isArray(page.exigences)) {
         for (let ex of page.exigences) {
-            let id = ex.id || "-";
-            let dom = ex.domaine || "-";
-            let titre = ex.titre || ex.intitule || "-";
-            let desc = ex.desc || ex.description || "-";
-            let val = ex.val || ex.test || "-";
-            lines.push(`${id}\t${dom}\t${titre}\t${desc}\t${val}`);
+            rows.push([
+                ex.uid || ex.id || "-",   // Si 'uid' n'est pas dans le YAML, utilise 'id'
+                ex.id || "-",
+                ex.domaine || "-",
+                ex.titre || ex.intitule || "-",
+                ex.description || ex.desc || "-",
+                ex.test || ex.val || "-"
+            ]);
         }
     }
 }
 
-// Rendu en bloc de code texte brut facilement copiable
-dv.header(4, "📋 Master Index Compact (Format TSV pour LLM)");
-dv.paragraph("```tsv\n" + lines.join("\n") + "\n```");
+if (rows.length === 0) {
+    dv.paragraph("⚠️ **Aucune exigence trouvée.** Vérifiez que vos fichiers dans `01-Principes_Spécifications` possèdent bien `type: spec` dans leur frontmatter.");
+} else {
+    // Tri principal par l'identifiant de la première colonne
+    rows.sort((a, b) => (a[0] || "").localeCompare(b[0] || ""));
+    
+    dv.table(
+        ["UID", "ID", "Domaine", "Intitulé Exigence", "Critère d'Acceptation", "Mode de Test"],
+        rows
+    );
+}
 ```
 ### 5. - Matrice Consolidée Traçabilité Exigences décomposées par App_Layer
 ```dataviewjs

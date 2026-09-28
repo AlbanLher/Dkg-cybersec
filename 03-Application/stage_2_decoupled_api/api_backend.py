@@ -15,12 +15,18 @@ from fastapi import Query
 from home_soc_orchestrator import HomeSOCOrchestrator
 from local_inventory_agent import LocalInventoryAgent
 from external_cti_agent import ExternalCTIAgent
+from compliance_api_extension import router as compliance_router
 
+# INSTANCIATION UNIQUE ET CENTRALISÉE DE L'APPLICATION
 app = FastAPI(
-    title="DKG-CyberSec SOC API (Phase 7)",
-    description="API REST agnostique pour l'assistant SOC du foyer et l'analyse de risque résidentiel.",
+    title="DKG-CyberSec SOC API (Phase 7 & Phase 8)",
+    description="API REST agnostique pour l'assistant SOC du foyer, l'analyse de risque résidentiel et la conformité RGPD.",
     version="1.0.0"
 )
+
+# Inclusion du routeur Phase 8 (Compliance & SOC Dashboard)
+app.include_router(compliance_router)
+
 
 # Activation de CORS pour permettre à un front-end JavaScript (React/Vue/HTML natif) d'interroger l'API
 app.add_middleware(

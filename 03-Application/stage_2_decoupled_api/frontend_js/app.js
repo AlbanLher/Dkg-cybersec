@@ -127,3 +127,129 @@ async function loadAudit() {
     }
 }
 
+// Fonction pour récupérer et afficher le rapport de conformité de la Phase 8
+async function loadComplianceReport() {
+    const container = document.getElementById('compliance-status-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/v1/compliance/report`);
+        if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+        
+        const data = await response.json();
+        const metrics = data.resource_profiling;
+
+        let html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-gray-700 p-4 rounded border-l-4 border-purple-500">
+                    <p class="text-sm text-gray-200"><strong>Portée :</strong> ${data.compliance_scope}</p>
+                    <p class="text-sm text-gray-200 mt-1"><strong>Cadre :</strong> ${data.framework}</p>
+                    <p class="text-sm text-gray-200 mt-1"><strong>Triplets normatifs :</strong> <span class="text-blue-300 font-mono">${data.standards_triplets_count}</span></p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded border-l-4 border-green-500">
+                    <h4 class="font-bold text-green-400 mb-1">🌱 Profiling Green-by-Design</h4>
+                    <p class="text-xs text-gray-300">Statut : <span class="text-green-300 font-mono">${metrics.status}</span></p>
+                    <p class="text-xs text-gray-300">Temps d'exécution : <span class="text-white font-mono">${metrics.execution_time_ms} ms</span></p>
+                    <p class="text-xs text-gray-300">Pic mémoire : <span class="text-white font-mono">${metrics.memory_peak_mb} Mo</span></p>
+                </div>
+            </div>
+            <div class="mt-4 bg-gray-900 p-3 rounded border border-gray-700 text-xs">
+                <details class="cursor-pointer">
+                    <summary class="font-bold text-purple-300">Afficher l'échantillon des règles normatives (TLP:CLEAR)</summary>
+                    <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
+                        ${data.standards_sample.map(item => `<li><span class="text-blue-300 font-mono">${item.predicate.split('#').pop()}</span> : ${item.object}</li>`).join('')}
+                    </ul>
+                </details>
+            </div>
+        `;
+        container.innerHTML = html;
+    } catch (error) {
+        console.error("Erreur chargement conformité:", error);
+        container.innerHTML = `<p class="text-red-400 text-sm">❌ Impossible de charger le rapport de conformité depuis l'API.</p>`;
+    }
+}
+
+// Ajout des fonctions de pilotage didactique dans app.js
+
+async function resetABoxToFamily() {
+    updateActiveAgent("ABoxManager (Reset)");
+    const container = document.getElementById("inventory-container");
+    container.innerHTML = "<p class='text-yellow-400'>Réinitialisation de l'ABox vers la situation 'Family'...</p>";
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/v1/abox/reset`, { method: "POST" });
+        if (!response.ok) throw new Error("Erreur lors du reset de l'ABox.");
+        
+        const data = await response.json();
+        alert("✅ " + data.message);
+        currentSourceMode = "family";
+        loadInventory();
+    } catch (error) {
+        alert("❌ Erreur : " + error.message);
+    }
+}
+
+function updateActiveAgent(agentName) {
+    const badge = document.getElementById("current-agent");
+    if (badge) badge.innerText = agentName;
+}
+
+async function triggerTBoxGuardian() {
+    updateActiveAgent("TBoxGuardianAgent");
+    const hitmContainer = document.getElementById("hitm-container");
+    hitmContainer.innerHTML = "<p class='text-yellow-400'>Analyse des sources externes et détection de concepts T-Box en cours...</p>";
+
+    setTimeout(() => {
+        hitmContainer.innerHTML = `
+            <div class="bg-gray-900 p-4 rounded border border-yellow-500">
+                <p class="text-sm text-yellow-300 font-bold">⚠️ Proposition d'enrichissement sémantique détectée par le Gardien T-Box</p>
+                <p class="text-xs text-gray-300 mt-1">Concepts identifiés dans les flux externes nécessitant une intégration dans la T-Box maître.</p>
+                <div class="mt-3 flex gap-2">
+                    <button onclick="resolveHitM(true)" class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold py-1 px-3 rounded">✅ Valider (HitM)</button>
+                    <button onclick="resolveHitM(false)" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold py-1 px-3 rounded">❌ Rejeter</button>
+                </div>
+            </div>
+        `;
+        updateActiveAgent("HitM Gateway (En attente opérateur)");
+    }, 1000);
+}
+
+async function resolveHitM(approved) {
+    if (approved) {
+        updateActiveAgent("TBoxGuardianAgent (Fusion validée)");
+        document.getElementById("hitm-container").innerHTML = `
+            <p class="text-green-400 text-sm">✔️ Enrichissement validé par l'opérateur. La T-Box maître a été enrichie avec succès.</p>
+        `;
+    } else {
+        updateActiveAgent("Idle");
+        document.getElementById("hitm-container").innerHTML = `
+            <p class="text-red-400 text-sm">❌ Proposition rejetée. Aucun changement appliqué à la T-Box.</p>
+        `;
+    }
+}
+
+// Surcharge de loadAudit pour indiquer l'agent en cours
+const originalLoadAudit = loadAudit;
+loadAudit = async function() {
+    updateActiveAgent("SOCEngine & MITMEngine");
+    await originalLoadAudit();
+    updateActiveAgent("Idle");
+};
+
+
+
+
+
+
+
+
+
+
+
+
+// Chargement automatique au démarrage de la page
+document.addEventListener('DOMContentLoaded', () => {
+    loadComplianceReport();
+});
+
+

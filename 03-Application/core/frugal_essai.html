@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/frugal_engine.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Type { color: #87ffaf; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/core/frugal_engine.py</span>
+<span class="Constant">Moteur de filtrage frugal et de transformation en deltas RDF (Core Service).</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> json
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Dict, Any
+<span class="PreProc">from</span> rdflib <span class="PreProc">import</span> Graph, Literal, RDF, URIRef
+<span class="PreProc">from</span> core.config <span class="PreProc">import</span> (
+    EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH,
+    DIR_SNAPSHOT_P8,
+    DKG_TBOX,
+    DKG_DATA
+)
+
+DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / <span class="Constant">&quot;</span><span class="Constant">frugal_delta_buffer.ttl</span><span class="Constant">&quot;</span>
+MAX_TRIPLES_IN_MEMORY = <span class="Constant">50000</span>
+
+<span class="Statement">def</span> <span class="Identifier">run_frugal_filtering</span>() -&gt; Dict[<span class="Identifier">str</span>, Any]:
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Exécute le filtrage amont et génère le delta RDF.</span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[FrugalEngine] Exécution du filtrage frugal...</span><span class="Constant">&quot;</span>)
+
+    delta_graph = Graph()
+    delta_graph.bind(<span class="Constant">&quot;</span><span class="Constant">dkg</span><span class="Constant">&quot;</span>, DKG_TBOX)
+    delta_graph.bind(<span class="Constant">&quot;</span><span class="Constant">data</span><span class="Constant">&quot;</span>, DKG_DATA)
+
+    <span class="Statement">if</span> EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH.exists():
+        <span class="Statement">with</span> <span class="Identifier">open</span>(EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH, <span class="Constant">&quot;</span><span class="Constant">r</span><span class="Constant">&quot;</span>, encoding=<span class="Constant">&quot;</span><span class="Constant">utf-8</span><span class="Constant">&quot;</span>) <span class="Statement">as</span> f:
+            feed_data = json.load(f)
+            <span class="Statement">for</span> item <span class="Statement">in</span> feed_data.get(<span class="Constant">&quot;</span><span class="Constant">requirements</span><span class="Constant">&quot;</span>, []):
+                req_uri = URIRef(<span class="Constant">f&quot;</span><span class="Special">{</span>DKG_DATA<span class="Special">}</span><span class="Constant">RegRequirement_</span><span class="Special">{</span>item.get(<span class="Constant">'</span><span class="Constant">id</span><span class="Constant">'</span>)<span class="Special">}</span><span class="Constant">&quot;</span>)
+                delta_graph.add((req_uri, RDF.type, DKG_TBOX.RegulatoryConstraint))
+                delta_graph.add((req_uri, DKG_TBOX.hasDescription, Literal(item.get(<span class="Constant">'</span><span class="Constant">description</span><span class="Constant">'</span>))))
+    <span class="Statement">else</span>:
+        default_uri = URIRef(<span class="Constant">f&quot;</span><span class="Special">{</span>DKG_DATA<span class="Special">}</span><span class="Constant">RegRequirement_GDPR_Art32</span><span class="Constant">&quot;</span>)
+        delta_graph.add((default_uri, RDF.type, DKG_TBOX.RegulatoryConstraint))
+        delta_graph.add((default_uri, DKG_TBOX.hasDescription, Literal(<span class="Constant">&quot;</span><span class="Constant">Mandatory encryption and resilience.</span><span class="Constant">&quot;</span>)))
+
+    triple_count = <span class="Identifier">len</span>(delta_graph)
+    <span class="Statement">if</span> triple_count &gt; MAX_TRIPLES_IN_MEMORY:
+        <span class="Statement">raise</span> <span class="Type">ValueError</span>(<span class="Constant">f&quot;</span><span class="Constant">[FrugalEngine] Dépassement de seuil mémoire (</span><span class="Special">{</span>triple_count<span class="Special">}</span><span class="Constant">)</span><span class="Constant">&quot;</span>)
+
+    DELTA_BUFFER_PATH.parent.mkdir(parents=<span class="Identifier">True</span>, exist_ok=<span class="Identifier">True</span>)
+    delta_graph.serialize(destination=<span class="Identifier">str</span>(DELTA_BUFFER_PATH), <span class="Identifier">format</span>=<span class="Constant">&quot;</span><span class="Constant">turtle</span><span class="Constant">&quot;</span>)
+
+    <span class="Statement">return</span> {
+        <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+        <span class="Constant">&quot;</span><span class="Constant">delta_path</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(DELTA_BUFFER_PATH),
+        <span class="Constant">&quot;</span><span class="Constant">triple_count</span><span class="Constant">&quot;</span>: triple_count
+    }
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

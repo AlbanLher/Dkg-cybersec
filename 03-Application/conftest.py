@@ -1,7 +1,7 @@
 import pytest
 # from pathlib import Path
 from rdflib import Graph
-from config import DIR_MASTER_TBOX, TBOX_MASTER_PATH, SHACL_MASTER_PATH
+from core.config import DIR_MASTER_TBOX, TBOX_MASTER_PATH, SHACL_MASTER_PATH
 
 @pytest.fixture(scope="session")
 def master_dir():

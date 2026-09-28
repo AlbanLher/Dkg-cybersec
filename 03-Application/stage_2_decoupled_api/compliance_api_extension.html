@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/stage_2_decoupled_api/compliance_api_extension.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #00ffff; }
+.Type { color: #87ffaf; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/stage_2_decoupled_api/compliance_api_extension.py</span>
+<span class="Constant">Extension FastAPI pour exposer le rapport de conformité RGPD (Art. 32) </span>
+<span class="Constant">et le bilan de ressources de l'agent gardien.</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> json
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+<span class="PreProc">from</span> fastapi <span class="PreProc">import</span> APIRouter, HTTPException
+<span class="PreProc">from</span> rdflib <span class="PreProc">import</span> Graph
+
+<span class="PreProc">import</span> sys
+sys.path.append(<span class="Identifier">str</span>(Path(__file__).resolve().parent.parent))
+<span class="PreProc">import</span> config
+
+router = APIRouter(prefix=<span class="Constant">&quot;</span><span class="Constant">/api/v1/compliance</span><span class="Constant">&quot;</span>, tags=[<span class="Constant">&quot;</span><span class="Constant">Phase 8 - Compliance &amp; SOC Dashboard</span><span class="Constant">&quot;</span>])
+
+
+<span class="PreProc">@</span><span class="Identifier">router.get</span>(<span class="Constant">&quot;</span><span class="Constant">/report</span><span class="Constant">&quot;</span>, summary=<span class="Constant">&quot;</span><span class="Constant">Restituer l'audit de conformité RGPD et le profil de ressources</span><span class="Constant">&quot;</span>)
+<span class="Statement">async</span> <span class="Statement">def</span> <span class="Identifier">get_compliance_report</span>():
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Expose le statut de l'audit de conformité (Art. 32 RGPD) basé sur le sous-ensemble TLP:CLEAR </span>
+<span class="Constant">    et les métriques d'exécution Green-by-Design.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">try</span>:
+        <span class="Comment"># Chargement du rapport de profilage des ressources</span>
+        <span class="Statement">if</span> <span class="Statement">not</span> config.RESOURCE_PROFILE_REPORT_PATH.exists():
+            <span class="Statement">raise</span> HTTPException(status_code=<span class="Constant">404</span>, detail=<span class="Constant">&quot;</span><span class="Constant">Rapport de profilage des ressources non disponible. Exécutez l'agent gardien.</span><span class="Constant">&quot;</span>)
+
+        <span class="Statement">with</span> <span class="Identifier">open</span>(config.RESOURCE_PROFILE_REPORT_PATH, <span class="Constant">&quot;</span><span class="Constant">r</span><span class="Constant">&quot;</span>, encoding=<span class="Constant">&quot;</span><span class="Constant">utf-8</span><span class="Constant">&quot;</span>) <span class="Statement">as</span> f:
+            profile_metrics = json.load(f)
+
+        <span class="Comment"># Chargement du graphe des standards TLP:CLEAR</span>
+        g = Graph()
+        <span class="Statement">if</span> config.ABOX_COMPLIANCE_STANDARDS_CLEAR_PATH.exists():
+            g.parse(<span class="Identifier">str</span>(config.ABOX_COMPLIANCE_STANDARDS_CLEAR_PATH), <span class="Identifier">format</span>=<span class="Constant">&quot;</span><span class="Constant">turtle</span><span class="Constant">&quot;</span>)
+
+        standards_list = []
+        <span class="Statement">for</span> subj, pred, obj <span class="Statement">in</span> g:
+            standards_list.append({
+                <span class="Constant">&quot;</span><span class="Constant">subject</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(subj),
+                <span class="Constant">&quot;</span><span class="Constant">predicate</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(pred),
+                <span class="Constant">&quot;</span><span class="Constant">object</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(obj)
+            })
+
+        <span class="Statement">return</span> {
+            <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">framework</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">DKG-CyberSec Phase 8</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">compliance_scope</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">RGPD Article 32 (Sécurité du traitement)</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">resource_profiling</span><span class="Constant">&quot;</span>: profile_metrics,
+            <span class="Constant">&quot;</span><span class="Constant">standards_triplets_count</span><span class="Constant">&quot;</span>: <span class="Identifier">len</span>(standards_list),
+            <span class="Constant">&quot;</span><span class="Constant">standards_sample</span><span class="Constant">&quot;</span>: standards_list[:<span class="Constant">5</span>]  <span class="Comment"># Aperçu frugal</span>
+        }
+
+    <span class="Statement">except</span> <span class="Type">Exception</span> <span class="Statement">as</span> e:
+        <span class="Statement">raise</span> HTTPException(status_code=<span class="Constant">500</span>, detail=<span class="Constant">f&quot;</span><span class="Constant">Erreur lors de la génération du rapport de conformité : </span><span class="Special">{</span><span class="Identifier">str</span>(e)<span class="Special">}</span><span class="Constant">&quot;</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

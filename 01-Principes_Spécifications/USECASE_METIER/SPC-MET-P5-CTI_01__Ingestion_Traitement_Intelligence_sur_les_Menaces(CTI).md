@@ -75,10 +75,10 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-CT-02**|`CT`|Ingestion Flux CTI Multi-Sources|Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés.|Pytest / Audit Ingestion|
-|**EXG-SE-02**|`SE`|Marquage TLP Ingestion|Toute donnée CTI ingérée depuis une source publique doit porter la balise `TLP:CLEAR`.|Pytest / Validation Graphe|
+| **Identifiant**  | UID              | **Domaine** | **Intitulé de l'Exigence**       | **Description & Critères d'Acceptation**                                                                       | **Mode de Test / Asset**   |
+| ---------------- | ---------------- | ----------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| **EXG-CT-02**    | EXG-MET-P5-CTI_1 | `CT`        | Ingestion Flux CTI Multi-Sources | Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés. | Pytest / Audit Ingestion   |
+| **EXG-SE-02**    | EXG-MET-P5-CTI_2 | `SE`        | Marquage TLP Ingestion           | Toute donnée CTI ingérée depuis une source publique doit porter la balise `TLP:CLEAR`.                         | Pytest / Validation Graphe |
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

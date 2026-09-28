@@ -62,9 +62,9 @@ graph LR
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-SE-01**|`SE`|Marquage TLP Obligatoire|Tag TLP présent sur tout document ou graphe Turtle d'infrastructure.|Linter / Pytest|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                             | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | -------------------------- | -------------------------------------------------------------------- | ------------------------ |
+| **EXG-SE-01**   | EXG-MET-P2-CAR_1 | `SE`        | Marquage TLP Obligatoire   | Tag TLP présent sur tout document ou graphe Turtle d'infrastructure. | Linter / Pytest          |
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

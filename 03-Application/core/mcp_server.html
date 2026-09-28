@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/mcp_server.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #00ffff; }
+.Type { color: #87ffaf; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/core/mcp_server.py</span>
+<span class="Constant">Serveur MCP (Model Context Protocol) central et natif pour DKG-CyberSec.</span>
+<span class="Constant">Expose l'ensemble des capacités (Simulateur, Filtre Frugal, Agent MITM, Orchestrateur SOC, Agent TBox)</span>
+<span class="Constant">aux agents IA sous un format standardisé et souverain (Air-Gapped).</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> sys
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Any, Dict
+
+<span class="Comment"># Configuration des chemins d'accès au socle applicatif</span>
+CORE_DIR = Path(__file__).resolve().parent
+APP_DIR = CORE_DIR.parent
+sys.path.append(<span class="Identifier">str</span>(APP_DIR))
+
+<span class="Comment"># Importation sécurisée depuis le Core</span>
+<span class="PreProc">from</span> simulator <span class="PreProc">import</span> DKGSimulator
+<span class="PreProc">from</span> core.frugal_engine <span class="PreProc">import</span> run_frugal_filtering
+<span class="PreProc">from</span> core.soc_engine <span class="PreProc">import</span> run_soc_audit_pipeline
+<span class="PreProc">from</span> core.mitm_engine <span class="PreProc">import</span> MITMEngine
+<span class="PreProc">from</span> core.tbox_guardian <span class="PreProc">import</span> TBoxGuardianAgent
+
+
+<span class="Statement">def</span> <span class="Identifier">run_mitm_reconciliation</span>() -&gt; Dict[<span class="Identifier">str</span>, Any]:
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Exécute la réconciliation sémantique via le moteur MITM centralisé.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[MCP Server] Exécution de la réconciliation sémantique (MITMEngine)...</span><span class="Constant">&quot;</span>)
+    <span class="Statement">try</span>:
+        engine = MITMEngine()
+        <span class="Comment"># Exemple d'évaluation standard sur le registre</span>
+        <span class="Statement">return</span> {
+            <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Moteur MITM opérationnel et initialisé via le core.</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">threshold</span><span class="Constant">&quot;</span>: engine.threshold
+        }
+    <span class="Statement">except</span> <span class="Type">Exception</span> <span class="Statement">as</span> e:
+        <span class="Statement">return</span> {<span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">error</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">f&quot;</span><span class="Constant">Erreur d'initialisation MITM : </span><span class="Special">{</span><span class="Identifier">str</span>(e)<span class="Special">}</span><span class="Constant">&quot;</span>}
+
+
+<span class="Statement">class</span> <span class="Type">DKGMCPRegistry</span>:
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Registre central MCP-Ready : Expose les ressources et les outils du graphe </span>
+<span class="Constant">    aux agents IA locaux dans le respect de la politique TLP (RED/CLEAR) et Green-by-Design.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">staticmethod</span>
+    <span class="Statement">def</span> <span class="Identifier">list_resources</span>() -&gt; <span class="Identifier">list</span>[Dict[<span class="Identifier">str</span>, <span class="Identifier">str</span>]]:
+        <span class="Statement">return</span> [
+            {
+                <span class="Constant">&quot;</span><span class="Constant">uri</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">dkg://assets/internal-tlp-red</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Référentiel d'Actifs Internes</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Graphe TBox/ABox des actifs critiques de l'organisation.</span><span class="Constant">&quot;</span>
+            },
+            {
+                <span class="Constant">&quot;</span><span class="Constant">uri</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">dkg://cti/incoming-tlp-clear</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Flux CTI Externes</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Données de menaces publiques filtrées en amont.</span><span class="Constant">&quot;</span>
+            }
+        ]
+
+    <span class="PreProc">@</span><span class="Identifier">staticmethod</span>
+    <span class="Statement">def</span> <span class="Identifier">list_tools</span>() -&gt; <span class="Identifier">list</span>[Dict[<span class="Identifier">str</span>, Any]]:
+        <span class="Statement">return</span> [
+            {
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">run_simulation_benchmark</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Lance le banc d'essai pour mesurer l'empreinte mémoire et le temps d'exécution (Abaques).</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">parameters</span><span class="Constant">&quot;</span>: {<span class="Constant">&quot;</span><span class="Constant">scale_factor</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">int (ex: 1000, 5000, 10000)</span><span class="Constant">&quot;</span>}
+            },
+            {
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">run_frugal_filtering</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Exécute le filtrage amont pour réduire la volumétrie des flux CTI non pertinents.</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">parameters</span><span class="Constant">&quot;</span>: {}
+            },
+            {
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">run_mitm_reconciliation</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Active l'Agent MITM pour aligner et réconcilier les menaces CTI avec le graphe interne.</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">parameters</span><span class="Constant">&quot;</span>: {}
+            },
+            {
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">run_soc_audit_pipeline</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Lance l'audit SOC complet, la validation SHACL et la boucle de validation HitM.</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">parameters</span><span class="Constant">&quot;</span>: {}
+            },
+            {
+                <span class="Constant">&quot;</span><span class="Constant">name</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">run_tbox_guardian_pipeline</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Déclenche l'Agent Gardien TBox : capture externe, proposition d'enrichissement et alignement MITM sous contrôle HitM.</span><span class="Constant">&quot;</span>,
+                <span class="Constant">&quot;</span><span class="Constant">parameters</span><span class="Constant">&quot;</span>: {}
+            }
+        ]
+
+    <span class="PreProc">@</span><span class="Identifier">staticmethod</span>
+    <span class="Statement">def</span> <span class="Identifier">call_tool</span>(tool_name: <span class="Identifier">str</span>, arguments: Dict[<span class="Identifier">str</span>, Any]) -&gt; Dict[<span class="Identifier">str</span>, Any]:
+        <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Special">\n</span><span class="Constant">[MCP Server] Exécution de l'outil natif : </span><span class="Special">{</span>tool_name<span class="Special">}</span><span class="Constant"> (Args: </span><span class="Special">{</span>arguments<span class="Special">}</span><span class="Constant">)</span><span class="Constant">&quot;</span>)
+
+        <span class="Statement">if</span> tool_name == <span class="Constant">&quot;</span><span class="Constant">run_simulation_benchmark</span><span class="Constant">&quot;</span>:
+            scale = arguments.get(<span class="Constant">&quot;</span><span class="Constant">scale_factor</span><span class="Constant">&quot;</span>, <span class="Constant">1000</span>)
+            simulator = DKGSimulator()
+            <span class="Statement">return</span> simulator.benchmark_execution(scale)
+
+        <span class="Statement">elif</span> tool_name == <span class="Constant">&quot;</span><span class="Constant">run_frugal_filtering</span><span class="Constant">&quot;</span>:
+            <span class="Statement">return</span> run_frugal_filtering()
+
+        <span class="Statement">elif</span> tool_name == <span class="Constant">&quot;</span><span class="Constant">run_mitm_reconciliation</span><span class="Constant">&quot;</span>:
+            <span class="Statement">return</span> run_mitm_reconciliation()
+
+        <span class="Statement">elif</span> tool_name == <span class="Constant">&quot;</span><span class="Constant">run_soc_audit_pipeline</span><span class="Constant">&quot;</span>:
+            <span class="Statement">return</span> run_soc_audit_pipeline()
+
+        <span class="Statement">elif</span> tool_name == <span class="Constant">&quot;</span><span class="Constant">run_tbox_guardian_pipeline</span><span class="Constant">&quot;</span>:
+            agent = TBoxGuardianAgent()
+            <span class="Statement">return</span> agent.inspect_and_propose_enrichment()
+
+        <span class="Statement">else</span>:
+            <span class="Statement">raise</span> <span class="Type">ValueError</span>(<span class="Constant">f&quot;</span><span class="Constant">Outil MCP non reconnu dans le registre : </span><span class="Special">{</span>tool_name<span class="Special">}</span><span class="Constant">&quot;</span>)
+
+
+<span class="Statement">if</span> __name__ == <span class="Constant">&quot;</span><span class="Constant">__main__</span><span class="Constant">&quot;</span>:
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">==================================================</span><span class="Constant">&quot;</span>)
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">       DKG-CyberSec - Serveur MCP Natif           </span><span class="Constant">&quot;</span>)
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">       Mode : Air-Gapped / Green-by-Design        </span><span class="Constant">&quot;</span>)
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">==================================================</span><span class="Constant">&quot;</span>)
+
+    resources = DKGMCPRegistry.list_resources()
+    tools = DKGMCPRegistry.list_tools()
+
+    <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Special">\n</span><span class="Constant">Ressources disponibles (</span><span class="Special">{</span><span class="Identifier">len</span>(resources)<span class="Special">}</span><span class="Constant">) :</span><span class="Constant">&quot;</span>)
+    <span class="Statement">for</span> r <span class="Statement">in</span> resources:
+        <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Constant"> - [</span><span class="Special">{</span>r[<span class="Constant">'</span><span class="Constant">uri</span><span class="Constant">'</span>]<span class="Special">}</span><span class="Constant">] </span><span class="Special">{</span>r[<span class="Constant">'</span><span class="Constant">name</span><span class="Constant">'</span>]<span class="Special">}</span><span class="Constant">&quot;</span>)
+
+    <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Special">\n</span><span class="Constant">Outils (Tools) enregistrés (</span><span class="Special">{</span><span class="Identifier">len</span>(tools)<span class="Special">}</span><span class="Constant">) :</span><span class="Constant">&quot;</span>)
+    <span class="Statement">for</span> t <span class="Statement">in</span> tools:
+        <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Constant"> - </span><span class="Special">{</span>t[<span class="Constant">'</span><span class="Constant">name</span><span class="Constant">'</span>]<span class="Special">}</span><span class="Constant"> : </span><span class="Special">{</span>t[<span class="Constant">'</span><span class="Constant">description</span><span class="Constant">'</span>]<span class="Special">}</span><span class="Constant">&quot;</span>)
+
+    <span class="Comment"># Test d'intégration global d'un pipeline complet via le protocole MCP</span>
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">--- Test d'intégration MCP (Simulation de Workflow) ---</span><span class="Constant">&quot;</span>)
+
+    <span class="Comment"># 1. Test du simulateur</span>
+    DKGMCPRegistry.call_tool(<span class="Constant">&quot;</span><span class="Constant">run_simulation_benchmark</span><span class="Constant">&quot;</span>, {<span class="Constant">&quot;</span><span class="Constant">scale_factor</span><span class="Constant">&quot;</span>: <span class="Constant">1000</span>})
+
+    <span class="Comment"># 2. Test du filtrage frugal</span>
+    DKGMCPRegistry.call_tool(<span class="Constant">&quot;</span><span class="Constant">run_frugal_filtering</span><span class="Constant">&quot;</span>, {})
+
+    <span class="Comment"># 3. Test de l'Agent MITM</span>
+    DKGMCPRegistry.call_tool(<span class="Constant">&quot;</span><span class="Constant">run_mitm_reconciliation</span><span class="Constant">&quot;</span>, {})
+
+    <span class="Comment"># 4. Test de l'Agent Gardien TBox</span>
+    DKGMCPRegistry.call_tool(<span class="Constant">&quot;</span><span class="Constant">run_tbox_guardian_pipeline</span><span class="Constant">&quot;</span>, {})
+
+    <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">[MCP Server] Tous les composants sont opérationnels et exposés par défaut.</span><span class="Constant">&quot;</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/hitm_gateway.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+.Comment { color: #00ffff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/hitm_gateway.py</span>
+<span class="Constant">Passerelle Human-in-the-Middle (HitM) souveraine (Phase 8).</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> os
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+
+<span class="Statement">def</span> <span class="Identifier">request_human_validation</span>(delta_path: Path) -&gt; <span class="Identifier">bool</span>:
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Soumet le delta généré à l'analyste humain pour validation souveraine.</span>
+<span class="Constant">    En mode test automatisé (variable d'environnement HITM_AUTO_APPROVE=1), l'approbation est automatique.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Special">\n</span><span class="Constant">[HitM Gateway] === CONTRÔLE HUMAIN REQUIS ===</span><span class="Constant">&quot;</span>)
+    <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Constant">[HitM Gateway] Analyse du fichier de delta : </span><span class="Special">{</span>delta_path<span class="Special">}</span><span class="Constant">&quot;</span>)
+
+    <span class="Comment"># Mode CI / Test automatique</span>
+    <span class="Statement">if</span> os.getenv(<span class="Constant">&quot;</span><span class="Constant">HITM_AUTO_APPROVE</span><span class="Constant">&quot;</span>) == <span class="Constant">&quot;</span><span class="Constant">1</span><span class="Constant">&quot;</span>:
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[HitM Gateway] Mode automatique activé (CI/Test) -&gt; Validation accordée.</span><span class="Constant">&quot;</span>)
+        <span class="Statement">return</span> <span class="Identifier">True</span>
+
+    <span class="Comment"># Mode interactif CLI</span>
+    response = <span class="Identifier">input</span>(<span class="Constant">&quot;</span><span class="Constant">[HitM Gateway] Souhaitez-vous valider l'injection de ce delta dans le graphe sécurisé ? (oui/non) : </span><span class="Constant">&quot;</span>).strip().lower()
+    <span class="Statement">if</span> response <span class="Statement">in</span> [<span class="Constant">&quot;</span><span class="Constant">oui</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">o</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">yes</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">y</span><span class="Constant">&quot;</span>]:
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[HitM Gateway] Validation accordée par l'analyste.</span><span class="Constant">&quot;</span>)
+        <span class="Statement">return</span> <span class="Identifier">True</span>
+    <span class="Statement">else</span>:
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[HitM Gateway] Rejet de la modification par l'analyste.</span><span class="Constant">&quot;</span>)
+        <span class="Statement">return</span> <span class="Identifier">False</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

@@ -1,5 +1,5 @@
 """
-03-Application/frugal_filter.py
+03-Application/phases/Phase8/frugal_filtering.py
 Module de filtrage frugal et de transformation en deltas RDF (Phase 8 - MCP-Ready).
 Conçu pour être encapsulé comme un 'MCP Tool'.
 """
@@ -8,13 +8,20 @@ import json
 from pathlib import Path
 from typing import Dict, Any
 from rdflib import Graph, Literal, RDF, URIRef
+
+# Importation sécurisée depuis le fichier config.py situé à la racine de 03-Application
+import sys
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from config import (
-    INPUT_PHASE8_REGULATION_PATH,
-    DELTA_BUFFER_PATH,
+    EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH,
+    DIR_SNAPSHOT_P8,
     DKG_TBOX,
-    DKG_DATA,
-    MAX_TRIPLES_IN_MEMORY
+    DKG_DATA
 )
+
+# Définition des constantes locales de seuil et tampon
+DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / "frugal_delta_buffer.ttl"
+MAX_TRIPLES_IN_MEMORY = 50000
 
 def run_frugal_filtering() -> Dict[str, Any]:
     """
@@ -31,8 +38,8 @@ def run_frugal_filtering() -> Dict[str, Any]:
     delta_graph.bind("dkg", DKG_TBOX)
     delta_graph.bind("data", DKG_DATA)
 
-    if INPUT_PHASE8_REGULATION_PATH.exists():
-        with open(INPUT_PHASE8_REGULATION_PATH, "r", encoding="utf-8") as f:
+    if EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH.exists():
+        with open(EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH, "r", encoding="utf-8") as f:
             feed_data = json.load(f)
             for item in feed_data.get("requirements", []):
                 req_uri = URIRef(f"{DKG_DATA}RegRequirement_{item.get('id')}")

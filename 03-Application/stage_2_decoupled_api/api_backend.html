@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/stage_2_decoupled_api/api_backend.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #00ffff; }
+.Type { color: #87ffaf; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">import</span> sys
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+
+<span class="Comment"># 1. Ajout du dossier Phase7 au chemin Python pour trouver les agents et l'orchestrateur</span>
+phase7_path = Path(__file__).resolve().parent.parent / <span class="Constant">&quot;</span><span class="Constant">Phase7</span><span class="Constant">&quot;</span>
+sys.path.append(<span class="Identifier">str</span>(phase7_path))
+
+<span class="Comment"># 2. Ajout du dossier parent (03-Application) pour trouver config.py</span>
+sys.path.append(<span class="Identifier">str</span>(Path(__file__).resolve().parent.parent))
+
+<span class="PreProc">from</span> config <span class="PreProc">import</span> INPUT_RESIDENTIAL_JSON_PATH, ABOX_RESIDENTIAL_PATH, SECURE_INPUT_RESIDENTIAL_PATH, SECURE_ABOX_RESIDENTIAL_PATH
+<span class="PreProc">from</span> fastapi <span class="PreProc">import</span> FastAPI, HTTPException
+<span class="PreProc">from</span> fastapi.middleware.cors <span class="PreProc">import</span> CORSMiddleware
+<span class="PreProc">from</span> fastapi <span class="PreProc">import</span> Query
+<span class="PreProc">from</span> home_soc_orchestrator <span class="PreProc">import</span> HomeSOCOrchestrator
+<span class="PreProc">from</span> local_inventory_agent <span class="PreProc">import</span> LocalInventoryAgent
+<span class="PreProc">from</span> external_cti_agent <span class="PreProc">import</span> ExternalCTIAgent
+<span class="PreProc">from</span> compliance_api_extension <span class="PreProc">import</span> router <span class="Statement">as</span> compliance_router
+
+<span class="Comment"># INSTANCIATION UNIQUE ET CENTRALISÉE DE L'APPLICATION</span>
+app = FastAPI(
+    title=<span class="Constant">&quot;</span><span class="Constant">DKG-CyberSec SOC API (Phase 7 &amp; Phase 8)</span><span class="Constant">&quot;</span>,
+    description=<span class="Constant">&quot;</span><span class="Constant">API REST agnostique pour l'assistant SOC du foyer, l'analyse de risque résidentiel et la conformité RGPD.</span><span class="Constant">&quot;</span>,
+    version=<span class="Constant">&quot;</span><span class="Constant">1.0.0</span><span class="Constant">&quot;</span>
+)
+
+<span class="Comment"># Inclusion du routeur Phase 8 (Compliance &amp; SOC Dashboard)</span>
+app.include_router(compliance_router)
+
+
+<span class="Comment"># Activation de CORS pour permettre à un front-end JavaScript (React/Vue/HTML natif) d'interroger l'API</span>
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[<span class="Constant">&quot;</span><span class="Constant">*</span><span class="Constant">&quot;</span>],
+    allow_credentials=<span class="Identifier">True</span>,
+    allow_methods=[<span class="Constant">&quot;</span><span class="Constant">*</span><span class="Constant">&quot;</span>],
+    allow_headers=[<span class="Constant">&quot;</span><span class="Constant">*</span><span class="Constant">&quot;</span>],
+)
+
+<span class="PreProc">@</span><span class="Identifier">app.get</span>(<span class="Constant">&quot;</span><span class="Constant">/</span><span class="Constant">&quot;</span>)
+<span class="Statement">def</span> <span class="Identifier">read_root</span>():
+    <span class="Statement">return</span> {
+        <span class="Constant">&quot;</span><span class="Constant">project</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">DKG-CyberSec SOC Dashboard</span><span class="Constant">&quot;</span>,
+        <span class="Constant">&quot;</span><span class="Constant">phase</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Phase 7 - Résidentiel &amp; Micro-Agents</span><span class="Constant">&quot;</span>,
+        <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">🟢 Opérationnel</span><span class="Constant">&quot;</span>,
+        <span class="Constant">&quot;</span><span class="Constant">endpoints</span><span class="Constant">&quot;</span>: [<span class="Constant">&quot;</span><span class="Constant">/api/v1/inventory</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">/api/v1/cti</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">/api/v1/audit</span><span class="Constant">&quot;</span>]
+    }
+
+<span class="PreProc">@</span><span class="Identifier">app.get</span>(<span class="Constant">&quot;</span><span class="Constant">/api/v1/inventory</span><span class="Constant">&quot;</span>)
+<span class="Statement">def</span> <span class="Identifier">get_inventory</span>(source: <span class="Identifier">str</span> = Query(<span class="Constant">&quot;</span><span class="Constant">local</span><span class="Constant">&quot;</span>, description=<span class="Constant">&quot;</span><span class="Constant">Source de l'inventaire : 'local' (.private) ou 'family' (cas d'école)</span><span class="Constant">&quot;</span>)):
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Récupère l'inventaire validé des actifs du foyer selon la source demandée.</span><span class="Constant">&quot;&quot;&quot;</span>
+    agent = LocalInventoryAgent()
+
+    <span class="Comment"># Si l'utilisateur demande explicitement le cas d'école et que le fichier public existe</span>
+    <span class="Statement">if</span> source == <span class="Constant">&quot;</span><span class="Constant">family</span><span class="Constant">&quot;</span>:
+        agent.input_path = INPUT_RESIDENTIAL_JSON_PATH
+        agent.output_turtle_path = ABOX_RESIDENTIAL_PATH
+
+    env = agent.load_and_validate_inventory()
+    <span class="Statement">if</span> <span class="Statement">not</span> env:
+        <span class="Statement">raise</span> HTTPException(status_code=<span class="Constant">500</span>, detail=<span class="Constant">f&quot;</span><span class="Constant">Erreur lors de la lecture de l'inventaire (</span><span class="Special">{</span>source<span class="Special">}</span><span class="Constant">).</span><span class="Constant">&quot;</span>)
+    <span class="Statement">return</span> {<span class="Constant">&quot;</span><span class="Constant">source_mode</span><span class="Constant">&quot;</span>: source, **env.model_dump()}
+
+<span class="PreProc">@</span><span class="Identifier">app.get</span>(<span class="Constant">&quot;</span><span class="Constant">/api/v1/cti</span><span class="Constant">&quot;</span>)
+<span class="Statement">def</span> <span class="Identifier">get_external_cti</span>():
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Récupère les flux CTI externes live et catalogués.</span><span class="Constant">&quot;&quot;&quot;</span>
+    agent = ExternalCTIAgent()
+    entries = agent.fetch_all_cti()
+    <span class="Comment"># Transformation des objets pour sérialisation JSON</span>
+    serialized = [
+        {
+            <span class="Constant">&quot;</span><span class="Constant">cve_id</span><span class="Constant">&quot;</span>: e.cve_id,
+            <span class="Constant">&quot;</span><span class="Constant">severity</span><span class="Constant">&quot;</span>: e.severity,
+            <span class="Constant">&quot;</span><span class="Constant">cvss_score</span><span class="Constant">&quot;</span>: e.cvss_score,
+            <span class="Constant">&quot;</span><span class="Constant">affected_product</span><span class="Constant">&quot;</span>: e.affected_product,
+            <span class="Constant">&quot;</span><span class="Constant">description</span><span class="Constant">&quot;</span>: e.description,
+            <span class="Constant">&quot;</span><span class="Constant">is_cisa_kev</span><span class="Constant">&quot;</span>: e.is_cisa_kev,
+            <span class="Constant">&quot;</span><span class="Constant">source_type</span><span class="Constant">&quot;</span>: e.source_type
+        }
+        <span class="Statement">for</span> e <span class="Statement">in</span> entries
+    ]
+    <span class="Statement">return</span> {<span class="Constant">&quot;</span><span class="Constant">total</span><span class="Constant">&quot;</span>: <span class="Identifier">len</span>(serialized), <span class="Constant">&quot;</span><span class="Constant">entries</span><span class="Constant">&quot;</span>: serialized}
+
+
+<span class="PreProc">@</span><span class="Identifier">app.get</span>(<span class="Constant">&quot;</span><span class="Constant">/api/v1/audit</span><span class="Constant">&quot;</span>)
+<span class="Statement">def</span> <span class="Identifier">run_soc_audit</span>(source: <span class="Identifier">str</span> = Query(<span class="Constant">&quot;</span><span class="Constant">local</span><span class="Constant">&quot;</span>, description=<span class="Constant">&quot;</span><span class="Constant">Source : 'local' ou 'family'</span><span class="Constant">&quot;</span>)):
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Exécute l'audit SOC global du foyer selon la source active.</span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">try</span>:
+        orchestrator = HomeSOCOrchestrator()
+        audit_results = orchestrator.run_full_audit(source=source)
+
+        <span class="Statement">return</span> {
+            <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">source_mode</span><span class="Constant">&quot;</span>: source,
+            <span class="Constant">&quot;</span><span class="Constant">audit_data</span><span class="Constant">&quot;</span>: audit_results
+        }
+    <span class="Statement">except</span> <span class="Type">Exception</span> <span class="Statement">as</span> e:
+        <span class="Statement">raise</span> HTTPException(status_code=<span class="Constant">500</span>, detail=<span class="Constant">f&quot;</span><span class="Constant">Erreur lors de l'audit SOC (</span><span class="Special">{</span>source<span class="Special">}</span><span class="Constant">) : </span><span class="Special">{</span><span class="Identifier">str</span>(e)<span class="Special">}</span><span class="Constant">&quot;</span>)
+
+<span class="PreProc">from</span> local_host_scanner <span class="PreProc">import</span> LocalHostScanner
+
+<span class="PreProc">@</span><span class="Identifier">app.post</span>(<span class="Constant">&quot;</span><span class="Constant">/api/v1/scan-local</span><span class="Constant">&quot;</span>)
+<span class="Statement">def</span> <span class="Identifier">trigger_local_scan</span>():
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Déclenche le scan du poste local et met à jour le fichier TLP:RED dans .private/.</span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">try</span>:
+        scanner = LocalHostScanner()
+        data = scanner.scan_current_host()
+        <span class="Statement">return</span> {
+            <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Scan du poste local effectué avec succès (TLP:RED stocké en zone sécurisée).</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">scanned_data</span><span class="Constant">&quot;</span>: data
+        }
+    <span class="Statement">except</span> <span class="Type">Exception</span> <span class="Statement">as</span> e:
+        <span class="Statement">raise</span> HTTPException(status_code=<span class="Constant">500</span>, detail=<span class="Constant">f&quot;</span><span class="Constant">Erreur lors du scan local : </span><span class="Special">{</span><span class="Identifier">str</span>(e)<span class="Special">}</span><span class="Constant">&quot;</span>)
+
+<span class="Statement">if</span> __name__ == <span class="Constant">&quot;</span><span class="Constant">__main__</span><span class="Constant">&quot;</span>:
+    <span class="PreProc">import</span> uvicorn
+    uvicorn.run(<span class="Constant">&quot;</span><span class="Constant">api_backend:app</span><span class="Constant">&quot;</span>, host=<span class="Constant">&quot;</span><span class="Constant">127.0.0.1</span><span class="Constant">&quot;</span>, port=<span class="Constant">8000</span>, reload=<span class="Identifier">True</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

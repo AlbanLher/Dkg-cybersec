@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/simulator.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Special { color: #ffd7d7; }
+.Type { color: #87ffaf; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+.Comment { color: #00ffff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/core/simulator.py</span>
+<span class="Constant">Moteur de simulation évolutif et de banc d'essai (Phase 10 &amp; Transversal).</span>
+<span class="Constant">Mesure l'empreinte matérielle et alimente les abaques de performance sous contrainte Green-by-Design.</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> time
+<span class="PreProc">import</span> psutil
+<span class="PreProc">import</span> os
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Dict, Any
+<span class="PreProc">from</span> rdflib <span class="PreProc">import</span> Graph, Literal, RDF, URIRef
+<span class="PreProc">from</span> core.config <span class="PreProc">import</span> DKG_TBOX, DKG_DATA, DIR_SNAPSHOT_P6
+
+<span class="Statement">class</span> <span class="Type">DKGSimulator</span>:
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Banc d'essai automatisé pour tester la montée en charge progressive </span>
+<span class="Constant">    du stockage RDF/W3C et mesurer l'impact sur un poste local contraint (16 Go RAM).</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">def</span> <span class="Identifier">__init__</span>(<span class="Identifier">self</span>, output_dir: Path = DIR_SNAPSHOT_P6):
+        <span class="Identifier">self</span>.output_dir = output_dir
+        <span class="Identifier">self</span>.output_dir.mkdir(parents=<span class="Identifier">True</span>, exist_ok=<span class="Identifier">True</span>)
+        <span class="Identifier">self</span>.process = psutil.Process(os.getpid())
+
+    <span class="Statement">def</span> <span class="Identifier">generate_synthetic_workload</span>(<span class="Identifier">self</span>, scale_factor: <span class="Identifier">int</span> = <span class="Constant">1000</span>) -&gt; Graph:
+        <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">        Génère un volume procédural de triplets RDF simulant des logs SOC ou des actifs.</span>
+<span class="Constant">        </span><span class="Constant">&quot;&quot;&quot;</span>
+        g = Graph()
+        g.bind(<span class="Constant">&quot;</span><span class="Constant">dkg</span><span class="Constant">&quot;</span>, DKG_TBOX)
+        g.bind(<span class="Constant">&quot;</span><span class="Constant">data</span><span class="Constant">&quot;</span>, DKG_DATA)
+
+        <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(scale_factor):
+            asset_uri = URIRef(<span class="Constant">f&quot;</span><span class="Special">{</span>DKG_DATA<span class="Special">}</span><span class="Constant">SimulatedHost_</span><span class="Special">{</span>i<span class="Special">}</span><span class="Constant">&quot;</span>)
+            g.add((asset_uri, RDF.type, DKG_TBOX.Host))
+            g.add((asset_uri, DKG_TBOX.hasVulnerability, Literal(<span class="Constant">f&quot;</span><span class="Constant">CVE-2026-</span><span class="Special">{</span><span class="Constant">1000</span> + i<span class="Special">}</span><span class="Constant">&quot;</span>)))
+            g.add((asset_uri, DKG_TBOX.hasRiskScore, Literal(<span class="Identifier">float</span>(i % <span class="Constant">10</span>) / <span class="Constant">10.0</span>)))
+
+        <span class="Statement">return</span> g
+
+    <span class="Statement">def</span> <span class="Identifier">benchmark_execution</span>(<span class="Identifier">self</span>, scale_factor: <span class="Identifier">int</span> = <span class="Constant">1000</span>) -&gt; Dict[<span class="Identifier">str</span>, Any]:
+        <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">        Exécute le test de charge, mesure la RAM et le temps de traitement, </span>
+<span class="Constant">        et produit les métriques pour les abaques.</span>
+<span class="Constant">        </span><span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Special">\n</span><span class="Constant">[Simulator] Lancement du banc d'essai (Volume cible : </span><span class="Special">{</span>scale_factor<span class="Special">}</span><span class="Constant"> entités)...</span><span class="Constant">&quot;</span>)
+
+        <span class="Comment"># Mesure initiale RAM</span>
+        mem_before = <span class="Identifier">self</span>.process.memory_info().rss / (<span class="Constant">1024</span> * <span class="Constant">1024</span>)
+        start_time = time.time()
+
+        <span class="Comment"># 1. Génération de la charge</span>
+        g = <span class="Identifier">self</span>.generate_synthetic_workload(scale_factor)
+        triple_count = <span class="Identifier">len</span>(g)
+
+        <span class="Comment"># 2. Simulation de sérialisation / traitement local</span>
+        temp_path = <span class="Identifier">self</span>.output_dir / <span class="Constant">f&quot;</span><span class="Constant">sim_workload_</span><span class="Special">{</span>scale_factor<span class="Special">}</span><span class="Constant">.ttl</span><span class="Constant">&quot;</span>
+        g.serialize(destination=<span class="Identifier">str</span>(temp_path), <span class="Identifier">format</span>=<span class="Constant">&quot;</span><span class="Constant">turtle</span><span class="Constant">&quot;</span>)
+
+        <span class="Comment"># 3. Mesure finale</span>
+        end_time = time.time()
+        mem_after = <span class="Identifier">self</span>.process.memory_info().rss / (<span class="Constant">1024</span> * <span class="Constant">1024</span>)
+
+        duration_ms = (end_time - start_time) * <span class="Constant">1000</span>
+        mem_diff_mb = mem_after - mem_before
+
+        metrics = {
+            <span class="Constant">&quot;</span><span class="Constant">scale_factor</span><span class="Constant">&quot;</span>: scale_factor,
+            <span class="Constant">&quot;</span><span class="Constant">triple_count</span><span class="Constant">&quot;</span>: triple_count,
+            <span class="Constant">&quot;</span><span class="Constant">execution_time_ms</span><span class="Constant">&quot;</span>: <span class="Identifier">round</span>(duration_ms, <span class="Constant">2</span>),
+            <span class="Constant">&quot;</span><span class="Constant">memory_before_mb</span><span class="Constant">&quot;</span>: <span class="Identifier">round</span>(mem_before, <span class="Constant">2</span>),
+            <span class="Constant">&quot;</span><span class="Constant">memory_after_mb</span><span class="Constant">&quot;</span>: <span class="Identifier">round</span>(mem_after, <span class="Constant">2</span>),
+            <span class="Constant">&quot;</span><span class="Constant">memory_delta_mb</span><span class="Constant">&quot;</span>: <span class="Identifier">round</span>(mem_diff_mb, <span class="Constant">2</span>),
+            <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">SUCCESS</span><span class="Constant">&quot;</span>
+        }
+
+        <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Constant">[Simulator] Terminé : </span><span class="Special">{</span>triple_count<span class="Special">}</span><span class="Constant"> triplets traités en </span><span class="Special">{</span>metrics[<span class="Constant">'</span><span class="Constant">execution_time_ms</span><span class="Constant">'</span>]<span class="Special">}</span><span class="Constant"> ms (Delta RAM : </span><span class="Special">{</span>metrics[<span class="Constant">'</span><span class="Constant">memory_delta_mb</span><span class="Constant">'</span>]<span class="Special">}</span><span class="Constant"> MB)</span><span class="Constant">&quot;</span>)
+        <span class="Statement">return</span> metrics
+
+<span class="Statement">if</span> __name__ == <span class="Constant">&quot;</span><span class="Constant">__main__</span><span class="Constant">&quot;</span>:
+    sim = DKGSimulator()
+    <span class="Comment"># Test progressif pour alimenter les abaques</span>
+    <span class="Statement">for</span> factor <span class="Statement">in</span> [<span class="Constant">1000</span>, <span class="Constant">5000</span>, <span class="Constant">10000</span>]:
+        sim.benchmark_execution(factor)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

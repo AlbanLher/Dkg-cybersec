@@ -133,12 +133,14 @@ Tout triplet déduit croisant une entité `TLP:CLEAR` (CTI) et une entité `TLP:
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-IN-01**|`IN`|Inférence HighRiskAsset|Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe `dkg:HighRiskAsset`.|Pytest / SPARQL|
-|**EXG-IN-02**|`IN`|Matérialisation Cascade|La relation `dkg:exposesToCascade` doit être créée si un hôte pivot mène à un actif `CRITICAL`.|Pytest (`test_phase5`)|
-|**EXG-SE-01**|`SE`|Ségrégation TLP Inférencée|Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (`TLP:CLEAR`).|Audit Graphe / Pytest|
-|**EXG-HW-01**|`HW`|Raisonnement Local Économe|L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.|Benchmark / Pytest|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                        | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | -------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-IN-01**   | EXG-FWK-P5-RUL_1 | `IN`        | Inférence HighRiskAsset    | Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe `dkg:HighRiskAsset`.    | Pytest / SPARQL          |
+| **EXG-IN-02**   | EXG-FWK-P5-RUL_2 | `IN`        | Matérialisation Cascade    | La relation `dkg:exposesToCascade` doit être créée si un hôte pivot mène à un actif `CRITICAL`. | Pytest (`test_phase5`)   |
+| **EXG-SE-01**   | EXG-FWK-P5-RUL_3 | `SE`        | Ségrégation TLP Inférencée | Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (`TLP:CLEAR`).          | Audit Graphe / Pytest    |
+| **EXG-HW-01**   | EXG-FWK-P5-RUL_4 | `HW`        | Raisonnement Local Économe | L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.                 | Benchmark / Pytest       |
+
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

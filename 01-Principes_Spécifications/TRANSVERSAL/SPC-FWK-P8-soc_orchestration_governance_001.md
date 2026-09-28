@@ -2,12 +2,12 @@
 type: spec
 reference: SPC-FWK-P8-soc_orchestration_governance_01
 revision: 1
-titre: "Gouvernance et Orchestration Multi-Agents SOC (HitM)"
+titre: Gouvernance et Orchestration Multi-Agents SOC (HitM)
 titre_court: soc_orchestration_governance
-description: "Définit les règles d'autorité, les rôles des agents et l'obligation stricte du contrôle Human-in-the-Middle (HitM)."
+description: Définit les règles d'autorité, les rôles des agents et l'obligation stricte du contrôle Human-in-the-Middle (HitM).
 phase_code: P8
-phase_nom: "SOC Orchestrator, Découpage & RGPD"
-statut: "🟡 ACTIVE"
+phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
+statut: 🟡 ACTIVE
 portee: TRANSVERSAL
 public_vise:
   - Architectes Ontologues
@@ -15,14 +15,14 @@ public_vise:
 exigences:
   - id: EXG-P8-01
     domaine: FWK
-    titre: "Validation Humaine Obligatoire (HitM)"
-    description: "Aucune modification de la TBox Master ou écriture critique dans la partition TLP:RED ne peut être effectuée sans l'approbation explicite de l'analyste via l'interface HitM."
-    test: "PyTest / Mock HitM Gateway"
+    titre: Validation Humaine Obligatoire (HitM)
+    description: Aucune modification de la TBox Master ou écriture critique dans la partition TLP:RED ne peut être effectuée sans l'approbation explicite de l'analyste via l'interface HitM.
+    test: PyTest / Mock HitM Gateway
   - id: EXG-P8-02
     domaine: FWK
-    titre: "Étanchéité TLP Stricte"
-    description: "Le pipeline d'orchestration garantit qu'aucune donnée TLP:CLEAR externe ne contamine l'espace TLP:RED interne."
-    test: "SHACL / Tests d'isolation"
+    titre: Étanchéité TLP Stricte
+    description: Le pipeline d'orchestration garantit qu'aucune donnée TLP:CLEAR externe ne contamine l'espace TLP:RED interne.
+    test: SHACL / Tests d'isolation
 ---
 
 # 📜 Gouvernance et Orchestration Multi-Agents SOC (HitM)
@@ -33,10 +33,10 @@ exigences:
 Cette spécification pose le cadre de gouvernance de la **Phase 8**. Elle régit le comportement de l'Agent Orchestrateur SOC et de l'Agent Gardien, en imposant une barrière de validation humaine obligatoire pour garantir la souveraineté et la sécurité des données dans notre architecture locale (*Air-Gapped*).
 
 ### 1.2 Glossaire Métier & Technique
-| Acronyme / Concept | Définition | Contexte DKG |
-| :--- | :--- | :--- |
-| **HitM** | Human-in-the-Middle | Point de contrôle bloquant nécessitant une validation humaine. |
-| **TLP** | Traffic Light Protocol | Matrice de classification et de cloisonnement des données (CLEAR, AMBER, RED). |
+| Acronyme / Concept | Définition             | Contexte DKG                                                                   |
+| :----------------- | :--------------------- | :----------------------------------------------------------------------------- |
+| **HitM**           | Human-in-the-Middle    | Point de contrôle bloquant nécessitant une validation humaine.                 |
+| **TLP**            | Traffic Light Protocol | Matrice de classification et de cloisonnement des données (CLEAR, AMBER, RED). |
 
 ## 🏗️ 2. Périmètre & Rôle de la Spécification
 * **Positionnement dans l'Architecture :** Cadre transversal de gouvernance pour l'orchestration des agents de sécurité.
@@ -49,21 +49,25 @@ graph TD
     C -->|Proposition d'enrichissement| D[Interface HitM]
     D -->|Validation Humaine| E[(Partition TLP:RED)]
 ```
-📐 3. Spécifications Formelles & Règles
-3.1 Axiomes & Règles de Décision
+## 📐 3. Spécifications Formelles & Règles
+### 3.1 Axiomes & Règles de Décision
 
     Règle d'Autorité : L'orchestrateur ne possède aucun droit d'écriture unilatéral sur les actifs du foyer. Ses propositions prennent la forme de tampons de deltas (delta_buffer.ttl).
 
     Validation SHACL Amont : Tout delta proposé par un agent doit être syntaxiquement validé par les contraintes SHACL avant d'être soumis à l'interface HitM.
 
-3.2 Directives d'Implémentation
+### 3.2 Directives d'Implémentation
 
     Utilisation exclusive des objets de configuration définis dans config.py (section AGENT_CONFIG).
 
-📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
-Identifiant	Domaine	Intitulé de l'Exigence	Description & Critères d'Acceptation	Mode de Test / Asset
-EXG-P8-01	FWK	Validation Humaine Obligatoire	Approbation explicite obligatoire avant écriture TBox/ABox critique.	PyTest / Mock HitM Gateway
-EXG-P8-02	FWK	Étanchéité TLP Stricte	Interdiction de fuite TLP:CLEAR vers TLP:RED.	SHACL / Tests d'isolation
+## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
+
+| Identifiant | UID              | Domaine | Intitulé de l'Exigence         | Description & Critères d'Acceptation                                 | Mode de Test / Asset       |
+| ----------- | ---------------- | ------- | ------------------------------ | -------------------------------------------------------------------- | -------------------------- |
+| EXG-P8-01   | EXG-FWK-P8-soc_1 | FWK     | Validation Humaine Obligatoire | Approbation explicite obligatoire avant écriture TBox/ABox critique. | PyTest / Mock HitM Gateway |
+| EXG-P8-02   | EXG-FWK-P8-soc_2 | FWK     | Étanchéité TLP Stricte         | Interdiction de fuite TLP:CLEAR vers TLP:RED.                        | SHACL / Tests d'isolation  |
+
+
 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 
     Scripts de Génération / Exécution : 03-Application/soc_orchestrator.py

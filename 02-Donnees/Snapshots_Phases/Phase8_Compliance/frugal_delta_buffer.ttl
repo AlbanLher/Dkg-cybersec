@@ -1,0 +1,6 @@
+@prefix data: <http://dkg.cybersec.org/data#> .
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+
+data:RegRequirement_EU_GDPR_OFFICIAL a dkg:RegulatoryConstraint ;
+    dkg:hasDescription "Extraction stricte de l'article 32 relatif à la sécurité du traitement pour l'audit du foyer." .
+

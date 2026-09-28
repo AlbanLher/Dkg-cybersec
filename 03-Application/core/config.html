@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/config.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #00ffff; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Special { color: #ffd7d7; }
+.Type { color: #87ffaf; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/config.py</span>
+<span class="Constant">Single Source of Truth (SSOT) - Configuration centralisée du projet DKG-CyberSec.</span>
+<span class="Constant">Sécurisé et validé par Pydantic V2 (EXG-OR-05, EXG-OR-07).</span>
+<span class="Constant">Phase 6 Active : Support API Gateway, Security Engine &amp; Isolation TLP.</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Annotated, List
+<span class="PreProc">from</span> rdflib <span class="PreProc">import</span> Namespace
+<span class="PreProc">from</span> pydantic <span class="PreProc">import</span> Field, AnyHttpUrl, field_validator
+<span class="PreProc">from</span> pydantic_settings <span class="PreProc">import</span> BaseSettings, SettingsConfigDict
+
+
+<span class="Statement">class</span> <span class="Type">DKGConfig</span>(BaseSettings):
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Modèle Pydantic V2 centralisant et validant l'intégralité des paramètres applicatifs.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    model_config = SettingsConfigDict(
+        env_prefix=<span class="Constant">&quot;</span><span class="Constant">DKG_</span><span class="Constant">&quot;</span>,
+        env_file=<span class="Constant">&quot;</span><span class="Constant">.env</span><span class="Constant">&quot;</span>,
+        extra=<span class="Constant">&quot;</span><span class="Constant">ignore</span><span class="Constant">&quot;</span>
+    )
+
+    <span class="Comment"># --------------------------------------------------------------------------</span>
+    <span class="Comment"># 1. SOCLE REPERTOIRES</span>
+    <span class="Comment"># --------------------------------------------------------------------------</span>
+    dir_app: Path = Field(default_factory=<span class="Statement">lambda</span>: Path(__file__).resolve().parent.parent)
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_root</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_app.parent
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_data</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_root / <span class="Constant">&quot;</span><span class="Constant">02-Donnees</span><span class="Constant">&quot;</span>
+
+    <span class="Comment"># Répertoires Snapshots &amp; Masters (Phases 1 à 4)</span>
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p1</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase1_Socle</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_master_tbox</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Master_Transversal</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">TLP_AMBER_Socle_TBox</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_input_p2</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Input_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase2_ABox</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p2</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase2_ABox</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_master_abox</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Master_Transversal</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">TLP_RED_Instances_ABox</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_inputs_p3</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Input_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase3_CTI</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p3</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase3_CTI</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_cti_abox</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Master_Transversal</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">TLP_CLEAR_CTI_External</span><span class="Constant">&quot;</span>
+
+    <span class="Comment"># Découpage TLP</span>
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_tbox_amber</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_master_tbox
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_abox_red</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_master_abox
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_cti_clear</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_cti_abox
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_infered_red</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Master_Transversal</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">TLP_RED_Infered_Graph</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_inputs_p4</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Input_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase4_CTI</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p4</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase4_CTI</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_unstructured_cti</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_cti_clear / <span class="Constant">&quot;</span><span class="Constant">Raw_Sources</span><span class="Constant">&quot;</span>
+
+    <span class="Comment"># Répertoires Phase 5 (Reasoning &amp; MITM)</span>
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p5</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase5_Reasoning_MITM</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_models</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_app / <span class="Constant">&quot;</span><span class="Constant">models</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">cache</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_embedding_model</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_models / <span class="Constant">&quot;</span><span class="Constant">embeddings</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_ner_model</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_models / <span class="Constant">&quot;</span><span class="Constant">ner</span><span class="Constant">&quot;</span>
+
+    <span class="Comment"># Répertoires Phase 6 (API Gateway &amp; Security)</span>
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p6</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase6_API_Gateway</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_inputs_p6</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Input_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase6_API_Gateway</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_projet_p6</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_root / <span class="Constant">&quot;</span><span class="Constant">00-Projet</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase6</span><span class="Constant">&quot;</span>
+
+    <span class="Comment"># Phase 7 Foyer </span>
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p7</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase7_Residential_Box</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_inputs_p7</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Input_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase7_Residential_Box</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_projet_p7</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_root / <span class="Constant">&quot;</span><span class="Constant">00-Projet</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase7</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_private_red</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_root / <span class="Constant">&quot;</span><span class="Constant">.private</span><span class="Constant">&quot;</span>
+
+    <span class="Comment"># Répertoires Phase 8 (Compliance RGPD &amp; Agent Gardien)</span>
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_snapshot_p8</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Snapshots_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase8_Compliance</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_inputs_p8</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_data / <span class="Constant">&quot;</span><span class="Constant">Input_Phases</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase8_Compliance</span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">property</span>
+    <span class="Statement">def</span> <span class="Identifier">dir_projet_p8</span>(<span class="Identifier">self</span>) -&gt; Path:
+        <span class="Statement">return</span> <span class="Identifier">self</span>.dir_root / <span class="Constant">&quot;</span><span class="Constant">00-Projet</span><span class="Constant">&quot;</span> / <span class="Constant">&quot;</span><span class="Constant">Phase8</span><span class="Constant">&quot;</span>
+
+
+
+    <span class="Comment"># --------------------------------------------------------------------------</span>
+    <span class="Comment"># 2. SEUILS &amp; PARAMETRES IA</span>
+    <span class="Comment"># --------------------------------------------------------------------------</span>
+    embedding_model_name: <span class="Identifier">str</span> = Field(default=<span class="Constant">&quot;</span><span class="Constant">sentence-transformers/all-MiniLM-L6-v2</span><span class="Constant">&quot;</span>)
+    mitm_similarity_threshold: <span class="Identifier">float</span> = Field(default=<span class="Constant">0.85</span>, ge=<span class="Constant">0.0</span>, le=<span class="Constant">1.0</span>)
+
+    ner_model_name: <span class="Identifier">str</span> = Field(default=<span class="Constant">&quot;</span><span class="Constant">urchade/gliner_large-v2.1</span><span class="Constant">&quot;</span>)
+    ner_fallback_model_name: <span class="Identifier">str</span> = Field(default=<span class="Constant">&quot;</span><span class="Constant">dslim/bert-base-NER</span><span class="Constant">&quot;</span>)
+
+    <span class="Comment"># --------------------------------------------------------------------------</span>
+    <span class="Comment"># 3. NAMESPACES RDF (Validation d'URL)</span>
+    <span class="Comment"># --------------------------------------------------------------------------</span>
+    dkg_tbox_uri: <span class="Identifier">str</span> = <span class="Constant">&quot;</span><span class="Constant"><a href="http://dkg.cybersec.org/tbox#">http://dkg.cybersec.org/tbox#</a></span><span class="Constant">&quot;</span>
+    dkg_data_uri: <span class="Identifier">str</span> = <span class="Constant">&quot;</span><span class="Constant"><a href="http://dkg.cybersec.org/data#">http://dkg.cybersec.org/data#</a></span><span class="Constant">&quot;</span>
+    dkg_cti_uri: <span class="Identifier">str</span> = <span class="Constant">&quot;</span><span class="Constant"><a href="http://dkg.cybersec.org/cti#">http://dkg.cybersec.org/cti#</a></span><span class="Constant">&quot;</span>
+
+    <span class="PreProc">@</span><span class="Identifier">field_validator</span>(<span class="Constant">&quot;</span><span class="Constant">dkg_tbox_uri</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">dkg_data_uri</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">dkg_cti_uri</span><span class="Constant">&quot;</span>)
+    <span class="PreProc">@</span><span class="Identifier">classmethod</span>
+    <span class="Statement">def</span> <span class="Identifier">validate_rdf_uri</span>(<span class="Identifier">cls</span>, v: <span class="Identifier">str</span>) -&gt; <span class="Identifier">str</span>:
+        <span class="Statement">if</span> <span class="Statement">not</span> (v.startswith(<span class="Constant">&quot;</span><span class="Constant"><a href="http://">http://</a></span><span class="Constant">&quot;</span>) <span class="Statement">or</span> v.startswith(<span class="Constant">&quot;</span><span class="Constant"><a href="https://">https://</a></span><span class="Constant">&quot;</span>)):
+            <span class="Statement">raise</span> <span class="Type">ValueError</span>(<span class="Constant">f&quot;</span><span class="Constant">L'URI RDF doit débuter par <a href="http://">http://</a> ou <a href="https://">https://</a> : </span><span class="Special">{</span>v<span class="Special">}</span><span class="Constant">&quot;</span>)
+        <span class="Statement">if</span> <span class="Statement">not</span> (v.endswith(<span class="Constant">&quot;</span><span class="Constant">#</span><span class="Constant">&quot;</span>) <span class="Statement">or</span> v.endswith(<span class="Constant">&quot;</span><span class="Constant">/</span><span class="Constant">&quot;</span>)):
+            <span class="Statement">raise</span> <span class="Type">ValueError</span>(<span class="Constant">f&quot;</span><span class="Constant">L'URI de namespace RDF doit se terminer par '#' ou '/' : </span><span class="Special">{</span>v<span class="Special">}</span><span class="Constant">&quot;</span>)
+        <span class="Statement">return</span> v
+
+    <span class="Statement">def</span> <span class="Identifier">ensure_directories_exist</span>(<span class="Identifier">self</span>) -&gt; <span class="Identifier">None</span>:
+        <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Garantit l'existence de tous les dossiers critiques au lancement.</span><span class="Constant">&quot;&quot;&quot;</span>
+        target_dirs = [
+            <span class="Identifier">self</span>.dir_master_tbox, <span class="Identifier">self</span>.dir_master_abox, <span class="Identifier">self</span>.dir_cti_abox,
+            <span class="Identifier">self</span>.dir_inputs_p3,  <span class="Identifier">self</span>.dir_snapshot_p3,
+            <span class="Identifier">self</span>.dir_inputs_p4,  <span class="Identifier">self</span>.dir_snapshot_p4,
+            <span class="Identifier">self</span>.dir_infered_red, <span class="Identifier">self</span>.dir_models, <span class="Identifier">self</span>.dir_embedding_model,
+            <span class="Identifier">self</span>.dir_ner_model, <span class="Identifier">self</span>.dir_snapshot_p5,
+            <span class="Identifier">self</span>.dir_inputs_p6,  <span class="Identifier">self</span>.dir_snapshot_p6, <span class="Identifier">self</span>.dir_projet_p6,
+            <span class="Identifier">self</span>.dir_inputs_p7,  <span class="Identifier">self</span>.dir_snapshot_p7, <span class="Identifier">self</span>.dir_projet_p7,
+            <span class="Identifier">self</span>.dir_private_red,
+            <span class="Identifier">self</span>.dir_inputs_p8,  <span class="Identifier">self</span>.dir_snapshot_p8, <span class="Identifier">self</span>.dir_projet_p8  <span class="Comment">#</span>
+            ]
+        <span class="Statement">for</span> d <span class="Statement">in</span> target_dirs:
+            d.mkdir(parents=<span class="Identifier">True</span>, exist_ok=<span class="Identifier">True</span>)
+
+
+<span class="Comment"># ==============================================================================</span>
+<span class="Comment"># INSTANCIATION &amp; EXPORT COMPATIBLE (SSOT)</span>
+<span class="Comment"># ==============================================================================</span>
+_settings = DKGConfig()
+_settings.ensure_directories_exist()
+
+<span class="Comment"># 1. CHEMINS DE REPERTOIRES (DIR_)</span>
+DIR_APP = _settings.dir_app
+DIR_ROOT = _settings.dir_root
+DIR_DATA = _settings.dir_data
+
+DIR_SNAPSHOT_P1 = _settings.dir_snapshot_p1
+DIR_MASTER_TBOX = _settings.dir_master_tbox
+
+DIR_INPUT_P2 = _settings.dir_input_p2
+DIR_SNAPSHOT_P2 = _settings.dir_snapshot_p2
+DIR_MASTER_ABOX = _settings.dir_master_abox
+
+DIR_INPUTS_P3 = _settings.dir_inputs_p3
+DIR_SNAPSHOT_P3 = _settings.dir_snapshot_p3
+DIR_CTI_ABOX = _settings.dir_cti_abox
+
+DIR_TBOX_AMBER = _settings.dir_tbox_amber
+DIR_ABOX_RED = _settings.dir_abox_red
+DIR_CTI_CLEAR = _settings.dir_cti_clear
+DIR_INFERED_RED = _settings.dir_infered_red
+
+DIR_INPUTS_P4 = _settings.dir_inputs_p4
+DIR_SNAPSHOT_P4 = _settings.dir_snapshot_p4
+DIR_UNSTRUCTURED_CTI = _settings.dir_unstructured_cti
+
+DIR_SNAPSHOT_P5 = _settings.dir_snapshot_p5
+DIR_MODELS = _settings.dir_models
+DIR_EMBEDDING_MODEL = _settings.dir_embedding_model
+DIR_NER_MODEL = _settings.dir_ner_model
+
+DIR_SNAPSHOT_P6 = _settings.dir_snapshot_p6
+DIR_INPUTS_P6 = _settings.dir_inputs_p6
+DIR_PROJET_P6 = _settings.dir_projet_p6
+
+DIR_SNAPSHOT_P7 = _settings.dir_snapshot_p7
+DIR_INPUTS_P7 = _settings.dir_inputs_p7
+DIR_PROJET_P7 = _settings.dir_projet_p7
+
+PROJECT_ROOT = _settings.dir_root
+DIR_PRIVATE_RED = _settings.dir_private_red
+DIR_PRIVATE_RED.mkdir(parents=<span class="Identifier">True</span>, exist_ok=<span class="Identifier">True</span>)
+
+<span class="Comment"># Répertoires globaux Phase 8</span>
+DIR_INPUTS_P8 = _settings.dir_inputs_p8
+DIR_SNAPSHOT_P8 = _settings.dir_snapshot_p8
+DIR_PROJET_P8 = _settings.dir_projet_p8
+
+<span class="Comment"># 2. ARTEFACTS ET FICHIERS RDF (_PATH)</span>
+TBOX_MASTER_PATH = DIR_MASTER_TBOX / <span class="Constant">&quot;</span><span class="Constant">DKG_TBox_Master.ttl</span><span class="Constant">&quot;</span>
+TBOX_MASTER_MD_PATH = DIR_MASTER_TBOX / <span class="Constant">&quot;</span><span class="Constant">DKG_TBox_Master.md</span><span class="Constant">&quot;</span>
+
+SHACL_MASTER_PATH = DIR_MASTER_TBOX / <span class="Constant">&quot;</span><span class="Constant">DKG_SHACL_Master.ttl</span><span class="Constant">&quot;</span>
+SHACL_MASTER_MD_PATH = DIR_MASTER_TBOX / <span class="Constant">&quot;</span><span class="Constant">DKG_SHACL_Master.md</span><span class="Constant">&quot;</span>
+
+ABOX_MASTER_PATH = DIR_MASTER_ABOX / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_Master.ttl</span><span class="Constant">&quot;</span>
+ABOX_MASTER_MD_PATH = DIR_MASTER_ABOX / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_Master.md</span><span class="Constant">&quot;</span>
+
+ABOX_RED_PATH = ABOX_MASTER_PATH
+
+INPUT_CTI_JSON_PATH = DIR_INPUTS_P3 / <span class="Constant">&quot;</span><span class="Constant">external_nvd_capec_feed.json</span><span class="Constant">&quot;</span>
+ABOX_CTI_PATH = DIR_CTI_CLEAR / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_CTI_External.ttl</span><span class="Constant">&quot;</span>
+ABOX_CTI_MD_PATH = DIR_CTI_CLEAR / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_CTI_External.md</span><span class="Constant">&quot;</span>
+
+INPUT_CTI_U_JSON_PATH = DIR_INPUTS_P4 / <span class="Constant">&quot;</span><span class="Constant">bulletin_apt29.txt</span><span class="Constant">&quot;</span>
+ABOX_CTI_U_PATH = DIR_CTI_CLEAR / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_CTI_U_External.ttl</span><span class="Constant">&quot;</span>
+ABOX_CTI_U_MD_PATH = DIR_CTI_CLEAR / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_CTI_U_External.md</span><span class="Constant">&quot;</span>
+
+RULES_MASTER_PATH = DIR_TBOX_AMBER / <span class="Constant">&quot;</span><span class="Constant">DKG_Rules_Master.ttl</span><span class="Constant">&quot;</span>
+RULES_MASTER_MD_PATH = DIR_TBOX_AMBER / <span class="Constant">&quot;</span><span class="Constant">DKG_Rules_Master.md</span><span class="Constant">&quot;</span>
+
+ABOX_INFERED_PATH = DIR_INFERED_RED / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_Infered.ttl</span><span class="Constant">&quot;</span>
+ABOX_INFERED_MD_PATH = DIR_INFERED_RED / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_Infered.md</span><span class="Constant">&quot;</span>
+
+INPUT_P6_QUERY_PAYLOAD = DIR_INPUTS_P6 / <span class="Constant">&quot;</span><span class="Constant">sample_query_payloads.json</span><span class="Constant">&quot;</span>
+PATH_P6_GATEWAY_LOG = DIR_SNAPSHOT_P6 / <span class="Constant">&quot;</span><span class="Constant">api_gateway_audit.log</span><span class="Constant">&quot;</span>
+
+INPUT_RESIDENTIAL_JSON_PATH = DIR_INPUTS_P7 / <span class="Constant">&quot;</span><span class="Constant">input_residential_family_env.json</span><span class="Constant">&quot;</span>
+ABOX_RESIDENTIAL_PATH = DIR_SNAPSHOT_P7 / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_Residential.ttl</span><span class="Constant">&quot;</span>
+
+EXTERNAL_SOURCES_CONFIG_PATH = DIR_INPUTS_P7 / <span class="Constant">&quot;</span><span class="Constant">external_sources_config.json</span><span class="Constant">&quot;</span>
+EXTERNAL_SOURCES_CATALOG_PATH = DIR_INPUTS_P7 / <span class="Constant">&quot;</span><span class="Constant">external_sources_catalog.json</span><span class="Constant">&quot;</span>
+
+<span class="Comment"># Chemins TLP:RED sécurisés et non versionnés</span>
+SECURE_INPUT_RESIDENTIAL_PATH = DIR_PRIVATE_RED / <span class="Constant">&quot;</span><span class="Constant">input_residential_family_env.json</span><span class="Constant">&quot;</span>
+SECURE_ABOX_RESIDENTIAL_PATH = DIR_PRIVATE_RED / <span class="Constant">&quot;</span><span class="Constant">DKG_ABox_Residential.ttl</span><span class="Constant">&quot;</span>
+
+<span class="Comment"># Fichiers de données et registres Phase 8</span>
+
+INPUT_P8_REGULATION_PATH = DIR_INPUTS_P8 / <span class="Constant">&quot;</span><span class="Constant">external_sources_compliance_registry.json</span><span class="Constant">&quot;</span>
+EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH = DIR_INPUTS_P8 / <span class="Constant">&quot;</span><span class="Constant">external_sources_compliance_registry.json</span><span class="Constant">&quot;</span>
+ABOX_COMPLIANCE_STANDARDS_CLEAR_PATH = DIR_CTI_CLEAR / <span class="Constant">&quot;</span><span class="Constant">abox_compliance_standards_clear.ttl</span><span class="Constant">&quot;</span>
+RESOURCE_PROFILE_REPORT_PATH = DIR_SNAPSHOT_P8 / <span class="Constant">&quot;</span><span class="Constant">resource_profile_report.json</span><span class="Constant">&quot;</span>
+
+
+
+
+
+
+<span class="Comment"># Paramètres de Sécurité &amp; Filtrage TLP</span>
+API_GATEWAY_HOST = <span class="Constant">&quot;</span><span class="Constant">127.0.0.1</span><span class="Constant">&quot;</span>
+API_GATEWAY_PORT = <span class="Constant">8000</span>
+TLP_CLEAR_READ_GRAPH = [ABOX_CTI_PATH, ABOX_CTI_U_PATH]
+TLP_AMBER_READ_GRAPH = TLP_CLEAR_READ_GRAPH + [TBOX_MASTER_PATH]
+TLP_RED_READ_GRAPH = TLP_AMBER_READ_GRAPH + [ABOX_MASTER_PATH, ABOX_INFERED_PATH]
+
+<span class="Comment"># 3. SOCLE IA LOCAL</span>
+EMBEDDING_MODEL_NAME = _settings.embedding_model_name
+MITM_SIMILARITY_THRESHOLD = _settings.mitm_similarity_threshold
+NER_MODEL_NAME = _settings.ner_model_name
+NER_FALLBACK_MODEL_NAME = _settings.ner_fallback_model_name
+
+<span class="Comment"># 4. NAMESPACES RDF CENTRALISÉS</span>
+DKG_TBOX = Namespace(_settings.dkg_tbox_uri)
+DKG_DATA = Namespace(_settings.dkg_data_uri)
+DKG_CTI = Namespace(_settings.dkg_cti_uri)
+
+SH = Namespace(<span class="Constant">&quot;</span><span class="Constant"><a href="http://www.w3.org/ns/shacl#">http://www.w3.org/ns/shacl#</a></span><span class="Constant">&quot;</span>)
+XSD = Namespace(<span class="Constant">&quot;</span><span class="Constant"><a href="http://www.w3.org/2001/XMLSchema#">http://www.w3.org/2001/XMLSchema#</a></span><span class="Constant">&quot;</span>)
+RDFS = Namespace(<span class="Constant">&quot;</span><span class="Constant"><a href="http://www.w3.org/2000/01/rdf-schema#">http://www.w3.org/2000/01/rdf-schema#</a></span><span class="Constant">&quot;</span>)
+RDF = Namespace(<span class="Constant">&quot;</span><span class="Constant"><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">http://www.w3.org/1999/02/22-rdf-syntax-ns#</a></span><span class="Constant">&quot;</span>)
+OWL = Namespace(<span class="Constant">&quot;</span><span class="Constant"><a href="http://www.w3.org/2002/07/owl#">http://www.w3.org/2002/07/owl#</a></span><span class="Constant">&quot;</span>)
+SKOS = Namespace(<span class="Constant">&quot;</span><span class="Constant"><a href="http://www.w3.org/2004/02/skos/core#">http://www.w3.org/2004/02/skos/core#</a></span><span class="Constant">&quot;</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

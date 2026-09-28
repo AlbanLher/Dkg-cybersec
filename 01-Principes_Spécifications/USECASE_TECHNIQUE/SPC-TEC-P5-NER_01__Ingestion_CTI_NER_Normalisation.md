@@ -94,12 +94,14 @@ Tout triplet issu du NER ne peut être injecté que si `dkg:nerConfidenceScore` 
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-CT-01**|`CT`|Extraction & Normalisation|Résolution à 100% des entités extraites vers la TBox Master à l'aide des labels `skos:altLabel`.|Pytest / AST|
-|**EXG-CT-02**|`CT`|Seuil de Confiance NLP|Rejet systématique de tout triplet dont le score de confiance NLP est $< 0.85$.|Pytest (`test_phase5_ner.py`)|
-|**EXG-QU-01**|`QU`|Validation SHACL NER|0 violation SHACL lors de l'injection des entités issues du NER dans l'ABox CTI.|pySHACL|
-|**EXG-SE-03**|`SE`|NLP Air-Gapped|Le modèle NER doit s'exécuter localement sans aucun appel API externe.|Check Réseau / Local Cache|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                         | **Mode de Test / Asset**      |
+| --------------- | ---------------- | ----------- | -------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------- |
+| **EXG-CT-01**   | EXG-TEC-P5-NER_1 | `CT`        | Extraction & Normalisation | Résolution à 100% des entités extraites vers la TBox Master à l'aide des labels `skos:altLabel`. | Pytest / AST                  |
+| **EXG-CT-02**   | EXG-TEC-P5-NER_2 | `CT`        | Seuil de Confiance NLP     | Rejet systématique de tout triplet dont le score de confiance NLP est $< 0.85$.                  | Pytest (`test_phase5_ner.py`) |
+| **EXG-QU-01**   | EXG-TEC-P5-NER_3 | `QU`        | Validation SHACL NER       | 0 violation SHACL lors de l'injection des entités issues du NER dans l'ABox CTI.                 | pySHACL                       |
+| **EXG-SE-03**   | EXG-TEC-P5-NER_4 | `SE`        | NLP Air-Gapped             | Le modèle NER doit s'exécuter localement sans aucun appel API externe.                           | Check Réseau / Local Cache    |
+
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

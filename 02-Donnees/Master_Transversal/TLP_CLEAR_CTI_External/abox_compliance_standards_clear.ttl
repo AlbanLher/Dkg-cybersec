@@ -1,0 +1,9 @@
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+dkg-cti:GDPR-Art32 a skos:Concept ;
+    rdfs:seeAlso "https://eur-lex.europa.eu/legal-content/FR/TXT/JSON/?uri=CELEX:32016R0679" ;
+    skos:definition "Le responsable du traitement met en œuvre les mesures techniques et organisationnelles appropriées afin garantir un niveau de sécurité adapté au risque."@fr ;
+    skos:prefLabel "RGPD Article 32 : Sécurité du traitement"@fr .
+

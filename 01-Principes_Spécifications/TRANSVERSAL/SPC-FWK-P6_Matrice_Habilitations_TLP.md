@@ -76,11 +76,13 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-SE-01**|`SE`|Étanchéité TLP:CLEAR|0 résultat RED renvoyé sur une requête CLEAR.|PyTest (`test_tlp_isolation_clear`)|
-|**EXG-SE-02**|`SE`|Accès Intégral TLP:RED|Accès complet aux instances RED et inférées.|PyTest (`test_tlp_access_red`)|
-|**EXG-SE-03**|`SE`|Audit Traçabilité|Traçabilité de chaque appel dans le fichier de log.|Audit Log (`api_gateway_audit.log`)|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**            | **Mode de Test / Asset**            |
+| --------------- | ---------------- | ----------- | -------------------------- | --------------------------------------------------- | ----------------------------------- |
+| **EXG-SE-01**   | EXG-FWK-P6-HAB_1 | `SE`        | Étanchéité TLP:CLEAR       | 0 résultat RED renvoyé sur une requête CLEAR.       | PyTest (`test_tlp_isolation_clear`) |
+| **EXG-SE-02**   | EXG-FWK-P6-HAB_2 | `SE`        | Accès Intégral TLP:RED     | Accès complet aux instances RED et inférées.        | PyTest (`test_tlp_access_red`)      |
+| **EXG-SE-03**   | EXG-FWK-P6-HAB_3 | `SE`        | Audit Traçabilité          | Traçabilité de chaque appel dans le fichier de log. | Audit Log (`api_gateway_audit.log`) |
+
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

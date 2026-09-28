@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/mitm_engine.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Type { color: #87ffaf; }
+.Special { color: #ffd7d7; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/core/mitm_engine.py</span>
+<span class="Constant">Moteur d'alignement sémantique et d'interception (Core Service).</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> logging
+<span class="PreProc">import</span> sys
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Dict, List, Optional, Tuple
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+<span class="PreProc">import</span> numpy <span class="Statement">as</span> np
+<span class="PreProc">from</span> rdflib <span class="PreProc">import</span> Graph, Literal, URIRef, RDF, SKOS, OWL, XSD, RDFS
+<span class="PreProc">from</span> sentence_transformers <span class="PreProc">import</span> SentenceTransformer, util
+
+<span class="PreProc">from</span> config <span class="PreProc">import</span> (
+    DIR_EMBEDDING_MODEL,
+    EMBEDDING_MODEL_NAME,
+    MITM_SIMILARITY_THRESHOLD,
+    DKG_TBOX,
+    DKG_DATA,
+    DKG_CTI,
+    SH
+)
+
+logging.basicConfig(level=logging.INFO, <span class="Identifier">format</span>=<span class="Constant">&quot;</span><span class="Constant">%(asctime)s [%(levelname)s] %(message)s</span><span class="Constant">&quot;</span>)
+logger = logging.getLogger(<span class="Constant">&quot;</span><span class="Constant">MITMEngine</span><span class="Constant">&quot;</span>)
+
+<span class="Statement">class</span> <span class="Type">MITMEngine</span>:
+    <span class="Statement">def</span> <span class="Identifier">__init__</span>(<span class="Identifier">self</span>, threshold: <span class="Identifier">float</span> = MITM_SIMILARITY_THRESHOLD):
+        <span class="Identifier">self</span>.threshold = threshold
+        <span class="Identifier">self</span>.model = <span class="Identifier">self</span>._load_embedding_model()
+        <span class="Identifier">self</span>.existing_entities: List[Dict[<span class="Identifier">str</span>, <span class="Identifier">str</span>]] = []
+        <span class="Identifier">self</span>.entity_embeddings = <span class="Identifier">None</span>
+
+    <span class="Statement">def</span> <span class="Identifier">_load_embedding_model</span>(<span class="Identifier">self</span>) -&gt; SentenceTransformer:
+        <span class="Constant">&quot;&quot;&quot;</span><span class="Constant">Charge le modèle d'embedding en local (Air-Gapped).</span><span class="Constant">&quot;&quot;&quot;</span>
+        logger.info(<span class="Constant">f&quot;</span><span class="Constant">Chargement du modèle SentenceTransformer (</span><span class="Special">{</span>EMBEDDING_MODEL_NAME<span class="Special">}</span><span class="Constant">)...</span><span class="Constant">&quot;</span>)
+        <span class="Statement">try</span>:
+            <span class="Statement">if</span> DIR_EMBEDDING_MODEL.exists() <span class="Statement">and</span> <span class="Identifier">any</span>(DIR_EMBEDDING_MODEL.iterdir()):
+                model = SentenceTransformer(<span class="Identifier">str</span>(DIR_EMBEDDING_MODEL))
+            <span class="Statement">else</span>:
+                model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+            <span class="Statement">return</span> model
+        <span class="Statement">except</span> <span class="Type">Exception</span> <span class="Statement">as</span> e:
+            logger.error(<span class="Constant">f&quot;</span><span class="Constant">Erreur lors du chargement du modèle IA : </span><span class="Special">{</span>e<span class="Special">}</span><span class="Constant">&quot;</span>)
+            <span class="Statement">raise</span> <span class="Type">RuntimeError</span>(<span class="Constant">&quot;</span><span class="Constant">Impossible d'initialiser le modèle local MiniLM</span><span class="Constant">&quot;</span>)
+
+    <span class="Statement">def</span> <span class="Identifier">bind_mandatory_prefixes</span>(<span class="Identifier">self</span>, graph: Graph):
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">dkg</span><span class="Constant">&quot;</span>, DKG_TBOX)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">dkg-data</span><span class="Constant">&quot;</span>, DKG_DATA)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">dkg-cti</span><span class="Constant">&quot;</span>, DKG_CTI)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">sh</span><span class="Constant">&quot;</span>, SH)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">xsd</span><span class="Constant">&quot;</span>, XSD)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">rdfs</span><span class="Constant">&quot;</span>, RDFS)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">skos</span><span class="Constant">&quot;</span>, SKOS)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">owl</span><span class="Constant">&quot;</span>, OWL)
+        graph.bind(<span class="Constant">&quot;</span><span class="Constant">rdf</span><span class="Constant">&quot;</span>, RDF)
+
+    <span class="Statement">def</span> <span class="Identifier">index_existing_knowledge</span>(<span class="Identifier">self</span>, knowledge_graph: Graph) -&gt; <span class="Identifier">int</span>:
+        <span class="Identifier">self</span>.existing_entities = []
+        texts_to_embed = []
+
+        query = <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">        PREFIX rdfs: &lt;<a href="http://www.w3.org/2000/01/rdf-schema#">http://www.w3.org/2000/01/rdf-schema#</a>&gt;</span>
+<span class="Constant">        PREFIX skos: &lt;<a href="http://www.w3.org/2004/02/skos/core#">http://www.w3.org/2004/02/skos/core#</a>&gt;</span>
+<span class="Constant">        SELECT DISTINCT ?entity ?label WHERE {</span>
+<span class="Constant">            ?entity a ?type .</span>
+<span class="Constant">            OPTIONAL { ?entity rdfs:label ?rdfsLabel . }</span>
+<span class="Constant">            OPTIONAL { ?entity skos:prefLabel ?skosLabel . }</span>
+<span class="Constant">            BIND(COALESCE(?rdfsLabel, ?skosLabel, STR(?entity)) AS ?label)</span>
+<span class="Constant">        }</span>
+<span class="Constant">        </span><span class="Constant">&quot;&quot;&quot;</span>.strip()
+
+        results = knowledge_graph.query(query)
+        <span class="Statement">for</span> row <span class="Statement">in</span> results:
+            <span class="Identifier">self</span>.existing_entities.append({<span class="Constant">&quot;</span><span class="Constant">uri</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(row.entity), <span class="Constant">&quot;</span><span class="Constant">label</span><span class="Constant">&quot;</span>: <span class="Identifier">str</span>(row.label)})
+            texts_to_embed.append(<span class="Identifier">str</span>(row.label))
+
+        <span class="Statement">if</span> texts_to_embed:
+            <span class="Identifier">self</span>.entity_embeddings = <span class="Identifier">self</span>.model.encode(texts_to_embed, convert_to_tensor=<span class="Identifier">True</span>)
+        <span class="Statement">else</span>:
+            <span class="Identifier">self</span>.entity_embeddings = <span class="Identifier">None</span>
+
+        <span class="Statement">return</span> <span class="Identifier">len</span>(<span class="Identifier">self</span>.existing_entities)
+
+    <span class="Statement">def</span> <span class="Identifier">evaluate_candidate</span>(<span class="Identifier">self</span>, candidate_label: <span class="Identifier">str</span>) -&gt; Tuple[Optional[<span class="Identifier">str</span>], <span class="Identifier">float</span>]:
+        <span class="Statement">if</span> <span class="Identifier">self</span>.entity_embeddings <span class="Statement">is</span> <span class="Identifier">None</span> <span class="Statement">or</span> <span class="Identifier">len</span>(<span class="Identifier">self</span>.existing_entities) == <span class="Constant">0</span>:
+            <span class="Statement">return</span> <span class="Identifier">None</span>, <span class="Constant">0.0</span>
+
+        candidate_embedding = <span class="Identifier">self</span>.model.encode(candidate_label, convert_to_tensor=<span class="Identifier">True</span>)
+        cosine_scores = util.cos_sim(candidate_embedding, <span class="Identifier">self</span>.entity_embeddings)[<span class="Constant">0</span>]
+
+        best_idx = <span class="Identifier">int</span>(np.argmax(cosine_scores.cpu().numpy()))
+        raw_score = <span class="Identifier">float</span>(cosine_scores[best_idx])
+        best_score = <span class="Identifier">min</span>(<span class="Constant">1.0</span>, <span class="Identifier">max</span>(<span class="Constant">0.0</span>, raw_score))
+        <span class="Statement">return</span> <span class="Identifier">self</span>.existing_entities[best_idx][<span class="Constant">&quot;</span><span class="Constant">uri</span><span class="Constant">&quot;</span>], best_score
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

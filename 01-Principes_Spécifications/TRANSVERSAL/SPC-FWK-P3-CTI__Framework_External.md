@@ -116,11 +116,13 @@ dkg:ThreatActor a owl:Class ;
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-CT-01**|`CT`|Typage CTI Externe|Toute vulnérabilité CTI doit posséder un score CVSS (`xsd:float`) et un drapeau CISA KEV (`xsd:boolean`).|Pytest / pySHACL|
-|**EXG-ONT-01**|`TB`|Alignment TBox & SKOS|L'agent de fin de Vague 2 doit consolider les équivalences classes/propriétés et valider 100% des acronymes sous `skos:altLabel`.|SPARQL / Pytest (`test_00`)|
-|**EXG-SE-01**|`SE`|Ségrégation TLP|Les données CTI publiques sont restreintes au graphe `TLP:CLEAR`.|Pytest (`test_02`)|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                                                          | **Mode de Test / Asset**    |
+| --------------- | ---------------- | ----------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| **EXG-CT-01**   | EXG-FWK-P3-CTI_1 | `CT`        | Typage CTI Externe         | Toute vulnérabilité CTI doit posséder un score CVSS (`xsd:float`) et un drapeau CISA KEV (`xsd:boolean`).                         | Pytest / pySHACL            |
+| **EXG-ONT-01**  | EXG-FWK-P3-CTI_2 | `TB`        | Alignment TBox & SKOS      | L'agent de fin de Vague 2 doit consolider les équivalences classes/propriétés et valider 100% des acronymes sous `skos:altLabel`. | SPARQL / Pytest (`test_00`) |
+| **EXG-SE-01**   | EXG-FWK-P3-CTI_3 | `SE`        | Ségrégation TLP            | Les données CTI publiques sont restreintes au graphe `TLP:CLEAR`.                                                                 | Pytest (`test_02`)          |
+
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

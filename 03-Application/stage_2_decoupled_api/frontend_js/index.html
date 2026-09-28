@@ -3,30 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DKG-CyberSec - SOC Résidentiel (Client Découplé)</title>
+    <title>DKG-CyberSec - SOC Résidentiel (Séquence SCO_1)</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans leading-normal tracking-normal">
 
     <div class="container mx-auto px-4 py-8">
         <!-- En-Tête -->
-        <header class="mb-8 border-b border-gray-700 pb-4">
-            <h1 class="text-3xl font-bold text-green-400">🛡️ DKG-CyberSec SOC Dashboard</h1>
-            <p class="text-gray-400">Architecture Découplée : Frontend HTML/JS ➡️ FastAPI Backend ➡️ Moteur Sémantique / Agents</p>
+        <header class="mb-8 border-b border-gray-700 pb-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-green-400">🛡️ DKG-CyberSec Dashboard (SCO_1)</h1>
+                <p class="text-gray-400">Séquence Didactique : Analyse des Menaces & Sobriété Green-by-Design</p>
+            </div>
+            <!-- Indicateur d'Agent Actif -->
+            <div id="agent-status-badge" class="bg-gray-800 border border-blue-500 px-4 py-2 rounded text-xs">
+                <span class="text-blue-400 font-bold">🤖 Agent Actif :</span> <span id="current-agent" class="text-yellow-300">En attente...</span>
+            </div>
         </header>
 
-        <!-- Actions / Contrôles -->
-        <div class="mb-8 flex gap-4">
+        <!-- Actions / Contrôles de la Séquence -->
+        <div class="mb-8 flex flex-wrap gap-4 items-center bg-gray-800 p-4 rounded-lg border border-gray-700">
+            <!-- Bouton Toggle Contexte -->
+            <button id="toggle-source-btn" onclick="toggleDataSource()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded shadow transition">
+                🔄 Mode Actuel : Poste Local (TLP:RED)
+            </button>
+            <!-- Bouton Reset ABox -->
+            <button onclick="resetABoxToFamily()" class="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded shadow transition">
+                ⏮️ Reset ABox (Situation Family)
+            </button>
+            <!-- Lancer l'Audit -->
             <button onclick="loadAudit()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded shadow transition">
-	        🚀 Lancer l'Audit SOC du Foyer
-	    </button>
-	    <button onclick="loadInventory()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded shadow transition">
-	        📂 Voir l'Inventaire Actuel
-	    </button>
-	    <!-- Bouton de bascule de source -->
-	    <button id="toggle-source-btn" onclick="toggleDataSource()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded shadow transition">
-	        🔄 Mode Actuel : Poste Local (TLP:RED)
-	    </button>
+                🚀 Lancer l'Audit SOC & Corrélation
+            </button>
+            <!-- Voir l'inventaire -->
+            <button onclick="loadInventory()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded shadow transition">
+                📂 Voir l'Inventaire Actuel
+            </button>
         </div>
 
         <!-- Zone d'affichage des résultats -->
@@ -40,15 +52,33 @@
             </div>
             <!-- Panneau de DROITE : Rapport de l'Agent Conseil / Audit -->
             <div class="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
-                <!-- Assure-toi que id="audit-title" est bien présent ici -->
-                <h2 id="audit-title" class="text-xl font-bold mb-4 text-green-400">🤖 Rapport de l'Agent Conseil</h2>
+                <h2 id="audit-title" class="text-xl font-bold mb-4 text-green-400">🤖 Diagnostic & Menaces (Asset / App / Source)</h2>
                 <div id="audit-container" class="space-y-3">
                     <p class="text-gray-400">En attente du lancement de l'audit...</p>
                 </div>
             </div>
         </div>
+
+        <!-- Section HitM & Gardien T-Box -->
+        <div class="mt-6 bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+            <h2 class="text-xl font-bold mb-4 text-yellow-400">🔒 Gouvernance T-Box & Validation Human-in-the-Loop (HitM)</h2>
+            <div id="hitm-container" class="space-y-3">
+                <p class="text-gray-300 text-sm">Le gardien de la T-Box analyse les flux externes à la recherche d'enrichissements sémantiques...</p>
+                <button onclick="triggerTBoxGuardian()" class="bg-yellow-600 hover:bg-yellow-500 text-white text-xs font-bold py-1.5 px-3 rounded">
+                    Inspecter & Proposer Enrichissement T-Box
+                </button>
+            </div>
+        </div>
+
+        <!-- Section Phase 8 : Conformité RGPD & Green-by-Design -->
+        <div class="mt-6 bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+            <h2 class="text-xl font-bold mb-4 text-purple-400">🌱 Enjeux GreenDev & Sobriété Mémoire (Phase 8)</h2>
+            <div id="compliance-status-container" class="space-y-3">
+                <p class="text-gray-400">Chargement des métriques GreenDev...</p>
+            </div>
+        </div>
     </div>
-    <!-- Actions / Contrôles -->
+
     <script src="app.js"></script>
 </body>
 </html>

@@ -4,10 +4,10 @@ reference: SPC-TEC-P8-soc_orchestrator_agent_01
 revision: 2
 titre: "Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM"
 titre_court: soc_orchestrator_agent_mcp
-description: "Spécification technique actualisée des scripts de la Phase 8 conçus comme des outils natifs MCP (Model Context Protocol)."
+description: Spécification technique actualisée des scripts de la Phase 8 conçus comme des outils natifs MCP (Model Context Protocol).
 phase_code: P8
-phase_nom: "SOC Orchestrator, Découpage & RGPD"
-statut: "🟡 ACTIVE"
+phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
+statut: 🟡 ACTIVE
 portee: USECASE_TECHNIQUE
 public_vise:
   - Développeurs DevSecOps
@@ -15,19 +15,19 @@ public_vise:
 exigences:
   - id: EXG-P8-05
     domaine: TEC
-    titre: "API Asynchrone de l'Orchestrateur"
-    description: "Le composant soc_orchestrator.py doit piloter les agents de manière asynchrone avec un timeout de 30 secondes."
-    test: "PyTest / AsyncIO Test Suite"
+    titre: API Asynchrone de l'Orchestrateur
+    description: Le composant soc_orchestrator.py doit piloter les agents de manière asynchrone avec un timeout de 30 secondes.
+    test: PyTest / AsyncIO Test Suite
   - id: EXG-P8-06
     domaine: TEC
-    titre: "Pipeline NER Local Frugal"
-    description: "Le filtrage des données externes s'appuie exclusivement sur le modèle local (gliner_small-v2.1) sans appel cloud."
-    test: "PyTest / Air-Gapped Verification"
+    titre: Pipeline NER Local Frugal
+    description: Le filtrage des données externes s'appuie exclusivement sur le modèle local (gliner_small-v2.1) sans appel cloud.
+    test: PyTest / Air-Gapped Verification
   - id: EXG-P8-07
     domaine: TEC
-    titre: "Architecture MCP-Ready"
-    description: "Les fonctions Python exposées doivent respecter un typage strict et des structures de retour sérialisables, permettant un wrapping direct en 'MCP Tools'."
-    test: "PyTest / MCP Interface Verification"
+    titre: Architecture MCP-Ready
+    description: Les fonctions Python exposées doivent respecter un typage strict et des structures de retour sérialisables, permettant un wrapping direct en 'MCP Tools'.
+    test: PyTest / MCP Interface Verification
 ---
 
 # 📜 Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM
@@ -52,11 +52,12 @@ Spécifier l'implémentation logicielle de la Phase 8 en adoptant une approche *
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant | Domaine | Intitulé de l'Exigence | Description & Critères d'Acceptation | Mode de Test / Asset |
-| :--- | :--- | :--- | :--- | :--- |
-| **EXG-P8-05** | TEC | API Asynchrone | Pilotage asynchrone avec timeout de 30s. | PyTest / AsyncIO Suite |
-| **EXG-P8-06** | TEC | Pipeline NER Local | Exécution 100% Air-Gapped du modèle GLiNER. | PyTest / Air-Gapped Check |
-| **EXG-P8-07** | TEC | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check |
+| Identifiant   | UID              | Domaine | Intitulé de l'Exigence | Description & Critères d'Acceptation          | Mode de Test / Asset      |
+| :------------ | :--------------- | :------ | :--------------------- | :-------------------------------------------- | :------------------------ |
+| **EXG-P8-05** | EXG-TEC-P8-soc_1 | TEC     | API Asynchrone         | Pilotage asynchrone avec timeout de 30s.      | PyTest / AsyncIO Suite    |
+| **EXG-P8-06** | EXG-TEC-P8-soc_2 | TEC     | Pipeline NER Local     | Exécution 100% Air-Gapped du modèle GLiNER.   | PyTest / Air-Gapped Check |
+| **EXG-P8-07** | EXG-TEC-P8-soc_3 | TEC     | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check  |
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 * **Scripts associés :** `03-Application/frugal_filter.py`, `03-Application/soc_orchestrator.py`, `03-Application/hitm_gateway.py`.

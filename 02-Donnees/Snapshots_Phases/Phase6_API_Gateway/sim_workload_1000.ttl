@@ -1,0 +1,4004 @@
+@prefix data: <http://dkg.cybersec.org/data#> .
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+data:SimulatedHost_0 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1000" .
+
+data:SimulatedHost_1 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1001" .
+
+data:SimulatedHost_10 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1010" .
+
+data:SimulatedHost_100 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1100" .
+
+data:SimulatedHost_101 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1101" .
+
+data:SimulatedHost_102 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1102" .
+
+data:SimulatedHost_103 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1103" .
+
+data:SimulatedHost_104 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1104" .
+
+data:SimulatedHost_105 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1105" .
+
+data:SimulatedHost_106 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1106" .
+
+data:SimulatedHost_107 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1107" .
+
+data:SimulatedHost_108 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1108" .
+
+data:SimulatedHost_109 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1109" .
+
+data:SimulatedHost_11 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1011" .
+
+data:SimulatedHost_110 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1110" .
+
+data:SimulatedHost_111 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1111" .
+
+data:SimulatedHost_112 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1112" .
+
+data:SimulatedHost_113 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1113" .
+
+data:SimulatedHost_114 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1114" .
+
+data:SimulatedHost_115 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1115" .
+
+data:SimulatedHost_116 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1116" .
+
+data:SimulatedHost_117 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1117" .
+
+data:SimulatedHost_118 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1118" .
+
+data:SimulatedHost_119 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1119" .
+
+data:SimulatedHost_12 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1012" .
+
+data:SimulatedHost_120 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1120" .
+
+data:SimulatedHost_121 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1121" .
+
+data:SimulatedHost_122 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1122" .
+
+data:SimulatedHost_123 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1123" .
+
+data:SimulatedHost_124 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1124" .
+
+data:SimulatedHost_125 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1125" .
+
+data:SimulatedHost_126 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1126" .
+
+data:SimulatedHost_127 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1127" .
+
+data:SimulatedHost_128 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1128" .
+
+data:SimulatedHost_129 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1129" .
+
+data:SimulatedHost_13 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1013" .
+
+data:SimulatedHost_130 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1130" .
+
+data:SimulatedHost_131 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1131" .
+
+data:SimulatedHost_132 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1132" .
+
+data:SimulatedHost_133 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1133" .
+
+data:SimulatedHost_134 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1134" .
+
+data:SimulatedHost_135 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1135" .
+
+data:SimulatedHost_136 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1136" .
+
+data:SimulatedHost_137 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1137" .
+
+data:SimulatedHost_138 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1138" .
+
+data:SimulatedHost_139 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1139" .
+
+data:SimulatedHost_14 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1014" .
+
+data:SimulatedHost_140 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1140" .
+
+data:SimulatedHost_141 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1141" .
+
+data:SimulatedHost_142 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1142" .
+
+data:SimulatedHost_143 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1143" .
+
+data:SimulatedHost_144 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1144" .
+
+data:SimulatedHost_145 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1145" .
+
+data:SimulatedHost_146 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1146" .
+
+data:SimulatedHost_147 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1147" .
+
+data:SimulatedHost_148 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1148" .
+
+data:SimulatedHost_149 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1149" .
+
+data:SimulatedHost_15 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1015" .
+
+data:SimulatedHost_150 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1150" .
+
+data:SimulatedHost_151 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1151" .
+
+data:SimulatedHost_152 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1152" .
+
+data:SimulatedHost_153 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1153" .
+
+data:SimulatedHost_154 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1154" .
+
+data:SimulatedHost_155 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1155" .
+
+data:SimulatedHost_156 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1156" .
+
+data:SimulatedHost_157 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1157" .
+
+data:SimulatedHost_158 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1158" .
+
+data:SimulatedHost_159 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1159" .
+
+data:SimulatedHost_16 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1016" .
+
+data:SimulatedHost_160 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1160" .
+
+data:SimulatedHost_161 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1161" .
+
+data:SimulatedHost_162 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1162" .
+
+data:SimulatedHost_163 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1163" .
+
+data:SimulatedHost_164 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1164" .
+
+data:SimulatedHost_165 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1165" .
+
+data:SimulatedHost_166 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1166" .
+
+data:SimulatedHost_167 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1167" .
+
+data:SimulatedHost_168 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1168" .
+
+data:SimulatedHost_169 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1169" .
+
+data:SimulatedHost_17 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1017" .
+
+data:SimulatedHost_170 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1170" .
+
+data:SimulatedHost_171 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1171" .
+
+data:SimulatedHost_172 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1172" .
+
+data:SimulatedHost_173 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1173" .
+
+data:SimulatedHost_174 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1174" .
+
+data:SimulatedHost_175 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1175" .
+
+data:SimulatedHost_176 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1176" .
+
+data:SimulatedHost_177 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1177" .
+
+data:SimulatedHost_178 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1178" .
+
+data:SimulatedHost_179 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1179" .
+
+data:SimulatedHost_18 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1018" .
+
+data:SimulatedHost_180 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1180" .
+
+data:SimulatedHost_181 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1181" .
+
+data:SimulatedHost_182 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1182" .
+
+data:SimulatedHost_183 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1183" .
+
+data:SimulatedHost_184 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1184" .
+
+data:SimulatedHost_185 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1185" .
+
+data:SimulatedHost_186 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1186" .
+
+data:SimulatedHost_187 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1187" .
+
+data:SimulatedHost_188 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1188" .
+
+data:SimulatedHost_189 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1189" .
+
+data:SimulatedHost_19 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1019" .
+
+data:SimulatedHost_190 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1190" .
+
+data:SimulatedHost_191 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1191" .
+
+data:SimulatedHost_192 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1192" .
+
+data:SimulatedHost_193 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1193" .
+
+data:SimulatedHost_194 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1194" .
+
+data:SimulatedHost_195 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1195" .
+
+data:SimulatedHost_196 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1196" .
+
+data:SimulatedHost_197 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1197" .
+
+data:SimulatedHost_198 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1198" .
+
+data:SimulatedHost_199 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1199" .
+
+data:SimulatedHost_2 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1002" .
+
+data:SimulatedHost_20 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1020" .
+
+data:SimulatedHost_200 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1200" .
+
+data:SimulatedHost_201 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1201" .
+
+data:SimulatedHost_202 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1202" .
+
+data:SimulatedHost_203 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1203" .
+
+data:SimulatedHost_204 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1204" .
+
+data:SimulatedHost_205 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1205" .
+
+data:SimulatedHost_206 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1206" .
+
+data:SimulatedHost_207 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1207" .
+
+data:SimulatedHost_208 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1208" .
+
+data:SimulatedHost_209 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1209" .
+
+data:SimulatedHost_21 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1021" .
+
+data:SimulatedHost_210 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1210" .
+
+data:SimulatedHost_211 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1211" .
+
+data:SimulatedHost_212 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1212" .
+
+data:SimulatedHost_213 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1213" .
+
+data:SimulatedHost_214 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1214" .
+
+data:SimulatedHost_215 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1215" .
+
+data:SimulatedHost_216 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1216" .
+
+data:SimulatedHost_217 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1217" .
+
+data:SimulatedHost_218 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1218" .
+
+data:SimulatedHost_219 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1219" .
+
+data:SimulatedHost_22 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1022" .
+
+data:SimulatedHost_220 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1220" .
+
+data:SimulatedHost_221 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1221" .
+
+data:SimulatedHost_222 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1222" .
+
+data:SimulatedHost_223 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1223" .
+
+data:SimulatedHost_224 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1224" .
+
+data:SimulatedHost_225 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1225" .
+
+data:SimulatedHost_226 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1226" .
+
+data:SimulatedHost_227 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1227" .
+
+data:SimulatedHost_228 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1228" .
+
+data:SimulatedHost_229 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1229" .
+
+data:SimulatedHost_23 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1023" .
+
+data:SimulatedHost_230 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1230" .
+
+data:SimulatedHost_231 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1231" .
+
+data:SimulatedHost_232 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1232" .
+
+data:SimulatedHost_233 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1233" .
+
+data:SimulatedHost_234 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1234" .
+
+data:SimulatedHost_235 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1235" .
+
+data:SimulatedHost_236 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1236" .
+
+data:SimulatedHost_237 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1237" .
+
+data:SimulatedHost_238 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1238" .
+
+data:SimulatedHost_239 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1239" .
+
+data:SimulatedHost_24 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1024" .
+
+data:SimulatedHost_240 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1240" .
+
+data:SimulatedHost_241 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1241" .
+
+data:SimulatedHost_242 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1242" .
+
+data:SimulatedHost_243 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1243" .
+
+data:SimulatedHost_244 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1244" .
+
+data:SimulatedHost_245 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1245" .
+
+data:SimulatedHost_246 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1246" .
+
+data:SimulatedHost_247 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1247" .
+
+data:SimulatedHost_248 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1248" .
+
+data:SimulatedHost_249 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1249" .
+
+data:SimulatedHost_25 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1025" .
+
+data:SimulatedHost_250 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1250" .
+
+data:SimulatedHost_251 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1251" .
+
+data:SimulatedHost_252 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1252" .
+
+data:SimulatedHost_253 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1253" .
+
+data:SimulatedHost_254 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1254" .
+
+data:SimulatedHost_255 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1255" .
+
+data:SimulatedHost_256 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1256" .
+
+data:SimulatedHost_257 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1257" .
+
+data:SimulatedHost_258 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1258" .
+
+data:SimulatedHost_259 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1259" .
+
+data:SimulatedHost_26 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1026" .
+
+data:SimulatedHost_260 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1260" .
+
+data:SimulatedHost_261 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1261" .
+
+data:SimulatedHost_262 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1262" .
+
+data:SimulatedHost_263 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1263" .
+
+data:SimulatedHost_264 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1264" .
+
+data:SimulatedHost_265 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1265" .
+
+data:SimulatedHost_266 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1266" .
+
+data:SimulatedHost_267 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1267" .
+
+data:SimulatedHost_268 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1268" .
+
+data:SimulatedHost_269 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1269" .
+
+data:SimulatedHost_27 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1027" .
+
+data:SimulatedHost_270 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1270" .
+
+data:SimulatedHost_271 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1271" .
+
+data:SimulatedHost_272 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1272" .
+
+data:SimulatedHost_273 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1273" .
+
+data:SimulatedHost_274 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1274" .
+
+data:SimulatedHost_275 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1275" .
+
+data:SimulatedHost_276 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1276" .
+
+data:SimulatedHost_277 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1277" .
+
+data:SimulatedHost_278 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1278" .
+
+data:SimulatedHost_279 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1279" .
+
+data:SimulatedHost_28 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1028" .
+
+data:SimulatedHost_280 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1280" .
+
+data:SimulatedHost_281 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1281" .
+
+data:SimulatedHost_282 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1282" .
+
+data:SimulatedHost_283 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1283" .
+
+data:SimulatedHost_284 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1284" .
+
+data:SimulatedHost_285 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1285" .
+
+data:SimulatedHost_286 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1286" .
+
+data:SimulatedHost_287 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1287" .
+
+data:SimulatedHost_288 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1288" .
+
+data:SimulatedHost_289 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1289" .
+
+data:SimulatedHost_29 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1029" .
+
+data:SimulatedHost_290 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1290" .
+
+data:SimulatedHost_291 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1291" .
+
+data:SimulatedHost_292 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1292" .
+
+data:SimulatedHost_293 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1293" .
+
+data:SimulatedHost_294 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1294" .
+
+data:SimulatedHost_295 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1295" .
+
+data:SimulatedHost_296 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1296" .
+
+data:SimulatedHost_297 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1297" .
+
+data:SimulatedHost_298 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1298" .
+
+data:SimulatedHost_299 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1299" .
+
+data:SimulatedHost_3 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1003" .
+
+data:SimulatedHost_30 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1030" .
+
+data:SimulatedHost_300 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1300" .
+
+data:SimulatedHost_301 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1301" .
+
+data:SimulatedHost_302 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1302" .
+
+data:SimulatedHost_303 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1303" .
+
+data:SimulatedHost_304 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1304" .
+
+data:SimulatedHost_305 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1305" .
+
+data:SimulatedHost_306 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1306" .
+
+data:SimulatedHost_307 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1307" .
+
+data:SimulatedHost_308 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1308" .
+
+data:SimulatedHost_309 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1309" .
+
+data:SimulatedHost_31 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1031" .
+
+data:SimulatedHost_310 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1310" .
+
+data:SimulatedHost_311 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1311" .
+
+data:SimulatedHost_312 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1312" .
+
+data:SimulatedHost_313 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1313" .
+
+data:SimulatedHost_314 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1314" .
+
+data:SimulatedHost_315 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1315" .
+
+data:SimulatedHost_316 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1316" .
+
+data:SimulatedHost_317 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1317" .
+
+data:SimulatedHost_318 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1318" .
+
+data:SimulatedHost_319 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1319" .
+
+data:SimulatedHost_32 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1032" .
+
+data:SimulatedHost_320 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1320" .
+
+data:SimulatedHost_321 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1321" .
+
+data:SimulatedHost_322 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1322" .
+
+data:SimulatedHost_323 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1323" .
+
+data:SimulatedHost_324 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1324" .
+
+data:SimulatedHost_325 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1325" .
+
+data:SimulatedHost_326 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1326" .
+
+data:SimulatedHost_327 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1327" .
+
+data:SimulatedHost_328 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1328" .
+
+data:SimulatedHost_329 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1329" .
+
+data:SimulatedHost_33 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1033" .
+
+data:SimulatedHost_330 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1330" .
+
+data:SimulatedHost_331 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1331" .
+
+data:SimulatedHost_332 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1332" .
+
+data:SimulatedHost_333 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1333" .
+
+data:SimulatedHost_334 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1334" .
+
+data:SimulatedHost_335 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1335" .
+
+data:SimulatedHost_336 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1336" .
+
+data:SimulatedHost_337 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1337" .
+
+data:SimulatedHost_338 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1338" .
+
+data:SimulatedHost_339 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1339" .
+
+data:SimulatedHost_34 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1034" .
+
+data:SimulatedHost_340 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1340" .
+
+data:SimulatedHost_341 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1341" .
+
+data:SimulatedHost_342 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1342" .
+
+data:SimulatedHost_343 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1343" .
+
+data:SimulatedHost_344 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1344" .
+
+data:SimulatedHost_345 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1345" .
+
+data:SimulatedHost_346 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1346" .
+
+data:SimulatedHost_347 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1347" .
+
+data:SimulatedHost_348 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1348" .
+
+data:SimulatedHost_349 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1349" .
+
+data:SimulatedHost_35 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1035" .
+
+data:SimulatedHost_350 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1350" .
+
+data:SimulatedHost_351 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1351" .
+
+data:SimulatedHost_352 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1352" .
+
+data:SimulatedHost_353 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1353" .
+
+data:SimulatedHost_354 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1354" .
+
+data:SimulatedHost_355 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1355" .
+
+data:SimulatedHost_356 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1356" .
+
+data:SimulatedHost_357 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1357" .
+
+data:SimulatedHost_358 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1358" .
+
+data:SimulatedHost_359 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1359" .
+
+data:SimulatedHost_36 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1036" .
+
+data:SimulatedHost_360 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1360" .
+
+data:SimulatedHost_361 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1361" .
+
+data:SimulatedHost_362 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1362" .
+
+data:SimulatedHost_363 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1363" .
+
+data:SimulatedHost_364 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1364" .
+
+data:SimulatedHost_365 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1365" .
+
+data:SimulatedHost_366 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1366" .
+
+data:SimulatedHost_367 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1367" .
+
+data:SimulatedHost_368 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1368" .
+
+data:SimulatedHost_369 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1369" .
+
+data:SimulatedHost_37 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1037" .
+
+data:SimulatedHost_370 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1370" .
+
+data:SimulatedHost_371 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1371" .
+
+data:SimulatedHost_372 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1372" .
+
+data:SimulatedHost_373 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1373" .
+
+data:SimulatedHost_374 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1374" .
+
+data:SimulatedHost_375 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1375" .
+
+data:SimulatedHost_376 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1376" .
+
+data:SimulatedHost_377 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1377" .
+
+data:SimulatedHost_378 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1378" .
+
+data:SimulatedHost_379 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1379" .
+
+data:SimulatedHost_38 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1038" .
+
+data:SimulatedHost_380 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1380" .
+
+data:SimulatedHost_381 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1381" .
+
+data:SimulatedHost_382 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1382" .
+
+data:SimulatedHost_383 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1383" .
+
+data:SimulatedHost_384 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1384" .
+
+data:SimulatedHost_385 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1385" .
+
+data:SimulatedHost_386 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1386" .
+
+data:SimulatedHost_387 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1387" .
+
+data:SimulatedHost_388 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1388" .
+
+data:SimulatedHost_389 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1389" .
+
+data:SimulatedHost_39 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1039" .
+
+data:SimulatedHost_390 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1390" .
+
+data:SimulatedHost_391 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1391" .
+
+data:SimulatedHost_392 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1392" .
+
+data:SimulatedHost_393 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1393" .
+
+data:SimulatedHost_394 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1394" .
+
+data:SimulatedHost_395 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1395" .
+
+data:SimulatedHost_396 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1396" .
+
+data:SimulatedHost_397 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1397" .
+
+data:SimulatedHost_398 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1398" .
+
+data:SimulatedHost_399 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1399" .
+
+data:SimulatedHost_4 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1004" .
+
+data:SimulatedHost_40 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1040" .
+
+data:SimulatedHost_400 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1400" .
+
+data:SimulatedHost_401 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1401" .
+
+data:SimulatedHost_402 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1402" .
+
+data:SimulatedHost_403 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1403" .
+
+data:SimulatedHost_404 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1404" .
+
+data:SimulatedHost_405 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1405" .
+
+data:SimulatedHost_406 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1406" .
+
+data:SimulatedHost_407 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1407" .
+
+data:SimulatedHost_408 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1408" .
+
+data:SimulatedHost_409 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1409" .
+
+data:SimulatedHost_41 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1041" .
+
+data:SimulatedHost_410 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1410" .
+
+data:SimulatedHost_411 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1411" .
+
+data:SimulatedHost_412 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1412" .
+
+data:SimulatedHost_413 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1413" .
+
+data:SimulatedHost_414 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1414" .
+
+data:SimulatedHost_415 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1415" .
+
+data:SimulatedHost_416 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1416" .
+
+data:SimulatedHost_417 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1417" .
+
+data:SimulatedHost_418 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1418" .
+
+data:SimulatedHost_419 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1419" .
+
+data:SimulatedHost_42 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1042" .
+
+data:SimulatedHost_420 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1420" .
+
+data:SimulatedHost_421 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1421" .
+
+data:SimulatedHost_422 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1422" .
+
+data:SimulatedHost_423 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1423" .
+
+data:SimulatedHost_424 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1424" .
+
+data:SimulatedHost_425 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1425" .
+
+data:SimulatedHost_426 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1426" .
+
+data:SimulatedHost_427 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1427" .
+
+data:SimulatedHost_428 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1428" .
+
+data:SimulatedHost_429 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1429" .
+
+data:SimulatedHost_43 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1043" .
+
+data:SimulatedHost_430 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1430" .
+
+data:SimulatedHost_431 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1431" .
+
+data:SimulatedHost_432 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1432" .
+
+data:SimulatedHost_433 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1433" .
+
+data:SimulatedHost_434 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1434" .
+
+data:SimulatedHost_435 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1435" .
+
+data:SimulatedHost_436 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1436" .
+
+data:SimulatedHost_437 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1437" .
+
+data:SimulatedHost_438 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1438" .
+
+data:SimulatedHost_439 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1439" .
+
+data:SimulatedHost_44 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1044" .
+
+data:SimulatedHost_440 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1440" .
+
+data:SimulatedHost_441 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1441" .
+
+data:SimulatedHost_442 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1442" .
+
+data:SimulatedHost_443 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1443" .
+
+data:SimulatedHost_444 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1444" .
+
+data:SimulatedHost_445 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1445" .
+
+data:SimulatedHost_446 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1446" .
+
+data:SimulatedHost_447 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1447" .
+
+data:SimulatedHost_448 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1448" .
+
+data:SimulatedHost_449 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1449" .
+
+data:SimulatedHost_45 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1045" .
+
+data:SimulatedHost_450 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1450" .
+
+data:SimulatedHost_451 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1451" .
+
+data:SimulatedHost_452 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1452" .
+
+data:SimulatedHost_453 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1453" .
+
+data:SimulatedHost_454 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1454" .
+
+data:SimulatedHost_455 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1455" .
+
+data:SimulatedHost_456 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1456" .
+
+data:SimulatedHost_457 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1457" .
+
+data:SimulatedHost_458 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1458" .
+
+data:SimulatedHost_459 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1459" .
+
+data:SimulatedHost_46 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1046" .
+
+data:SimulatedHost_460 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1460" .
+
+data:SimulatedHost_461 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1461" .
+
+data:SimulatedHost_462 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1462" .
+
+data:SimulatedHost_463 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1463" .
+
+data:SimulatedHost_464 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1464" .
+
+data:SimulatedHost_465 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1465" .
+
+data:SimulatedHost_466 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1466" .
+
+data:SimulatedHost_467 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1467" .
+
+data:SimulatedHost_468 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1468" .
+
+data:SimulatedHost_469 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1469" .
+
+data:SimulatedHost_47 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1047" .
+
+data:SimulatedHost_470 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1470" .
+
+data:SimulatedHost_471 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1471" .
+
+data:SimulatedHost_472 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1472" .
+
+data:SimulatedHost_473 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1473" .
+
+data:SimulatedHost_474 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1474" .
+
+data:SimulatedHost_475 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1475" .
+
+data:SimulatedHost_476 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1476" .
+
+data:SimulatedHost_477 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1477" .
+
+data:SimulatedHost_478 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1478" .
+
+data:SimulatedHost_479 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1479" .
+
+data:SimulatedHost_48 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1048" .
+
+data:SimulatedHost_480 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1480" .
+
+data:SimulatedHost_481 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1481" .
+
+data:SimulatedHost_482 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1482" .
+
+data:SimulatedHost_483 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1483" .
+
+data:SimulatedHost_484 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1484" .
+
+data:SimulatedHost_485 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1485" .
+
+data:SimulatedHost_486 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1486" .
+
+data:SimulatedHost_487 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1487" .
+
+data:SimulatedHost_488 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1488" .
+
+data:SimulatedHost_489 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1489" .
+
+data:SimulatedHost_49 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1049" .
+
+data:SimulatedHost_490 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1490" .
+
+data:SimulatedHost_491 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1491" .
+
+data:SimulatedHost_492 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1492" .
+
+data:SimulatedHost_493 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1493" .
+
+data:SimulatedHost_494 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1494" .
+
+data:SimulatedHost_495 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1495" .
+
+data:SimulatedHost_496 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1496" .
+
+data:SimulatedHost_497 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1497" .
+
+data:SimulatedHost_498 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1498" .
+
+data:SimulatedHost_499 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1499" .
+
+data:SimulatedHost_5 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1005" .
+
+data:SimulatedHost_50 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1050" .
+
+data:SimulatedHost_500 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1500" .
+
+data:SimulatedHost_501 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1501" .
+
+data:SimulatedHost_502 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1502" .
+
+data:SimulatedHost_503 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1503" .
+
+data:SimulatedHost_504 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1504" .
+
+data:SimulatedHost_505 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1505" .
+
+data:SimulatedHost_506 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1506" .
+
+data:SimulatedHost_507 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1507" .
+
+data:SimulatedHost_508 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1508" .
+
+data:SimulatedHost_509 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1509" .
+
+data:SimulatedHost_51 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1051" .
+
+data:SimulatedHost_510 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1510" .
+
+data:SimulatedHost_511 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1511" .
+
+data:SimulatedHost_512 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1512" .
+
+data:SimulatedHost_513 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1513" .
+
+data:SimulatedHost_514 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1514" .
+
+data:SimulatedHost_515 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1515" .
+
+data:SimulatedHost_516 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1516" .
+
+data:SimulatedHost_517 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1517" .
+
+data:SimulatedHost_518 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1518" .
+
+data:SimulatedHost_519 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1519" .
+
+data:SimulatedHost_52 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1052" .
+
+data:SimulatedHost_520 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1520" .
+
+data:SimulatedHost_521 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1521" .
+
+data:SimulatedHost_522 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1522" .
+
+data:SimulatedHost_523 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1523" .
+
+data:SimulatedHost_524 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1524" .
+
+data:SimulatedHost_525 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1525" .
+
+data:SimulatedHost_526 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1526" .
+
+data:SimulatedHost_527 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1527" .
+
+data:SimulatedHost_528 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1528" .
+
+data:SimulatedHost_529 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1529" .
+
+data:SimulatedHost_53 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1053" .
+
+data:SimulatedHost_530 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1530" .
+
+data:SimulatedHost_531 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1531" .
+
+data:SimulatedHost_532 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1532" .
+
+data:SimulatedHost_533 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1533" .
+
+data:SimulatedHost_534 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1534" .
+
+data:SimulatedHost_535 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1535" .
+
+data:SimulatedHost_536 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1536" .
+
+data:SimulatedHost_537 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1537" .
+
+data:SimulatedHost_538 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1538" .
+
+data:SimulatedHost_539 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1539" .
+
+data:SimulatedHost_54 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1054" .
+
+data:SimulatedHost_540 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1540" .
+
+data:SimulatedHost_541 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1541" .
+
+data:SimulatedHost_542 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1542" .
+
+data:SimulatedHost_543 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1543" .
+
+data:SimulatedHost_544 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1544" .
+
+data:SimulatedHost_545 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1545" .
+
+data:SimulatedHost_546 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1546" .
+
+data:SimulatedHost_547 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1547" .
+
+data:SimulatedHost_548 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1548" .
+
+data:SimulatedHost_549 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1549" .
+
+data:SimulatedHost_55 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1055" .
+
+data:SimulatedHost_550 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1550" .
+
+data:SimulatedHost_551 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1551" .
+
+data:SimulatedHost_552 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1552" .
+
+data:SimulatedHost_553 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1553" .
+
+data:SimulatedHost_554 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1554" .
+
+data:SimulatedHost_555 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1555" .
+
+data:SimulatedHost_556 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1556" .
+
+data:SimulatedHost_557 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1557" .
+
+data:SimulatedHost_558 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1558" .
+
+data:SimulatedHost_559 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1559" .
+
+data:SimulatedHost_56 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1056" .
+
+data:SimulatedHost_560 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1560" .
+
+data:SimulatedHost_561 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1561" .
+
+data:SimulatedHost_562 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1562" .
+
+data:SimulatedHost_563 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1563" .
+
+data:SimulatedHost_564 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1564" .
+
+data:SimulatedHost_565 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1565" .
+
+data:SimulatedHost_566 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1566" .
+
+data:SimulatedHost_567 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1567" .
+
+data:SimulatedHost_568 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1568" .
+
+data:SimulatedHost_569 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1569" .
+
+data:SimulatedHost_57 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1057" .
+
+data:SimulatedHost_570 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1570" .
+
+data:SimulatedHost_571 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1571" .
+
+data:SimulatedHost_572 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1572" .
+
+data:SimulatedHost_573 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1573" .
+
+data:SimulatedHost_574 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1574" .
+
+data:SimulatedHost_575 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1575" .
+
+data:SimulatedHost_576 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1576" .
+
+data:SimulatedHost_577 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1577" .
+
+data:SimulatedHost_578 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1578" .
+
+data:SimulatedHost_579 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1579" .
+
+data:SimulatedHost_58 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1058" .
+
+data:SimulatedHost_580 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1580" .
+
+data:SimulatedHost_581 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1581" .
+
+data:SimulatedHost_582 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1582" .
+
+data:SimulatedHost_583 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1583" .
+
+data:SimulatedHost_584 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1584" .
+
+data:SimulatedHost_585 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1585" .
+
+data:SimulatedHost_586 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1586" .
+
+data:SimulatedHost_587 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1587" .
+
+data:SimulatedHost_588 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1588" .
+
+data:SimulatedHost_589 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1589" .
+
+data:SimulatedHost_59 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1059" .
+
+data:SimulatedHost_590 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1590" .
+
+data:SimulatedHost_591 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1591" .
+
+data:SimulatedHost_592 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1592" .
+
+data:SimulatedHost_593 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1593" .
+
+data:SimulatedHost_594 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1594" .
+
+data:SimulatedHost_595 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1595" .
+
+data:SimulatedHost_596 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1596" .
+
+data:SimulatedHost_597 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1597" .
+
+data:SimulatedHost_598 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1598" .
+
+data:SimulatedHost_599 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1599" .
+
+data:SimulatedHost_6 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1006" .
+
+data:SimulatedHost_60 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1060" .
+
+data:SimulatedHost_600 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1600" .
+
+data:SimulatedHost_601 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1601" .
+
+data:SimulatedHost_602 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1602" .
+
+data:SimulatedHost_603 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1603" .
+
+data:SimulatedHost_604 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1604" .
+
+data:SimulatedHost_605 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1605" .
+
+data:SimulatedHost_606 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1606" .
+
+data:SimulatedHost_607 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1607" .
+
+data:SimulatedHost_608 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1608" .
+
+data:SimulatedHost_609 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1609" .
+
+data:SimulatedHost_61 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1061" .
+
+data:SimulatedHost_610 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1610" .
+
+data:SimulatedHost_611 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1611" .
+
+data:SimulatedHost_612 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1612" .
+
+data:SimulatedHost_613 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1613" .
+
+data:SimulatedHost_614 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1614" .
+
+data:SimulatedHost_615 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1615" .
+
+data:SimulatedHost_616 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1616" .
+
+data:SimulatedHost_617 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1617" .
+
+data:SimulatedHost_618 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1618" .
+
+data:SimulatedHost_619 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1619" .
+
+data:SimulatedHost_62 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1062" .
+
+data:SimulatedHost_620 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1620" .
+
+data:SimulatedHost_621 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1621" .
+
+data:SimulatedHost_622 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1622" .
+
+data:SimulatedHost_623 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1623" .
+
+data:SimulatedHost_624 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1624" .
+
+data:SimulatedHost_625 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1625" .
+
+data:SimulatedHost_626 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1626" .
+
+data:SimulatedHost_627 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1627" .
+
+data:SimulatedHost_628 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1628" .
+
+data:SimulatedHost_629 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1629" .
+
+data:SimulatedHost_63 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1063" .
+
+data:SimulatedHost_630 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1630" .
+
+data:SimulatedHost_631 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1631" .
+
+data:SimulatedHost_632 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1632" .
+
+data:SimulatedHost_633 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1633" .
+
+data:SimulatedHost_634 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1634" .
+
+data:SimulatedHost_635 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1635" .
+
+data:SimulatedHost_636 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1636" .
+
+data:SimulatedHost_637 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1637" .
+
+data:SimulatedHost_638 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1638" .
+
+data:SimulatedHost_639 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1639" .
+
+data:SimulatedHost_64 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1064" .
+
+data:SimulatedHost_640 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1640" .
+
+data:SimulatedHost_641 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1641" .
+
+data:SimulatedHost_642 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1642" .
+
+data:SimulatedHost_643 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1643" .
+
+data:SimulatedHost_644 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1644" .
+
+data:SimulatedHost_645 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1645" .
+
+data:SimulatedHost_646 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1646" .
+
+data:SimulatedHost_647 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1647" .
+
+data:SimulatedHost_648 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1648" .
+
+data:SimulatedHost_649 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1649" .
+
+data:SimulatedHost_65 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1065" .
+
+data:SimulatedHost_650 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1650" .
+
+data:SimulatedHost_651 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1651" .
+
+data:SimulatedHost_652 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1652" .
+
+data:SimulatedHost_653 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1653" .
+
+data:SimulatedHost_654 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1654" .
+
+data:SimulatedHost_655 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1655" .
+
+data:SimulatedHost_656 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1656" .
+
+data:SimulatedHost_657 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1657" .
+
+data:SimulatedHost_658 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1658" .
+
+data:SimulatedHost_659 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1659" .
+
+data:SimulatedHost_66 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1066" .
+
+data:SimulatedHost_660 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1660" .
+
+data:SimulatedHost_661 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1661" .
+
+data:SimulatedHost_662 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1662" .
+
+data:SimulatedHost_663 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1663" .
+
+data:SimulatedHost_664 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1664" .
+
+data:SimulatedHost_665 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1665" .
+
+data:SimulatedHost_666 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1666" .
+
+data:SimulatedHost_667 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1667" .
+
+data:SimulatedHost_668 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1668" .
+
+data:SimulatedHost_669 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1669" .
+
+data:SimulatedHost_67 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1067" .
+
+data:SimulatedHost_670 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1670" .
+
+data:SimulatedHost_671 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1671" .
+
+data:SimulatedHost_672 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1672" .
+
+data:SimulatedHost_673 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1673" .
+
+data:SimulatedHost_674 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1674" .
+
+data:SimulatedHost_675 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1675" .
+
+data:SimulatedHost_676 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1676" .
+
+data:SimulatedHost_677 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1677" .
+
+data:SimulatedHost_678 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1678" .
+
+data:SimulatedHost_679 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1679" .
+
+data:SimulatedHost_68 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1068" .
+
+data:SimulatedHost_680 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1680" .
+
+data:SimulatedHost_681 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1681" .
+
+data:SimulatedHost_682 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1682" .
+
+data:SimulatedHost_683 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1683" .
+
+data:SimulatedHost_684 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1684" .
+
+data:SimulatedHost_685 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1685" .
+
+data:SimulatedHost_686 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1686" .
+
+data:SimulatedHost_687 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1687" .
+
+data:SimulatedHost_688 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1688" .
+
+data:SimulatedHost_689 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1689" .
+
+data:SimulatedHost_69 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1069" .
+
+data:SimulatedHost_690 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1690" .
+
+data:SimulatedHost_691 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1691" .
+
+data:SimulatedHost_692 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1692" .
+
+data:SimulatedHost_693 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1693" .
+
+data:SimulatedHost_694 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1694" .
+
+data:SimulatedHost_695 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1695" .
+
+data:SimulatedHost_696 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1696" .
+
+data:SimulatedHost_697 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1697" .
+
+data:SimulatedHost_698 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1698" .
+
+data:SimulatedHost_699 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1699" .
+
+data:SimulatedHost_7 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1007" .
+
+data:SimulatedHost_70 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1070" .
+
+data:SimulatedHost_700 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1700" .
+
+data:SimulatedHost_701 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1701" .
+
+data:SimulatedHost_702 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1702" .
+
+data:SimulatedHost_703 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1703" .
+
+data:SimulatedHost_704 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1704" .
+
+data:SimulatedHost_705 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1705" .
+
+data:SimulatedHost_706 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1706" .
+
+data:SimulatedHost_707 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1707" .
+
+data:SimulatedHost_708 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1708" .
+
+data:SimulatedHost_709 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1709" .
+
+data:SimulatedHost_71 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1071" .
+
+data:SimulatedHost_710 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1710" .
+
+data:SimulatedHost_711 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1711" .
+
+data:SimulatedHost_712 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1712" .
+
+data:SimulatedHost_713 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1713" .
+
+data:SimulatedHost_714 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1714" .
+
+data:SimulatedHost_715 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1715" .
+
+data:SimulatedHost_716 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1716" .
+
+data:SimulatedHost_717 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1717" .
+
+data:SimulatedHost_718 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1718" .
+
+data:SimulatedHost_719 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1719" .
+
+data:SimulatedHost_72 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1072" .
+
+data:SimulatedHost_720 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1720" .
+
+data:SimulatedHost_721 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1721" .
+
+data:SimulatedHost_722 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1722" .
+
+data:SimulatedHost_723 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1723" .
+
+data:SimulatedHost_724 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1724" .
+
+data:SimulatedHost_725 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1725" .
+
+data:SimulatedHost_726 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1726" .
+
+data:SimulatedHost_727 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1727" .
+
+data:SimulatedHost_728 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1728" .
+
+data:SimulatedHost_729 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1729" .
+
+data:SimulatedHost_73 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1073" .
+
+data:SimulatedHost_730 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1730" .
+
+data:SimulatedHost_731 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1731" .
+
+data:SimulatedHost_732 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1732" .
+
+data:SimulatedHost_733 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1733" .
+
+data:SimulatedHost_734 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1734" .
+
+data:SimulatedHost_735 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1735" .
+
+data:SimulatedHost_736 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1736" .
+
+data:SimulatedHost_737 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1737" .
+
+data:SimulatedHost_738 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1738" .
+
+data:SimulatedHost_739 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1739" .
+
+data:SimulatedHost_74 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1074" .
+
+data:SimulatedHost_740 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1740" .
+
+data:SimulatedHost_741 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1741" .
+
+data:SimulatedHost_742 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1742" .
+
+data:SimulatedHost_743 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1743" .
+
+data:SimulatedHost_744 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1744" .
+
+data:SimulatedHost_745 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1745" .
+
+data:SimulatedHost_746 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1746" .
+
+data:SimulatedHost_747 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1747" .
+
+data:SimulatedHost_748 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1748" .
+
+data:SimulatedHost_749 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1749" .
+
+data:SimulatedHost_75 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1075" .
+
+data:SimulatedHost_750 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1750" .
+
+data:SimulatedHost_751 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1751" .
+
+data:SimulatedHost_752 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1752" .
+
+data:SimulatedHost_753 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1753" .
+
+data:SimulatedHost_754 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1754" .
+
+data:SimulatedHost_755 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1755" .
+
+data:SimulatedHost_756 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1756" .
+
+data:SimulatedHost_757 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1757" .
+
+data:SimulatedHost_758 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1758" .
+
+data:SimulatedHost_759 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1759" .
+
+data:SimulatedHost_76 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1076" .
+
+data:SimulatedHost_760 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1760" .
+
+data:SimulatedHost_761 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1761" .
+
+data:SimulatedHost_762 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1762" .
+
+data:SimulatedHost_763 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1763" .
+
+data:SimulatedHost_764 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1764" .
+
+data:SimulatedHost_765 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1765" .
+
+data:SimulatedHost_766 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1766" .
+
+data:SimulatedHost_767 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1767" .
+
+data:SimulatedHost_768 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1768" .
+
+data:SimulatedHost_769 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1769" .
+
+data:SimulatedHost_77 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1077" .
+
+data:SimulatedHost_770 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1770" .
+
+data:SimulatedHost_771 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1771" .
+
+data:SimulatedHost_772 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1772" .
+
+data:SimulatedHost_773 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1773" .
+
+data:SimulatedHost_774 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1774" .
+
+data:SimulatedHost_775 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1775" .
+
+data:SimulatedHost_776 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1776" .
+
+data:SimulatedHost_777 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1777" .
+
+data:SimulatedHost_778 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1778" .
+
+data:SimulatedHost_779 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1779" .
+
+data:SimulatedHost_78 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1078" .
+
+data:SimulatedHost_780 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1780" .
+
+data:SimulatedHost_781 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1781" .
+
+data:SimulatedHost_782 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1782" .
+
+data:SimulatedHost_783 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1783" .
+
+data:SimulatedHost_784 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1784" .
+
+data:SimulatedHost_785 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1785" .
+
+data:SimulatedHost_786 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1786" .
+
+data:SimulatedHost_787 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1787" .
+
+data:SimulatedHost_788 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1788" .
+
+data:SimulatedHost_789 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1789" .
+
+data:SimulatedHost_79 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1079" .
+
+data:SimulatedHost_790 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1790" .
+
+data:SimulatedHost_791 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1791" .
+
+data:SimulatedHost_792 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1792" .
+
+data:SimulatedHost_793 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1793" .
+
+data:SimulatedHost_794 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1794" .
+
+data:SimulatedHost_795 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1795" .
+
+data:SimulatedHost_796 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1796" .
+
+data:SimulatedHost_797 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1797" .
+
+data:SimulatedHost_798 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1798" .
+
+data:SimulatedHost_799 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1799" .
+
+data:SimulatedHost_8 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1008" .
+
+data:SimulatedHost_80 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1080" .
+
+data:SimulatedHost_800 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1800" .
+
+data:SimulatedHost_801 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1801" .
+
+data:SimulatedHost_802 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1802" .
+
+data:SimulatedHost_803 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1803" .
+
+data:SimulatedHost_804 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1804" .
+
+data:SimulatedHost_805 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1805" .
+
+data:SimulatedHost_806 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1806" .
+
+data:SimulatedHost_807 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1807" .
+
+data:SimulatedHost_808 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1808" .
+
+data:SimulatedHost_809 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1809" .
+
+data:SimulatedHost_81 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1081" .
+
+data:SimulatedHost_810 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1810" .
+
+data:SimulatedHost_811 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1811" .
+
+data:SimulatedHost_812 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1812" .
+
+data:SimulatedHost_813 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1813" .
+
+data:SimulatedHost_814 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1814" .
+
+data:SimulatedHost_815 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1815" .
+
+data:SimulatedHost_816 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1816" .
+
+data:SimulatedHost_817 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1817" .
+
+data:SimulatedHost_818 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1818" .
+
+data:SimulatedHost_819 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1819" .
+
+data:SimulatedHost_82 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1082" .
+
+data:SimulatedHost_820 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1820" .
+
+data:SimulatedHost_821 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1821" .
+
+data:SimulatedHost_822 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1822" .
+
+data:SimulatedHost_823 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1823" .
+
+data:SimulatedHost_824 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1824" .
+
+data:SimulatedHost_825 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1825" .
+
+data:SimulatedHost_826 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1826" .
+
+data:SimulatedHost_827 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1827" .
+
+data:SimulatedHost_828 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1828" .
+
+data:SimulatedHost_829 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1829" .
+
+data:SimulatedHost_83 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1083" .
+
+data:SimulatedHost_830 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1830" .
+
+data:SimulatedHost_831 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1831" .
+
+data:SimulatedHost_832 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1832" .
+
+data:SimulatedHost_833 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1833" .
+
+data:SimulatedHost_834 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1834" .
+
+data:SimulatedHost_835 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1835" .
+
+data:SimulatedHost_836 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1836" .
+
+data:SimulatedHost_837 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1837" .
+
+data:SimulatedHost_838 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1838" .
+
+data:SimulatedHost_839 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1839" .
+
+data:SimulatedHost_84 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1084" .
+
+data:SimulatedHost_840 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1840" .
+
+data:SimulatedHost_841 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1841" .
+
+data:SimulatedHost_842 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1842" .
+
+data:SimulatedHost_843 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1843" .
+
+data:SimulatedHost_844 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1844" .
+
+data:SimulatedHost_845 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1845" .
+
+data:SimulatedHost_846 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1846" .
+
+data:SimulatedHost_847 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1847" .
+
+data:SimulatedHost_848 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1848" .
+
+data:SimulatedHost_849 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1849" .
+
+data:SimulatedHost_85 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1085" .
+
+data:SimulatedHost_850 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1850" .
+
+data:SimulatedHost_851 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1851" .
+
+data:SimulatedHost_852 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1852" .
+
+data:SimulatedHost_853 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1853" .
+
+data:SimulatedHost_854 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1854" .
+
+data:SimulatedHost_855 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1855" .
+
+data:SimulatedHost_856 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1856" .
+
+data:SimulatedHost_857 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1857" .
+
+data:SimulatedHost_858 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1858" .
+
+data:SimulatedHost_859 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1859" .
+
+data:SimulatedHost_86 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1086" .
+
+data:SimulatedHost_860 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1860" .
+
+data:SimulatedHost_861 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1861" .
+
+data:SimulatedHost_862 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1862" .
+
+data:SimulatedHost_863 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1863" .
+
+data:SimulatedHost_864 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1864" .
+
+data:SimulatedHost_865 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1865" .
+
+data:SimulatedHost_866 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1866" .
+
+data:SimulatedHost_867 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1867" .
+
+data:SimulatedHost_868 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1868" .
+
+data:SimulatedHost_869 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1869" .
+
+data:SimulatedHost_87 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1087" .
+
+data:SimulatedHost_870 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1870" .
+
+data:SimulatedHost_871 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1871" .
+
+data:SimulatedHost_872 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1872" .
+
+data:SimulatedHost_873 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1873" .
+
+data:SimulatedHost_874 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1874" .
+
+data:SimulatedHost_875 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1875" .
+
+data:SimulatedHost_876 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1876" .
+
+data:SimulatedHost_877 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1877" .
+
+data:SimulatedHost_878 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1878" .
+
+data:SimulatedHost_879 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1879" .
+
+data:SimulatedHost_88 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1088" .
+
+data:SimulatedHost_880 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1880" .
+
+data:SimulatedHost_881 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1881" .
+
+data:SimulatedHost_882 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1882" .
+
+data:SimulatedHost_883 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1883" .
+
+data:SimulatedHost_884 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1884" .
+
+data:SimulatedHost_885 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1885" .
+
+data:SimulatedHost_886 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1886" .
+
+data:SimulatedHost_887 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1887" .
+
+data:SimulatedHost_888 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1888" .
+
+data:SimulatedHost_889 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1889" .
+
+data:SimulatedHost_89 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1089" .
+
+data:SimulatedHost_890 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1890" .
+
+data:SimulatedHost_891 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1891" .
+
+data:SimulatedHost_892 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1892" .
+
+data:SimulatedHost_893 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1893" .
+
+data:SimulatedHost_894 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1894" .
+
+data:SimulatedHost_895 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1895" .
+
+data:SimulatedHost_896 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1896" .
+
+data:SimulatedHost_897 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1897" .
+
+data:SimulatedHost_898 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1898" .
+
+data:SimulatedHost_899 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1899" .
+
+data:SimulatedHost_9 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1009" .
+
+data:SimulatedHost_90 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1090" .
+
+data:SimulatedHost_900 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1900" .
+
+data:SimulatedHost_901 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1901" .
+
+data:SimulatedHost_902 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1902" .
+
+data:SimulatedHost_903 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1903" .
+
+data:SimulatedHost_904 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1904" .
+
+data:SimulatedHost_905 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1905" .
+
+data:SimulatedHost_906 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1906" .
+
+data:SimulatedHost_907 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1907" .
+
+data:SimulatedHost_908 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1908" .
+
+data:SimulatedHost_909 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1909" .
+
+data:SimulatedHost_91 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1091" .
+
+data:SimulatedHost_910 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1910" .
+
+data:SimulatedHost_911 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1911" .
+
+data:SimulatedHost_912 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1912" .
+
+data:SimulatedHost_913 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1913" .
+
+data:SimulatedHost_914 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1914" .
+
+data:SimulatedHost_915 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1915" .
+
+data:SimulatedHost_916 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1916" .
+
+data:SimulatedHost_917 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1917" .
+
+data:SimulatedHost_918 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1918" .
+
+data:SimulatedHost_919 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1919" .
+
+data:SimulatedHost_92 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1092" .
+
+data:SimulatedHost_920 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1920" .
+
+data:SimulatedHost_921 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1921" .
+
+data:SimulatedHost_922 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1922" .
+
+data:SimulatedHost_923 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1923" .
+
+data:SimulatedHost_924 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1924" .
+
+data:SimulatedHost_925 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1925" .
+
+data:SimulatedHost_926 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1926" .
+
+data:SimulatedHost_927 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1927" .
+
+data:SimulatedHost_928 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1928" .
+
+data:SimulatedHost_929 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1929" .
+
+data:SimulatedHost_93 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1093" .
+
+data:SimulatedHost_930 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1930" .
+
+data:SimulatedHost_931 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1931" .
+
+data:SimulatedHost_932 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1932" .
+
+data:SimulatedHost_933 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1933" .
+
+data:SimulatedHost_934 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1934" .
+
+data:SimulatedHost_935 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1935" .
+
+data:SimulatedHost_936 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1936" .
+
+data:SimulatedHost_937 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1937" .
+
+data:SimulatedHost_938 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1938" .
+
+data:SimulatedHost_939 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1939" .
+
+data:SimulatedHost_94 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1094" .
+
+data:SimulatedHost_940 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1940" .
+
+data:SimulatedHost_941 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1941" .
+
+data:SimulatedHost_942 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1942" .
+
+data:SimulatedHost_943 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1943" .
+
+data:SimulatedHost_944 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1944" .
+
+data:SimulatedHost_945 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1945" .
+
+data:SimulatedHost_946 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1946" .
+
+data:SimulatedHost_947 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1947" .
+
+data:SimulatedHost_948 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1948" .
+
+data:SimulatedHost_949 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1949" .
+
+data:SimulatedHost_95 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1095" .
+
+data:SimulatedHost_950 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1950" .
+
+data:SimulatedHost_951 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1951" .
+
+data:SimulatedHost_952 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1952" .
+
+data:SimulatedHost_953 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1953" .
+
+data:SimulatedHost_954 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1954" .
+
+data:SimulatedHost_955 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1955" .
+
+data:SimulatedHost_956 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1956" .
+
+data:SimulatedHost_957 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1957" .
+
+data:SimulatedHost_958 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1958" .
+
+data:SimulatedHost_959 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1959" .
+
+data:SimulatedHost_96 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1096" .
+
+data:SimulatedHost_960 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1960" .
+
+data:SimulatedHost_961 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1961" .
+
+data:SimulatedHost_962 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1962" .
+
+data:SimulatedHost_963 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1963" .
+
+data:SimulatedHost_964 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1964" .
+
+data:SimulatedHost_965 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1965" .
+
+data:SimulatedHost_966 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1966" .
+
+data:SimulatedHost_967 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1967" .
+
+data:SimulatedHost_968 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1968" .
+
+data:SimulatedHost_969 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1969" .
+
+data:SimulatedHost_97 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1097" .
+
+data:SimulatedHost_970 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1970" .
+
+data:SimulatedHost_971 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1971" .
+
+data:SimulatedHost_972 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1972" .
+
+data:SimulatedHost_973 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1973" .
+
+data:SimulatedHost_974 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1974" .
+
+data:SimulatedHost_975 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1975" .
+
+data:SimulatedHost_976 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1976" .
+
+data:SimulatedHost_977 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1977" .
+
+data:SimulatedHost_978 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1978" .
+
+data:SimulatedHost_979 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1979" .
+
+data:SimulatedHost_98 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1098" .
+
+data:SimulatedHost_980 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1980" .
+
+data:SimulatedHost_981 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1981" .
+
+data:SimulatedHost_982 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1982" .
+
+data:SimulatedHost_983 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1983" .
+
+data:SimulatedHost_984 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1984" .
+
+data:SimulatedHost_985 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1985" .
+
+data:SimulatedHost_986 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1986" .
+
+data:SimulatedHost_987 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1987" .
+
+data:SimulatedHost_988 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1988" .
+
+data:SimulatedHost_989 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1989" .
+
+data:SimulatedHost_99 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1099" .
+
+data:SimulatedHost_990 a dkg:Host ;
+    dkg:hasRiskScore 0e+00 ;
+    dkg:hasVulnerability "CVE-2026-1990" .
+
+data:SimulatedHost_991 a dkg:Host ;
+    dkg:hasRiskScore 1e-01 ;
+    dkg:hasVulnerability "CVE-2026-1991" .
+
+data:SimulatedHost_992 a dkg:Host ;
+    dkg:hasRiskScore 2e-01 ;
+    dkg:hasVulnerability "CVE-2026-1992" .
+
+data:SimulatedHost_993 a dkg:Host ;
+    dkg:hasRiskScore 3e-01 ;
+    dkg:hasVulnerability "CVE-2026-1993" .
+
+data:SimulatedHost_994 a dkg:Host ;
+    dkg:hasRiskScore 4e-01 ;
+    dkg:hasVulnerability "CVE-2026-1994" .
+
+data:SimulatedHost_995 a dkg:Host ;
+    dkg:hasRiskScore 5e-01 ;
+    dkg:hasVulnerability "CVE-2026-1995" .
+
+data:SimulatedHost_996 a dkg:Host ;
+    dkg:hasRiskScore 6e-01 ;
+    dkg:hasVulnerability "CVE-2026-1996" .
+
+data:SimulatedHost_997 a dkg:Host ;
+    dkg:hasRiskScore 7e-01 ;
+    dkg:hasVulnerability "CVE-2026-1997" .
+
+data:SimulatedHost_998 a dkg:Host ;
+    dkg:hasRiskScore 8e-01 ;
+    dkg:hasVulnerability "CVE-2026-1998" .
+
+data:SimulatedHost_999 a dkg:Host ;
+    dkg:hasRiskScore 9e-01 ;
+    dkg:hasVulnerability "CVE-2026-1999" .
+

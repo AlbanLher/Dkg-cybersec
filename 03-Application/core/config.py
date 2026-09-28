@@ -25,7 +25,7 @@ class DKGConfig(BaseSettings):
     # --------------------------------------------------------------------------
     # 1. SOCLE REPERTOIRES
     # --------------------------------------------------------------------------
-    dir_app: Path = Field(default_factory=lambda: Path(__file__).resolve().parent)
+    dir_app: Path = Field(default_factory=lambda: Path(__file__).resolve().parent.parent)
     
     @property
     def dir_root(self) -> Path:
@@ -144,6 +144,21 @@ class DKGConfig(BaseSettings):
     def dir_private_red(self) -> Path:
         return self.dir_root / ".private"
 
+    # Répertoires Phase 8 (Compliance RGPD & Agent Gardien)
+    @property
+    def dir_snapshot_p8(self) -> Path:
+        return self.dir_data / "Snapshots_Phases" / "Phase8_Compliance"
+
+    @property
+    def dir_inputs_p8(self) -> Path:
+        return self.dir_data / "Input_Phases" / "Phase8_Compliance"
+
+    @property
+    def dir_projet_p8(self) -> Path:
+        return self.dir_root / "00-Projet" / "Phase8"
+
+
+
     # --------------------------------------------------------------------------
     # 2. SEUILS & PARAMETRES IA
     # --------------------------------------------------------------------------
@@ -179,8 +194,9 @@ class DKGConfig(BaseSettings):
             self.dir_ner_model, self.dir_snapshot_p5,
             self.dir_inputs_p6,  self.dir_snapshot_p6, self.dir_projet_p6,
             self.dir_inputs_p7,  self.dir_snapshot_p7, self.dir_projet_p7,
-            self.dir_private_red
-        ]
+            self.dir_private_red,
+            self.dir_inputs_p8,  self.dir_snapshot_p8, self.dir_projet_p8  #
+            ]
         for d in target_dirs:
             d.mkdir(parents=True, exist_ok=True)
 
@@ -233,6 +249,11 @@ PROJECT_ROOT = _settings.dir_root
 DIR_PRIVATE_RED = _settings.dir_private_red
 DIR_PRIVATE_RED.mkdir(parents=True, exist_ok=True)
 
+# Répertoires globaux Phase 8
+DIR_INPUTS_P8 = _settings.dir_inputs_p8
+DIR_SNAPSHOT_P8 = _settings.dir_snapshot_p8
+DIR_PROJET_P8 = _settings.dir_projet_p8
+
 # 2. ARTEFACTS ET FICHIERS RDF (_PATH)
 TBOX_MASTER_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.ttl"
 TBOX_MASTER_MD_PATH = DIR_MASTER_TBOX / "DKG_TBox_Master.md"
@@ -271,6 +292,17 @@ EXTERNAL_SOURCES_CATALOG_PATH = DIR_INPUTS_P7 / "external_sources_catalog.json"
 # Chemins TLP:RED sécurisés et non versionnés
 SECURE_INPUT_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "input_residential_family_env.json"
 SECURE_ABOX_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "DKG_ABox_Residential.ttl"
+
+# Fichiers de données et registres Phase 8
+
+INPUT_P8_REGULATION_PATH = DIR_INPUTS_P8 / "external_sources_compliance_registry.json"
+EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH = DIR_INPUTS_P8 / "external_sources_compliance_registry.json"
+ABOX_COMPLIANCE_STANDARDS_CLEAR_PATH = DIR_CTI_CLEAR / "abox_compliance_standards_clear.ttl"
+RESOURCE_PROFILE_REPORT_PATH = DIR_SNAPSHOT_P8 / "resource_profile_report.json"
+
+
+
+
 
 
 # Paramètres de Sécurité & Filtrage TLP

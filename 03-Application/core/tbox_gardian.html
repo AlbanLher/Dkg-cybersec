@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/data/SyncData/Projets/T2C_1/Workspace/03-Application/core/tbox_guardian.py.html</title>
+<meta name="Generator" content="Vim/9.2">
+<meta name="plugin-version" content="vim9.2_v1">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,no_foldcolumn,expand_tabs,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Identifier { color: #00ffff; font-weight: bold; }
+.Special { color: #ffd7d7; }
+.Type { color: #87ffaf; }
+.Statement { color: #ffff00; }
+.PreProc { color: #5fd7ff; }
+.Constant { color: #ff40ff; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">03-Application/core/tbox_guardian.py</span>
+<span class="Constant">Agent Gardien TBox : Analyse les catalogues externes filtrés, propose des enrichissements</span>
+<span class="Constant">de la TBox au Human-in-the-Middle et délègue l'alignement sémantique à l'Agent MITM.</span>
+<span class="Constant">&quot;&quot;&quot;</span>
+
+<span class="PreProc">import</span> json
+<span class="PreProc">from</span> pathlib <span class="PreProc">import</span> Path
+<span class="PreProc">from</span> typing <span class="PreProc">import</span> Dict, Any
+<span class="PreProc">from</span> rdflib <span class="PreProc">import</span> Graph, Literal, RDF, URIRef
+
+<span class="PreProc">from</span> core.config <span class="PreProc">import</span> DIR_MASTER_TBOX, DKG_TBOX
+<span class="PreProc">from</span> core.frugal_engine <span class="PreProc">import</span> run_frugal_filtering
+<span class="PreProc">from</span> core.hitm_gateway <span class="PreProc">import</span> request_human_validation
+<span class="PreProc">from</span> core.mitm_engine <span class="PreProc">import</span> MITMEngine
+
+<span class="Statement">class</span> <span class="Type">TBoxGuardianAgent</span>:
+    <span class="Statement">def</span> <span class="Identifier">__init__</span>(<span class="Identifier">self</span>):
+        <span class="Identifier">self</span>.mitm_engine = MITMEngine()
+
+    <span class="Statement">def</span> <span class="Identifier">inspect_and_propose_enrichment</span>(<span class="Identifier">self</span>) -&gt; Dict[<span class="Identifier">str</span>, Any]:
+        <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">        [MCP Tool: run_tbox_guardian_pipeline]</span>
+<span class="Constant">        1. Exécute le filtrage frugal pour récupérer les nouveautés du catalogue externe.</span>
+<span class="Constant">        2. Soumet la proposition au HitM (Human-in-the-Middle).</span>
+<span class="Constant">        3. Si accepté, consolide la TBox et déclenche l'alignement MITM.</span>
+<span class="Constant">        </span><span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[TBoxGuardian] Analyse du catalogue externe de référence...</span><span class="Constant">&quot;</span>)
+
+        frugal_result = run_frugal_filtering()
+        delta_path = Path(frugal_result[<span class="Constant">&quot;</span><span class="Constant">delta_path</span><span class="Constant">&quot;</span>])
+
+        <span class="Statement">if</span> <span class="Statement">not</span> delta_path.exists():
+            <span class="Statement">return</span> {<span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">error</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Aucun delta frugal disponible pour l'inspection.</span><span class="Constant">&quot;</span>}
+
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[TBoxGuardian] Proposition d'enrichissement de la TBox générée.</span><span class="Constant">&quot;</span>)
+
+        human_approved = request_human_validation(delta_path)
+
+        <span class="Statement">if</span> <span class="Statement">not</span> human_approved:
+            <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[TBoxGuardian] Proposition rejetée par l'analyste. Annulation de l'enrichissement.</span><span class="Constant">&quot;</span>)
+            <span class="Statement">return</span> {<span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">rejected</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Mise à jour de la TBox rejetée par l'humain.</span><span class="Constant">&quot;</span>}
+
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">[TBoxGuardian] Validation acceptée. Fusion des concepts dans la TBox maître...</span><span class="Constant">&quot;</span>)
+
+        master_tbox_path = DIR_MASTER_TBOX / <span class="Constant">&quot;</span><span class="Constant">DKG_TBox_Master.ttl</span><span class="Constant">&quot;</span>
+        tbox_graph = Graph()
+        <span class="Statement">if</span> master_tbox_path.exists():
+            tbox_graph.parse(destination=<span class="Identifier">str</span>(master_tbox_path), <span class="Identifier">format</span>=<span class="Constant">&quot;</span><span class="Constant">turtle</span><span class="Constant">&quot;</span>)
+
+        <span class="Identifier">self</span>.mitm_engine.index_existing_knowledge(tbox_graph)
+
+        delta_graph = Graph()
+        delta_graph.parse(destination=<span class="Identifier">str</span>(delta_path), <span class="Identifier">format</span>=<span class="Constant">&quot;</span><span class="Constant">turtle</span><span class="Constant">&quot;</span>)
+
+        alignments_found = <span class="Constant">0</span>
+        <span class="Statement">for</span> subj, pred, obj <span class="Statement">in</span> delta_graph:
+            <span class="Statement">if</span> pred == DKG_TBOX.hasDescription:
+                match_uri, score = <span class="Identifier">self</span>.mitm_engine.evaluate_candidate(<span class="Identifier">str</span>(obj))
+                <span class="Statement">if</span> score &gt;= <span class="Identifier">self</span>.mitm_engine.threshold:
+                    <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Constant">[TBoxGuardian/MITM] Alignement détecté (Score: </span><span class="Special">{</span>score<span class="Special">:.4f}</span><span class="Constant">) avec </span><span class="Special">{</span>match_uri<span class="Special">}</span><span class="Constant">&quot;</span>)
+                    alignments_found += <span class="Constant">1</span>
+
+        <span class="Identifier">print</span>(<span class="Constant">f&quot;</span><span class="Constant">[TBoxGuardian] Consolidation terminée. </span><span class="Special">{</span>alignments_found<span class="Special">}</span><span class="Constant"> alignement(s) sémantique(s) traités.</span><span class="Constant">&quot;</span>)
+
+        <span class="Statement">return</span> {
+            <span class="Constant">&quot;</span><span class="Constant">status</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">success</span><span class="Constant">&quot;</span>,
+            <span class="Constant">&quot;</span><span class="Constant">alignments_processed</span><span class="Constant">&quot;</span>: alignments_found,
+            <span class="Constant">&quot;</span><span class="Constant">message</span><span class="Constant">&quot;</span>: <span class="Constant">&quot;</span><span class="Constant">Socle TBox enrichi et aligné avec succès.</span><span class="Constant">&quot;</span>
+        }
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

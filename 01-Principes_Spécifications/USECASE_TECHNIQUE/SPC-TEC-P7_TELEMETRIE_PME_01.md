@@ -87,11 +87,13 @@ Stocké dans `02-Donnees/Input_Phases/` pour piloter les connecteurs réseau de 
 
 ## 📊 4. Matrice d'Exigences Techniques (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-P7-04**|`TEC`|Immuabilité & Parsers Défensifs|Classes Pydantic V2 `frozen=True` et gestion anti-crash des clés JSON[cite: 6].|PyTest unitaire|
-|**EXG-P7-05**|`TEC`|Isolation TLP & Config Externe|Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6].|Audit de code & Logs|
-|**EXG-P7-06**|`TEC`|Contrat d'API Agnostique|Exposition des services par routes JSON pour découplage d'IHM.|Tests de contrat API|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                        | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------------------------- | ------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-P7-04**   | EXG-TEC-P07-mi_1 | `TEC`       | Immuabilité & Parsers Défensifs | Classes Pydantic V2 `frozen=True` et gestion anti-crash des clés JSON[cite: 6]. | PyTest unitaire          |
+| **EXG-P7-05**   | EXG-TEC-P07-mi_2 | `TEC`       | Isolation TLP & Config Externe  | Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6].   | Audit de code & Logs     |
+| **EXG-P7-06**   | EXG-TEC-P07-mi_3 | `TEC`       | Contrat d'API Agnostique        | Exposition des services par routes JSON pour découplage d'IHM.                  | Tests de contrat API     |
+
+
 
 ## 🛡️ 5. Outillage & Traçabilité Pytest
 

@@ -1,0 +1,22 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2026-06-06",
+  "sources": [
+    {
+      "source_id": "EU_GDPR_OFFICIAL",
+      "title": "Règlement Général sur la Protection des Données (RGPD - UE 2016/679)",
+      "publisher": "Union Européenne",
+      "raw_source_url": "https://eur-lex.europa.eu/legal-content/FR/TXT/JSON/?uri=CELEX:32016R0679",
+      "tlp": "TLP:CLEAR",
+      "status": "ACTIVE_SUBSET",
+      "filter_rules": {
+        "target_articles": [
+          "Art32"
+        ],
+        "extraction_profile": "subset_minimal_security_processing",
+        "description": "Extraction stricte de l'article 32 relatif à la sécurité du traitement pour l'audit du foyer."
+      },
+      "local_output_subset": "abox_compliance_standards_clear.ttl"
+    }
+  ]
+}

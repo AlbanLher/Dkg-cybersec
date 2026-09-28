@@ -130,13 +130,14 @@ dkg-data:CWE-22 a dkg:Weakness ;
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-|**Identifiant**|**Domaine**|**Intitulé de l'Exigence**|**Description & Critères d'Acceptation**|**Mode de Test / Asset**|
-|---|---|---|---|---|
-|**EXG-CT-01**|`CT`|Namespace Instance Dedicated|Utilisation exclusive de `http://dkg.cybersec.org/data/`.|Parsing RDF / Code|
-|**EXG-CT-02**|`CT`|Identifiants URIs Déterministes|Format de nommage normé pour Actifs, CVE, CWE, CAPEC.|Linter / Regex|
-|**EXG-CT-03**|`CT`|Instanciation Graphe Complète|Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC.|Requête SPARQL|
-|**EXG-QU-02**|`QU`|Typage & Plages CVSS|Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.|pySHACL CWA|
-|**EXG-QU-03**|`QU`|Sanity Check ABox Zero Error|0 erreur de validation sous CWA lors du contrôle Pytest.|Pytest / SHACL|
+| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                       | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------------------------- | -------------------------------------------------------------- | ------------------------ |
+| **EXG-CT-01**   | EXG-TEC-P2-ABO_1 | `CT`        | Namespace Instance Dedicated    | Utilisation exclusive de `http://dkg.cybersec.org/data/`.      | Parsing RDF / Code       |
+| **EXG-CT-02**   | EXG-TEC-P2-ABO_2 | `CT`        | Identifiants URIs Déterministes | Format de nommage normé pour Actifs, CVE, CWE, CAPEC.          | Linter / Regex           |
+| **EXG-CT-03**   | EXG-TEC-P2-ABO_3 | `CT`        | Instanciation Graphe Complète   | Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC. | Requête SPARQL           |
+| **EXG-QU-02**   | EXG-TEC-P2-ABO_4 | `QU`        | Typage & Plages CVSS            | Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.    | pySHACL CWA              |
+| **EXG-QU-03**   | EXG-TEC-P2-ABO_5 | `QU`        | Sanity Check ABox Zero Error    | 0 erreur de validation sous CWA lors du contrôle Pytest.       | Pytest / SHACL           |
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 
