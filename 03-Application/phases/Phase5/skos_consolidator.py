@@ -12,11 +12,11 @@ from pathlib import Path
 from rdflib import Graph, SKOS, RDF, RDFS, OWL, SH, XSD
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
-APP_DIR = Path(__file__).resolve().parent.parent
+APP_DIR = Path(__file__).resolve().parent.parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from config import (
+from core.config import (
     DIR_TBOX_AMBER,
     DIR_SNAPSHOT_P5,
     TBOX_MASTER_PATH,

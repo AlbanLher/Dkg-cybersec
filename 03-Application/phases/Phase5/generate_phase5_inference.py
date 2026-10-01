@@ -12,11 +12,11 @@ from rdflib import Graph
 import pyshacl
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
-APP_DIR = Path(__file__).resolve().parent.parent
+APP_DIR = Path(__file__).resolve().parent.parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from config import (
+from core.config import (
     TBOX_MASTER_PATH,
     ABOX_RED_PATH,
     ABOX_CTI_PATH,

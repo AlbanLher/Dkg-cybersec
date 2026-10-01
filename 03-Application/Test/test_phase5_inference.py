@@ -21,8 +21,8 @@ APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from Phase5.reasoning_engine import ReasoningEngine
-from config import DKG_TBOX, DKG_DATA, DKG_CTI
+from phases.Phase5.reasoning_engine import ReasoningEngine
+from core.config import DKG_TBOX, DKG_DATA, DKG_CTI
 
 
 @pytest.fixture(scope="module")
@@ -82,7 +82,7 @@ def execution_context(setup_mock_graphs):
     paths = setup_mock_graphs
     mp = MonkeyPatch()
     
-    import Phase5.reasoning_engine as re_module
+    import phases.Phase5.reasoning_engine as re_module
     mp.setattr(re_module, "ABOX_RED_PATH", paths["abox_red_path"], raising=False)
     mp.setattr(re_module, "ABOX_CTI_PATH", paths["abox_cti_path"], raising=False)
     mp.setattr(re_module, "ABOX_INFERED_PATH", paths["infered_path"], raising=False)

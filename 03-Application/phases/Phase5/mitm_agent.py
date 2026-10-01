@@ -15,12 +15,12 @@ from rdflib import Graph, Literal, URIRef, RDF, SKOS, OWL, XSD, RDFS
 from sentence_transformers import SentenceTransformer, util
 
 # Ancrage dynamique du dossier 03-Application dans le PYTHONPATH
-APP_DIR = Path(__file__).resolve().parent.parent
+APP_DIR = Path(__file__).resolve().parent.parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
 from Phase5.schemas import InterceptionPayload, AlignmentResult
-from config import (
+from core.config import (
     DIR_EMBEDDING_MODEL,
     EMBEDDING_MODEL_NAME,
     MITM_SIMILARITY_THRESHOLD,
