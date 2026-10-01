@@ -13,8 +13,8 @@ APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from Phase6.p6_schemas import SPARQLQueryRequest, TLPLevel
-from Phase6.api_gateway import APIGateway
+from phases.Phase6.p6_schemas import SPARQLQueryRequest, TLPLevel
+from phases.Phase6.api_gateway import APIGateway
 
 
 @pytest.fixture
@@ -39,9 +39,9 @@ def mock_rdf_environment(tmp_path: Path, monkeypatch):
     ))
     g_red.serialize(destination=red_ttl.as_posix(), format="turtle")
 
-    monkeypatch.setattr("config.TLP_CLEAR_READ_GRAPH", [clear_ttl])
-    monkeypatch.setattr("config.TLP_AMBER_READ_GRAPH", [clear_ttl])
-    monkeypatch.setattr("config.TLP_RED_READ_GRAPH", [clear_ttl, red_ttl])
+    monkeypatch.setattr("core.config.TLP_CLEAR_READ_GRAPH", [clear_ttl])
+    monkeypatch.setattr("core.config.TLP_AMBER_READ_GRAPH", [clear_ttl])
+    monkeypatch.setattr("core.config.TLP_RED_READ_GRAPH", [clear_ttl, red_ttl])
 
     return tmp_path
 

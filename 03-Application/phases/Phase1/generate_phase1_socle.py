@@ -5,12 +5,12 @@ from pathlib import Path
 from rdflib import Graph, Literal
 
 # 1. Résolution de la racine applicative et import SSOT (EXG-OR-05)
-DIR_APP = Path(__file__).resolve().parent.parent
+DIR_APP = Path(__file__).resolve().parent.parent.parent
 if str(DIR_APP) not in sys.path:
     sys.path.insert(0, str(DIR_APP))
 
 # Import exclusif des constantes validées à l'étape A
-from config import (
+from core.config import (
     DIR_SNAPSHOT_P1,
     DIR_MASTER_TBOX,
     TBOX_MASTER_PATH,
@@ -26,7 +26,7 @@ from config import (
 )
 
 # 2. Import des modèles Pydantic V2 (EXG-OR-07)
-from Phase1.schemas import (
+from phases.Phase1.schemas import (
     OWLClassSchema,
     OWLObjectPropertySchema,
     OWLDatatypePropertySchema,

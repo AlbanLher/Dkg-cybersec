@@ -10,7 +10,7 @@ import pytest
 from rdflib import Graph, RDF
 import pyshacl
 
-from config import (
+from core.config import (
     ABOX_CTI_U_PATH,
     TBOX_MASTER_PATH,
     SHACL_MASTER_PATH,

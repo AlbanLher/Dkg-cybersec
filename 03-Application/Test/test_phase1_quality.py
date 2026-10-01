@@ -8,7 +8,7 @@ if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
 # Importation directe et exclusive des clés config.py (EXG-OR-05)
-from config import (
+from core.config import (
     DIR_MASTER_TBOX,
     DIR_SNAPSHOT_P1,
     TBOX_MASTER_PATH,

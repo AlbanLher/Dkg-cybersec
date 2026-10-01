@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 from rdflib import Graph
 
-from config import (
+from core.config import (
     TLP_CLEAR_READ_GRAPH,
     TLP_AMBER_READ_GRAPH,
     TLP_RED_READ_GRAPH,
@@ -18,7 +18,7 @@ from config import (
     DKG_DATA,
     DKG_CTI
 )
-from Phase6.p6_schemas import SPARQLQueryRequest, SPARQLQueryResponse, TLPLevel
+from phases.Phase6.p6_schemas import SPARQLQueryRequest, SPARQLQueryResponse, TLPLevel
 
 class SecurityEngine:
     """Moteur d'isolation dynamique des calques du DKG selon le niveau TLP."""

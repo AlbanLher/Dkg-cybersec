@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 # 1. Ancrage SSOT : Répertoire 03-Application dans sys.path
-DIR_APP = Path(__file__).resolve().parent.parent
+DIR_APP = Path(__file__).resolve().parent.parent.parent
 if str(DIR_APP) not in sys.path:
     sys.path.insert(0, str(DIR_APP))
 
@@ -16,13 +16,13 @@ import json
 import logging
 
 # 3. Imports SSOT et sous-modules applicatifs
-from config import (
+from core.config import (
     INPUT_P6_QUERY_PAYLOAD,
     DIR_SNAPSHOT_P6,
     PATH_P6_GATEWAY_LOG
 )
-from Phase6.p6_schemas import SPARQLQueryRequest
-from Phase6.api_gateway import APIGateway
+from phases.Phase6.p6_schemas import SPARQLQueryRequest
+from phases.Phase6.api_gateway import APIGateway
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 

@@ -12,12 +12,12 @@ import sys
 from pathlib import Path
 
 # 1. Ancrage sys.path vers 03-Application/ pour importer config.py
-APP_DIR = Path(__file__).resolve().parent.parent
+APP_DIR = Path(__file__).resolve().parent.parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
 from rdflib import Graph, Literal, RDF, RDFS, OWL, XSD
-from config import (
+from core.config import (
     DKG_TBOX,
     DKG_DATA,
     DIR_INPUT_P2,

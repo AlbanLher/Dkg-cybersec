@@ -18,7 +18,7 @@ if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
 # Import exclusif des constantes déclarées dans config.py
-from config import (
+from core.config import (
     TBOX_MASTER_PATH,
     SHACL_MASTER_PATH,
     ABOX_MASTER_PATH,
