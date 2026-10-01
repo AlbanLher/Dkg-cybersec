@@ -22,15 +22,15 @@ APP_DIR = Path(__file__).resolve().parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from config import (
+from core.config import (
     DKG_TBOX,
     DKG_DATA,
     DKG_CTI,
     ABOX_CTI_PATH,
     MITM_SIMILARITY_THRESHOLD
 )
-from Phase5.mitm_agent import MITMAgent
-from Phase5.skos_consolidator import SKOSConsolidator
+from phases.Phase5.mitm_agent import MITMAgent
+from phases.Phase5.skos_consolidator import SKOSConsolidator
 
 
 @pytest.fixture(scope="module")
@@ -74,8 +74,8 @@ def setup_mitm_context(tmp_path_factory):
 
     # Monkeypatch pour surcharger les répertoires d'écriture de SKOSConsolidator et Agent MITM
     mp = MonkeyPatch()
-    import Phase5.skos_consolidator as sc_module
-    import Phase5.mitm_agent as mitm_module
+    import phases.Phase5.skos_consolidator as sc_module
+    import phases.Phase5.mitm_agent as mitm_module
 
     mp.setattr(sc_module, "TBOX_MASTER_PATH", mock_tbox_master, raising=False)
     mp.setattr(sc_module, "TBOX_MASTER_MD_PATH", mock_tbox_master_md, raising=False)

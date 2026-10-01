@@ -19,7 +19,7 @@ APP_DIR = Path(__file__).resolve().parent.parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from Phase5.schemas import InterceptionPayload, AlignmentResult
+from phases.Phase5.schemas import InterceptionPayload, AlignmentResult
 from core.config import (
     DIR_EMBEDDING_MODEL,
     EMBEDDING_MODEL_NAME,
