@@ -50,13 +50,14 @@ jobs:
           python3 03-Application/Phase1/generate_phase1_socle.py
           python3 03-Application/Phase2/generate_phase2_abox.py
 
-      # 6. Exécution de la suite de tests globale avec PYTHONPATH pointant sur 03-Application
+      # 6. Exécution de la suite de tests globale avec le PYTHONPATH multi-chemin
       - name: Run Full Pytest Suite
         env:
-          PYTHONPATH: 03-Application
+          PYTHONPATH: "03-Application:03-Application/phases"
           HITM_AUTO_APPROVE: "1"
         run: |
-          pytest -v 03-Application/Test/ --junitxml=test-results.xml
+          cd 03-Application
+          pytest -v Test/ --junitxml=../test-results.xml
 
       # 7. Publication des résultats de test dans l'interface GitHub
       - name: Publish Test Results
