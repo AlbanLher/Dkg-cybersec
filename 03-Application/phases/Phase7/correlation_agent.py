@@ -4,15 +4,15 @@ from pathlib import Path
 
 # Injection dynamique rigoureuse du répertoire 03-Application dans le sys.path (SSOT)
 CURRENT_DIR = Path(__file__).resolve().parent
-APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent
+APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent.parent.parent
 if str(APPLICATION_DIR) not in sys.path:
     sys.path.insert(0, str(APPLICATION_DIR))
 
 from typing import List
 from pydantic import BaseModel, ConfigDict
-from config import INPUT_RESIDENTIAL_JSON_PATH
-from Phase7.residential_models import ResidentialFamilyEnvironment
-from Phase7.external_cti_agent import CTIEntry
+from core.config import INPUT_RESIDENTIAL_JSON_PATH
+from phases.Phase7.residential_models import ResidentialFamilyEnvironment
+from phases.Phase7.external_cti_agent import CTIEntry
 
 class RiskPath(BaseModel):
     model_config = ConfigDict(frozen=True)

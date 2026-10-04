@@ -4,14 +4,14 @@ import shutil
 
 # Injection dynamique du répertoire parent (03-Application) dans le sys.path (SSOT)
 CURRENT_DIR = Path(__file__).resolve().parent
-APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent
+APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent.parent
 if str(APPLICATION_DIR) not in sys.path:
     sys.path.insert(0, str(APPLICATION_DIR))
 
 import json
 from rdflib import Graph, Literal, RDF, BNode, URIRef
 
-from config import (
+from core.config import (
     INPUT_RESIDENTIAL_JSON_PATH, 
     ABOX_RESIDENTIAL_PATH, 
     ABOX_MASTER_PATH, 

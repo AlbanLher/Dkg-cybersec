@@ -3,8 +3,8 @@ from pathlib import Path
 import logging
 
 # Ajout du dossier parent (03-Application) au chemin Python pour importer config
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-from config import (
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+from core.config import (
     ABOX_RESIDENTIAL_PATH, 
     INPUT_RESIDENTIAL_JSON_PATH, 
     SECURE_ABOX_RESIDENTIAL_PATH, 

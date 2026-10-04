@@ -3,14 +3,10 @@ import logging
 import requests
 from pathlib import Path
 import sys
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
-from config import EXTERNAL_SOURCES_CONFIG_PATH, EXTERNAL_SOURCES_CATALOG_PATH
-
-
-
-
-from config import EXTERNAL_SOURCES_CONFIG_PATH, EXTERNAL_SOURCES_CATALOG_PATH
+from core.config import EXTERNAL_SOURCES_CONFIG_PATH, EXTERNAL_SOURCES_CATALOG_PATH
+from core.config import EXTERNAL_SOURCES_CONFIG_PATH, EXTERNAL_SOURCES_CATALOG_PATH
 
 logger = logging.getLogger("ExternalCTIAgent")
 

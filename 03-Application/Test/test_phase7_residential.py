@@ -2,7 +2,7 @@ import sys, os, pytest
 from pathlib import Path
 
 # Ajustement du chemin pour inclure le répertoire Phase7
-sys.path.append(str(Path(__file__).resolve().parent.parent / "Phase7"))
+sys.path.append(str(Path(__file__).resolve().parent.parent / "phases/Phase7"))
 
 from home_soc_orchestrator import HomeSOCOrchestrator, AdvisorAgent
 from local_inventory_agent import LocalInventoryAgent

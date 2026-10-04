@@ -8,7 +8,7 @@ from rdflib import Graph, Literal, RDF, URIRef, Namespace
 
 # Ajout du dossier parent (03-Application) au chemin Python pour importer config
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from config import (
+from core.config import (
     INPUT_RESIDENTIAL_JSON_PATH, 
     ABOX_RESIDENTIAL_PATH, 
     SECURE_INPUT_RESIDENTIAL_PATH, 

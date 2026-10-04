@@ -6,8 +6,8 @@ import json
 import logging
 
 # Ajout du chemin parent pour importer config.py
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-from config import SECURE_INPUT_RESIDENTIAL_PATH
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+from core.config import SECURE_INPUT_RESIDENTIAL_PATH
 
 logger = logging.getLogger("LocalHostScanner")
 
