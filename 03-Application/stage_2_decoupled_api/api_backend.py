@@ -2,13 +2,13 @@ import sys
 from pathlib import Path
 
 # 1. Ajout du dossier Phase7 au chemin Python pour trouver les agents et l'orchestrateur
-phase7_path = Path(__file__).resolve().parent.parent / "Phase7"
+phase7_path = Path(__file__).resolve().parent.parent / "phases/Phase7"
 sys.path.append(str(phase7_path))
 
 # 2. Ajout du dossier parent (03-Application) pour trouver config.py
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from config import INPUT_RESIDENTIAL_JSON_PATH, ABOX_RESIDENTIAL_PATH, SECURE_INPUT_RESIDENTIAL_PATH, SECURE_ABOX_RESIDENTIAL_PATH
+from core.config import INPUT_RESIDENTIAL_JSON_PATH, ABOX_RESIDENTIAL_PATH, SECURE_INPUT_RESIDENTIAL_PATH, SECURE_ABOX_RESIDENTIAL_PATH
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Query

@@ -11,7 +11,7 @@ from rdflib import Graph
 
 import sys
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-import config
+import core.config
 
 router = APIRouter(prefix="/api/v1/compliance", tags=["Phase 8 - Compliance & SOC Dashboard"])
 
