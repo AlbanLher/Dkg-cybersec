@@ -13,15 +13,14 @@ public_vise:
   - Architectes Ontologues
   - Analystes CTI / SOC, Lead Tech
 exigences:
-  - id: EXG-P8-01
-    domaine: FWK
-    titre: Validation Humaine Obligatoire (HitM)
-    description: Aucune modification de la TBox Master ou écriture critique dans la partition TLP:RED ne peut être effectuée sans l'approbation explicite de l'analyste via l'interface HitM.
-    test: PyTest / Mock HitM Gateway
-  - id: EXG-P8-02
-    domaine: FWK
+  - id: EXG-FWK-P8-soc_2
+    code_exigence: EXG-P8-02
+    domaine: SE
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P8
     titre: Étanchéité TLP Stricte
-    description: Le pipeline d'orchestration garantit qu'aucune donnée TLP:CLEAR externe ne contamine l'espace TLP:RED interne.
+    critere: Interdiction de fuite TLP:CLEAR vers TLP:RED.
     test: SHACL / Tests d'isolation
 ---
 
@@ -62,10 +61,10 @@ graph TD
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant | UID              | Domaine | Intitulé de l'Exigence         | Description & Critères d'Acceptation                                 | Mode de Test / Asset       |
-| ----------- | ---------------- | ------- | ------------------------------ | -------------------------------------------------------------------- | -------------------------- |
-| EXG-P8-01   | EXG-FWK-P8-soc_1 | FWK     | Validation Humaine Obligatoire | Approbation explicite obligatoire avant écriture TBox/ABox critique. | PyTest / Mock HitM Gateway |
-| EXG-P8-02   | EXG-FWK-P8-soc_2 | FWK     | Étanchéité TLP Stricte         | Interdiction de fuite TLP:CLEAR vers TLP:RED.                        | SHACL / Tests d'isolation  |
+| Identifiant | UID              | Domaine | Core/Non-Core | Intitulé de l'Exigence         | Description & Critères d'Acceptation                                 | Mode de Test / Asset       |
+| ----------- | ---------------- | ------- | ------------- | ------------------------------ | -------------------------------------------------------------------- | -------------------------- |
+| EXG-P8-01   | EXG-FWK-P8-soc_1 | `OR`    | Core          | Validation Humaine Obligatoire | Approbation explicite obligatoire avant écriture TBox/ABox critique. | PyTest / Mock HitM Gateway |
+| EXG-P8-02   | EXG-FWK-P8-soc_2 | `SE`    | Core          | Étanchéité TLP Stricte         | Interdiction de fuite TLP:CLEAR vers TLP:RED.                        | SHACL / Tests d'isolation  |
 
 
 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

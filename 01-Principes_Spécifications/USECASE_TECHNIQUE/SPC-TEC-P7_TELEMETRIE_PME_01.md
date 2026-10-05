@@ -13,21 +13,33 @@ public_vise:
   - Architectes Ontologues
   - Développeurs DevSecOps
 exigences:
-  - id: EXG-P7-04
+  - id: EXG-TEC-P07-mi_1
+    code_exigence: EXG-P7-04
     domaine: TEC
-    titre: Immuabilité Pydantic V2 & Robustesse
-    description: Modélisation en frozen=True avec parsers défensifs pour contrer les anomalies de clés manquantes dans les propriétés.
-    test: PyTest unitaire strict
-  - id: EXG-P7-05
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P7
+    titre: Immuabilité & Parsers Défensifs
+    critere: "Classes Pydantic V2 frozen=True et gestion anti-crash des clés JSON[cite: 6]."
+    test: PyTest unitaire
+  - id: EXG-TEC-P07-mi_2
+    code_exigence: EXG-P7-05
     domaine: TEC
-    titre: Isolation TLP Stricte & Config Externe
-    description: Pilotage des sources CTI via 'external_sources_config.json' et interdiction de fuite TLP:RED.
-    test: Audit passerelle & tests réseau
-  - id: EXG-P7-06
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P7
+    titre: Isolation TLP & Config Externe
+    critere: "Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6]."
+    test: Audit de code & Logs
+  - id: EXG-TEC-P07-mi_3
+    code_exigence: EXG-P7-06
     domaine: TEC
-    titre: Contrat d'API REST Agnostique
-    description: Découplage complet entre la logique Python backend et l'IHM (permettant un client Streamlit ou JavaScript).
-    test: Test d'intégration OpenAPI / FastAPI
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P7
+    titre: Contrat d'API Agnostique
+    critere: Exposition des services par routes JSON pour découplage d'IHM.
+    test: Tests de contrat API
 ---
 
 # 📜 Architecture des Micro-Agents, API Agnostique & Sécurisation des Données 
@@ -87,11 +99,11 @@ Stocké dans `02-Donnees/Input_Phases/` pour piloter les connecteurs réseau de 
 
 ## 📊 4. Matrice d'Exigences Techniques (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                        | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | ------------------------------- | ------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-P7-04**   | EXG-TEC-P07-mi_1 | `TEC`       | Immuabilité & Parsers Défensifs | Classes Pydantic V2 `frozen=True` et gestion anti-crash des clés JSON[cite: 6]. | PyTest unitaire          |
-| **EXG-P7-05**   | EXG-TEC-P07-mi_2 | `TEC`       | Isolation TLP & Config Externe  | Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6].   | Audit de code & Logs     |
-| **EXG-P7-06**   | EXG-TEC-P07-mi_3 | `TEC`       | Contrat d'API Agnostique        | Exposition des services par routes JSON pour découplage d'IHM.                  | Tests de contrat API     |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                        | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | ------------------------------- | ------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-P7-04**   | EXG-TEC-P07-mi_1 | `TEC`       | Core          | Immuabilité & Parsers Défensifs | Classes Pydantic V2 `frozen=True` et gestion anti-crash des clés JSON[cite: 6]. | PyTest unitaire          |
+| **EXG-P7-05**   | EXG-TEC-P07-mi_2 | `TEC`       | Core          | Isolation TLP & Config Externe  | Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6].   | Audit de code & Logs     |
+| **EXG-P7-06**   | EXG-TEC-P07-mi_3 | `TEC`       | Core          | Contrat d'API Agnostique        | Exposition des services par routes JSON pour découplage d'IHM.                  | Tests de contrat API     |
 
 
 

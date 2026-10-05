@@ -2,39 +2,55 @@
 type: spec
 reference: SPC-FWK-P5-RULES_01
 revision: 1
-titre: "Reasoning Rules & RBox Inference"
+titre: Reasoning Rules & RBox Inference
 titre_court: reasoning_rules_01
-description: "Consolidation des données par superposition de graphes. Inférence sémantique SPARQL, SWRL et isolation TLP."
+description: Consolidation des données par superposition de graphes. Inférence sémantique SPARQL, SWRL et isolation TLP.
 phase_code: P5
-phase_nom: "Agent MITM & Reasoning Base"
-statut: "🟢 PASSED"
+phase_nom: Agent MITM & Reasoning Base
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
-  - "Analystes CTI / SOC"
-  - "Lead Tech"
+  - Architectes Ontologues
+  - Développeurs DevSecOps
+  - Analystes CTI / SOC
+  - Lead Tech
 exigences:
-  - id: EXG-IN-01
+  - id: EXG-FWK-P5-RUL_1
+    code_exigence: EXG-IN-01
     domaine: IN
-    titre: "Inférence HighRiskAsset"
-    description: "Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe dkg:HighRiskAsset."
-    test: "Pytest / SPARQL"
-  - id: EXG-IN-02
+    domaine_nom: Inférence & Graph Analytics
+    core: true
+    phase: P1
+    titre: Inférence HighRiskAsset
+    critere: Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe dkg:HighRiskAsset.
+    test: Pytest / SPARQL
+  - id: EXG-FWK-P5-RUL_2
+    code_exigence: EXG-IN-02
     domaine: IN
-    titre: "Matérialisation Cascade"
-    description: "La relation dkg:exposesToCascade doit être créée si un hôte pivot mène à un actif CRITICAL."
-    test: "Pytest (test_phase5)"
-  - id: EXG-SE-01
+    domaine_nom: Inférence & Graph Analytics
+    core: true
+    phase: P1
+    titre: Matérialisation Cascade
+    critere: La relation dkg:exposesToCascade doit être créée si un hôte pivot mène à un actif CRITICAL.
+    test: Pytest (test_phase5)
+  - id: EXG-FWK-P5-RUL_3
+    code_exigence: EXG-SE-01
     domaine: SE
-    titre: "Ségrégation TLP Inférencée"
-    description: "Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (TLP:CLEAR)."
-    test: "Audit Graphe / Pytest"
-  - id: EXG-HW-01
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Ségrégation TLP Inférencée
+    critere: Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (TLP:CLEAR).
+    test: Audit Graphe / Pytest
+  - id: EXG-FWK-P5-RUL_4
+    code_exigence: EXG-HW-01
     domaine: HW
-    titre: "Raisonnement Local Économe"
-    description: "L'exécution des règles d'inférence doit s'effectuer en moins de 5s sur PC 16 Go RAM."
-    test: "Benchmark / Pytest"
+    domaine_nom: Hardware & Infrastructures
+    core: true
+    phase: P1
+    titre: Raisonnement Local Économe
+    critere: L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.
+    test: Benchmark / Pytest
 ---
 
 # 📜 Reasoning Rules & RBox Inference
@@ -133,12 +149,12 @@ Tout triplet déduit croisant une entité `TLP:CLEAR` (CTI) et une entité `TLP:
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                        | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | -------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-IN-01**   | EXG-FWK-P5-RUL_1 | `IN`        | Inférence HighRiskAsset    | Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe `dkg:HighRiskAsset`.    | Pytest / SPARQL          |
-| **EXG-IN-02**   | EXG-FWK-P5-RUL_2 | `IN`        | Matérialisation Cascade    | La relation `dkg:exposesToCascade` doit être créée si un hôte pivot mène à un actif `CRITICAL`. | Pytest (`test_phase5`)   |
-| **EXG-SE-01**   | EXG-FWK-P5-RUL_3 | `SE`        | Ségrégation TLP Inférencée | Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (`TLP:CLEAR`).          | Audit Graphe / Pytest    |
-| **EXG-HW-01**   | EXG-FWK-P5-RUL_4 | `HW`        | Raisonnement Local Économe | L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.                 | Benchmark / Pytest       |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                        | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-IN-01**   | EXG-FWK-P5-RUL_1 | `IN`        | Core          | Inférence HighRiskAsset    | Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe `dkg:HighRiskAsset`.    | Pytest / SPARQL          |
+| **EXG-IN-02**   | EXG-FWK-P5-RUL_2 | `IN`        | Core          | Matérialisation Cascade    | La relation `dkg:exposesToCascade` doit être créée si un hôte pivot mène à un actif `CRITICAL`. | Pytest (`test_phase5`)   |
+| **EXG-SE-01**   | EXG-FWK-P5-RUL_3 | `SE`        | Core          | Ségrégation TLP Inférencée | Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (`TLP:CLEAR`).          | Audit Graphe / Pytest    |
+| **EXG-HW-01**   | EXG-FWK-P5-RUL_4 | `HW`        | Core          | Raisonnement Local Économe | L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.                 | Benchmark / Pytest       |
 
 
 

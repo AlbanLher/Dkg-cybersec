@@ -1,16 +1,18 @@
 <%*
 // 1. Parsing de la Roadmap pour extraire les phases
 let roadmapFile = app.vault.getAbstractFileByPath("00-Projet/Roadmap_Suivi-Avancement.md");
+
 if (!roadmapFile) {
     roadmapFile = tp.file.find_tfile("Roadmap_Suivi-Avancement.md");
 }
 
 let phasesList = [];
+
 if (roadmapFile) {
     const content = await app.vault.read(roadmapFile);
     const lines = content.split("\n");
     let inSection2 = false;
-
+    
     for (let line of lines) {
         if (line.includes("## 2")) { inSection2 = true; continue; }
         if (inSection2 && line.includes("## 3")) { break; }
@@ -37,7 +39,6 @@ if (phasesList.length === 0) {
 // 2. Sélection de la Phase
 const phaseDisplayList = phasesList.map(p => `${p.code} — ${p.nom} (${p.statut})`);
 const selectedPhaseObj = await tp.system.suggester(phaseDisplayList, phasesList) || phasesList[0];
-
 const targetPCode = selectedPhaseObj.code;
 const pNom = selectedPhaseObj.nom;
 const pStatut = selectedPhaseObj.statut;
@@ -52,14 +53,14 @@ if (selectedType === "USECASE_TECHNIQUE") porteeCode = "TEC";
 
 // 4. Titres et Description
 let rawTitle = tp.file.title;
-let defaultCleanTitle = rawTitle.replace(/^SPC-[^-]+-[^-]+-/, "").replace(/_/g, " ");
+let defaultCleanTitle = rawTitle.replace(/^SPC[-_]+/, "").replace(/_/g, " ");
 const specTitre = await tp.system.prompt("Titre complet de la spécification :", defaultCleanTitle);
 
 let defaultSnake = specTitre.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]/g, "_")
     .replace(/_+/g, "_")
-    .replace(/^_|_$/g, "");
+    .replace(/^_+|_+$/g, "");
 
 const titreSnake = await tp.system.prompt("Titre court (snake_case) :", defaultSnake);
 const specDescription = await tp.system.prompt("Résumé / Description courte (1 phrase) :", "");
@@ -70,7 +71,7 @@ const revisionSuffix = String(revisionNum).padStart(2, "0");
 const specReference = `SPC-${porteeCode}-${targetPCode}-${titreSnake}_${revisionSuffix}`;
 
 // Génération automatique d'un UID d'exigence cohérent (ex: EXG-FWK-P1-GOU_1)
-const defaultExUid = `EXG-${porteeCode}-${targetPCode}-${titreSnake.toUpperCase().substring(0, 3)}_1`;
+const defaultExUid = `EXG-${porteeCode}-${targetPCode}-${titreSnake.toUpperCase().substring(0, 3)}_%_1`;
 
 // 5. Publics visés
 const publicPresets = [
@@ -82,6 +83,7 @@ const publicPresets = [
 ];
 
 let chosenPublic = await tp.system.suggester(publicPresets, publicPresets) || publicPresets[0];
+
 if (chosenPublic.startsWith("✏️")) {
     chosenPublic = await tp.system.prompt("Saisir le(s) public(s) visé(s) (séparés par des virgules) :", "Architectes Ontologues");
 }
@@ -103,15 +105,17 @@ app.fileManager.processFrontMatter(tp.config.target_file, (fm) => {
     fm["statut"] = pStatut;
     fm["portee"] = selectedType;
     fm["public_vise"] = publicList;
+
     if (!fm["exigences"]) {
         fm["exigences"] = [
             {
                 uid: defaultExUid,
-                id: `EXG-OR-01`,
-                domaine: "OR",
-                titre: "Titre de l'exigence",
-                description: "Critère formel vérifiable.",
-                test: "PyTest / SHACL"
+                id: defaultExUid,
+                domaine: porteeCode,
+                intitule: specTitre,
+                critere: "Critère formel vérifiable et traçable.",
+                mode_test: "PyTest / SHACL",
+                core: true
             }
         ];
     }

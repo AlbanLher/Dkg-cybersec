@@ -154,7 +154,7 @@ for (let page of pages) {
     let pageDomaine = page.domaine || page.domain || "General";
     
     let processEx = (dom, ex) => {
-        let id = ex.id || "-";
+        let id = ex.uid || "-";
         let titre = ex.titre || ex.intitule || "-";
         let desc = ex.desc || ex.description || "-";
         let val = ex.val || ex.test || "-";

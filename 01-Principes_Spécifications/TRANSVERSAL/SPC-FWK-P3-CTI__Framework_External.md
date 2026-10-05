@@ -2,34 +2,37 @@
 type: spec
 reference: SPC-FWK-P3-CTI_01
 revision: 1
-titre: "Framework CTI Externe & Alignment Sémantique"
+titre: Framework CTI Externe & Alignment Sémantique
 titre_court: cti_framework_01
-description: "Définit l'ingestion de données externes, l'alignement sémantique ainsi que l'agent de consolidation TBox/RBox."
+description: Définit l'ingestion de données externes, l'alignement sémantique ainsi que l'agent de consolidation TBox/RBox.
 phase_code: P3
-phase_nom: "Ingestion CTI Structurée"
-statut: "🟢 PASSED"
+phase_nom: Ingestion CTI Structurée
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
-  - "Analystes CTI / SOC"
-  - "Lead Tech"
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Analystes CTI / SOC
+  - Lead Tech
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-CT-01
+  - id: EXG-FWK-P3-CTI_1
+    code_exigence: EXG-CT-01
     domaine: CT
-    titre: "Typage CTI Externe"
-    description: "Toute vulnérabilité CTI doit posséder un score CVSS (xsd:float) et un drapeau CISA KEV (xsd:boolean)."
-    test: "Pytest / pySHACL"
-  - id: EXG-ONT-01
-    domaine: TB
-    titre: "Alignment TBox & SKOS"
-    description: "L'agent de consolidation doit consolider les équivalences classes/propriétés et valider 100% des acronymes sous skos:altLabel."
-    test: "SPARQL / Pytest (test_00)"
-  - id: EXG-SE-01
+    domaine_nom: Cyber Threat Intelligence
+    core: true
+    phase: P1
+    titre: Typage CTI Externe
+    critere: Toute vulnérabilité CTI doit posséder un score CVSS (xsd:float) et un drapeau CISA KEV (xsd:boolean).
+    test: Pytest / pySHACL
+  - id: EXG-FWK-P3-CTI_3
+    code_exigence: EXG-SE-01
     domaine: SE
-    titre: "Ségrégation TLP"
-    description: "Les données CTI publiques sont restreintes au graphe TLP:CLEAR."
-    test: "Pytest (test_02)"
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Ségrégation TLP
+    critere: Les données CTI publiques sont restreintes au graphe TLP:CLEAR.
+    test: Pytest (test_02)
 ---
 
 # 📜 Framework CTI Externe & Alignment Sémantique
@@ -116,11 +119,11 @@ dkg:ThreatActor a owl:Class ;
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                                                          | **Mode de Test / Asset**    |
-| --------------- | ---------------- | ----------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| **EXG-CT-01**   | EXG-FWK-P3-CTI_1 | `CT`        | Typage CTI Externe         | Toute vulnérabilité CTI doit posséder un score CVSS (`xsd:float`) et un drapeau CISA KEV (`xsd:boolean`).                         | Pytest / pySHACL            |
-| **EXG-ONT-01**  | EXG-FWK-P3-CTI_2 | `TB`        | Alignment TBox & SKOS      | L'agent de fin de Vague 2 doit consolider les équivalences classes/propriétés et valider 100% des acronymes sous `skos:altLabel`. | SPARQL / Pytest (`test_00`) |
-| **EXG-SE-01**   | EXG-FWK-P3-CTI_3 | `SE`        | Ségrégation TLP            | Les données CTI publiques sont restreintes au graphe `TLP:CLEAR`.                                                                 | Pytest (`test_02`)          |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                                                          | **Mode de Test / Asset**    |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| **EXG-CT-01**   | EXG-FWK-P3-CTI_1 | `CT`        | Core          | Typage CTI Externe         | Toute vulnérabilité CTI doit posséder un score CVSS (`xsd:float`) et un drapeau CISA KEV (`xsd:boolean`).                         | Pytest / pySHACL            |
+| **EXG-ONT-01**  | EXG-FWK-P3-CTI_2 | `TB`        | Core          | Alignment TBox & SKOS      | L'agent de fin de Vague 2 doit consolider les équivalences classes/propriétés et valider 100% des acronymes sous `skos:altLabel`. | SPARQL / Pytest (`test_00`) |
+| **EXG-SE-01**   | EXG-FWK-P3-CTI_3 | `SE`        | Core          | Ségrégation TLP            | Les données CTI publiques sont restreintes au graphe `TLP:CLEAR`.                                                                 | Pytest (`test_02`)          |
 
 
 

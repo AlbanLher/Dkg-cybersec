@@ -2,32 +2,44 @@
 type: spec
 reference: SPC-FWK-P2-ABOX_01
 revision: 1
-titre: "Règles d'Intégrité & Recette ABox"
+titre: Règles d'Intégrité & Recette ABox
 titre_court: abox_01
-description: "Présentation de l'ABox générique. Fixe les critères d'intégrité référentielle, le typage strict des littéraux, la cohérence des relations inverses et le sas de recette qualité sous CWA."
+description: Présentation de l'ABox générique. Fixe les critères d'intégrité référentielle, le typage strict des littéraux, la cohérence des relations inverses et le sas de recette qualité sous CWA.
 phase_code: P2
-phase_nom: "Cartographie ABox Interne"
-statut: "🟢 PASSED"
+phase_nom: Cartographie ABox Interne
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-QU-02
+  - id: EXG-FWK-P2-ABO_1
+    code_exigence: EXG-QU-02
     domaine: QU
-    titre: "Intégrité & Datatypes CWA"
-    description: "Interdiction de pointer vers une instance orpheline ; contrôle strict des typages xsd et plages."
-    test: "pySHACL CWA"
-  - id: EXG-QU-03
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P1
+    titre: Intégrité & Datatypes CWA
+    critere: Interdiction de pointer vers une instance orpheline ; contrôle strict des typages xsd et plages.
+    test: pySHACL CWA
+  - id: EXG-FWK-P2-ABO_2
+    code_exigence: EXG-QU-03
     domaine: QU
-    titre: "Sanity Check Zero Violation"
-    description: "0 violation sh:Violation détectée lors du contrôle automatisé pySHACL."
-    test: "Pytest / SHACL"
-  - id: EXG-TB-04
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P1
+    titre: Sanity Check Zero Violation
+    critere: 0 violation sh:Violation détectée lors du contrôle automatisé pySHACL.
+    test: Pytest / SHACL
+  - id: EXG-FWK-P2-ABO_3
+    code_exigence: EXG-TB-04
     domaine: TB
-    titre: "Matérialisation des Inverses"
-    description: "Conformité et existence des paires de relations inverses d'instances."
-    test: "SPARQL / Reasoner"
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Matérialisation des Inverses
+    critere: Conformité et existence des paires de relations inverses d'instances.
+    test: SPARQL / Reasoner
 ---
 
 # 📜 Règles d'Intégrité & Recette ABox
@@ -84,11 +96,11 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**   | **Description & Critères d'Acceptation**                                                           | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | ---------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-QU-02**   | EXG-FWK-P2-ABO_1 | `QU`        | Intégrité & Datatypes CWA    | Interdiction de pointer vers une instance orpheline ; contrôle strict des typages `xsd` et plages. | pySHACL CWA              |
-| **EXG-QU-03**   | EXG-FWK-P2-ABO_2 | `QU`        | Sanity Check Zero Violation  | 0 violation `sh:Violation` détectée lors du contrôle automatisé pySHACL.                           | Pytest / SHACL           |
-| **EXG-TB-04**   | EXG-FWK-P2-ABO_3 | `TB`        | Matérialisation des Inverses | Conformité et existence des paires de relations inverses d'instances.                              | SPARQL / Reasoner        |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**   | **Description & Critères d'Acceptation**                                                           | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | ---------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-QU-02**   | EXG-FWK-P2-ABO_1 | `QU`        | Core          | Intégrité & Datatypes CWA    | Interdiction de pointer vers une instance orpheline ; contrôle strict des typages `xsd` et plages. | pySHACL CWA              |
+| **EXG-QU-03**   | EXG-FWK-P2-ABO_2 | `QU`        | Core          | Sanity Check Zero Violation  | 0 violation `sh:Violation` détectée lors du contrôle automatisé pySHACL.                           | Pytest / SHACL           |
+| **EXG-TB-04**   | EXG-FWK-P2-ABO_3 | `TB`        | Core          | Matérialisation des Inverses | Conformité et existence des paires de relations inverses d'instances.                              | SPARQL / Reasoner        |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

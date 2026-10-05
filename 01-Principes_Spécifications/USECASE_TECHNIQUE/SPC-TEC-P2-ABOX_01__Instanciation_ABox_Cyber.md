@@ -2,42 +2,44 @@
 type: spec
 reference: SPC-TEC-P2-ABOX_01
 revision: 1
-titre: "Instanciation ABox Cyber & Référentiels CTI"
+titre: Instanciation ABox Cyber & Référentiels CTI
 titre_court: abox_cyber_01
-description: "Encadre la réalisation du Jeu de Données Factuelles de Synthèse (ABox) pour le UseCase Cybersécurité. Définit le namespace, la convention de nommage des URIs, la population de la cartographie du SI et l'intégration des référentiels publics de menaces."
+description: Encadre la réalisation du Jeu de Données Factuelles de Synthèse (ABox) pour le UseCase Cybersécurité. Définit le namespace, la convention de nommage des URIs, la population de la cartographie du SI et l'intégration des référentiels publics de menaces.
 phase_code: P2
-phase_nom: "Cartographie ABox Interne"
-statut: "🟢 PASSED"
+phase_nom: Cartographie ABox Interne
+statut: 🟢 PASSED
 portee: USECASE_TECHNIQUE
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-CT-01
+  - id: EXG-TEC-P2-ABO_1
+    code_exigence: EXG-CT-01
     domaine: CT
-    titre: "Namespace Instance Dedicated"
-    description: "Utilisation exclusive de http://dkg.cybersec.org/data/."
-    test: "Parsing RDF / Code"
-  - id: EXG-CT-02
+    domaine_nom: Cyber Threat Intelligence
+    core: true
+    phase: P1
+    titre: Namespace Instance Dedicated
+    critere: Utilisation exclusive de http://dkg.cybersec.org/data/.
+    test: Parsing RDF / Code
+  - id: EXG-TEC-P2-ABO_3
+    code_exigence: EXG-CT-03
     domaine: CT
-    titre: "Identifiants URIs Déterministes"
-    description: "Format de nommage normé pour Actifs, CVE, CWE, CAPEC."
-    test: "Linter / Regex"
-  - id: EXG-CT-03
-    domaine: CT
-    titre: "Instanciation Graphe Complète"
-    description: "Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC."
-    test: "Requête SPARQL"
-  - id: EXG-QU-02
+    domaine_nom: Cyber Threat Intelligence
+    core: true
+    phase: P1
+    titre: Instanciation Graphe Complète
+    critere: Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC.
+    test: Requête SPARQL
+  - id: EXG-TEC-P2-ABO_4
+    code_exigence: EXG-QU-02
     domaine: QU
-    titre: "Typage & Plages CVSS"
-    description: "Strict respect du format CVSS decimal sous CWA."
-    test: "pySHACL CWA"
-  - id: EXG-QU-03
-    domaine: QU
-    titre: "Sanity Check ABox Zero Error"
-    description: "0 erreur de validation sous CWA lors du contrôle Pytest."
-    test: "Pytest / SHACL"
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P1
+    titre: Typage & Plages CVSS
+    critere: Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.
+    test: pySHACL CWA
 ---
 
 # 📜 Instanciation ABox Cyber & Référentiels CTI
@@ -130,13 +132,13 @@ dkg-data:CWE-22 a dkg:Weakness ;
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                       | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | ------------------------------- | -------------------------------------------------------------- | ------------------------ |
-| **EXG-CT-01**   | EXG-TEC-P2-ABO_1 | `CT`        | Namespace Instance Dedicated    | Utilisation exclusive de `http://dkg.cybersec.org/data/`.      | Parsing RDF / Code       |
-| **EXG-CT-02**   | EXG-TEC-P2-ABO_2 | `CT`        | Identifiants URIs Déterministes | Format de nommage normé pour Actifs, CVE, CWE, CAPEC.          | Linter / Regex           |
-| **EXG-CT-03**   | EXG-TEC-P2-ABO_3 | `CT`        | Instanciation Graphe Complète   | Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC. | Requête SPARQL           |
-| **EXG-QU-02**   | EXG-TEC-P2-ABO_4 | `QU`        | Typage & Plages CVSS            | Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.    | pySHACL CWA              |
-| **EXG-QU-03**   | EXG-TEC-P2-ABO_5 | `QU`        | Sanity Check ABox Zero Error    | 0 erreur de validation sous CWA lors du contrôle Pytest.       | Pytest / SHACL           |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                       | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | ------------------------------- | -------------------------------------------------------------- | ------------------------ |
+| **EXG-CT-01**   | EXG-TEC-P2-ABO_1 | `CT`        | Core          | Namespace Instance Dedicated    | Utilisation exclusive de `http://dkg.cybersec.org/data/`.      | Parsing RDF / Code       |
+| **EXG-CT-02**   | EXG-TEC-P2-ABO_2 | `CT`        | Core          | Identifiants URIs Déterministes | Format de nommage normé pour Actifs, CVE, CWE, CAPEC.          | Linter / Regex           |
+| **EXG-CT-03**   | EXG-TEC-P2-ABO_3 | `CT`        | Core          | Instanciation Graphe Complète   | Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC. | Requête SPARQL           |
+| **EXG-QU-02**   | EXG-TEC-P2-ABO_4 | `QU`        | Core          | Typage & Plages CVSS            | Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.    | pySHACL CWA              |
+| **EXG-QU-03**   | EXG-TEC-P2-ABO_5 | `QU`        | Core          | Sanity Check ABox Zero Error    | 0 erreur de validation sous CWA lors du contrôle Pytest.       | Pytest / SHACL           |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

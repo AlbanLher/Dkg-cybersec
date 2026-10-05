@@ -13,21 +13,33 @@ public_vise:
   - Développeurs DevSecOps
   - Analystes CTI / SOC, Lead Tech
 exigences:
-  - id: EXG-P8-05
+  - id: EXG-TEC-P8-soc_1
+    code_exigence: EXG-P8-05
     domaine: TEC
-    titre: API Asynchrone de l'Orchestrateur
-    description: Le composant soc_orchestrator.py doit piloter les agents de manière asynchrone avec un timeout de 30 secondes.
-    test: PyTest / AsyncIO Test Suite
-  - id: EXG-P8-06
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P8
+    titre: API Asynchrone
+    critere: Pilotage asynchrone avec timeout de 30s.
+    test: PyTest / AsyncIO Suite
+  - id: EXG-TEC-P8-soc_2
+    code_exigence: EXG-P8-06
     domaine: TEC
-    titre: Pipeline NER Local Frugal
-    description: Le filtrage des données externes s'appuie exclusivement sur le modèle local (gliner_small-v2.1) sans appel cloud.
-    test: PyTest / Air-Gapped Verification
-  - id: EXG-P8-07
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P8
+    titre: Pipeline NER Local
+    critere: Exécution 100% Air-Gapped du modèle GLiNER.
+    test: PyTest / Air-Gapped Check
+  - id: EXG-TEC-P8-soc_3
+    code_exigence: EXG-P8-07
     domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P8
     titre: Architecture MCP-Ready
-    description: Les fonctions Python exposées doivent respecter un typage strict et des structures de retour sérialisables, permettant un wrapping direct en 'MCP Tools'.
-    test: PyTest / MCP Interface Verification
+    critere: Typage strict et découplage pour wrapper MCP.
+    test: PyTest / Interface Check
 ---
 
 # 📜 Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM
@@ -52,11 +64,11 @@ Spécifier l'implémentation logicielle de la Phase 8 en adoptant une approche *
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant   | UID              | Domaine | Intitulé de l'Exigence | Description & Critères d'Acceptation          | Mode de Test / Asset      |
-| :------------ | :--------------- | :------ | :--------------------- | :-------------------------------------------- | :------------------------ |
-| **EXG-P8-05** | EXG-TEC-P8-soc_1 | TEC     | API Asynchrone         | Pilotage asynchrone avec timeout de 30s.      | PyTest / AsyncIO Suite    |
-| **EXG-P8-06** | EXG-TEC-P8-soc_2 | TEC     | Pipeline NER Local     | Exécution 100% Air-Gapped du modèle GLiNER.   | PyTest / Air-Gapped Check |
-| **EXG-P8-07** | EXG-TEC-P8-soc_3 | TEC     | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check  |
+| Identifiant   | UID              | Domaine | Core/Non-Core | Intitulé de l'Exigence | Description & Critères d'Acceptation          | Mode de Test / Asset      |
+| :------------ | :--------------- | :------ | :------------ | :--------------------- | :-------------------------------------------- | :------------------------ |
+| **EXG-P8-05** | EXG-TEC-P8-soc_1 | `TEC`   | Core          | API Asynchrone         | Pilotage asynchrone avec timeout de 30s.      | PyTest / AsyncIO Suite    |
+| **EXG-P8-06** | EXG-TEC-P8-soc_2 | `TEC`   | Core          | Pipeline NER Local     | Exécution 100% Air-Gapped du modèle GLiNER.   | PyTest / Air-Gapped Check |
+| **EXG-P8-07** | EXG-TEC-P8-soc_3 | `TEC`   | Core          | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check  |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

@@ -2,29 +2,37 @@
 type: spec
 reference: SPC-MET-P3-SILENT_01
 revision: 1
-titre: "Scénario Métier - Silent Cascade"
+titre: Scénario Métier - Silent Cascade
 titre_court: silent_cascade_01
-description: "Décrit le scénario d'attaque par rebond à faible bruit (Silent Cascade) croisant la CTI externe et la topologie interne."
+description: Décrit le scénario d'attaque par rebond à faible bruit (Silent Cascade) croisant la CTI externe et la topologie interne.
 phase_code: P3
-phase_nom: "Ingestion CTI Structurée"
-statut: "🟢 PASSED"
+phase_nom: Ingestion CTI Structurée
+statut: 🟢 PASSED
 portee: USECASE_METIER
 public_vise:
-  - "Analystes CTI / SOC"
-  - "Lead Tech"
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Analystes CTI / SOC
+  - Lead Tech
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-IN-01
+  - id: EXG-MET-P3-SIL_1
+    code_exigence: EXG-IN-01
     domaine: IN
-    titre: "Détection de Cascade"
-    description: "Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique."
-    test: "Requête SPARQL / Pytest"
-  - id: EXG-SE-01
+    domaine_nom: Inférence & Graph Analytics
+    core: true
+    phase: P1
+    titre: Détection de Cascade
+    critere: Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique.
+    test: Requête SPARQL / Pytest
+  - id: EXG-MET-P3-SIL_2
+    code_exigence: EXG-SE-01
     domaine: SE
-    titre: "Étanchéité TLP"
-    description: "L'analyse CTI ne doit jamais révéler publiquement la topologie de l'actif critique (TLP:RED)."
-    test: "Audit Graphe / Pytest"
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Étanchéité TLP
+    critere: L'analyse CTI ne doit jamais révéler publiquement la topologie de l'actif critique (TLP:RED).
+    test: Audit Graphe / Pytest
 ---
 
 # 📜 Scénario Métier - Silent Cascade
@@ -88,10 +96,10 @@ L'exécution des requêtes de corrélation CTI / Topologie ne doit en aucun cas 
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                                | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | -------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-IN-01**   | EXG-MET-P3-SIL_1 | `IN`        | Détection de Cascade       | Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique. | Requête SPARQL / Pytest  |
-| **EXG-SE-01**   | EXG-MET-P3-SIL_2 | `SE`        | Étanchéité TLP             | L'analyse CTI ne doit jamais révéler publiquement la topologie de l'actif critique (`TLP:RED`).         | Audit Graphe / Pytest    |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                                | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-IN-01**   | EXG-MET-P3-SIL_1 | `IN`        | Core          | Détection de Cascade       | Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique. | Requête SPARQL / Pytest  |
+| **EXG-SE-01**   | EXG-MET-P3-SIL_2 | `SE`        | Core          | Étanchéité TLP             | L'analyse CTI ne doit jamais révéler publiquement la topologie de l'actif critique (`TLP:RED`).         | Audit Graphe / Pytest    |
 
 
 

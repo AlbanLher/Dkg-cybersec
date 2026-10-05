@@ -13,11 +13,15 @@ public_vise:
   - Analystes CTI / SOC
   - Architectes Ontologues
 exigences:
-  - id: EXG-P8-02
-    domaine: MET
-    titre: Qualification de Non-Conformité RGPD
-    description: Tout actif présentant un risque d'exposition critique doit être relié au standard RGPD via la propriété dkg:violatesStandard.
-    test: PyTest / SPARQL
+  - id: EXG-MET-P8-com_1
+    code_exigence: EXG-P8-02
+    domaine: QU
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P8
+    titre: Qualification Non-Conformité
+    critere: Association actif -> standard RGPD
+    test: Pytest / SPARQL
 ---
 
 # 📜 Conformité & Preuve Réglementaire RGPD (Art. 32) 
@@ -27,9 +31,9 @@ Formalisation des exigences fonctionnelles permettant d'associer un constat de v
 - **Lien de Violation :** Établissement d'un triplet d'inférence sécurisé en `TLP:RED`. 
 - **Zéro fuite normative :** Le référentiel public reste strictly étanche en `TLP:CLEAR`. 
 ## 3. Matrice des Exigences 
-| Identifiant   | UID              | Domaine | Intitulé                     | Description                        | Mode de Test    |
-| :------------ | :--------------- | :------ | :--------------------------- | :--------------------------------- | :-------------- |
-| **EXG-P8-02** | EXG-MET-P8-com_1 | `MET`   | Qualification Non-Conformité | Association actif -> standard RGPD | Pytest / SPARQL |
+| Identifiant   | UID              | Domaine | Core/Non-Core | Intitulé                     | Description                        | Mode de Test    |
+| :------------ | :--------------- | :------ | :------------ | :--------------------------- | :--------------------------------- | :-------------- |
+| **EXG-P8-02** | EXG-MET-P8-com_1 | `QU`    | Core          | Qualification Non-Conformité | Association actif -> standard RGPD | Pytest / SPARQL |
 # 📜 Conformité & Preuve Réglementaire RGPD (Art. 32)
 
 ## 1. Règles Métier de Qualification (OK / KO)

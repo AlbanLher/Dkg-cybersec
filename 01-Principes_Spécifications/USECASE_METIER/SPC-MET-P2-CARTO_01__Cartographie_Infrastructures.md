@@ -2,22 +2,26 @@
 type: spec
 reference: SPC-MET-P2-CARTO_01
 revision: 1
-titre: "Cartographie des Infrastructures Internes"
+titre: Cartographie des Infrastructures Internes
 titre_court: carto_01
-description: "Définit la modélisation de l'infrastructure interne (hôtes, sous-réseaux, dépendances, niveaux de criticité CRITICAL/MEDIUM, exposition Internet) sous marquage TLP:RED / TLP:AMBER d'un point de vue SOC, avant toute injection CTI externe."
+description: Définit la modélisation de l'infrastructure interne (hôtes, sous-réseaux, dépendances, niveaux de criticité CRITICAL/MEDIUM, exposition Internet) sous marquage TLP:RED / TLP:AMBER d'un point de vue SOC, avant toute injection CTI externe.
 phase_code: P2
-phase_nom: "Cartographie ABox Interne"
-statut: "🟢 PASSED"
+phase_nom: Cartographie ABox Interne
+statut: 🟢 PASSED
 portee: USECASE_METIER
 public_vise:
-  - "Analystes CTI / SOC"
-  - "Architectes Ontologues"
+  - Analystes CTI / SOC
+  - Architectes Ontologues
 exigences:
-  - id: EXG-SE-01
+  - id: EXG-MET-P2-CAR_1
+    code_exigence: EXG-SE-01
     domaine: SE
-    titre: "Marquage TLP Obligatoire"
-    description: "Tag TLP présent sur tout document ou graphe Turtle d'infrastructure."
-    test: "Linter / Pytest"
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Marquage TLP Obligatoire
+    critere: Tag TLP présent sur tout document ou graphe Turtle d'infrastructure.
+    test: Linter / Pytest
 ---
 
 # 📜 Cartographie des Infrastructures Internes
@@ -62,9 +66,9 @@ graph LR
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                             | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | -------------------------- | -------------------------------------------------------------------- | ------------------------ |
-| **EXG-SE-01**   | EXG-MET-P2-CAR_1 | `SE`        | Marquage TLP Obligatoire   | Tag TLP présent sur tout document ou graphe Turtle d'infrastructure. | Linter / Pytest          |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                             | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------- | -------------------------------------------------------------------- | ------------------------ |
+| **EXG-SE-01**   | EXG-MET-P2-CAR_1 | `SE`        | Core          | Marquage TLP Obligatoire   | Tag TLP présent sur tout document ou graphe Turtle d'infrastructure. | Linter / Pytest          |
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

@@ -1,53 +1,73 @@
 ---
 type: spec
-reference: SPC-FWK-P1-T-RBOX_SHACL_01
+reference: SPC-FWK-P1-T-RBox_01
 revision: 1
-titre: "Méta-Architecture Ontologique TBox, RBox & SHACL"
-titre_court: t_rbox_shacl_01
-description: "Définit la méta-architecture ontologique, agnostique du domaine d'application. Fixe les règles formelles de construction de la couche Terminologique (TBox), de la couche des Relations (RBox), du socle lexical multilingue (SKOS) et des contraintes d'intégrité (SHACL Shapes)."
+titre: SPC-FWK-P1-T-RBOX SHACL 01
+titre_court: T-RBox
+description: |-
+  La présente spécification définit la méta-architecture ontologique du DKG Framework.
+  Elle est strictement agnostique du domaine d'application et fixe les règles formelles de construction de la couche Terminologique (TBox), de la couche des Rôles (RBox), du socle lexical multilingue (SKOS) et des contraintes d'intégrité (SHACL Shapes).
 phase_code: P1
-phase_nom: "Socle TBox & SHACL CWA"
-statut: "🟢 PASSED"
+phase_nom: Socle TBox & SHACL CWA
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Architectes Ontologues
 exigences:
-  - id: EXG-TB-01
+  - id: EXG-FWK-P1-T-R_1
+    code_exigence: EXG-TB-01
     domaine: TB
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
     titre: "Espace de Noms & Séparateur #"
-    description: "Obligation d'utiliser le séparateur # pour la TBox/RBox."
-    test: "Parsing RDF"
-  - id: EXG-TB-02
+    critere: "Obligation d'utiliser le séparateur # pour la TBox/RBox."
+    test: Parsing RDF
+  - id: EXG-FWK-P1-T-R_2
+    code_exigence: EXG-TB-02
     domaine: TB
-    titre: "Typage OWL Strict"
-    description: "Toutes les classes et propriétés doivent avoir un typage OWL formel."
-    test: "Parsing OWL / SPARQL"
-  - id: EXG-TB-03
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Typage OWL Strict
+    critere: 100% des classes et propriétés doivent avoir un typage OWL formel.
+    test: Parsing OWL / SPARQL
+  - id: EXG-FWK-P1-T-R_3
+    code_exigence: EXG-TB-03
     domaine: TB
-    titre: "Déclaration Domaine & Portée"
-    description: "Interdiction de déclarer une owl:ObjectProperty sans rdfs:domain ni rdfs:range."
-    test: "Requête SPARQL TBox"
-  - id: EXG-TB-04
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Déclaration Domaine & Portée
+    critere: Interdiction de déclarer une owl:ObjectProperty sans rdfs:domain ni rdfs:range.
+    test: Requête SPARQL TBox
+  - id: EXG-FWK-P1-T-R_4
+    code_exigence: EXG-TB-04
     domaine: TB
-    titre: "Sémantique RBox & Inverses"
-    description: "Toute propriété d'objet possède une propriété inverse liée par owl:inverseOf."
-    test: "Check Inverses SPARQL"
-  - id: EXG-TB-05
-    domaine: TB
-    titre: "Couche Lexicale SKOS"
-    description: "Prescriptions skos:prefLabel (FR/EN) et skos:definition obligatoires."
-    test: "Validation SKOS"
-  - id: EXG-QU-01
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Sémantique RBox & Inverses
+    critere: Toute propriété d'objet possède une propriété inverse liée par owl:inverseOf.
+    test: Check Inverses SPARQL
+  - id: EXG-FWK-P1-T-R_6
+    code_exigence: EXG-QU-01
     domaine: QU
-    titre: "Couplage TBox ↔ SHACL"
-    description: "Toutes les classes owl:Class possèdent au moins une sh:NodeShape dédiée."
-    test: "Execution pySHACL"
-  - id: EXG-SH-01
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P1
+    titre: Couplage TBox ↔ SHACL
+    critere: 100% des classes owl:Class possèdent au moins une sh:NodeShape dédiée.
+    test: Execution pySHACL
+  - id: EXG-FWK-P1-T-R_7
+    code_exigence: EXG-SH-01
     domaine: SH
-    titre: "Shapes Structurales Abstraites"
-    description: "Présence de contraintes SHACL conformes aux spécifications W3C."
-    test: "Execution SHACL"
+    domaine_nom: SHACL Shapes
+    core: true
+    phase: P1
+    titre: Shapes Structurales Abstraites
+    critere: Présence de contraintes SHACL conformes aux spécifications W3C.
+    test: Execution SHACL
 ---
 
 # 📜 Méta-Architecture Ontologique TBox, RBox & SHACL
@@ -123,15 +143,15 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                              | **Mode de Test / Asset** |
-| --------------- | ---------------- | ----------- | ------------------------------- | ------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-TB-01**   | EXG-FWK-P1-T-R_1 | `TB`        | Espace de Noms & Séparateur `#` | Obligation d'utiliser le séparateur `#` pour la TBox/RBox.                            | Parsing RDF              |
-| **EXG-TB-02**   | EXG-FWK-P1-T-R_2 | `TB`        | Typage OWL Strict               | 100% des classes et propriétés doivent avoir un typage OWL formel.                    | Parsing OWL / SPARQL     |
-| **EXG-TB-03**   | EXG-FWK-P1-T-R_3 | `TB`        | Déclaration Domaine & Portée    | Interdiction de déclarer une `owl:ObjectProperty` sans `rdfs:domain` ni `rdfs:range`. | Requête SPARQL TBox      |
-| **EXG-TB-04**   | EXG-FWK-P1-T-R_4 | `TB`        | Sémantique RBox & Inverses      | Toute propriété d'objet possède une propriété inverse liée par `owl:inverseOf`.       | Check Inverses SPARQL    |
-| **EXG-TB-05**   | EXG-FWK-P1-T-R_5 | `TB`        | Couche Lexicale SKOS            | Prescriptions `skos:prefLabel` (FR/EN) et `skos:definition` obligatoires.             | Validation SKOS          |
-| **EXG-QU-01**   | EXG-FWK-P1-T-R_6 | `QU`        | Couplage TBox ↔ SHACL           | 100% des classes `owl:Class` possèdent au moins une `sh:NodeShape` dédiée.            | Execution pySHACL        |
-| **EXG-SH-01**   | EXG-FWK-P1-T-R_7 | `SH`        | Shapes Structurales Abstraites  | Présence de contraintes SHACL conformes aux spécifications W3C.                       | Execution SHACL          |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                              | **Mode de Test / Asset** |
+| --------------- | ---------------- | ----------- | ------------- | ------------------------------- | ------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-TB-01**   | EXG-FWK-P1-T-R_1 | `TB`        | Core          | Espace de Noms & Séparateur `#` | Obligation d'utiliser le séparateur `#` pour la TBox/RBox.                            | Parsing RDF              |
+| **EXG-TB-02**   | EXG-FWK-P1-T-R_2 | `TB`        | Core          | Typage OWL Strict               | 100% des classes et propriétés doivent avoir un typage OWL formel.                    | Parsing OWL / SPARQL     |
+| **EXG-TB-03**   | EXG-FWK-P1-T-R_3 | `TB`        | Core          | Déclaration Domaine & Portée    | Interdiction de déclarer une `owl:ObjectProperty` sans `rdfs:domain` ni `rdfs:range`. | Requête SPARQL TBox      |
+| **EXG-TB-04**   | EXG-FWK-P1-T-R_4 | `TB`        | Core          | Sémantique RBox & Inverses      | Toute propriété d'objet possède une propriété inverse liée par `owl:inverseOf`.       | Check Inverses SPARQL    |
+| **EXG-TB-05**   | EXG-FWK-P1-T-R_5 | `TB`        | Core          | Couche Lexicale SKOS            | Prescriptions `skos:prefLabel` (FR/EN) et `skos:definition` obligatoires.             | Validation SKOS          |
+| **EXG-QU-01**   | EXG-FWK-P1-T-R_6 | `QU`        | Core          | Couplage TBox ↔ SHACL           | 100% des classes `owl:Class` possèdent au moins une `sh:NodeShape` dédiée.            | Execution pySHACL        |
+| **EXG-SH-01**   | EXG-FWK-P1-T-R_7 | `SH`        | Core          | Shapes Structurales Abstraites  | Présence de contraintes SHACL conformes aux spécifications W3C.                       | Execution SHACL          |
 
 
 

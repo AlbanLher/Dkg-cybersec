@@ -13,22 +13,32 @@ public_vise:
   - Analystes CTI / SOC, Lead Tech
   - Utilisateurs / Propriétaires de l'infrastructure
 exigences:
-  - id: EXG-P7-01
+  - id: EXG-MET-P7-01
     domaine: MET
+    core: true
+    phase: P7
+    spec_source: SPC-MET-P07-assistant_soc_foyer_01
     titre: Cartographie Résidentielle
-    description: L'agent d'inventaire local doit ingérer et valider structurellement les 5 actifs du foyer définis dans l'environnement.
+    critere: Ingestion et validation des 5 actifs du foyer.
     test: PyTest / Schéma Pydantic V2
-  - id: EXG-P7-02
+  - id: EXG-MET-P7-02
     domaine: MET
+    core: true
+    phase: P7
+    spec_source: SPC-MET-P07-assistant_soc_foyer_01
     titre: Analyse d'Exposition WAN
-    description: Détection formelle des services locaux exposés sur Internet couplée aux bases CTI TLP:CLEAR.
+    critere: Détection des services exposés couplée aux flux TLP:CLEAR.
     test: PyTest / Validation SPARQL
-  - id: EXG-P7-03
+  - id: EXG-MET-P7-03
     domaine: MET
-    titre: Restitution Pédagogique & Agent Conseil
-    description: Génération d'un rapport clair et évaluation proactive d'une installation logicielle (bloquer, autoriser ou recommander un équivalent).
-    test: Validation Markdown / Test d'API Conseil
+    core: true
+    phase: P7
+    spec_source: SPC-MET-P07-assistant_soc_foyer_01
+    titre: Restitution & Agent Conseil
+    critere: Génération du rapport de risque et arbitrage de pré-installation.
+    test: Validation Markdown / Test API
 ---
+
 
 # 📜 Assistant SOC du Foyer et Analyse de Risque Résidentiel
 
@@ -90,13 +100,11 @@ Avant toute installation de logiciel sur un actif du foyer, l'Agent Conseil exé
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**  | **Description & Critères d'Acceptation**                            | **Mode de Test / Asset**       |
-| --------------- | ---------------- | ----------- | --------------------------- | ------------------------------------------------------------------- | ------------------------------ |
-| **EXG-P7-01**   | EXG-MET-P5-CTI_1 | `MET`       | Cartographie Résidentielle  | Ingestion et validation des 5 actifs du foyer[cite: 5].             | PyTest / Schéma Pydantic V2    |
-| **EXG-P7-02**   | EXG-MET-P5-CTI_2 | `MET`       | Analyse d'Exposition WAN    | Détection des services exposés couplée aux flux TLP:CLEAR[cite: 5]. | PyTest / Validation SPARQL     |
-| **EXG-P7-03**   | EXG-MET-P5-CTI_3 | `MET`       | Restitution & Agent Conseil | Génération du rapport de risque et arbitrage de pré-installation.   | Validation Markdown / Test API |
-
-
+| Identifiant | UID | Domaine | Core/Non-Core | Intitulé de l'Exigence | Description & Critères d'Acceptation | Mode de Test / Asset |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **EXG-MET-P7-01** | EXG-MET-P7-01 | MET | Core | Cartographie Résidentielle | Ingestion et validation des 5 actifs du foyer. | PyTest / Schéma Pydantic V2 |
+| **EXG-MET-P7-02** | EXG-MET-P7-02 | MET | Core | Analyse d'Exposition WAN | Détection des services exposés couplée aux flux TLP:CLEAR. | PyTest / Validation SPARQL |
+| **EXG-MET-P7-03** | EXG-MET-P7-03 | MET | Core | Restitution & Agent Conseil | Génération du rapport de risque et arbitrage de pré-installation. | Validation Markdown / Test API |
 
 ## 🛡️ 5. Outillage & Traçabilité
 

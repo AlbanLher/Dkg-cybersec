@@ -2,29 +2,28 @@
 type: spec
 reference: SPC-MET-P5-CTI_01
 revision: 1
-titre: "Ingestion & Traitement Threat Intelligence (CTI)"
+titre: Ingestion & Traitement Threat Intelligence (CTI)
 titre_court: cti_ingestion_01
-description: "Définit le cadre fonctionnel d'ingestion, de qualification et de normalisation des flux de renseignement sur les menaces."
+description: Définit le cadre fonctionnel d'ingestion, de qualification et de normalisation des flux de renseignement sur les menaces.
 phase_code: P5
-phase_nom: "Agent MITM & Reasoning Base"
-statut: "🟢 PASSED"
+phase_nom: Agent MITM & Reasoning Base
+statut: 🟢 PASSED
 portee: USECASE_METIER
 public_vise:
-  - "Analystes CTI / SOC"
-  - "Lead Tech"
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Analystes CTI / SOC
+  - Lead Tech
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-CT-02
+  - id: EXG-MET-P5-CTI_1
+    code_exigence: EXG-CT-02
     domaine: CT
-    titre: "Ingestion Flux CTI Multi-Sources"
-    description: "Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés."
-    test: "Pytest / Audit Ingestion"
-  - id: EXG-SE-02
-    domaine: SE
-    titre: "Marquage TLP Ingestion"
-    description: "Toute donnée CTI ingérée depuis une source publique doit porter la balise TLP:CLEAR."
-    test: "Pytest / Validation Graphe"
+    domaine_nom: Cyber Threat Intelligence
+    core: true
+    phase: P1
+    titre: Ingestion Flux CTI Multi-Sources
+    critere: Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés.
+    test: Pytest / Audit Ingestion
 ---
 
 # 📜 Ingestion & Traitement Threat Intelligence (CTI)
@@ -75,10 +74,10 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant**  | UID              | **Domaine** | **Intitulé de l'Exigence**       | **Description & Critères d'Acceptation**                                                                       | **Mode de Test / Asset**   |
-| ---------------- | ---------------- | ----------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| **EXG-CT-02**    | EXG-MET-P5-CTI_1 | `CT`        | Ingestion Flux CTI Multi-Sources | Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés. | Pytest / Audit Ingestion   |
-| **EXG-SE-02**    | EXG-MET-P5-CTI_2 | `SE`        | Marquage TLP Ingestion           | Toute donnée CTI ingérée depuis une source publique doit porter la balise `TLP:CLEAR`.                         | Pytest / Validation Graphe |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**       | **Description & Critères d'Acceptation**                                                                       | **Mode de Test / Asset**   |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| **EXG-CT-02**   | EXG-MET-P5-CTI_1 | `CT`        | Core          | Ingestion Flux CTI Multi-Sources | Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés. | Pytest / Audit Ingestion   |
+| **EXG-SE-02**   | EXG-MET-P5-CTI_2 | `SE`        | Core          | Marquage TLP Ingestion           | Toute donnée CTI ingérée depuis une source publique doit porter la balise `TLP:CLEAR`.                         | Pytest / Validation Graphe |
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

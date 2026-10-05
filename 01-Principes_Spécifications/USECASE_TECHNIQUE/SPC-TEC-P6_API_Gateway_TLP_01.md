@@ -2,27 +2,35 @@
 type: spec
 reference: SPC-TEC-P6-GATEWAY_01
 revision: 1
-titre: "API Gateway TLP & Immutabilité SPARQL"
+titre: API Gateway TLP & Immutabilité SPARQL
 titre_court: api_gateway_tlp_01
-description: "Spécifie l'implémentation logicielle du point d'entrée unique (API Gateway) assurant le traitement sécurisé et immutable des requêtes SPARQL."
+description: Spécifie l'implémentation logicielle du point d'entrée unique (API Gateway) assurant le traitement sécurisé et immutable des requêtes SPARQL.
 phase_code: P6
-phase_nom: "API Gateway & Ségrégation TLP"
-statut: "🟢 PASSED"
+phase_nom: API Gateway & Ségrégation TLP
+statut: 🟢 PASSED
 portee: USECASE_TECHNIQUE
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-TE-01
-    domaine: TE
-    titre: "Immutabilité Payloads"
-    description: "Modification interdite sur l'objet instancié (frozen=True)."
-    test: "PyTest (test_pydantic_immutability)"
-  - id: EXG-TE-02
-    domaine: TE
-    titre: "Standard Horodatage UTC"
-    description: "Utilisation de timezone.utc compatible Python 3.14+."
-    test: "PyTest / Audit Log"
+  - id: EXG-TEC-P6-GAT_1
+    code_exigence: EXG-TE-01
+    domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P1
+    titre: Immutabilité Payloads
+    critere: Modification interdite sur l'objet instancié (frozen=True).
+    test: PyTest (test_pydantic_immutability)
+  - id: EXG-TEC-P6-GAT_2
+    code_exigence: EXG-TE-02
+    domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P1
+    titre: Standard Horodatage UTC
+    critere: Utilisation de timezone.utc compatible Python 3.14+.
+    test: PyTest / Audit Log
 ---
 
 # 📜 API Gateway TLP & Immutabilité SPARQL
@@ -108,10 +116,10 @@ class SPARQLQueryResponse(BaseModel):
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                      | **Mode de Test / Asset**              |
-| --------------- | ---------------- | ----------- | -------------------------- | ------------------------------------------------------------- | ------------------------------------- |
-| **EXG-TE-01**   | EXG-TEC-P6-GAT_1 | `TE`        | Immutabilité Payloads      | Modification interdite sur l'objet instancié (`frozen=True`). | PyTest (`test_pydantic_immutability`) |
-| **EXG-TE-02**   | EXG-TEC-P6-GAT_2 | `TE`        | Standard Horodatage UTC    | Utilisation de `timezone.utc` compatible Python 3.14+.        | PyTest / Audit Log                    |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                      | **Mode de Test / Asset**              |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------- | ------------------------------------------------------------- | ------------------------------------- |
+| **EXG-TE-01**   | EXG-TEC-P6-GAT_1 | `TEC`       | Core          | Immutabilité Payloads      | Modification interdite sur l'objet instancié (`frozen=True`). | PyTest (`test_pydantic_immutability`) |
+| **EXG-TE-02**   | EXG-TEC-P6-GAT_2 | `TEC`       | Core          | Standard Horodatage UTC    | Utilisation de `timezone.utc` compatible Python 3.14+.        | PyTest / Audit Log                    |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

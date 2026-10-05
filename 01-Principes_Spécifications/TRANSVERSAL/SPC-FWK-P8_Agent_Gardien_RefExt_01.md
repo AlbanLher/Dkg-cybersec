@@ -14,11 +14,15 @@ public_vise:
   - Développeurs DevSecOps
   - Analystes CTI / SOC
 exigences:
-  - id: EXG-P8-01
+  - id: EXG-FWK-P8-age_1
+    code_exigence: EXG-P8-01
     domaine: SE
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P8
     titre: Traçabilité & Filtrage Frugal Externe
-    description: Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire.
-    test: PyTest / SPARQL / SHACL
+    critere: Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire.
+    test: Pytest / SPARQL / SHACL
 ---
 # 📜 Agent Gardien des Références Externes (External Reference Steward)
 
@@ -70,10 +74,10 @@ graph TD
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant**  | UID              | **Domaine** | **Intitulé de l'Exigence**            | **Description & Critères d'Acceptation**                                                            | **Mode de Test / Asset** |
-| ---------------- | ---------------- | ----------- | ------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-P8-01**    | EXG-FWK-P8-age_1 | `SE`        | Traçabilité & Filtrage Frugal Externe | Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire. | Pytest / SPARQL / SHACL  |
-| **EXG-GREEN-01** | EXG-FWK-P8-age_2 | `TEC`       | Sobriété et Local-First               | Exécution fluide en moins de 1s sur poste hôte standard 16 Go RAM Air-Gapped.                       | Benchmark / Pytest       |
+| **Identifiant**  | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**            | **Description & Critères d'Acceptation**                                                            | **Mode de Test / Asset** |
+| ---------------- | ---------------- | ----------- | ------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------ |
+| **EXG-P8-01**    | EXG-FWK-P8-age_1 | `SE`        | Core          | Traçabilité & Filtrage Frugal Externe | Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire. | Pytest / SPARQL / SHACL  |
+| **EXG-GREEN-01** | EXG-FWK-P8-age_2 | `TEC`       | Core          | Sobriété et Local-First               | Exécution fluide en moins de 1s sur poste hôte standard 16 Go RAM Air-Gapped.                       | Benchmark / Pytest       |
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

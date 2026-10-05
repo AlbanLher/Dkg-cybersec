@@ -14,16 +14,15 @@ public_vise:
   - Développeurs DevSecOps
   - Analystes CTI / SOC, Lead Tech
 exigences:
-  - id: EXG-P8-SIM-01
+  - id: EXG-TEC-P8-sim_1
+    code_exigence: EXG-P8-SIM-01
     domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P8
     titre: Génération Procédurale Frugale
-    description: Le simulateur doit générer des charges de 1 000 à 10 000+ triplets sans saturer la RAM locale (< 20 Mo de delta).
-    test: PyTest / psutil
-  - id: EXG-P8-SIM-02
-    domaine: TEC
-    titre: Traçabilité des Abaques
-    description: Chaque exécution doit consigner les métriques (temps en ms, RAM, nombre de triplets) pour tracer la limite du modèle W3C.
-    test: PyTest / Rapport Markdown
+    critere: Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta).
+    test: pytest tests/test_simulator.py
 ---
 
 # 📜 Simulateur Frugal & Abaques de Performance
@@ -71,10 +70,10 @@ le simulateur prend en charge la génération de topologies de réseaux segment�
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant**   | UID              | **Domaine** | **Intitulé de l'Exigence**     | **Description & Critères d'Acceptation**                                               | **Mode de Test / Asset**         |
-| ----------------- | ---------------- | ----------- | ------------------------------ | -------------------------------------------------------------------------------------- | -------------------------------- |
-| **EXG-P8-SIM-01** | EXG-TEC-P8-sim_1 | `TEC`       | Génération Procédurale Frugale | Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta). | `pytest tests/test_simulator.py` |
-| **EXG-P8-SIM-02** | EXG-TEC-P8-sim_2 | `TEC`       | Traçabilité des Abaques        | Consignation automatisée des temps de traitement et des volumes dans les rapports.     | Validation des logs d'exécution  |
+| **Identifiant**   | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**     | **Description & Critères d'Acceptation**                                               | **Mode de Test / Asset**         |
+| ----------------- | ---------------- | ----------- | ------------- | ------------------------------ | -------------------------------------------------------------------------------------- | -------------------------------- |
+| **EXG-P8-SIM-01** | EXG-TEC-P8-sim_1 | `TEC`       | Core          | Génération Procédurale Frugale | Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta). | `pytest tests/test_simulator.py` |
+| **EXG-P8-SIM-02** | EXG-TEC-P8-sim_2 | `TEC`       | Core          | Traçabilité des Abaques        | Consignation automatisée des temps de traitement et des volumes dans les rapports.     | Validation des logs d'exécution  |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

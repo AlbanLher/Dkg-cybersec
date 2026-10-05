@@ -13,20 +13,23 @@ public_vise:
   - Développeurs DevSecOps
   - Architectes Ontologues
 exigences:
-  - id: EXG-GREEN-01
+  - id: EXG-TEC-P08-gr_2
+    code_exigence: EXG-GREEN-02
     domaine: TEC
-    titre: Sobriété et Local-First
-    description: "Exécution fluide garantie sur poste hôte standard (ex: PC 16 Go RAM sans GPU dédié, Air-Gapped strict)."
-    test: Benchmark Resource / Profiling CPU-RAM (Pytest)
-  - id: EXG-GREEN-02
-    domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P1
     titre: Traitement Incrémentiel
-    description: Interdiction stricte des recalculs globaux (zéro ré-indexation ou re-vectorisation complète de la base lors de modifications mineures).
+    critere: Interdiction stricte des recalculs globaux (zéro ré-indexation ou re-vectorisation complète de la base lors de modifications mineures).
     test: Audit de pipeline / Test unitaire de delta
-  - id: EXG-GREEN-03
+  - id: EXG-TEC-P08-gr_3
+    code_exigence: EXG-GREEN-03
     domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P1
     titre: Arbitrage d'Échelle et FinOps
-    description: Tout déploiement d'un composant lourd (Triple Store persistant, base vectorielle serveur) requiert un arbitrage documenté prouvant le rapport valeur/empreinte.
+    critere: Tout déploiement d'un composant lourd (Triple Store persistant, base vectorielle serveur) requiert un arbitrage documenté prouvant le rapport valeur/empreinte.
     test: Revue d'architecture & Dossier d'arbitrage (.md)
 ---
 
@@ -79,12 +82,11 @@ graph TD
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-|                  |                  |             |                               |                                                                                                                                                                 |                                                  |
-| ---------------- | ---------------- | ----------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| **Identifiant**  | UID              | **Domaine** | **Intitulé de l'Exigence**    | **Description & Critères d'Acceptation**                                                                                                                        | **Mode de Test / Asset**                         |
-| **EXG-GREEN-01** | EXG-TEC-P08-gr_1 | `TEC`       | Sobriété et Local-First       | Exécution fluide garantie sur poste hôte standard (ex: PC 16 Go RAM sans GPU dédié, Air-Gapped strict).                                                         | Benchmark Resource / Profiling CPU-RAM (Pytest)  |
-| **EXG-GREEN-02** | EXG-TEC-P08-gr_2 | `TEC`       | Traitement Incrémentiel       | Interdiction stricte des recalculs globaux (zéro ré-indexation ou re-vectorisation complète de la base lors de modifications mineures).                         | Audit de pipeline / Test unitaire de delta       |
-| **EXG-GREEN-03** | EXG-TEC-P08-gr_3 | `TEC`       | Arbitrage d'Échelle et FinOps | Tout déploiement d'un composant lourd (Triple Store persistant, base vectorielle serveur) requiert un arbitrage documenté prouvant le rapport valeur/empreinte. | Revue d'architecture & Dossier d'arbitrage (.md) |
+| **Identifiant**  | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**    | **Description & Critères d'Acceptation**                                                                                                                        | **Mode de Test / Asset**                         |
+| ---------------- | ---------------- | ----------- | ------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| **EXG-GREEN-01** | EXG-TEC-P08-gr_1 | `TEC`       | Core          | Sobriété et Local-First       | Exécution fluide garantie sur poste hôte standard (ex: PC 16 Go RAM sans GPU dédié, Air-Gapped strict).                                                         | Benchmark Resource / Profiling CPU-RAM (Pytest)  |
+| **EXG-GREEN-02** | EXG-TEC-P08-gr_2 | `TEC`       | Core          | Traitement Incrémentiel       | Interdiction stricte des recalculs globaux (zéro ré-indexation ou re-vectorisation complète de la base lors de modifications mineures).                         | Audit de pipeline / Test unitaire de delta       |
+| **EXG-GREEN-03** | EXG-TEC-P08-gr_3 | `TEC`       | Core          | Arbitrage d'Échelle et FinOps | Tout déploiement d'un composant lourd (Triple Store persistant, base vectorielle serveur) requiert un arbitrage documenté prouvant le rapport valeur/empreinte. | Revue d'architecture & Dossier d'arbitrage (.md) |
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 

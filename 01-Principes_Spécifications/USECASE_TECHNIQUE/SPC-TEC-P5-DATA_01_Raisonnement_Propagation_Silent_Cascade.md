@@ -2,32 +2,35 @@
 type: spec
 reference: SPC-TEC-P5-DATA_01
 revision: 1
-titre: "Raisonnement & Propagation Silent Cascade"
+titre: Raisonnement & Propagation Silent Cascade
 titre_court: propagation_silent_cascade_01
-description: "Spécifie le jeu de données de validation ABox et le harnais d'exécution Pytest pour le moteur de raisonnement sur le cas d'usage Silent Cascade."
+description: Spécifie le jeu de données de validation ABox et le harnais d'exécution Pytest pour le moteur de raisonnement sur le cas d'usage Silent Cascade.
 phase_code: P5
-phase_nom: "Agent MITM & Reasoning Base"
-statut: "🟢 PASSED"
+phase_nom: Agent MITM & Reasoning Base
+statut: 🟢 PASSED
 portee: USECASE_TECHNIQUE
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
+  - Architectes Ontologues
+  - Développeurs DevSecOps
 exigences:
-  - id: EXG-IN-01
+  - id: EXG-TEC-P5-DAT_1
+    code_exigence: EXG-IN-01
     domaine: IN
-    titre: "Inférence Hôte Pivot"
-    description: "Assertion Pytest vérifiée : dkg-data:Host-Proxy-DMZ a dkg:HighRiskAsset."
-    test: "test_phase5_inference.py"
-  - id: EXG-IN-02
+    domaine_nom: Inférence & Graph Analytics
+    core: true
+    phase: P1
+    titre: Inférence Hôte Pivot
+    critere: "Assertion Pytest vérifiée : dkg-data:Host-Proxy-DMZ a dkg:HighRiskAsset."
+    test: test_phase5_inference.py
+  - id: EXG-TEC-P5-DAT_2
+    code_exigence: EXG-IN-02
     domaine: IN
-    titre: "Inférence Cascade"
-    description: "Assertion Pytest vérifiée : présence du triplet dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal."
-    test: "test_phase5_inference.py"
-  - id: EXG-QU-03
-    domaine: QU
-    titre: "Validation SHACL Post-Inférence"
-    description: "Le graphe fusionné (Base + Inferred) doit produire zéro violation SHACL (sh:Violation)."
-    test: "pySHACL"
+    domaine_nom: Inférence & Graph Analytics
+    core: true
+    phase: P1
+    titre: Inférence Cascade
+    critere: "Assertion Pytest vérifiée : présence du triplet dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal."
+    test: test_phase5_inference.py
 ---
 
 # 📜 Raisonnement & Propagation Silent Cascade
@@ -105,11 +108,11 @@ dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal .
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                                                                  | **Mode de Test / Asset**   |
-| --------------- | ---------------- | ----------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| **EXG-IN-01**   | EXG-TEC-P5-DAT_1 | `IN`        | Inférence Hôte Pivot            | Assertion Pytest vérifiée : `dkg-data:Host-Proxy-DMZ a dkg:HighRiskAsset`.                                                | `test_phase5_inference.py` |
-| **EXG-IN-02**   | EXG-TEC-P5-DAT_2 | `IN`        | Inférence Cascade               | Assertion Pytest vérifiée : présence du triplet `dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal`. | `test_phase5_inference.py` |
-| **EXG-QU-03**   | EXG-TEC-P5-DAT_3 | `QU`        | Validation SHACL Post-Inférence | Le graphe fusionné (Base + Inferred) doit produire zéro violation SHACL (`sh:Violation`).                                 | pySHACL                    |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**      | **Description & Critères d'Acceptation**                                                                                  | **Mode de Test / Asset**   |
+| --------------- | ---------------- | ----------- | ------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| **EXG-IN-01**   | EXG-TEC-P5-DAT_1 | `IN`        | Core          | Inférence Hôte Pivot            | Assertion Pytest vérifiée : `dkg-data:Host-Proxy-DMZ a dkg:HighRiskAsset`.                                                | `test_phase5_inference.py` |
+| **EXG-IN-02**   | EXG-TEC-P5-DAT_2 | `IN`        | Core          | Inférence Cascade               | Assertion Pytest vérifiée : présence du triplet `dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal`. | `test_phase5_inference.py` |
+| **EXG-QU-03**   | EXG-TEC-P5-DAT_3 | `QU`        | Core          | Validation SHACL Post-Inférence | Le graphe fusionné (Base + Inferred) doit produire zéro violation SHACL (`sh:Violation`).                                 | pySHACL                    |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

@@ -10,147 +10,136 @@ statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
   - Architectes Ontologues
-  - Développeurs DevSecOps
-description: Description de la gouvernance documentaire organisationnelle et technique. Cadre l'objectif SPEC-DRIVEN du projet et fixe la taxonomie officielle des domaines.
+description: La présente spécification établit le cadre de gouvernance documentaire, organisationnel et technique pour le Dynamic Knowledge Graph (DKG) CyberSec. Elle définit le cycle de vie des exigences (`EXG-`), le découpage tripartite des spécifications, fixe la taxonomie officielle des domaines et établit les contraintes de sobriété hardware, d'isolation TLP et de qualité sémantique automatisée.
 exigences:
-  - id: EXG-OR-01
+  - id: EXG-FWK-P1-GOU_1
+    code_exigence: EXG-OR-01
     domaine: OR
-    titre: "Spec-Driven Development"
-    description: "Mise à jour SPEC obligatoire avant toute modification de code."
-    test: "Revue Git / Audit"
-
-  - id: EXG-OR-02
+    domaine_nom: Organisation & Processus
+    core: true
+    phase: P1
+    titre: Spec-Driven Development
+    critere: Mise à jour SPEC obligatoire avant toute modification de code.
+    test: Revue Git / Audit
+  - id: EXG-FWK-P1-GOU_3
+    code_exigence: EXG-OR-03
     domaine: OR
-    titre: "Parité Master / Snapshot"
-    description: "Empreinte binaire identique entre Master et Snapshot."
-    test: "Control Hash / CI"
-
-  - id: EXG-OR-03
+    domaine_nom: Organisation & Processus
+    core: true
+    phase: P1
+    titre: Standard Traçabilité Phase
+    critere: Découpage strict des livrables selon les 4 briques projet.
+    test: Inspection Dossiers
+  - id: EXG-FWK-P1-GOU_5
+    code_exigence: EXG-OR-05
     domaine: OR
-    titre: "Standard Traçabilité Phase"
-    description: "Découpage strict des livrables selon les 4 briques projet."
-    test: "Inspection Dossiers"
-
-  - id: EXG-OR-04
+    domaine_nom: Organisation & Processus
+    core: true
+    phase: P1
+    titre: Architecture SSOT (config.py)
+    critere: Centralisation stricte des répertoires et URIs dans config.py.
+    test: Test Python / AST
+  - id: EXG-FWK-P1-GOU_6
+    code_exigence: EXG-OR-06
     domaine: OR
-    titre: "Gatekeeper Inter-Phase"
-    description: "Validation préalable du formulaire de cadrage inter-phase."
-    test: "Validation Cadrage"
-
-  - id: EXG-OR-05
+    domaine_nom: Organisation & Processus
+    core: true
+    phase: P1
+    titre: Double Export Anti-Collision
+    critere: Synchronisation Snapshot -> Master sans erreur SameFileError.
+    test: Execution Script
+  - id: EXG-FWK-P1-GOU_8
+    code_exigence: EXG-OR-08
     domaine: OR
-    titre: "Architecture SSOT (config.py)"
-    description: "Centralisation stricte des répertoires et URIs dans config.py."
-    test: "Test Python / AST"
-
-  - id: EXG-OR-06
-    domaine: OR
-    titre: "Double Export Anti-Collision"
-    description: "Synchronisation Snapshot -> Master sans erreur SameFileError."
-    test: "Execution Script"
-
-  - id: EXG-OR-07
-    domaine: OR
-    titre: "Validation aux Frontières (Pydantic)"
-    description: "Validation stricte des données entrantes/configs via Pydantic V2 avant conversion RDF."
-    test: "Pytest / Pydantic ValidationError"
-
-  - id: EXG-OR-08
-    domaine: OR
-    titre: "Unicité et Conformité des Domaines"
-    description: "Tout code de domaine utilisé doit obligatoirement figurer dans la taxonomie officielle."
-    test: "Pytest / Pydantic Enum Check / Linter Spec"
-
-  - id: EXG-OR-09
-    domaine: OR
-    titre: "Formatage des Identifiants d'Exigences"
-    description: "Format strict ^EXG-([A-Z]{2,4})-[0-9]{2,3}$ rattaché à un domaine officiel."
-    test: "Linter Regex / CI AST Check"
-
-  - id: EXG-HW-01
+    domaine_nom: Organisation & Processus
+    core: true
+    phase: P1
+    titre: Unicité et Conformité des Domaines
+    critere: Tout code de domaine utilisé doit obligatoirement figurer dans la taxonomie officielle.
+    test: Pytest / Pydantic Enum Check / Linter Spec
+  - id: EXG-FWK-P1-GOU_10
+    code_exigence: EXG-HW-01
     domaine: HW
-    titre: "Inférence Local Économe"
-    description: "Exécution PC 16 Go RAM sans GPU dédié, Air-Gapped strict."
-    test: "Benchmark Resource"
-
-  - id: EXG-SE-01
+    domaine_nom: Hardware & Infrastructures
+    core: false
+    phase: P1
+    titre: Inférence Local Économe
+    critere: Exécution PC 16 Go RAM sans GPU dédié, Air-Gapped strict.
+    test: Benchmark Resource
+  - id: EXG-FWK-P1-GOU_11
+    code_exigence: EXG-SE-01
     domaine: SE
-    titre: "Marquage TLP Obligatoire"
-    description: "Tag TLP présent sur tout document ou graphe Turtle."
-    test: "Linter / Pytest"
-
-  - id: EXG-SE-02
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Marquage TLP Obligatoire
+    critere: Tag TLP présent sur tout document ou graphe Turtle.
+    test: Linter / Pytest
+  - id: EXG-FWK-P1-GOU_13
+    code_exigence: EXG-SE-03
     domaine: SE
-    titre: "Isolation des Snapshots"
-    description: "Immuabilité des snapshots de jalons validés."
-    test: "Droits Fichiers"
-
-  - id: EXG-SE-03
-    domaine: SE
-    titre: "Air-Gapped & Modèles Locaux"
-    description: "Exécution MLOps/NLP 100% locale sans accès Internet runtime."
-    test: "Check Réseau / Cache"
-
-  - id: EXG-TB-01
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Air-Gapped & Modèles Locaux
+    critere: Exécution MLOps/NLP 100% locale sans accès Internet runtime.
+    test: Check Réseau / Cache
+  - id: EXG-FWK-P1-GOU_14
+    code_exigence: EXG-TB-01
     domaine: TB
-    titre: "Espace de Noms & Séparateur URI"
-    description: "Namespace TBox unique avec séparateur #."
-    test: "Parsing RDF"
-
-  - id: EXG-TB-02
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Espace de Noms & Séparateur URI
+    critere: "Namespace TBox unique avec séparateur #."
+    test: Parsing RDF
+  - id: EXG-FWK-P1-GOU_15
+    code_exigence: EXG-TB-02
     domaine: TB
-    titre: "Typage OWL Strict"
-    description: "Typage formel obligatoire (owl:Class, owl:ObjectProperty)."
-    test: "Parsing OWL / SPARQL"
-
-  - id: EXG-TB-03
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Typage OWL Strict
+    critere: Typage formel obligatoire (owl:Class, owl:ObjectProperty).
+    test: Parsing OWL / SPARQL
+  - id: EXG-FWK-P1-GOU_16
+    code_exigence: EXG-TB-03
     domaine: TB
-    titre: "Déclaration Domaine & Portée"
-    description: "rdfs:domain et rdfs:range obligatoires sur toute propriété."
-    test: "Requête SPARQL TBox"
-
-  - id: EXG-TB-04
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Déclaration Domaine & Portée
+    critere: rdfs:domain et rdfs:range obligatoires sur toute propriété.
+    test: Requête SPARQL TBox
+  - id: EXG-FWK-P1-GOU_17
+    code_exigence: EXG-TB-04
     domaine: TB
-    titre: "Sémantique RBox & Inverses"
-    description: "Rôles inverses obligatoires via owl:inverseOf."
-    test: "Check Inverses SPARQL"
-
-  - id: EXG-TB-05
-    domaine: TB
-    titre: "Couche Lexicale SKOS"
-    description: "Labels multilingues (FR/EN) et définitions SKOS."
-    test: "Validation SKOS"
-
-  - id: EXG-QU-01
+    domaine_nom: TBox & Ontologies Master
+    core: true
+    phase: P1
+    titre: Sémantique RBox & Inverses
+    critere: Rôles inverses obligatoires via owl:inverseOf.
+    test: Check Inverses SPARQL
+  - id: EXG-FWK-P1-GOU_21
+    code_exigence: EXG-QU-03
     domaine: QU
-    titre: "Couverture SHACL"
-    description: "Validation SHACL couvrante sur l'ensemble du schéma."
-    test: "Execution pySHACL"
-
-  - id: EXG-QU-02
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P1
+    titre: Sanity Check Automatisé
+    critere: 0 violation sh:Violation au contrôle pySHACL.
+    test: "Pytest / SHACL[cite: 1]"
+  - id: EXG-FWK-P1-GOU_22
+    code_exigence: EXG-QU-04
     domaine: QU
-    titre: "Contrôle Conformité Données"
-    description: "Datatypes, plages et formats validés sous CWA."
-    test: "pySHACL CWA"
-
-  - id: EXG-QU-03
-    domaine: QU
-    titre: "Sanity Check Automatisé"
-    description: "0 violation sh:Violation au contrôle pySHACL."
-    test: "Pytest / SHACL"
-
-  - id: EXG-QU-04
-    domaine: QU
-    titre: "Vocabulaire TBox First"
-    description: "0 prédicat hors-TBox Master utilisé dans le projet."
-    test: "Pytest (test_00)"
-
-  - id: EXG-SH-01
-    domaine: SH
-    titre: "Shapes Structurales Abstraites"
-    description: "Méta-shapes de validation intégrées au schéma."
-    test: "Execution SHACL"
+    domaine_nom: Qualité & Conformité
+    core: true
+    phase: P1
+    titre: Vocabulaire TBox First
+    critere: "0 prédicat hors-TBox Master utilisé dans le projet.[cite: 1]"
+    test: "Pytest (test_00)[cite: 1]"
 ---
+
 
 ## 📖 1. Résumé Exécutif & Glossaire
 
@@ -298,31 +287,31 @@ Toute exigence doit respecter la forme regex : `^EXG-([A-Z]{2,4})-[0-9]{2,3}$` (
 
 ## 📊 5. Matrice Synthétique des Exigences (Index de Traçabilité)
 
-| **Identifiant**   | UID               | **Domaine** | **Intitulé de l'Exigence**           | **Description & Critères d'Acceptation**                                                | **Mode de Validation**                     |
-| ----------------- | ----------------- | ----------- | ------------------------------------ | --------------------------------------------------------------------------------------- | ------------------------------------------ |
-| **EXG-OR-01**     | EXG-FWK-P1-GOU_1  | `OR`        | Spec-Driven Development              | Mise à jour SPEC obligatoire avant toute modification de code.                          | Revue Git / Audit                          |
-| **EXG-OR-02**     | EXG-FWK-P1-GOU_2  | `OR`        | Parité Master / Snapshot             | Empreinte binaire identique entre Master et Snapshot.                                   | Control Hash / CI                          |
-| **EXG-OR-03**     | EXG-FWK-P1-GOU_3  | `OR`        | Standard Traçabilité Phase           | Découpage strict des livrables selon les 4 briques projet.                              | Inspection Dossiers                        |
-| **EXG-OR-04**     | EXG-FWK-P1-GOU_4  | `OR`        | Gatekeeper Inter-Phase               | Validation préalable du formulaire de cadrage inter-phase.                              | Validation Cadrage                         |
-| **EXG-OR-05**     | EXG-FWK-P1-GOU_5  | `OR`        | Architecture SSOT (`config.py`)      | Centralisation stricte des répertoires et URIs dans `config.py`.                        | Test Python / AST                          |
-| **EXG-OR-06**     | EXG-FWK-P1-GOU_6  | `OR`        | Double Export Anti-Collision         | Synchronisation Snapshot -> Master sans erreur `SameFileError`.                         | Execution Script                           |
-| **EXG-OR-07**     | EXG-FWK-P1-GOU_7  | `OR`        | Validation aux Frontières (Pydantic) | Validation stricte des données entrantes/configs via Pydantic V2 avant conversion RDF.  | Pytest / Pydantic `ValidationError`        |
-| **EXG-OR-08**     | EXG-FWK-P1-GOU_8  | `OR`        | Unicité et Conformité des Domaines   | Tout code de domaine utilisé doit obligatoirement figurer dans la taxonomie officielle. | Pytest / Pydantic Enum Check / Linter Spec |
-| **EXG-OR-09**     | EXG-FWK-P1-GOU_9  | `OR`        | Formatage des IDs                    | Format strict `^EXG-([A-Z]{2,4})-[0-9]{2,3}$` rattaché à un domaine officiel.           | Linter Regex / CI AST Check                |
-| **EXG-HW-01**     | EXG-FWK-P1-GOU_10 | `HW`        | Inférence Local Économe              | Exécution PC 16 Go RAM sans GPU dédié, Air-Gapped strict.                               | Benchmark Resource                         |
-| **EXG-SE-01**     | EXG-FWK-P1-GOU_11 | `SE`        | Marquage TLP Obligatoire             | Tag TLP présent sur tout document ou graphe Turtle.                                     | Linter / Pytest                            |
-| **EXG-SE-02**     | EXG-FWK-P1-GOU_12 | `SE`        | Isolation des Snapshots              | Immuabilité des snapshots de jalons validés.                                            | Droits Fichiers                            |
-| **EXG-SE-03**     | EXG-FWK-P1-GOU_13 | `SE`        | Air-Gapped & Modèles Locaux          | Exécution MLOps/NLP 100% locale sans accès Internet runtime.                            | Check Réseau / Cache                       |
-| **EXG-TB-01**     | EXG-FWK-P1-GOU_14 | `TB`        | Espace de Noms & Séparateur URI      | Namespace TBox unique avec séparateur `#`.                                              | Parsing RDF                                |
-| **EXG-TB-02**     | EXG-FWK-P1-GOU_15 | `TB`        | Typage OWL Strict                    | Typage formel obligatoire (`owl:Class`, `owl:ObjectProperty`).                          | Parsing OWL / SPARQL                       |
-| **EXG-TB-03**     | EXG-FWK-P1-GOU_16 | `TB`        | Déclaration Domaine & Portée         | `rdfs:domain` et `rdfs:range` obligatoires sur toute propriété.                         | Requête SPARQL TBox                        |
-| **EXG-TB-04**     | EXG-FWK-P1-GOU_17 | `TB`        | Sémantique RBox & Inverses           | Rôles inverses obligatoires via `owl:inverseOf`.                                        | Check Inverses SPARQL                      |
-| **EXG-TB-05**     | EXG-FWK-P1-GOU_18 | `TB`        | Couche Lexicale SKOS                 | Labels multilingues (FR/EN) et définitions SKOS.                                        | Validation SKOS                            |
-| **EXG-QU-01**     | EXG-FWK-P1-GOU_19 | `QU`        | Couverture SHACL                     | Validation SHACL couvrante sur l'ensemble du schéma.                                    | Execution pySHACL                          |
-| **EXG-QU-02**     | EXG-FWK-P1-GOU_20 | `QU`        | Contrôle Conformité Données          | Datatypes, plages et formats validés sous CWA.                                          | pySHACL CWA                                |
-| **EXG-QU-03**     | EXG-FWK-P1-GOU_21 | `QU`        | Sanity Check Automatisé              | 0 violation `sh:Violation` au contrôle pySHACL.                                         | Pytest / SHACL[cite: 1]                    |
-| **EXG-QU-04**     | EXG-FWK-P1-GOU_22 | `QU`        | Vocabulaire TBox First               | 0 prédicat hors-TBox Master utilisé dans le projet.[cite: 1]                            | Pytest (`test_00`)[cite: 1]                |
-| **EXG-SH-01**     | EXG-FWK-P1-GOU_23 | `SH`        | Shapes Structurales Abstraites       | Méta-shapes de validation intégrées au schéma.[cite: 1]                                 | Execution SHACL[cite: 1]                   |
+| **Identifiant** | UID               | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**           | **Description & Critères d'Acceptation**                                                | **Mode de Validation**                     |
+| --------------- | ----------------- | ----------- | ------------- | ------------------------------------ | --------------------------------------------------------------------------------------- | ------------------------------------------ |
+| **EXG-OR-01**   | EXG-FWK-P1-GOU_1  | `OR`        | Core          | Spec-Driven Development              | Mise à jour SPEC obligatoire avant toute modification de code.                          | Revue Git / Audit                          |
+| **EXG-OR-02**   | EXG-FWK-P1-GOU_2  | `OR`        | Core          | Parité Master / Snapshot             | Empreinte binaire identique entre Master et Snapshot.                                   | Control Hash / CI                          |
+| **EXG-OR-03**   | EXG-FWK-P1-GOU_3  | `OR`        | Core          | Standard Traçabilité Phase           | Découpage strict des livrables selon les 4 briques projet.                              | Inspection Dossiers                        |
+| **EXG-OR-04**   | EXG-FWK-P1-GOU_4  | `OR`        | Core          | Gatekeeper Inter-Phase               | Validation préalable du formulaire de cadrage inter-phase.                              | Validation Cadrage                         |
+| **EXG-OR-05**   | EXG-FWK-P1-GOU_5  | `OR`        | Core          | Architecture SSOT (`config.py`)      | Centralisation stricte des répertoires et URIs dans `config.py`.                        | Test Python / AST                          |
+| **EXG-OR-06**   | EXG-FWK-P1-GOU_6  | `OR`        | Core          | Double Export Anti-Collision         | Synchronisation Snapshot -> Master sans erreur `SameFileError`.                         | Execution Script                           |
+| **EXG-OR-07**   | EXG-FWK-P1-GOU_7  | `OR`        | Core          | Validation aux Frontières (Pydantic) | Validation stricte des données entrantes/configs via Pydantic V2 avant conversion RDF.  | Pytest / Pydantic `ValidationError`        |
+| **EXG-OR-08**   | EXG-FWK-P1-GOU_8  | `OR`        | Core          | Unicité et Conformité des Domaines   | Tout code de domaine utilisé doit obligatoirement figurer dans la taxonomie officielle. | Pytest / Pydantic Enum Check / Linter Spec |
+| **EXG-OR-09**   | EXG-FWK-P1-GOU_9  | `OR`        | Core          | Formatage des IDs                    | Format strict `^EXG-([A-Z]{2,4})-[0-9]{2,3}$` rattaché à un domaine officiel.           | Linter Regex / CI AST Check                |
+| **EXG-HW-01**   | EXG-FWK-P1-GOU_10 | `HW`        | Non-Core      | Inférence Local Économe              | Exécution PC 16 Go RAM sans GPU dédié, Air-Gapped strict.                               | Benchmark Resource                         |
+| **EXG-SE-01**   | EXG-FWK-P1-GOU_11 | `SE`        | Core          | Marquage TLP Obligatoire             | Tag TLP présent sur tout document ou graphe Turtle.                                     | Linter / Pytest                            |
+| **EXG-SE-02**   | EXG-FWK-P1-GOU_12 | `SE`        | Core          | Isolation des Snapshots              | Immuabilité des snapshots de jalons validés.                                            | Droits Fichiers                            |
+| **EXG-SE-03**   | EXG-FWK-P1-GOU_13 | `SE`        | Core          | Air-Gapped & Modèles Locaux          | Exécution MLOps/NLP 100% locale sans accès Internet runtime.                            | Check Réseau / Cache                       |
+| **EXG-TB-01**   | EXG-FWK-P1-GOU_14 | `TB`        | Core          | Espace de Noms & Séparateur URI      | Namespace TBox unique avec séparateur `#`.                                              | Parsing RDF                                |
+| **EXG-TB-02**   | EXG-FWK-P1-GOU_15 | `TB`        | Core          | Typage OWL Strict                    | Typage formel obligatoire (`owl:Class`, `owl:ObjectProperty`).                          | Parsing OWL / SPARQL                       |
+| **EXG-TB-03**   | EXG-FWK-P1-GOU_16 | `TB`        | Core          | Déclaration Domaine & Portée         | `rdfs:domain` et `rdfs:range` obligatoires sur toute propriété.                         | Requête SPARQL TBox                        |
+| **EXG-TB-04**   | EXG-FWK-P1-GOU_17 | `TB`        | Core          | Sémantique RBox & Inverses           | Rôles inverses obligatoires via `owl:inverseOf`.                                        | Check Inverses SPARQL                      |
+| **EXG-TB-05**   | EXG-FWK-P1-GOU_18 | `TB`        | Core          | Couche Lexicale SKOS                 | Labels multilingues (FR/EN) et définitions SKOS.                                        | Validation SKOS                            |
+| **EXG-QU-01**   | EXG-FWK-P1-GOU_19 | `QU`        | Core          | Couverture SHACL                     | Validation SHACL couvrante sur l'ensemble du schéma.                                    | Execution pySHACL                          |
+| **EXG-QU-02**   | EXG-FWK-P1-GOU_20 | `QU`        | Core          | Contrôle Conformité Données          | Datatypes, plages et formats validés sous CWA.                                          | pySHACL CWA                                |
+| **EXG-QU-03**   | EXG-FWK-P1-GOU_21 | `QU`        | Core          | Sanity Check Automatisé              | 0 violation `sh:Violation` au contrôle pySHACL.                                         | Pytest / SHACL[cite: 1]                    |
+| **EXG-QU-04**   | EXG-FWK-P1-GOU_22 | `QU`        | Core          | Vocabulaire TBox First               | 0 prédicat hors-TBox Master utilisé dans le projet.[cite: 1]                            | Pytest (`test_00`)[cite: 1]                |
+| **EXG-SH-01**   | EXG-FWK-P1-GOU_23 | `SH`        | Core          | Shapes Structurales Abstraites       | Méta-shapes de validation intégrées au schéma.[cite: 1]                                 | Execution SHACL[cite: 1]                   |
 
 ## 🛡️ 6. Outillage, CI/CD & Traçabilité Pytest
 

@@ -2,33 +2,45 @@
 type: spec
 reference: SPC-FWK-P6-HABILITATION_01
 revision: 1
-titre: "Matrice d'Habilitations & Isolation TLP"
+titre: Matrice d'Habilitations & Isolation TLP
 titre_court: habilitation_tlp_01
-description: "Définit la politique transversale d'isolation sémantique et de ségrégation d'accès au Knowledge Graph selon le protocole TLP."
+description: Définit la politique transversale d'isolation sémantique et de ségrégation d'accès au Knowledge Graph selon le protocole TLP.
 phase_code: P6
-phase_nom: "API Gateway & Ségrégation TLP"
-statut: "🟢 PASSED"
+phase_nom: API Gateway & Ségrégation TLP
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
-  - "Architectes Ontologues"
-  - "Développeurs DevSecOps"
-  - "Analystes CTI / SOC"
+  - Architectes Ontologues
+  - Développeurs DevSecOps
+  - Analystes CTI / SOC
 exigences:
-  - id: EXG-SE-01
+  - id: EXG-FWK-P6-HAB_1
+    code_exigence: EXG-SE-01
     domaine: SE
-    titre: "Étanchéité TLP:CLEAR"
-    description: "0 résultat RED renvoyé sur une requête CLEAR."
-    test: "PyTest (test_tlp_isolation_clear)"
-  - id: EXG-SE-02
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Étanchéité TLP:CLEAR
+    critere: 0 résultat RED renvoyé sur une requête CLEAR.
+    test: PyTest (test_tlp_isolation_clear)
+  - id: EXG-FWK-P6-HAB_2
+    code_exigence: EXG-SE-02
     domaine: SE
-    titre: "Accès Intégral TLP:RED"
-    description: "Accès complet aux instances RED et inférées."
-    test: "PyTest (test_tlp_access_red)"
-  - id: EXG-SE-03
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Accès Intégral TLP:RED
+    critere: Accès complet aux instances RED et inférées.
+    test: PyTest (test_tlp_access_red)
+  - id: EXG-FWK-P6-HAB_3
+    code_exigence: EXG-SE-03
     domaine: SE
-    titre: "Audit Traçabilité"
-    description: "Traçabilité de chaque appel dans le fichier de log."
-    test: "Audit Log (api_gateway_audit.log)"
+    domaine_nom: Sécurité & Isolation
+    core: true
+    phase: P1
+    titre: Audit Traçabilité
+    critere: Traçabilité de chaque appel dans le fichier de log.
+    test: Audit Log (api_gateway_audit.log)
 ---
 
 # 📜 Matrice d'Habilitations & Isolation TLP
@@ -76,11 +88,11 @@ graph TD
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant** | UID              | **Domaine** | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**            | **Mode de Test / Asset**            |
-| --------------- | ---------------- | ----------- | -------------------------- | --------------------------------------------------- | ----------------------------------- |
-| **EXG-SE-01**   | EXG-FWK-P6-HAB_1 | `SE`        | Étanchéité TLP:CLEAR       | 0 résultat RED renvoyé sur une requête CLEAR.       | PyTest (`test_tlp_isolation_clear`) |
-| **EXG-SE-02**   | EXG-FWK-P6-HAB_2 | `SE`        | Accès Intégral TLP:RED     | Accès complet aux instances RED et inférées.        | PyTest (`test_tlp_access_red`)      |
-| **EXG-SE-03**   | EXG-FWK-P6-HAB_3 | `SE`        | Audit Traçabilité          | Traçabilité de chaque appel dans le fichier de log. | Audit Log (`api_gateway_audit.log`) |
+| **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**            | **Mode de Test / Asset**            |
+| --------------- | ---------------- | ----------- | ------------- | -------------------------- | --------------------------------------------------- | ----------------------------------- |
+| **EXG-SE-01**   | EXG-FWK-P6-HAB_1 | `SE`        | Core          | Étanchéité TLP:CLEAR       | 0 résultat RED renvoyé sur une requête CLEAR.       | PyTest (`test_tlp_isolation_clear`) |
+| **EXG-SE-02**   | EXG-FWK-P6-HAB_2 | `SE`        | Core          | Accès Intégral TLP:RED     | Accès complet aux instances RED et inférées.        | PyTest (`test_tlp_access_red`)      |
+| **EXG-SE-03**   | EXG-FWK-P6-HAB_3 | `SE`        | Core          | Audit Traçabilité          | Traçabilité de chaque appel dans le fichier de log. | Audit Log (`api_gateway_audit.log`) |
 
 
 

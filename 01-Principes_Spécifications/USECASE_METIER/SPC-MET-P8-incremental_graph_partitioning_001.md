@@ -13,16 +13,15 @@ public_vise:
   - Architectes Ontologues
   - Développeurs DevSecOps
 exigences:
-  - id: EXG-P8-03
-    domaine: MET
-    titre: Interdiction des Rechargements Monolithiques
-    description: Le système ne doit jamais charger l'intégralité des graphes en mémoire vive ; seules les partitions ciblées et les deltas sont traités.
-    test: Profiling RAM PyTest / Max Triples
-  - id: EXG-P8-04
-    domaine: MET
-    titre: Validation Incrémentale par Deltas
-    description: "Les ajouts réglementaires (ex: RGPD Art. 32) sont injectés sous forme de fichiers temporaires Turtle fusionnés après validation SHACL."
-    test: SPARQL / SHACL validation suite
+  - id: EXG-MET-P8-inc_1
+    code_exigence: EXG-P8-03
+    domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P8
+    titre: Interdiction Monolithique
+    critere: Respect du plafond RAM et chargement par partitions.
+    test: Profiling RAM PyTest
 ---
 
 # 📜 Méthodologie de Partitionnement et Mise à Niveau Incrémentale
@@ -58,10 +57,10 @@ Plafond strict défini dans config.py : MAX_TRIPLES_IN_MEMORY = 50000.
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant | UID              | Domaine | Intitulé de l'Exigence    | Description & Critères d'Acceptation                 | Mode de Test / Asset      |
-| ----------- | ---------------- | ------- | ------------------------- | ---------------------------------------------------- | ------------------------- |
-| EXG-P8-03   | EXG-MET-P8-inc_1 | MET     | Interdiction Monolithique | Respect du plafond RAM et chargement par partitions. | Profiling RAM PyTest      |
-| EXG-P8-04   | EXG-MET-P8-inc_2 | MET     | Validation Incrémentale   | Fusion par deltas validés par contraintes SHACL.     | SPARQL / SHACL validation |
+| Identifiant | UID              | Domaine | Core/Non-Core | Intitulé de l'Exigence    | Description & Critères d'Acceptation                 | Mode de Test / Asset      |
+| ----------- | ---------------- | ------- | ------------- | ------------------------- | ---------------------------------------------------- | ------------------------- |
+| EXG-P8-03   | EXG-MET-P8-inc_1 | `TEC`   | Core          | Interdiction Monolithique | Respect du plafond RAM et chargement par partitions. | Profiling RAM PyTest      |
+| EXG-P8-04   | EXG-MET-P8-inc_2 | `QU`    | Core          | Validation Incrémentale   | Fusion par deltas validés par contraintes SHACL.     | SPARQL / SHACL validation |
 
 
 # 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
