@@ -101,7 +101,7 @@ def setup_mitm_context(tmp_path_factory):
 
 def test_exg_mitm_01_vectorization_and_similarity(setup_mitm_context):
     """
-    EXG-MITM-01 : Interception & Calcul Similitude
+    EXG-MITM-01 /  EXG-TEC-P5-CON_1     : Interception & Calcul Similitude
     Critère : Vectorisation via all-MiniLM-L6-v2 et calcul de score de similarité cosinus valide [0, 1].
     """
     agent = setup_mitm_context["agent"]
@@ -116,7 +116,7 @@ def test_exg_mitm_01_vectorization_and_similarity(setup_mitm_context):
 
 def test_exg_mitm_02_reconciliation_threshold(setup_mitm_context):
     """
-    EXG-MITM-02 : Réconciliation Seuil 0.85
+    EXG-MITM-02 / EXG-TEC-P5-CON_2         : Réconciliation Seuil 0.85
     Critères :
     1. Si score >= 0.85 -> Génération skos:exactMatch et owl:sameAs.
     2. Si score < 0.85 -> Pas d'alignement exactMatch.
@@ -148,7 +148,7 @@ def test_exg_mitm_02_reconciliation_threshold(setup_mitm_context):
 
 def test_exg_skos_01_taxonomic_consolidation(setup_mitm_context):
     """
-    EXG-SKOS-01 : Alignement Taxonomique SKOS & Consolidation TBox Master
+    EXG-SKOS-01  /  EXG-TEC-P5-CON_3     : Alignement Taxonomique SKOS & Consolidation TBox Master
     Critère : Intégration et déduction des triplets réconciliés dans TBox Master.
     """
     agent = setup_mitm_context["agent"]
@@ -172,7 +172,7 @@ def test_exg_skos_01_taxonomic_consolidation(setup_mitm_context):
 
 def test_exg_skos_02_tlp_segregation_mitm():
     """
-    EXG-SKOS-02 : Ségrégation TLP en Ingestion Interceptée
+    EXG-SKOS-02  /  EXG-TEC-P5-CON_4     : Ségrégation TLP en Ingestion Interceptée
     Critère : Les déductions et alignements ne doivent pas écrire ni altérer la ABox CTI CLEAR.
     """
     cti_path = Path(ABOX_CTI_PATH)
@@ -187,7 +187,7 @@ def test_exg_skos_02_tlp_segregation_mitm():
 
 def test_exg_hw_01_mitm_performance(setup_mitm_context):
     """
-    EXG-HW-01 : Temps de Réponse Offline (< 100 ms)
+    EXG-HW-01  / EXG-TEC-P5-CON_5     : Temps de Réponse Offline (< 100 ms)
     Critère : Le calcul de similarité pour un candidat doit s'exécuter en moins de 100 millisecondes en local.
     """
     agent = setup_mitm_context["agent"]

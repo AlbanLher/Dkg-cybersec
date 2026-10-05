@@ -40,7 +40,7 @@ def test_ner_entities_presence(cti_u_graph: Graph) -> None:
 
 
 def test_ner_confidence_score_threshold(cti_u_graph: Graph) -> None:
-    """EXG-NER-02: Vérifie que l'intégralité des scores de confiance respecte le seuil min (>= 0.85)."""
+    """EXG-NER-02  /  EXG-TEC-P5-NER_2    : Vérifie que l'intégralité des scores de confiance respecte le seuil min (>= 0.85)."""
     scores = list(cti_u_graph.objects(predicate=DKG_TBOX.nerConfidenceScore))
     assert len(scores) > 0, "Aucun score de confiance trouvé dans le graphe."
 
@@ -50,7 +50,7 @@ def test_ner_confidence_score_threshold(cti_u_graph: Graph) -> None:
 
 
 def test_ner_shacl_conformance(cti_u_graph: Graph) -> None:
-    """EXG-QUAL-03: Validation SHACL de l'union (ABox CTI-U + TBox Master)."""
+    """EXG-QUAL-03 /  EXG-TEC-P5-NER_3    : Validation SHACL de l'union (ABox CTI-U + TBox Master)."""
     data_union = Graph()
     data_union += cti_u_graph
 

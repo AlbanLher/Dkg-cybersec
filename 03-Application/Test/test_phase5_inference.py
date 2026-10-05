@@ -113,7 +113,7 @@ def test_exg_hw_01_performance(execution_context):
 
 def test_exg_inf_01_high_risk_asset(execution_context):
     """
-    EXG-INF-01 : Inférence HighRiskAsset (Règle R-01)
+    EXG-INF-01 /  EXG-TEC-P5-DAT_1  : Inférence HighRiskAsset (Règle R-01)
     """
     graph = execution_context["infered_graph"]
     
@@ -131,7 +131,7 @@ def test_exg_inf_01_high_risk_asset(execution_context):
 
 def test_exg_inf_02_cascade_materialization(execution_context):
     """
-    EXG-INF-02 : Matérialisation Cascade (Règle R-02)
+    EXG-INF-02 /  EXG-TEC-P5-DAT_2    : Matérialisation Cascade (Règle R-02)
     """
     graph = execution_context["infered_graph"]
     

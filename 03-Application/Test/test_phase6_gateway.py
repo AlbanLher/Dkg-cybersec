@@ -47,7 +47,7 @@ def mock_rdf_environment(tmp_path: Path, monkeypatch):
 
 
 def test_pydantic_immutability():
-    """Vérifie l'immutabilité des payloads Pydantic V2 (frozen=True)."""
+    """EXG-TEC-P6-GAT_1    Vérifie l'immutabilité des payloads Pydantic V2 (frozen=True)."""
     req = SPARQLQueryRequest(
         client_id="test-client",
         tlp_token=TLPLevel.CLEAR,
@@ -58,7 +58,7 @@ def test_pydantic_immutability():
 
 
 def test_tlp_isolation_clear(mock_rdf_environment):
-    """Vérifie qu'un jeton TLP:CLEAR ne voit PAS les données TLP:RED (0 fuite)."""
+    """EXG-FWK-P6-HAB_1     Vérifie qu'un jeton TLP:CLEAR ne voit PAS les données TLP:RED (0 fuite)."""
     gateway = APIGateway(audit_log_path=mock_rdf_environment / "audit.log")
     
     query_red = "PREFIX dkg-data: <http://dkg.cybersec.org/data#> SELECT ?s WHERE { ?s a <http://dkg.cybersec.org/tbox#Asset> }"
@@ -74,7 +74,7 @@ def test_tlp_isolation_clear(mock_rdf_environment):
 
 
 def test_tlp_access_red(mock_rdf_environment):
-    """Vérifie qu'un jeton TLP:RED accède aux données internes RED."""
+    """EXG-FWK-P6-HAB_2      Vérifie qu'un jeton TLP:RED accède aux données internes RED."""
     gateway = APIGateway(audit_log_path=mock_rdf_environment / "audit.log")
     
     query_red = "PREFIX dkg-data: <http://dkg.cybersec.org/data#> SELECT ?s WHERE { ?s a <http://dkg.cybersec.org/tbox#Asset> }"

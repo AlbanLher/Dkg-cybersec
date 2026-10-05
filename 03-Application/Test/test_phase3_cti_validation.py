@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from config import (
+from core.config import (
     TBOX_MASTER_PATH,
     SHACL_MASTER_PATH,
     ABOX_RED_PATH,
