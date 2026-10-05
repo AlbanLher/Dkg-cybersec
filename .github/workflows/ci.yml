@@ -15,7 +15,6 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       # 1. Récupération du repository
       - name: Checkout repository
@@ -27,7 +26,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      # 3. Installation des dépendances complètes (incluant psutil, fastapi, uvicorn)
+      # 3. Installation des dépendances complètes
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -43,20 +42,22 @@ jobs:
           mkdir -p 02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox
           mkdir -p 02-Donnees/Master_Transversal/TLP_RED_Instances_ABox
 
-      # 5. Exécution des générateurs amont (si présents dans votre flux)
+      # 5. Exécution des générateurs amont
       - name: Run Phase 1 & 2 Generators (Optional if snapshots exist)
         continue-on-error: true
         run: |
           python3 03-Application/Phase1/generate_phase1_socle.py
           python3 03-Application/Phase2/generate_phase2_abox.py
 
-      # 6. Exécution de la suite de tests globale avec le PYTHONPATH multi-chemin
-      - name: Run Full Pytest Suite
+      # 6. Exécution de la suite de tests globale avec filtrage optionnel par domaine si besoin
+      - name: Run Full Pytest Suite (Domain-tagged)
         env:
           PYTHONPATH: "03-Application:03-Application/phases"
           HITM_AUTO_APPROVE: "1"
+          REGISTRY_PATH: "../01_Principes_Specifications/registry_exigences.json"
         run: |
           cd 03-Application
+          # Vous pouvez exécuter toute la suite, pytest va appliquer les tags de domaine automatiquement
           pytest -v Test/ --junitxml=../test-results.xml
 
       # 7. Publication des résultats de test dans l'interface GitHub
