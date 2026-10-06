@@ -81,7 +81,7 @@ def test_markdown_documentation_structure(master_dir):
     assert "```mermaid" in content, "Bloc Mermaid absent du Markdown."
     assert "Résumé Synthétique des Classes TBox" in content, "Tableau des classes absent du Markdown."
 
-def test_exg_or_02_master_snapshot_parity(master_dir):
+def test_exg_fwk_p1_gou_2_master_snapshot_parity(master_dir):
     """EXG-OR-02  / EXG-FWK-P1-GOU_2  : Vérifie la parité binaire stricte Master / Snapshot."""
     assert DIR_SNAPSHOT_P1.exists(), f"Répertoire snapshot introuvable: {DIR_SNAPSHOT_P1}"
     
