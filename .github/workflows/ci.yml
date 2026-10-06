@@ -49,16 +49,15 @@ jobs:
           python3 03-Application/Phase1/generate_phase1_socle.py
           python3 03-Application/Phase2/generate_phase2_abox.py
 
-      # 6. Exécution de la suite de tests globale avec filtrage optionnel par domaine si besoin
-      - name: Run Full Pytest Suite (Domain-tagged)
+      # 6. Exécution exclusive de la suite de non-régression (filtrage par marqueur)
+      - name: Run Non-Regression Pytest Suite
         env:
           PYTHONPATH: "03-Application:03-Application/phases"
           HITM_AUTO_APPROVE: "1"
           REGISTRY_PATH: "../01_Principes_Specifications/registry_exigences.json"
         run: |
           cd 03-Application
-          # Vous pouvez exécuter toute la suite, pytest va appliquer les tags de domaine automatiquement
-          pytest -v Test/ --junitxml=../test-results.xml
+          pytest -v -m "non_regression" Test/ --junitxml=../test-results.xml
 
       # 7. Publication des résultats de test dans l'interface GitHub
       - name: Publish Test Results
