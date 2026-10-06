@@ -53,6 +53,7 @@ def combined_graph():
     return g
 
 
+@pytest.mark.non_regression
 def test_cti_entities_exist(combined_graph):
     """Vérifie la présence et le typage des entités CTI de référence dans le graphe combiné."""
     # Test dynamique sur les vulnérabilités CTI injectées
@@ -65,6 +66,7 @@ def test_cti_entities_exist(combined_graph):
     assert len(threat_patterns) > 0, "Aucune instance de dkg:ThreatPattern trouvée dans l'ABox CTI."
 
 
+@pytest.mark.non_regression
 def test_cti_multi_hop_chain(combined_graph):
     """
     Vérifie la validité de la chaîne RBox CTI :
@@ -85,6 +87,7 @@ def test_cti_multi_hop_chain(combined_graph):
     assert len(results) > 0, "La chaîne RBox CTI (CVE -> dkg:exploitsWeakness -> CWE -> CAPEC) est absente ou mal formée."
 
 
+@pytest.mark.non_regression
 def test_cross_tlp_chain_link(combined_graph):
     """
     Vérifie le raccordement fonctionnel Cross-TLP (ABox RED -> ABox CLEAR) :
@@ -104,6 +107,7 @@ def test_cross_tlp_chain_link(combined_graph):
     assert len(results) > 0, "Aucun composant de l'ABox RED n'est raccordé à une vulnérabilité CTI CLEAR."
 
 
+@pytest.mark.non_regression
 def test_shacl_conformance_phase3(combined_graph):
     """Vérifie la conformité SHACL intégrale du graphe d'union vis-à-vis des contraintes SHACL Master."""
     assert SHACL_MASTER_PATH.exists(), f"Fichier SHACL introuvable : {SHACL_MASTER_PATH}"

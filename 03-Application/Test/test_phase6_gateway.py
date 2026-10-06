@@ -46,6 +46,7 @@ def mock_rdf_environment(tmp_path: Path, monkeypatch):
     return tmp_path
 
 
+@pytest.mark.non_regression
 def test_pydantic_immutability():
     """EXG-TEC-P6-GAT_1    Vérifie l'immutabilité des payloads Pydantic V2 (frozen=True)."""
     req = SPARQLQueryRequest(
@@ -57,6 +58,7 @@ def test_pydantic_immutability():
         req.client_id = "modified-client"
 
 
+@pytest.mark.non_regression
 def test_tlp_isolation_clear(mock_rdf_environment):
     """EXG-FWK-P6-HAB_1     Vérifie qu'un jeton TLP:CLEAR ne voit PAS les données TLP:RED (0 fuite)."""
     gateway = APIGateway(audit_log_path=mock_rdf_environment / "audit.log")
@@ -73,6 +75,7 @@ def test_tlp_isolation_clear(mock_rdf_environment):
     assert res.results_count == 0
 
 
+@pytest.mark.non_regression
 def test_tlp_access_red(mock_rdf_environment):
     """EXG-FWK-P6-HAB_2      Vérifie qu'un jeton TLP:RED accède aux données internes RED."""
     gateway = APIGateway(audit_log_path=mock_rdf_environment / "audit.log")

@@ -41,6 +41,7 @@ def full_graph() -> Graph:
     return g
 
 
+@pytest.mark.non_regression
 def test_exg_uc_abox_tlp_marking(full_graph: Graph):
     """EXG-MET-P2-CAR_1 :   Vérifie l'application et la présence explicite du marquage TLP:RED sur les actifs (SPEC-METIER)."""
     query = """
@@ -58,6 +59,7 @@ def test_exg_uc_abox_tlp_marking(full_graph: Graph):
     assert expected_tlp_red in res, f"Marquage TLP:RED introuvable sur les actifs. Trouvé: {res}"
 
 
+@pytest.mark.non_regression
 def test_exg_uc_abox_01_namespace_integrity(full_graph: Graph):
     """EXG-UC-ABOX-01 : Validation de l'isolation stricte des Namespaces TBox (tbox#) et Data (data#)."""
     query = """
@@ -72,6 +74,7 @@ def test_exg_uc_abox_01_namespace_integrity(full_graph: Graph):
     assert len(res) == 0, f"Instances hors namespace dkg-data détectées : {[row[0] for row in res]}"
 
 
+@pytest.mark.non_regression
 def test_exg_uc_abox_03_cyber_chain_completeness(full_graph: Graph):
     """
     EXG-UC-ABOX-03  /  EXG-TEC-P2-ABO_3   : Complétude de la chaîne CTI Traversante.
@@ -96,6 +99,7 @@ def test_exg_uc_abox_03_cyber_chain_completeness(full_graph: Graph):
     assert len(res) > 0, "La chaîne CTI complète (Asset -> Component -> CVE -> CWE -> CAPEC) est absente !"
 
 
+@pytest.mark.non_regression
 def test_exg_fwk_02_01_referential_integrity(full_graph: Graph):
     """EXG-FWK-02-01  /  EXG-FWK-P2-ABO_1   : Intégrité référentielle globale (0 instance ou ressource orpheline non typée)."""
     query = """
@@ -111,6 +115,7 @@ def test_exg_fwk_02_01_referential_integrity(full_graph: Graph):
     assert len(res) == 0, f"URIs d'instances orphelines non déclarées dans dkg-data : {res}"
 
 
+@pytest.mark.non_regression
 def test_exg_qual_02_03_shacl_validation(full_graph: Graph):
     """EXG-QUAL-02 / EXG-QUAL-03  /   EXG-FWK-P2-ABO_2    : Validation SHACL sous CWA (0 violation tolérée)."""
     assert SHACL_MASTER_PATH.exists(), f"Fichier SHACL Master introuvable : {SHACL_MASTER_PATH}"

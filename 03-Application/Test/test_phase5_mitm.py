@@ -99,6 +99,7 @@ def setup_mitm_context(tmp_path_factory):
     mp.undo()
 
 
+@pytest.mark.non_regression
 def test_exg_mitm_01_vectorization_and_similarity(setup_mitm_context):
     """
     EXG-MITM-01 /  EXG-TEC-P5-CON_1     : Interception & Calcul Similitude
@@ -114,6 +115,7 @@ def test_exg_mitm_01_vectorization_and_similarity(setup_mitm_context):
     assert "server_ad_01" in match_uri, f"Violation EXG-MITM-01 : Entité incorrecte identifiée ({match_uri})"
 
 
+@pytest.mark.non_regression
 def test_exg_mitm_02_reconciliation_threshold(setup_mitm_context):
     """
     EXG-MITM-02 / EXG-TEC-P5-CON_2         : Réconciliation Seuil 0.85
@@ -146,6 +148,7 @@ def test_exg_mitm_02_reconciliation_threshold(setup_mitm_context):
         "Violation EXG-MITM-02 : Alignement 'skos:exactMatch' induement créé pour un score < 0.85 !"
 
 
+@pytest.mark.non_regression
 def test_exg_skos_01_taxonomic_consolidation(setup_mitm_context):
     """
     EXG-SKOS-01  /  EXG-TEC-P5-CON_3     : Alignement Taxonomique SKOS & Consolidation TBox Master
@@ -170,6 +173,7 @@ def test_exg_skos_01_taxonomic_consolidation(setup_mitm_context):
         "Violation EXG-SKOS-01 : Le document Markdown miroir de TBox Master n'a pas été généré."
 
 
+@pytest.mark.non_regression
 def test_exg_skos_02_tlp_segregation_mitm():
     """
     EXG-SKOS-02  /  EXG-TEC-P5-CON_4     : Ségrégation TLP en Ingestion Interceptée
@@ -185,6 +189,7 @@ def test_exg_skos_02_tlp_segregation_mitm():
             "Violation EXG-SKOS-02 : Infiltration d'entités candidates interceptées dans ABOX_CTI_PATH (TLP:CLEAR) !"
 
 
+@pytest.mark.non_regression
 def test_exg_hw_01_mitm_performance(setup_mitm_context):
     """
     EXG-HW-01  / EXG-TEC-P5-CON_5     : Temps de Réponse Offline (< 100 ms)

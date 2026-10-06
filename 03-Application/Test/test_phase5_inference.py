@@ -103,6 +103,7 @@ def execution_context(setup_mock_graphs):
     mp.undo()
 
 
+@pytest.mark.non_regression
 def test_exg_hw_01_performance(execution_context):
     """
     EXG-HW-01 : Performance d'exécution (< 5 secondes)
@@ -111,6 +112,7 @@ def test_exg_hw_01_performance(execution_context):
     assert exec_time < 5.0, f"Violation EXG-HW-01 : Inférence trop lente ({exec_time:.2f}s > 5.0s)"
 
 
+@pytest.mark.non_regression
 def test_exg_inf_01_high_risk_asset(execution_context):
     """
     EXG-INF-01 /  EXG-TEC-P5-DAT_1  : Inférence HighRiskAsset (Règle R-01)
@@ -129,6 +131,7 @@ def test_exg_inf_01_high_risk_asset(execution_context):
         "Violation EXG-INF-01 : Aucune entité 'HighRiskAsset' matérialisée."
 
 
+@pytest.mark.non_regression
 def test_exg_inf_02_cascade_materialization(execution_context):
     """
     EXG-INF-02 /  EXG-TEC-P5-DAT_2    : Matérialisation Cascade (Règle R-02)
@@ -147,6 +150,7 @@ def test_exg_inf_02_cascade_materialization(execution_context):
         "Violation EXG-INF-02 : La propriété 'exposesToCascade' n'a pas été matérialisée."
 
 
+@pytest.mark.non_regression
 def test_exg_se_01_tlp_segregation(execution_context):
     """
     EXG-SE-01 : Isolation TLP & Non-pollution des graphes sources

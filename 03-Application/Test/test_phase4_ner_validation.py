@@ -28,6 +28,7 @@ def cti_u_graph() -> Graph:
     return g
 
 
+@pytest.mark.non_regression
 def test_ner_entities_presence(cti_u_graph: Graph) -> None:
     """Vérifie l'existence et le typage des entités extraites du bulletin textuel."""
     actor_uri = DKG_CTI["ThreatActor-APT29"]
@@ -39,6 +40,7 @@ def test_ner_entities_presence(cti_u_graph: Graph) -> None:
     assert (pattern_uri, RDF.type, DKG_TBOX.ThreatPattern) in cti_u_graph, "Pattern T1566_002 absent ou mal typé"
 
 
+@pytest.mark.non_regression
 def test_ner_confidence_score_threshold(cti_u_graph: Graph) -> None:
     """EXG-NER-02  /  EXG-TEC-P5-NER_2    : Vérifie que l'intégralité des scores de confiance respecte le seuil min (>= 0.85)."""
     scores = list(cti_u_graph.objects(predicate=DKG_TBOX.nerConfidenceScore))
@@ -49,6 +51,7 @@ def test_ner_confidence_score_threshold(cti_u_graph: Graph) -> None:
         assert val >= 0.85, f"Score de confiance sous le seuil requis : {val} < 0.85"
 
 
+@pytest.mark.non_regression
 def test_ner_shacl_conformance(cti_u_graph: Graph) -> None:
     """EXG-QUAL-03 /  EXG-TEC-P5-NER_3    : Validation SHACL de l'union (ABox CTI-U + TBox Master)."""
     data_union = Graph()

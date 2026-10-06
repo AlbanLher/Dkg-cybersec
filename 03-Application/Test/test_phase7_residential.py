@@ -25,6 +25,7 @@ def test_local_inventory_loading():
     assert isinstance(env_model.household_assets, list)
     assert len(env_model.household_assets) > 0
 
+@pytest.mark.non_regression
 def test_family_inventory_loading():
     """Vérifie le chargement de l'inventaire en mode cas d'école (famille)."""
     orchestrator = HomeSOCOrchestrator()
@@ -32,6 +33,7 @@ def test_family_inventory_loading():
     assets = orchestrator.run_full_audit(source="family") # Test global de l'orchestrateur
     assert isinstance(assets, list)
 
+@pytest.mark.non_regression
 def test_external_cti_feed():
     """Vérifie la récupération et la structure des données CTI externes (CISA KEV)."""
     agent = ExternalCTIAgent()
@@ -42,6 +44,7 @@ def test_external_cti_feed():
     assert hasattr(first_entry, "cve_id")
     assert hasattr(first_entry, "affected_product")
 
+@pytest.mark.non_regression
 def test_advisor_agent_risk_evaluation():
     """Vérifie le moteur de corrélation sémantique et d'évaluation des risques via l'orchestrateur."""
     orchestrator = HomeSOCOrchestrator()

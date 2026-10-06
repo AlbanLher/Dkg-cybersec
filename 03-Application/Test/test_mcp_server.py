@@ -13,6 +13,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent / "core"))
 from mcp_server import DKGMCPRegistry
 
 
+@pytest.mark.non_regression
 def test_mcp_resources_listing():
     """Vérifie que le registre expose bien les ressources de données (TLP:RED et CLEAR)."""
     resources = DKGMCPRegistry.list_resources()
@@ -24,6 +25,7 @@ def test_mcp_resources_listing():
     assert "dkg://cti/incoming-tlp-clear" in uris, "La ressource externe TLP:CLEAR est manquante."
 
 
+@pytest.mark.non_regression
 def test_mcp_tools_listing():
     """Vérifie que les outils indispensables de la Phase 8 et du simulateur sont enregistrés."""
     tools = DKGMCPRegistry.list_tools()
@@ -36,6 +38,7 @@ def test_mcp_tools_listing():
     assert "run_soc_audit_pipeline" in tool_names, "L'outil d'orchestration SOC doit être exposé."
 
 
+@pytest.mark.non_regression
 def test_mcp_call_simulation_tool():
     """Teste l'appel direct de l'outil de simulation via le registre MCP avec un faible volume."""
     arguments = {"scale_factor": 100}
@@ -46,6 +49,7 @@ def test_mcp_call_simulation_tool():
     assert result.get("triple_count") > 0, "Le nombre de triplets générés doit être supérieur à 0."
 
 
+@pytest.mark.non_regression
 def test_mcp_unknown_tool_raises_error():
     """Vérifie qu'un appel à un outil non enregistré lève bien une exception explicite."""
     with pytest.raises(ValueError, match="Outil MCP non reconnu"):

@@ -15,6 +15,7 @@ from core.mitm_engine import MITMEngine
 from core.simulator import DKGSimulator
 from core.tbox_guardian import TBoxGuardianAgent
 
+@pytest.mark.non_regression
 def test_frugal_engine_execution():
     """Vérifie que le moteur de filtrage frugal produit correctement un delta valide."""
     result = run_frugal_filtering()
@@ -29,6 +30,7 @@ def test_frugal_engine_execution():
     assert len(g) > 0, "Le graphe delta ne doit pas être vide."
 
 
+@pytest.mark.non_regression
 def test_soc_audit_pipeline():
     """Vérifie le bon fonctionnement de l'orchestrateur d'audit SOC[cite: 15]."""
     report = run_soc_audit_pipeline()
@@ -38,6 +40,7 @@ def test_soc_audit_pipeline():
     assert report_path.exists(), "Le fichier de rapport d'audit SOC doit être généré."
 
 
+@pytest.mark.non_regression
 def test_mitm_engine_indexing():
     """Vérifie l'initialisation et l'indexation sémantique du moteur MITM[cite: 13]."""
     engine = MITMEngine()
@@ -50,6 +53,7 @@ def test_mitm_engine_indexing():
     assert 0.0 <= score <= 1.0, "Le score de similarité doit être compris entre 0 et 1[cite: 13]."
 
 
+@pytest.mark.non_regression
 def test_dkg_simulator_benchmark():
     """Vérifie la génération de charge synthétique et les métriques d'empreinte[cite: 14]."""
     simulator = DKGSimulator()
@@ -60,6 +64,7 @@ def test_dkg_simulator_benchmark():
     assert "memory_delta_mb" in metrics, "Les métriques de delta mémoire doivent être mesurées[cite: 14]."
 
 
+@pytest.mark.non_regression
 def test_tbox_guardian_pipeline(monkeypatch):
     """Vérifie l'agent gardien TBox avec simulation de validation HitM automatique[cite: 12, 16]."""
     monkeypatch.setenv("HITM_AUTO_APPROVE", "1")
