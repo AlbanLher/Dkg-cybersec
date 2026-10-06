@@ -15,44 +15,29 @@ SORT phase_code ASC, reference ASC
 ```
 
 
-### 2. Matrice Consolidée Traçabilité Exigences (`EXG-`)
+### 2. Table Spec_Exigence  
+
 ```dataviewjs
 let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
 let rows = [];
 
 for (let page of pages) {
-    // Récupération de la référence de la spec (depuis le frontmatter 'reference' ou à défaut le nom du fichier)
     let specRef = page.reference || page.file.name;
 
-    // Cas 1 : Structure sous 'exigences_par_domaine'
-    if (page.exigences_par_domaine) {
-        let dict = page.exigences_par_domaine;
-        for (let key of Object.keys(dict)) {
-            let list = dict[key];
-            if (Array.isArray(list)) {
-                for (let ex of list) {
-                    rows.push([
-                        specRef,
-                        ex.uid || ex.id || "-",
-                        ex.domaine || key,
-                        ex.titre || ex.intitule || "-",
-                        ex.desc || ex.description || "-",
-                        ex.val || ex.test || "-"
-                    ]);
-                }
-            }
-        }
-    }
-    // Cas 2 : Structure sous 'exigences' (liste à plat)
-    else if (page.exigences && Array.isArray(page.exigences)) {
+    if (page.exigences && Array.isArray(page.exigences)) {
         for (let ex of page.exigences) {
+            // Conversion propre du booléen core en texte
+            let coreStatus = "-";
+            if (ex.core !== undefined) {
+                coreStatus = ex.core ? "Core" : "Non-Core";
+            }
+
             rows.push([
                 specRef,
                 ex.uid || ex.id || "-",
                 ex.domaine || "-",
-                ex.titre || ex.intitule || "-",
-                ex.desc || ex.description || "-",
-                ex.val || ex.test || "-"
+                coreStatus,
+                ex.titre || ex.intitule || "-"
             ]);
         }
     }
@@ -61,138 +46,133 @@ for (let page of pages) {
 if (rows.length === 0) {
     dv.paragraph("⚠️ **Aucune exigence trouvée.** Vérifiez que vos fichiers dans `01-Principes_Spécifications` possèdent bien `type: spec` dans leur frontmatter.");
 } else {
-    // Tri par référence de spec puis par ID/UID d'exigence
+    // Tri par spécification puis par ID
     rows.sort((a, b) => (a[0] + a[1]).localeCompare(b[0] + b[1]));
     
     dv.table(
-        ["Spécification Source", "ID / UID Exigence", "Domaine", "Intitulé Exigence", "Critère d'Acceptation", "Mode de Test"],
+        ["Spécification", "ID Exigence", "Domaine", "Core / Non-Core", "Intitulé"],
         rows
     );
 }
+
 ```
+
+
+### 3. Matrice Consolidée par Couche Applicative (V-Model / App_Layer)
+
+```dataviewjs
+let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
+
+let header = "Spécification\tID Exigence\tDomaine\tCore / Non-Core\tIntitulé";
+let rows = [];
+
+for (let page of pages) {
+    let specRef = page.reference || page.file.name;
+
+    if (page.exigences && Array.isArray(page.exigences)) {
+        for (let ex of page.exigences) {
+            let id = ex.uid || ex.id || "-";
+            let domaine = ex.domaine || "-";
+            
+            let coreStatus = "-";
+            if (ex.core !== undefined) {
+                coreStatus = ex.core ? "Core" : "Non-Core";
+            }
+            
+            let titre = ex.titre || ex.intitule || "-";
+            titre = String(titre).replace(/(\r\n|\n|\r)/gm, " ");
+
+            rows.push(`${specRef}\t${id}\t${domaine}\t${coreStatus}\t${titre}`);
+        }
+    }
+}
+
+if (rows.length === 0) {
+    dv.paragraph("⚠️ **Aucune exigence trouvée.** Vérifiez que vos fichiers dans `01-Principes_Spécifications` possèdent bien `type: spec` dans leur frontmatter.");
+} else {
+    // Tri alphabétique des lignes de données
+    rows.sort((a, b) => a.localeCompare(b));
+    
+    // Insertion de l'en-tête en première position
+    rows.unshift(header);
+
+    dv.paragraph("```tsv\n" + rows.join("\n") + "\n```");
+}
+```
+
+---
+---
 
 
 
 ```dataviewjs
-let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
-let rows = [];
+(async () => {
+    // 1. Récupération des fichiers de test Python dans le coffre (si présents)
+    let pyFiles = app.vault.getFiles().filter(f => f.path.endsWith(".py"));
+    let testMapping = {};
 
-for (let page of pages) {
-    // Cas 1 : Structure sous 'exigences_par_domaine' (dictionnaire)
-    if (page.exigences_par_domaine) {
-        let dict = page.exigences_par_domaine;
-        for (let key of Object.keys(dict)) {
-            let list = dict[key];
-            if (Array.isArray(list)) {
-                for (let ex of list) {
-                    rows.push([
-                        ex.uid || ex.id || "-",
-                        ex.id || "-",
-                        ex.domaine || key,
-                        ex.titre || ex.intitule || "-",
-                        ex.desc || ex.description || "-",
-                        ex.val || ex.test || "-"
-                    ]);
+    for (let file of pyFiles) {
+        let content = await app.vault.read(file);
+        // Regex élargie pour capturer tous les formats d'ID d'exigences (ex: EXG-FWK-P1-T-R_1, EXG-TB-01, etc.)
+        let matches = content.match(/EXG-[A-Z0-9\-_]+/g);
+        if (matches) {
+            let uniqueExgs = [...new Set(matches)];
+            for (let exId of uniqueExgs) {
+                if (!testMapping[exId]) testMapping[exId] = [];
+                if (!testMapping[exId].includes(file.name)) {
+                    testMapping[exId].push(file.name);
                 }
             }
         }
     }
-    // Cas 2 : Structure sous 'exigences' (liste à plat présente dans votre YAML)
-    else if (page.exigences && Array.isArray(page.exigences)) {
-        for (let ex of page.exigences) {
-            rows.push([
-                ex.uid || ex.id || "-",   // Si 'uid' n'est pas dans le YAML, utilise 'id'
-                ex.id || "-",
-                ex.domaine || "-",
-                ex.titre || ex.intitule || "-",
-                ex.description || ex.desc || "-",
-                ex.test || ex.val || "-"
-            ]);
-        }
-    }
-}
 
-if (rows.length === 0) {
-    dv.paragraph("⚠️ **Aucune exigence trouvée.** Vérifiez que vos fichiers dans `01-Principes_Spécifications` possèdent bien `type: spec` dans leur frontmatter.");
-} else {
-    // Tri principal par l'identifiant de la première colonne
-    rows.sort((a, b) => (a[0] || "").localeCompare(b[0] || ""));
-    
-    dv.table(
-        ["UID", "ID", "Domaine", "Intitulé Exigence", "Critère d'Acceptation", "Mode de Test"],
-        rows
-    );
-}
-```
-### 5. - Matrice Consolidée Traçabilité Exigences décomposées par App_Layer
-```dataviewjs
-let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
+    // 2. Lecture des spécifications
+    let pages = dv.pages('"01-Principes_Spécifications"').where(p => p.type === "spec");
+    let rows = [];
 
-// En-têtes complets correspondant à votre structure d'exigence souhaitée
-let header = "ID\tDomaine\tTitre\tCritère\tTest";
-let layers = {
-    "Core": [header],
-    "Agent": [header],
-    "Interface": [header]
-};
+    for (let page of pages) {
+        let specRef = page.reference || page.file.name;
+        // Création d'un lien Obsidian propre vers la spec source
+        let specLink = `[[${page.file.path}|${specRef}]]`;
 
-function getAppLayer(domaine) {
-    if (!domaine) return "Interface";
-    let d = String(domaine).trim().toUpperCase();
-    
-    // Core : Modèle sémantique, Ontologie, Schémas, Formes
-    if (["TB", "SH", "ONT"].includes(d)) return "Core";
-    
-    // Agent : Inférence, Analyse, CTI, Traitement de texte, Intelligence/MITM
-    if (["IN", "CT", "IA"].includes(d)) return "Agent";
-    
-    // Interface : Organisation, Sécurité, Qualité, Technique, Hardware, etc.
-    return "Interface";
-}
+        if (page.exigences && Array.isArray(page.exigences)) {
+            for (let ex of page.exigences) {
+                let id = ex.uid || ex.id || "-";
+                let domaine = ex.domaine || "-";
+                
+                let coreStatus = "-";
+                if (ex.core !== undefined) {
+                    coreStatus = ex.core ? "Core" : "Non-Core";
+                }
+                
+                let titre = ex.titre || ex.intitule || "-";
+                titre = String(titre).replace(/(\r\n|\n|\r)/gm, " ");
 
-for (let page of pages) {
-    let pageDomaine = page.domaine || page.domain || "General";
-    
-    let processEx = (dom, ex) => {
-        let id = ex.uid || "-";
-        let titre = ex.titre || ex.intitule || "-";
-        let desc = ex.desc || ex.description || "-";
-        let val = ex.val || ex.test || "-";
-        
-        // Nettoyage des retours à la ligne potentiels dans les descriptions pour ne pas casser le format TSV
-        desc = String(desc).replace(/(\r\n|\n|\r)/gm, " ");
-        val = String(val).replace(/(\r\n|\n|\r)/gm, " ");
+                // Recherche de la correspondance dans les tests
+                let testedBy = testMapping[id] ? testMapping[id].join(", ") : "⚠️ Non couvert";
 
-        // Détermination du domaine effectif et de la couche
-        let effectiveDom = dom || pageDomaine;
-        if (ex.id) {
-            let match = ex.id.match(/^EXG-([A-Z]+)-/);
-            if (match) effectiveDom = match[1];
-        }
-        
-        let targetLayer = getAppLayer(effectiveDom);
-        layers[targetLayer].push(`${id}\t${effectiveDom}\t${titre}\t${desc}\t${val}`);
-    };
-
-    if (page.exigences_par_domaine) {
-        for (let dom in page.exigences_par_domaine) {
-            let list = page.exigences_par_domaine[dom];
-            if (Array.isArray(list)) {
-                list.forEach(ex => processEx(dom, ex));
+                rows.push([
+                    specLink,
+                    id,
+                    domaine,
+                    coreStatus,
+                    titre,
+                    testedBy
+                ]);
             }
         }
-    } else if (Array.isArray(page.exigences)) {
-        page.exigences.forEach(ex => processEx(pageDomaine, ex));
     }
-}
 
-// Génération dynamique des 3 blocs TSV d'exigences complètes
-for (let layerName of ["Core", "Agent", "Interface"]) {
-    dv.header(4, `📋 Matrice des Exigences — Couche : ${layerName} (Format TSV complet)`);
-    if (layers[layerName].length > 1) {
-        dv.paragraph("```tsv\n" + layers[layerName].join("\n") + "\n```");
+    if (rows.length === 0) {
+        dv.paragraph("⚠️ **Aucune exigence trouvée.**");
     } else {
-        dv.paragraph("_Aucune exigence pour cette couche._");
+        rows.sort((a, b) => (a[0] + a[1]).localeCompare(b[0] + b[1]));
+        
+        dv.table(
+            ["Spécification", "ID Exigence", "Domaine", "Core/Non-Core", "Intitulé", "Fichier(s) de Test Associé(s)"],
+            rows
+        );
     }
-}
+})();
 ```
+
