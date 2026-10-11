@@ -1,0 +1,79 @@
+# =============================================================================
+# DKG_ABox_Residential.ttl — TLP:RED (EXG-FWK-P1-GOU_11)
+# Inventaire foyer résidentiel (5 actifs + box, P7). Conforme à la TBox de
+# référence §29.1 (aucune propriété non déclarée — 0 écart au premier audit).
+# =============================================================================
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-data:ABox_Residential a owl:Ontology ;
+    rdfs:label "DKG ABox Residentiel - Foyer"@fr ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:TLP-RED a dkg:TLPMarking ; rdfs:label "TLP:RED"@en .
+
+dkg-data:Zone-LAN-Foyer a dkg:NetworkZone ; rdfs:label "LAN Foyer"@fr .
+
+dkg-data:Asset-Box-Fai-Livebox a dkg:Asset ;
+    dkg:assetId "asset_box_fai_livebox" ;
+    rdfs:label "Box FAI Livebox (Passerelle Domestique)"@fr ;
+    dkg:hasOperatingSystem "Firmware Livebox" ;
+    dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-PC-Win10 a dkg:Asset ;
+    dkg:assetId "asset_win10_01" ;
+    rdfs:label "PC Windows 10 Bureau"@fr ;
+    dkg:hostname "pc-bureau" ;
+    dkg:hasOperatingSystem "Windows 10" ;
+    dkg:ipAddress "192.168.1.10" ;
+    dkg:exposesService "SMB (Port 445)" ;
+    dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
+    dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-PC-Fedora-Plex a dkg:Asset ;
+    dkg:assetId "asset_fedora_01" ;
+    rdfs:label "PC Fedora 44 (Plex)"@fr ;
+    dkg:hostname "pc-plex" ;
+    dkg:hasOperatingSystem "Fedora 44" ;
+    dkg:ipAddress "192.168.1.20" ;
+    dkg:exposesService "Plex Media Server (Port 32400, Exposed WAN)" ;
+    dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
+    dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-Cam-IP a dkg:Asset ;
+    dkg:assetId "asset_cam_01" ;
+    rdfs:label "Camera Surveillance IP"@fr ;
+    dkg:hostname "cam-ip" ;
+    dkg:hasOperatingSystem "Embedded Linux" ;
+    dkg:ipAddress "192.168.1.50" ;
+    dkg:exposesService "Telnet (Port 23, Exposed)" ;
+    dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
+    dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-Tablette-Enfants a dkg:Asset ;
+    dkg:assetId "asset_tablet_01" ;
+    rdfs:label "Tablette Android Enfants"@fr ;
+    dkg:hostname "tablette-enfants" ;
+    dkg:hasOperatingSystem "Android 9 (Obsolete)" ;
+    dkg:ipAddress "192.168.1.100" ;
+    dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
+    dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Asset-Thermostat a dkg:Asset ;
+    dkg:assetId "asset_thermostat_01" ;
+    rdfs:label "Thermostat Connecte"@fr ;
+    dkg:hostname "thermostat" ;
+    dkg:hasOperatingSystem "RTOS" ;
+    dkg:ipAddress "192.168.1.200" ;
+    dkg:exposesService "HTTP API Unauthenticated (Port 80, Exposed)" ;
+    dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
+    dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .

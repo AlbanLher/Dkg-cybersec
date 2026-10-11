@@ -1,0 +1,115 @@
+# =============================================================================
+# DKG_SHACL_DemoRef.ttl — TLP:AMBER (EXG-FWK-P1-GOU_11, GOU_19/20/21)
+# Shapes du démonstrateur P8. Cible : ABox Foyer + Hôte vs TBox de référence.
+# =============================================================================
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://dkg.cybersec.org/shacl#SHACL_DemoRef> a owl:Ontology ;
+    rdfs:label "Shapes SHACL de reference du demonstrateur P8"@fr .
+
+<http://dkg.cybersec.org/shacl#SoftwareComponentShape> a sh:NodeShape ;
+    sh:targetClass dkg:SoftwareComponent ;
+    sh:property [
+        sh:path dkg:version ;
+        sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:pattern "^[0-9]+([.][0-9]+)*([.][A-Za-z0-9]+)?$" ;
+        sh:name "version structuree obligatoire" ;
+        sh:message "SoftwareComponent sans version structuree (dkg:version)." ;
+    ] ;
+    sh:property [
+        sh:path dkg:supportStatus ;
+        sh:in ("supported" "deprecated" "end-of-life") ;
+        sh:maxCount 1 ;
+        sh:name "statut de support" ;
+    ] ;
+    sh:property [
+        sh:path dkg:releaseDate ;
+        sh:datatype xsd:date ; sh:maxCount 1 ;
+        sh:lessThanOrEquals dkg:eolDate ;
+        sh:name "date de sortie (<= fin de support si presente)" ;
+    ] ;
+    sh:property [
+        sh:path dkg:eolDate ;
+        sh:datatype xsd:date ; sh:maxCount 1 ;
+        sh:name "date de fin de support" ;
+    ] ;
+    sh:property [
+        sh:path dkg:componentId ;
+        sh:datatype xsd:string ; sh:minCount 1 ;
+        sh:name "identifiant de produit stable" ;
+    ] ;
+    sh:property [
+        sh:path dkg:eolSource ;
+        sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:name "source du statut EOL" ;
+    ] .
+
+# Contrainte croisée CWA : statut non supported => source obligatoire
+<http://dkg.cybersec.org/shacl#EolSourcedShape> a sh:NodeShape ;
+    sh:targetClass dkg:SoftwareComponent ;
+    sh:property [
+        sh:path dkg:eolSource ;
+        sh:minCount 1 ;
+        sh:condition [
+            sh:property [
+                sh:path dkg:supportStatus ;
+                sh:pattern "deprecated|end-of-life" ;
+            ] ;
+        ] ;
+        sh:message "Composant deprecated/EOL sans source (dkg:eolSource) — pas d'obsolescence sans preuve." ;
+    ] .
+
+<http://dkg.cybersec.org/shacl#AssetShape> a sh:NodeShape ;
+    sh:targetClass dkg:Asset ;
+    sh:property [
+        sh:path dkg:assetId ; sh:datatype xsd:string ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:name "identifiant d'actif" ;
+    ] ;
+    sh:property [
+        sh:path dkg:ipAddress ;
+        sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}$" ;
+        sh:name "adresse IPv4" ;
+    ] ;
+    sh:property [
+        sh:path dkg:exposesService ;
+        sh:datatype xsd:string ;
+        sh:name "services exposes" ;
+    ] ;
+    sh:property [
+        sh:path dkg:connectedTo ;
+        sh:class dkg:Asset ;
+        sh:name "liaison reseau" ;
+    ] ;
+    sh:property [
+        sh:path dkg:hasTLPMarking ;
+        sh:class dkg:TLPMarking ; sh:minCount 1 ;
+        sh:message "Tout actif doit porter son marquage TLP (EXG-FWK-P1-GOU_11)." ;
+    ] .
+
+<http://dkg.cybersec.org/shacl#VulnerabilityShape> a sh:NodeShape ;
+    sh:targetClass dkg:Vulnerability ;
+    sh:property [
+        sh:path dkg:cveId ;
+        sh:pattern "^CVE-[0-9]{4}-[0-9]{4,}$" ; sh:minCount 1 ;
+        sh:message "cveId au format CVE-YYYY-NNNN obligatoire." ;
+    ] ;
+    sh:property [
+        sh:path dkg:cvssScore ;
+        sh:datatype xsd:float ; sh:maxCount 1 ;
+        sh:minInclusive "0.0"^^xsd:float ; sh:maxInclusive "10.0"^^xsd:float ;
+        sh:name "score CVSS borne" ;
+    ] .
+
+<http://dkg.cybersec.org/shacl#WeaknessShape> a sh:NodeShape ;
+    sh:targetClass dkg:Weakness ;
+    sh:property [
+        sh:path dkg:cweId ;
+        sh:pattern "^CWE-[0-9]+$" ; sh:minCount 1 ;
+        sh:message "cweId au format CWE-NNN obligatoire." ;
+    ] .
