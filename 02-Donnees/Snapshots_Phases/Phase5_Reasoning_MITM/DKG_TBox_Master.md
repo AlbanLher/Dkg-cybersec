@@ -5,7 +5,7 @@
 
 ---
 
-## 📖 Glossaire & Table des Acronymes Métier
+## 📖 Glossaire & Acronymes
 
 | Acronyme | Définition Complète | Contextualisation DKG |
 | :--- | :--- | :--- |

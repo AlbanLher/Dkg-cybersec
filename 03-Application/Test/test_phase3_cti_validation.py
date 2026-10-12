@@ -55,7 +55,10 @@ def combined_graph():
 
 @pytest.mark.non_regression
 def test_cti_entities_exist(combined_graph):
-    """Vérifie la présence et le typage des entités CTI de référence dans le graphe combiné."""
+    """
+    Exigence: EXG-FWK-P3-CTI_1
+    Vérifie la présence et le typage des entités CTI de référence dans le graphe combiné.
+    """
     # Test dynamique sur les vulnérabilités CTI injectées
     vulnerabilities = list(combined_graph.subjects(RDF.type, DKG_TBOX.Vulnerability))
     weaknesses = list(combined_graph.subjects(RDF.type, DKG_TBOX.Weakness))
@@ -69,6 +72,7 @@ def test_cti_entities_exist(combined_graph):
 @pytest.mark.non_regression
 def test_cti_multi_hop_chain(combined_graph):
     """
+    Exigence: EXG-MET-P5-CTI_1
     Vérifie la validité de la chaîne RBox CTI :
     dkg:Vulnerability -> dkg:exploitsWeakness -> dkg:Weakness -> dkg:hasThreatPattern -> dkg:ThreatPattern
     """
@@ -90,6 +94,7 @@ def test_cti_multi_hop_chain(combined_graph):
 @pytest.mark.non_regression
 def test_cross_tlp_chain_link(combined_graph):
     """
+    Exigence: EXG-FWK-P3-CTI_3
     Vérifie le raccordement fonctionnel Cross-TLP (ABox RED -> ABox CLEAR) :
     dkg:SoftwareComponent (TLP:RED) -> dkg:hasVulnerability -> dkg:Vulnerability (TLP:CLEAR)
     """
@@ -109,7 +114,10 @@ def test_cross_tlp_chain_link(combined_graph):
 
 @pytest.mark.non_regression
 def test_shacl_conformance_phase3(combined_graph):
-    """Vérifie la conformité SHACL intégrale du graphe d'union vis-à-vis des contraintes SHACL Master."""
+    """
+    Exigence: EXG-FWK-P3-CTI_1
+    Vérifie la conformité SHACL intégrale du graphe d'union vis-à-vis des contraintes SHACL Master.
+    """
     assert SHACL_MASTER_PATH.exists(), f"Fichier SHACL introuvable : {SHACL_MASTER_PATH}"
     shacl_graph = Graph().parse(str(SHACL_MASTER_PATH), format="turtle")
 

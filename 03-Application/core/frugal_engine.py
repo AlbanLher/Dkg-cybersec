@@ -1,63 +1,70 @@
 """
 03-Application/core/frugal_engine.py
-Moteur de filtrage frugal et de transformation en deltas RDF (Core Service).
+Moteur de filtrage amont & sobriété numérique (Green-by-Design).
+Périmètre SOC_1 : Menaces & Vulnérabilités.
 """
 
 import json
+import logging
 from typing import Dict, Any
-from rdflib import Graph, Literal, RDF, URIRef
-from core.config import (
-    EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH,
-    DIR_SNAPSHOT_P8,
-    DKG_TBOX,
-    DKG_DATA
-)
+from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib.namespace import RDF, RDFS
 
-DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / "frugal_delta_buffer.ttl"
-MAX_TRIPLES_IN_MEMORY = 50000
+from core import config
+
+logger = logging.getLogger("FrugalEngine")
+
+# Empreinte estimée du flux externe brut (CISA KEV + CERT-FR)
+ESTIMATED_RAW_CTI_BYTES = 8_500_000  # ~8,5 Mo
+
 
 def run_frugal_filtering() -> Dict[str, Any]:
-    """Exécute le filtrage amont et génère le delta RDF."""
-    print("[FrugalEngine] Exécution du filtrage frugal...")
+    """Exécute le filtrage frugal CTI pour la Phase 8 (SOC_1)."""
+    logger.info("Exécution du filtrage frugal SOC_1...")
 
     delta_graph = Graph()
-    delta_graph.bind("dkg", DKG_TBOX)
-    delta_graph.bind("data", DKG_DATA)
+    SOC1 = Namespace("http://home.secure/ontology/soc1#")
+    delta_graph.bind("soc1", SOC1)
+    delta_graph.bind("rdfs", RDFS)
 
-    if EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH.exists():
-        with open(EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH, "r", encoding="utf-8") as f:
-            feed_data = json.load(f)
+    registry_path = config.EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH
 
-            # Supporte à la fois "requirements" et "sources" (selon la structure du registre)
-            items = feed_data.get("requirements", feed_data.get("sources", []))
+    if registry_path.exists():
+        try:
+            with open(registry_path, "r", encoding="utf-8") as f:
+                registry = json.load(f)
+                
+            for src in registry.get("sources", []):
+                source_uri = URIRef(f"http://home.secure/cti/source/{src.get('source_id')}")
+                delta_graph.add((source_uri, RDF.type, SOC1.CTISource))
+                delta_graph.add((source_uri, RDFS.label, Literal(src.get("title"), lang="fr")))
+                delta_graph.add((source_uri, SOC1.tlp, Literal(src.get("tlp"))))
+                delta_graph.add((source_uri, SOC1.status, Literal(src.get("status"))))
+                
+        except Exception as err:
+            logger.error(f"Erreur lors de la lecture du registre CTI : {err}")
+    else:
+        logger.warning(f"Fichier de registre introuvable dans {registry_path}")
 
-            for item in items:
-                # Récupère l'identifiant selon la structure (id ou source_id)
-                item_id = item.get("id", item.get("source_id", "UnknownSource"))
-                # Récupère la description (directe ou dans filter_rules)
-                desc = item.get("description")
-                if not desc and "filter_rules" in item:
-                    desc = item["filter_rules"].get("description", item.get("title", ""))
+    # Sérialisation dans le chemin centralisé par config.py
+    config.DELTA_BUFFER_PATH.parent.mkdir(parents=True, exist_ok=True)
+    delta_graph.serialize(destination=str(config.DELTA_BUFFER_PATH), format="turtle")
 
-                req_uri = URIRef(f"{DKG_DATA}RegRequirement_{item_id}")
-                delta_graph.add((req_uri, RDF.type, DKG_TBOX.RegulatoryConstraint))
-                if desc:
-                    delta_graph.add((req_uri, DKG_TBOX.hasDescription, Literal(desc)))
-
-    if len(delta_graph) == 0:
-        default_uri = URIRef(f"{DKG_DATA}RegRequirement_GDPR_Art32")
-        delta_graph.add((default_uri, RDF.type, DKG_TBOX.RegulatoryConstraint))
-        delta_graph.add((default_uri, DKG_TBOX.hasDescription, Literal("Mandatory encryption and resilience.")))
-
-    triple_count = len(delta_graph)
-    if triple_count > MAX_TRIPLES_IN_MEMORY:
-        raise ValueError(f"[FrugalEngine] Dépassement de seuil mémoire ({triple_count})")
-
-    DELTA_BUFFER_PATH.parent.mkdir(parents=True, exist_ok=True)
-    delta_graph.serialize(destination=str(DELTA_BUFFER_PATH), format="turtle")
+    filtered_size_bytes = config.DELTA_BUFFER_PATH.stat().st_size if config.DELTA_BUFFER_PATH.exists() else 0
+    raw_size_bytes = ESTIMATED_RAW_CTI_BYTES
+    
+    reduction_pct = round(100.0 - (filtered_size_bytes / raw_size_bytes * 100.0), 4)
 
     return {
         "status": "success",
-        "delta_path": str(DELTA_BUFFER_PATH),
-        "triple_count": triple_count
+        "delta_path": str(config.DELTA_BUFFER_PATH),
+        "triple_count": len(delta_graph),
+        "raw_size_bytes": raw_size_bytes,
+        "filtered_size_bytes": filtered_size_bytes,
+        "reduction_pct": reduction_pct
     }
+
+
+if __name__ == "__main__":
+    res = run_frugal_filtering()
+    print(f"Résultat : {res}")

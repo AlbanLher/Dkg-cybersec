@@ -118,7 +118,7 @@ def test_exg_mitm_01_vectorization_and_similarity(setup_mitm_context):
 @pytest.mark.non_regression
 def test_exg_mitm_02_reconciliation_threshold(setup_mitm_context):
     """
-    EXG-MITM-02 / EXG-TEC-P5-CON_2         : Réconciliation Seuil 0.85
+    Exigence: EXG-TEC-P5-CON_1    EXG-TEC-P5-CON_2     : Réconciliation Seuil 0.85
     Critères :
     1. Si score >= 0.85 -> Génération skos:exactMatch et owl:sameAs.
     2. Si score < 0.85 -> Pas d'alignement exactMatch.

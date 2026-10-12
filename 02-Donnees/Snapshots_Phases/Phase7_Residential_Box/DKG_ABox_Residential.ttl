@@ -1,5 +1,14 @@
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix dkg-data: <http://dkg.cybersec.org/abox#> .
 @prefix dkg_data: <http://dkg.cybersec.org/data#> .
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg_tbox: <http://dkg.cybersec.org/tbox#> .
+@prefix ns1: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
 
 dkg_data:asset_cam_01 a dkg_tbox:ResidentialAsset ;
     dkg_tbox:exposesService "Telnet" ;
@@ -35,3 +44,17 @@ dkg_data:asset_win10_01 a dkg_tbox:ResidentialAsset ;
     dkg_tbox:hasNetworkZone "LAN" ;
     dkg_tbox:hasOperatingSystem "Windows 10" .
 
+dkg-data:Asset-Freebox-Delta a dkg:Asset ;
+    rdfs:label "Freebox Delta (Passerelle Foyer)"@fr ;
+    dkg:hasInstalledComponent dkg-data:Comp-Samba-SMBv1 ;
+    dkg:hasTLPMarking dkg-data:TLP-RED .
+
+dkg-data:Comp-Samba-SMBv1 a dkg:SoftwareComponent ;
+    rdfs:label "Service SMBv1 / Partage Windows (port 445)"@fr ;
+    dkg:hasVulnerability dkg-data:CVE-2017-0144 ;
+    dkg:isComponentOf dkg-data:Asset-Freebox-Delta .
+
+dkg-data:CVE-2017-0144 a dkg:Vulnerability ;
+    rdfs:label "SMBv1 Remote Code Execution (EternalBlue family)"@en ;
+    dkg:cvssScore "9.8"^^xsd:float ;
+    dkg:hasWeakness dkg-data:CWE-121 .  

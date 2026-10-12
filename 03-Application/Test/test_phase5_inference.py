@@ -106,7 +106,7 @@ def execution_context(setup_mock_graphs):
 @pytest.mark.non_regression
 def test_exg_hw_01_performance(execution_context):
     """
-    EXG-HW-01 : Performance d'exécution (< 5 secondes)
+    Exigence: EXG-FWK-P5-RUL_4 : Performance d'exécution (< 5 secondes)
     """
     exec_time = execution_context["execution_time"]
     assert exec_time < 5.0, f"Violation EXG-HW-01 : Inférence trop lente ({exec_time:.2f}s > 5.0s)"
@@ -134,7 +134,7 @@ def test_exg_inf_01_high_risk_asset(execution_context):
 @pytest.mark.non_regression
 def test_exg_inf_02_cascade_materialization(execution_context):
     """
-    EXG-INF-02 /  EXG-TEC-P5-DAT_2    : Matérialisation Cascade (Règle R-02)
+    Exigence :  EXG-TEC-P5-DAT_2    : Matérialisation Cascade (Règle R-02)
     """
     graph = execution_context["infered_graph"]
     
@@ -153,7 +153,7 @@ def test_exg_inf_02_cascade_materialization(execution_context):
 @pytest.mark.non_regression
 def test_exg_se_01_tlp_segregation(execution_context):
     """
-    EXG-SE-01 : Isolation TLP & Non-pollution des graphes sources
+    Exigence: EXG-FWK-P5-RUL_3 - Vérifie la ségrégation stricte du TLP lors des inférences.
     """
     paths = execution_context["paths"]
     

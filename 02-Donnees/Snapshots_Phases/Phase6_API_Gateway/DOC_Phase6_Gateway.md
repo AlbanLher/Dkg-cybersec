@@ -27,7 +27,7 @@ sequenceDiagram
 
 
 
-## 3. Glossaire des Acronymes
+## 3. Glossaire & Acronymes
 
 | **Acronyme** | **Définition Complète**                | **Rôle dans la Phase 6**                                       |
 | ------------ | -------------------------------------- | -------------------------------------------------------------- |

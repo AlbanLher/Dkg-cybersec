@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-slate-950">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Démonstrateur Phase 8 — Orchestration MCP & Agent Gardien</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- EXG-MET-P8-DEM_4b : rendu Mermaid local (Air-Gapped GOU_13 : fichier local,
+       pas de CDN ; télécharger mermaid.min.js dans /static/) -->
+  <script src="/static/mermaid.min.js"></script>
+</head>
+<body class="h-full text-slate-100 font-sans antialiased">
+  <div class="min-h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <header class="mb-4 border-b border-slate-800 pb-2 flex flex-wrap items-baseline gap-x-3">
+      <h1 class="text-2xl font-extrabold text-amber-400">SOC-1 / DKG Cybersec</h1>
+      <p class="text-sm text-slate-400">Démonstrateur Phase 8 — Orchestration MCP & Agent Gardien Local-First</p>
+    </header>
+
+    <!-- EXG-MET-P8-DEM_4a : MESSAGE DIDACTIQUE (bandeau le plus haut) -->
+    <section id="p8-didactic" class="my-4 p-4 bg-slate-800 rounded-lg border border-amber-400">
+      <div class="flex items-center space-x-2">
+        <span class="text-amber-400 font-bold">🎯 Fil conducteur —</span>
+        <span id="p8-didactic-text" class="text-sm text-slate-300">
+          Bienvenue. La TBox (ontologie historique) se charge à gauche. Choisissez votre terrain (Foyer ou PC Hôte), cochez éventuellement des sources CTI, puis lancez l'analyse. Chaque action mettra à jour ce message.
+        </span>
+      </div>
+    </section>
+
+    <!-- Bandeau d'actions (EXG-MET-P8-DEM_2 : consignes réseau) -->
+    <section class="my-4 p-6 bg-slate-900 text-white rounded-xl shadow-lg border border-slate-800">
+      <!-- p8-actions-grid : droite = boutons en largeur minimale (DEM_4) -->
+      <div class="grid grid-cols-1 p8-actions-grid gap-6">
+        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+          <label for="p8-mode-select" class="block text-sm font-medium text-slate-300 mb-2">Mode de Topologie (ABox)</label>
+          <select id="p8-mode-select" class="w-full">
+            <option value="foyer">Foyer Résidentiel (Snapshot local)</option>
+            <option value="local_scan">PC Hôte — Scan Local (127.0.0.1)</option>
+          </select>
+          <p class="text-xs text-slate-500 mt-1 italic">Mode PC Hôte : données TLP:RED écrites dans .private/ (hors Git — EXG-MET-P8-DEM_4c).</p>
+        </div>
+        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-medium text-slate-300">Sources CTI à consulter (consigne réseau)</label>
+            <span id="p8-network-badge" class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">
+              0 requête (Air-Gapped)
+            </span>
+          </div>
+          <div id="p8-sources-container" class="space-y-2 max-h-36 overflow-y-auto pr-2 text-sm">
+            <span class="text-slate-500 italic">Chargement du catalogue...</span>
+          </div>
+        </div>
+        <!-- EXG-MET-P8-DEM_1/RES_1 : 3e colonne — actions verticales (densité verticale) -->
+        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 flex flex-col justify-center gap-2">
+          <button id="p8-btn-audit" onclick="runPhase8Audit()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg transition duration-200 shadow-md">
+            Lancer l'Analyse
+          </button>
+          <!-- EXG-MET-P8-RES_1 : retour garanti au point de départ (seeds intacts) -->
+          <button id="p8-btn-reset" onclick="resetPhase8Demo()" title="Restaure le working set depuis les seeds, purge le buffer CTI et l'audit trail. Les seeds ne sont jamais modifiés."
+                  class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-lg transition border border-slate-600">
+            Réinitialiser la démo
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXG-FWK-P8-AGE_2 : Abaque Green-Dev (volumes chargés vs dispo + TOP entités) -->
+    <section class="my-8">
+      <details id="p8-frugal-card" class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+        <summary class="text-sm font-semibold text-slate-400 cursor-pointer">🌱 Abaque Green-Dev — Volumes chargés & entités les plus conséquentes (cliquer pour déplier)</summary>
+        <div id="p8-frugal-detail" class="mt-2 text-xs space-y-1">
+          <p class="text-slate-500 italic">Chargement de l'abaque...</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- EXG-MET-P8-DEM_1 : CARTE BILAN NL (au-dessus des Tri-Boîtes, spec layout) -->
+    <section class="my-8 p-5 bg-slate-800/80 rounded-lg border border-slate-700">
+      <h3 class="text-lg font-semibold text-amber-300 mb-3">Bilan Synthétique en Langage Naturel & Diagnostic</h3>
+      <div id="p8-bilan-list" class="space-y-3">
+        <p class="text-sm text-slate-500 italic">Lancez l'analyse pour générer le bilan.</p>
+      </div>
+    </section>
+
+    <!-- Tri-Boîtes (EXG-MET-P8-DEM_1 / DEM_4) -->
+    <section class="my-8 grid grid-cols-1 lg:grid-cols-3 gap-4 font-mono text-xs">
+
+      <!-- COLONNE 1 : TBOX TLP:AMBER + carte HITL au-dessus (EXG-MET-P8-DEM_3/DEM_4) -->
+      <div class="space-y-3">
+        <div id="p8-hitl-box" class="hidden bg-amber-950/30 border border-amber-500/40 p-4 rounded-lg font-sans">
+          <h4 class="text-amber-400 font-bold mb-2 text-sm">Agent Gardien TBox — Modifications recommandées</h4>
+          <p class="text-xs text-slate-300 mb-3">L'analyse révèle un écart entre le vocabulaire du fonds CTI coché et la TBox de référence (workset). Vous êtes le Gatekeeper : validez ou rejetez l'extension d'ontologie.</p>          <pre id="p8-delta-tbox" class="text-amber-200/90 font-mono text-xs mb-3 overflow-x-auto"></pre>
+          <div class="flex space-x-2">
+            <button onclick="mergePhase8TBox()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded text-sm transition">Approuver &amp; Fusionner</button>
+            <button onclick="rejectPhase8TBox()" class="px-4 py-2 bg-rose-900/60 hover:bg-rose-800 text-rose-200 font-semibold rounded text-sm transition border border-rose-700/50">Rejeter</button>
+          </div>
+          <!-- EXG-MET-P8-DEM_4 : conséquences en langage clair (décision SOC) -->
+          <p class="mt-3 text-[11px] text-slate-400 leading-relaxed border-t border-slate-700/50 pt-2">
+            <strong class="text-emerald-400">Fusionner</strong> : le vocabulaire manquant (ex. exploitsWeakness, isCisaKev) est déclaré dans le working set TLP:AMBER — le raisonnement sur ces liens devient possible, la fusion est idempotente (jamais de doublon) et votre décision est journalisée.
+            <br>
+            <strong class="text-rose-400">Rejeter</strong> : le graphe reste incomplet — le moteur ne pourra PAS relier une CVE à la faiblesse qu'elle exploite ni signaler un critère CISA KEV, et chaque audit reproposera le même écart tant qu'il ne sera pas résolu par la voie de gouvernance. Votre rejet est journalisé (audit trail).
+          </p>
+        </div>
+        <div class="bg-slate-950 p-3 rounded border-amber-400 border">
+          <div class="flex justify-between items-center mb-2">
+            <h4 class="text-slate-400 font-sans font-bold">Ontologie TBox de référence — Working Set (TLP:AMBER)</h4>
+            <button onclick="showTBoxGraph()" class="text-xs px-2 py-1 bg-slate-800 text-amber-300 rounded border border-slate-700 cursor-pointer">Vue graphique</button>
+          </div>
+          <pre id="p8-ttl-tbox" class="h-64 overflow-auto text-slate-300 whitespace-pre-wrap">Chargement de la TBox...</pre>
+        </div>
+      </div>
+
+      <!-- COLONNE 2 : ABOX TLP:RED — APRÈS -->
+      <div class="bg-slate-950 p-3 rounded border-rose-500 border">
+        <div class="flex justify-between items-center mb-2">
+        <h4 class="text-slate-400 font-sans font-bold">Instance ABox Locale (TLP:RED)</h4>
+           <button onclick="showABoxGraph()" class="text-xs px-2 py-1 bg-slate-800 text-amber-300 rounded border border-slate-700 cursor-pointer">Vue graphique</button>
+        </div>
+        <pre id="p8-ttl-abox" class="h-64 overflow-auto text-slate-300 whitespace-pre-wrap"># Basculez le Toggle pour charger l'ABox.</pre>
+      </div>
+
+      <!-- COLONNE 3 : CTI TLP:CLEAR + footer frugalité (EXG-MET-P8-DEM_4 / AGE_2) -->
+      <div class="bg-slate-950 p-3 rounded border-emerald-500 border">
+        <h4 class="text-slate-400 font-sans font-bold mb-2">Menaces Externes Locales (TLP:CLEAR)</h4>
+        <pre id="p8-ttl-cti" class="h-64 overflow-auto text-slate-300 whitespace-pre-wrap"># TLP:CLEAR non chargé — cochez des sources CTI.</pre>
+        <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-500" id="p8-frugal-footer">
+          Frugalité : 0 octet chargé — 0 requête réseau.
+        </div>
+      </div>
+    </section>
+
+    <!-- EXG-MET-P8-DEM_4d : Bulletin Brut replié par défaut -->
+    <section class="my-8">
+      <details id="p8-bulletin-card" class="hidden bg-slate-900 p-4 rounded-lg border border-slate-800">
+        <summary class="text-sm font-semibold text-slate-400 cursor-pointer">📄 Bulletin Brut Ingesté (cliquer pour déplier)</summary>
+        <pre id="p8-bulletin-raw" class="mt-2 overflow-auto text-slate-300 text-xs whitespace-pre-wrap"></pre>
+      </details>
+    </section>
+
+    <!-- Conteneur Mermaid (vue graphique TBox, EXG-MET-P8-DEM_4b) -->
+    <!-- Zone de rendu Mermaid partagée (EXG-MET-P8-DEM_4b) -->
+    <section id="p8-graph-section" class="hidden my-8 p-4 bg-slate-900 rounded-lg border border-slate-800">
+     <div class="flex justify-between items-center mb-2">
+       <h3 id="p8-graph-title" class="text-sm font-semibold text-amber-300">Vue graphique</h3>
+       <button onclick="hideGraph()" class="text-xs px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700 cursor-pointer">Fermer</button>
+     </div>
+     <div id="p8-graph-target" class="overflow-auto bg-white rounded-lg p-2"></div>
+    </section>
+
+    <!-- Zone de rendu Mermaid hors écran (interne) -->
+    <div id="p8-mermaid-tmp" class="hidden"></div>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

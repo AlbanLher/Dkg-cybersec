@@ -61,7 +61,9 @@ def test_exg_uc_abox_tlp_marking(full_graph: Graph):
 
 @pytest.mark.non_regression
 def test_exg_uc_abox_01_namespace_integrity(full_graph: Graph):
-    """EXG-UC-ABOX-01 : Validation de l'isolation stricte des Namespaces TBox (tbox#) et Data (data#)."""
+    """
+    Exigence: EXG-TEC-P2-ABO_1 - Vérifie l'intégrité de l'espace de noms des instances ABox.
+    """
     query = """
     PREFIX dkg: <http://dkg.cybersec.org/tbox#>
     SELECT ?s WHERE {
@@ -134,8 +136,7 @@ def test_exg_qual_02_03_shacl_validation(full_graph: Graph):
 
 def test_exg_org_02_phase2_master_snapshot_parity():
     """
-    EXG-OR-06 : Vérification de la parité stricte entre Snapshot Phase 2 et Master ABox.
-    Garantit l'absence de dérive entre les livrables d'archivage et le Master transversal.
+    Exigence: EXG-FWK-P2-ABO_1 - Vérifie la parité et les datatypes CWA de la phase 2.
     """
     assert DIR_SNAPSHOT_P2.exists(), f"Répertoire Snapshot Phase 2 introuvable : {DIR_SNAPSHOT_P2}"
     assert DIR_MASTER_ABOX.exists(), f"Répertoire Master ABox introuvable : {DIR_MASTER_ABOX}"

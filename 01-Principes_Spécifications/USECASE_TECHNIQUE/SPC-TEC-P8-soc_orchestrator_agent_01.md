@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-TEC-P8-soc_orchestrator_agent_01
 revision: 2
-titre: "Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM"
+titre: SPC-TEC-P8-soc_orchestrator_agent_01
 titre_court: soc_orchestrator_agent_mcp
 description: Spécification technique actualisée des scripts de la Phase 8 conçus comme des outils natifs MCP (Model Context Protocol).
 phase_code: P8

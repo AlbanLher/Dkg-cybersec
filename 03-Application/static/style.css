@@ -1,0 +1,163 @@
+/* 03-Application/static/style.css — version consolidée v3 (EXG-MET-P8-DEM_4e)
+   v3 : classes des layouts Étape B (bandeau 3 colonnes, Gardien ABox-ready,
+   bouton Rejeter rose, bouton Vue superposition, repli Mermaid). */
+body {
+  background-color: #020617;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 2rem;
+}
+.hidden { display: none !important; }
+/* --- FIX lisibilité : <select> noir sur fond sombre (cause racine) --- */
+select {
+  color: #f8fafc;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+}
+select option { background-color: #0f172a; color: #f8fafc; }
+/* checkbox ambre visible */
+input[type="checkbox"] { accent-color: #f59e0b; width: 1rem; height: 1rem; }
+#p8-sources-container label { color: #cbd5e1; }
+/* --- cartes & fondations --- */
+.my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+.my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+.mt-1 { margin-top: 0.25rem; } .mt-8 { margin-top: 2rem; }
+.mt-2 { margin-top: 0.5rem; } .mt-3 { margin-top: 0.75rem; }
+.mb-2 { margin-bottom: 0.5rem; } .mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; }
+.pb-2 { padding-bottom: 0.5rem; } .pt-2 { padding-top: 0.5rem; }
+.p-6 { padding: 1.5rem; } .p-4 { padding: 1rem; } .p-5 { padding: 1.25rem; }
+.p-3 { padding: 0.75rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.pb-5 { padding-bottom: 1.25rem; }
+.bg-slate-900 { background-color: #0f172a; }
+.bg-slate-800 { background-color: #1e293b; }
+.bg-slate-800\/80 { background-color: rgba(30, 41, 59, 0.8); }
+.bg-slate-950 { background-color: #020617; }
+.bg-slate-100 { background-color: #f1f5f9; }
+.bg-slate-700 { background-color: #334155; }
+.bg-amber-500 { background-color: #f59e0b; color: #020617; font-weight: bold;
+  cursor: pointer; border: none; border-radius: 0.5rem; }
+.bg-amber-500:hover { background-color: #d97706; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.bg-emerald-600 { background-color: #059669; color: white; padding: 0.5rem 1rem;
+  border: none; border-radius: 0.375rem; cursor: pointer; }
+.bg-emerald-600:hover { background-color: #10b981; }
+.bg-amber-950\/30 { background-color: rgba(69, 26, 3, 0.3); }
+.bg-amber-500\/20 { background-color: rgba(245, 158, 11, 0.2); }
+.bg-emerald-500\/20 { background-color: rgba(16, 185, 129, 0.2); }
+.bg-rose-500\/20 { background-color: rgba(244, 63, 94, 0.2); }
+.bg-rose-500 { background-color: #f43f5e; }
+/* --- bouton Rejeter (décision HITL explicite, DEM_3/DEM_4) --- */
+.bg-rose-900\/60 { background-color: rgba(136, 19, 55, 0.6); color: #fecdd3;
+  cursor: pointer; }
+.bg-rose-900\/60:hover { background-color: #9f1239; }
+.text-rose-200 { color: #fecdd3; }
+.border-rose-700\/50 { border-color: rgba(190, 24, 93, 0.5); }
+.text-rose-500 { color: #f43f5e; }
+/* --- bouton reset (RES_1) : sous-button neutre --- */
+.bg-slate-800.btn-neutral { background-color: #1e293b; color: #cbd5e1;
+  cursor: pointer; }
+/* les boutons bg-slate-800 (reset, vue graphique) restent cliquables */
+button.bg-slate-800, #p8-btn-reset.bg-slate-800,
+button.p8-btn-graph { cursor: pointer; border-radius: 0.25rem; }
+#p8-btn-reset.bg-slate-800:hover, button.bg-slate-800:hover {
+  background-color: #334155; }
+/* --- bordures TLP (EXG-FWK-P1-GOU_11 : isolation visuelle) --- */
+.border { border: 1px solid #334155; }
+.border-slate-700 { border: 1px solid #334155; }
+.border-slate-600 { border: 1px solid #475569; }
+.border-slate-800 { border: 1px solid #1e293b; }
+.border-slate-700\/50 { border-color: rgba(51, 65, 85, 0.5); }
+.border-b { border-bottom: 1px solid #1e293b; }
+.border-t { border-top: 1px solid #334155; }
+.border-amber-400, .border-amber-500\/30, .border-amber-500\/40 { border-color: #fbbf24; }
+.border-rose-500 { border-color: #f43f5e; }
+.border-emerald-500 { border-color: #10b981; }
+.border-l-4 { border-left-width: 4px; border-left-style: solid; }
+.rounded-xl { border-radius: 0.75rem; } .rounded-lg { border-radius: 0.5rem; }
+.rounded { border-radius: 0.25rem; } .rounded-full { border-radius: 9999px; }
+/* --- typo & couleurs --- */
+.text-amber-400 { color: #fbbf24; } .text-amber-300 { color: #fcd34d; }
+.text-amber-200\/90 { color: rgba(253, 230, 138, 0.9); }
+.text-slate-100 { color: #f1f5f9; }
+.text-slate-200 { color: #e2e8f0; }
+.text-slate-300 { color: #cbd5e1; } .text-slate-400 { color: #94a3b8; }
+.text-slate-500 { color: #64748b; }
+.text-slate-800 { color: #1e293b; }
+.text-white { color: #ffffff; }
+.text-emerald-400 { color: #34d399; }
+.text-rose-400 { color: #fb7185; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-lg { font-size: 1.125rem; } .text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-\[10px\] { font-size: 10px; line-height: 1rem; }
+.text-\[11px\] { font-size: 11px; line-height: 1.4rem; }
+.font-bold { font-weight: 700; } .font-semibold { font-weight: 600; }
+.font-extrabold { font-weight: 800; }
+.font-mono { font-family: ui-monospace, monospace; }
+.italic { font-style: italic; }
+.leading-relaxed { line-height: 1.625; }
+/* --- layout --- */
+.flex { display: flex; } .grid { display: grid; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-col { flex-direction: column; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.items-center { align-items: center; }
+.items-baseline { align-items: baseline; }
+.space-x-2 > * + * { margin-left: 0.5rem; }
+.gap-1 { gap: 0.25rem; } .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; }
+.gap-x-3 { column-gap: 0.75rem; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.gap-6 { gap: 1.5rem; } .gap-4 { gap: 1rem; }
+.space-y-2 > * + * { margin-top: 0.5rem; }
+.space-y-3 > * + * { margin-top: 0.75rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.w-full { width: 100%; }
+.cursor-pointer { cursor: pointer; } .select-none { user-select: none; }
+/* --- scroll & boîtes (EXG-MET-P8-DEM_1 : scrolling vertical par fenêtre) --- */
+.max-h-36 { max-height: 9rem; }
+.h-48 { height: 12rem; } .h-64 { height: 16rem; }
+.h-full, .min-h-full { min-height: 100%; }
+.overflow-auto { overflow: auto; }
+.overflow-y-auto { overflow-y: auto; }
+.overflow-x-auto { overflow-x: auto; }
+.max-w-7xl { max-width: 80rem; } .mx-auto { margin-left: auto; margin-right: auto; }
+pre { background-color: #020617; padding: 0.75rem; border-radius: 0.375rem;
+  overflow: auto; white-space: pre-wrap; word-break: break-all; }
+.shadow-lg { box-shadow: 0 10px 15px rgba(0,0,0,0.5); }
+.shadow-md { box-shadow: 0 4px 6px rgba(0,0,0,0.4); }
+.transition { transition: all 0.2s; }
+details > summary { cursor: pointer; color: #94a3b8; }
+details[open] > summary { color: #fcd34d; margin-bottom: 0.5rem; }
+/* Vue graphique Mermaid (EXG-MET-P8-DEM_4b) */
+.bg-white { background-color: #ffffff; }
+#p8-graph-target svg { max-width: 100%; height: auto; }
+/* Repli Mermaid : définition brute sur fond clair (DEM_4b, repli explicite) */
+#p8-graph-target pre.bg-slate-100 { background-color: #f1f5f9; color: #1e293b; }
+
+@media (min-width: 768px) {
+  .p8-actions-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr) max-content; }
+}
+#p8-btn-audit, #p8-btn-reset { white-space: nowrap; }

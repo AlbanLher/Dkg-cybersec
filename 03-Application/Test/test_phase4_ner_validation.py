@@ -30,7 +30,9 @@ def cti_u_graph() -> Graph:
 
 @pytest.mark.non_regression
 def test_ner_entities_presence(cti_u_graph: Graph) -> None:
-    """Vérifie l'existence et le typage des entités extraites du bulletin textuel."""
+    """
+    Exigence: EXG-TEC-P5-NER_2 - Vérifie la présence et le seuil de confiance des entités NER.
+    """
     actor_uri = DKG_CTI["ThreatActor-APT29"]
     cve_uri = DKG_CTI["CVE-2024-21887"]
     pattern_uri = DKG_CTI["Pattern-SpearphishingLink-T1566_002"]
@@ -53,7 +55,9 @@ def test_ner_confidence_score_threshold(cti_u_graph: Graph) -> None:
 
 @pytest.mark.non_regression
 def test_ner_shacl_conformance(cti_u_graph: Graph) -> None:
-    """EXG-QUAL-03 /  EXG-TEC-P5-NER_3    : Validation SHACL de l'union (ABox CTI-U + TBox Master)."""
+    """
+    Exigence: EXG-TEC-P5-NER_4 - Vérifie la conformité SHACL des entités extraites par NER.
+    """
     data_union = Graph()
     data_union += cti_u_graph
 

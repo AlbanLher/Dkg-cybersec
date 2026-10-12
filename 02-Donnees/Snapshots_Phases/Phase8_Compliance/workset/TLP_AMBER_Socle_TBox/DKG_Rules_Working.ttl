@@ -1,0 +1,17 @@
+# =============================================================================
+# DKG_Rules_DemoRef.ttl — TLP:AMBER (EXG-FWK-P1-GOU_11)
+# RBox DU DÉMONSTRATEUR P8. Clarification terminologique (glossaire rév.2) :
+#   - RBox au sens logique (Role Box) = les rôles/propriétés et leurs axiomes
+#     (inverseOf...) : DÉJÀ DÉCLARÉS dans DKG_TBox_DemoRef.ttl (GOU_17).
+#   - CE FICHIER = la boîte à RÈGLES métier (inférences, seuils, déductions).
+#     À ce stade : aucune règle — c'est le point de départ du démonstrateur.
+#     Premières règles attendues en P10 (détection de cascade de risque,
+#     classe HighRiskAsset). Les règles seront des requêtes SPARQL CONSTRUCT
+#     nommées ou des shapes à sévérité, jamais du code applicatif.
+# =============================================================================
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://dkg.cybersec.org/rules#RBox_DemoRef> a owl:Ontology ;
+    rdfs:label "RBox Regles Metier - Demonstrateur P8 (vide a date)"@fr .

@@ -1,22 +1,50 @@
 {
-  "registry_version": "1.0.0",
-  "last_updated": "2026-06-06",
-  "sources": [
+  "household_assets": [
     {
-      "source_id": "EU_GDPR_OFFICIAL",
-      "title": "Règlement Général sur la Protection des Données (RGPD - UE 2016/679)",
-      "publisher": "Union Européenne",
-      "raw_source_url": "https://eur-lex.europa.eu/legal-content/FR/TXT/JSON/?uri=CELEX:32016R0679",
-      "tlp": "TLP:CLEAR",
-      "status": "ACTIVE_SUBSET",
-      "filter_rules": {
-        "target_articles": [
-          "Art32"
-        ],
-        "extraction_profile": "subset_minimal_security_processing",
-        "description": "Extraction stricte de l'article 32 relatif à la sécurité du traitement pour l'audit du foyer."
-      },
-      "local_output_subset": "abox_compliance_standards_clear.ttl"
+      "asset_id": "asset_win10_01",
+      "name": "PC Portable Travail (Windows 10)",
+      "ip_address": "192.168.1.10",
+      "os": "Windows 10 Pro (Build 19042)",
+      "exposed_services": ["SMBv1 (Port 445)", "RDP (Port 3389)"],
+      "zone": "LAN_DOMESTIQUE"
+    }
+  ],
+  "cti_sources": [
+    {
+      "id": "anssi_2024",
+      "acronym": "ANSSI",
+      "label": "Bulletin ANSSI — SMBv1 / EternalBlue",
+      "type": "unstructured_nlp",
+      "local_ttl_file": "DKG_ABox_CTI_External.ttl",
+      "content": "ALERTE CTI CERT-FR : Exploitation active du protocole SMBv1 (CVE-2017-0144) avec implant DoublePulsar par APT29...",
+      "extracted_triples": "dkg-data:Threat_APT29 dkg:exploits dkg-data:Vuln_EternalBlue ."
+    },
+    {
+      "id": "cisa_kev_2025",
+      "acronym": "CISA",
+      "label": "Rapport CISA KEV — Botnet RTSP FreeRTOS",
+      "type": "unstructured_nlp",
+      "local_ttl_file": "DKG_ABox_CTI_External.ttl",
+      "content": "CISA KEV : Recrutement massif de caméras IP FreeRTOS sur le port RTSP 554 au sein de botnets DDoS...",
+      "extracted_triples": "dkg-data:Threat_MiraiVariant dkg:targetsDevice dkg-data:IoTCamera ."
+    },
+    {
+      "id": "mitre_attck_2026",
+      "acronym": "MITRE",
+      "label": "MITRE ATT&CK — T1210 Exploitation of Remote Services",
+      "type": "unstructured_nlp",
+      "local_ttl_file": "DKG_ABox_CTI_External.ttl",
+      "content": "MITRE ATT&CK T1210 : Adversaries may attempt to exploit software vulnerabilities in client/server applications...",
+      "extracted_triples": "dkg-data:Technique_T1210 rdfs:subClassOf dkg:RemoteExploitation ."
+    },
+    {
+      "id": "nvd_cve_feed",
+      "acronym": "NVD",
+      "label": "NVD NIST — Feed CVE-2017-0144 High Severity",
+      "type": "unstructured_nlp",
+      "local_ttl_file": "DKG_ABox_CTI_External.ttl",
+      "content": "NVD CVE-2017-0144 : Vulnerability in SMBv1 allows remote attackers to execute arbitrary code...",
+      "extracted_triples": "dkg-data:Vuln_EternalBlue dkg:hasCVSS '9.8' ."
     }
   ]
 }

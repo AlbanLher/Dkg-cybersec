@@ -1,0 +1,34 @@
+{
+  "registry_version": "2.0.0",
+  "last_updated": "2026-10-06",
+  "sources": [
+    {
+      "source_id": "CERT_FR_CYBER_THREATS",
+      "title": "CERT-FR Bulletin d'Alerte et Menaces Actives (SOC_1)",
+      "publisher": "ANSSI / CERT-FR",
+      "raw_source_url": "https://www.cert.ssi.gouv.fr/feed/",
+      "tlp": "TLP:CLEAR",
+      "status": "ACTIVE_SUBSET",
+      "filter_rules": {
+        "target_scope": "Vulnerabilities_Threats",
+        "extraction_profile": "frugal_threat_filtering",
+        "description": "Corrélation des vulnérabilités critiques et vecteurs d'attaque pour le foyer."
+      },
+      "local_output_subset": "abox_compliance_standards_clear.ttl"
+    },
+    {
+      "source_id": "CISA_KNOWN_EXPLOITED",
+      "title": "CISA Known Exploited Vulnerabilities Catalog",
+      "publisher": "CISA",
+      "raw_source_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "tlp": "TLP:CLEAR",
+      "status": "ACTIVE_SUBSET",
+      "filter_rules": {
+        "target_scope": "KEV_Catalog",
+        "extraction_profile": "frugal_kev_filtering",
+        "description": "Filtrage frugal des CVE activement exploitées sur les actifs domestiques."
+      },
+      "local_output_subset": "abox_cisa_kev_clear.ttl"
+    }
+  ]
+}

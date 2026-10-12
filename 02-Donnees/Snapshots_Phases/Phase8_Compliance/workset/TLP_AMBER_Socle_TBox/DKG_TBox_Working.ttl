@@ -1,0 +1,113 @@
+# =============================================================================
+# DKG_TBox_DemoRef.ttl — TLP:AMBER (EXG-FWK-P1-GOU_11)
+# TBox de référence du DÉMONSTRATEUR P8 (seed, EXG-MET-P8-RES_1).
+# = TBox Master + vocabulaire résidentiel/topologie + obsolescence structurée.
+# VOLONTAIREMENT non déclarés (déclencheurs HITL amenés par le CTI coché) :
+#   dkg:exploitsWeakness, dkg:isCisaKev.
+# =============================================================================
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:TBox_DemoRef a owl:Ontology ;
+    rdfs:label "DKG TBox Reference Demonstrateur Phase 8"@fr .
+
+# --- Classes -------------------------------------------------------------------
+dkg:Asset a owl:Class ;
+    rdfs:label "Asset"@fr ;
+    skos:definition "Ressource informatique du SI (serveur, poste, équipement réseau, objet connecté)."@fr ;
+    skos:prefLabel "Actif"@fr, "Asset"@en .
+dkg:SoftwareComponent a owl:Class ;
+    rdfs:label "SoftwareComponent"@fr ;
+    skos:definition "Composant logiciel, bibliothèque ou dépendance système."@fr ;
+    skos:prefLabel "Composant Logiciel"@fr, "Software Component"@en .
+dkg:Vulnerability a owl:Class ;
+    rdfs:label "Vulnerability"@fr ;
+    skos:definition "Faiblesse logicielle exploitable répertoriée (CVE)."@fr ;
+    skos:prefLabel "Vulnerabilite"@fr, "Vulnerability"@en .
+dkg:Weakness a owl:Class ;
+    rdfs:label "Weakness"@fr ;
+    skos:definition "Famille d'erreur logicielle sous-jacente (CWE)."@fr ;
+    skos:prefLabel "Faiblesse"@fr, "Weakness"@en .
+dkg:ThreatPattern a owl:Class ;
+    rdfs:label "ThreatPattern"@fr ;
+    skos:definition "Motif ou schéma d'attaque documenté (CAPEC)."@fr ;
+    skos:prefLabel "Schema de Menace"@fr, "Threat Pattern"@en .
+dkg:TLPMarking a owl:Class ;
+    rdfs:label "TLPMarking"@fr ;
+    skos:definition "Niveau de classification et de partage de l'information."@fr ;
+    skos:prefLabel "Marquage TLP"@fr, "TLP Marking"@en .
+dkg:NetworkZone a owl:Class ;
+    rdfs:label "NetworkZone"@fr ;
+    skos:definition "Zone réseau logique (LAN domestique, WAN, DMZ)."@fr ;
+    skos:prefLabel "Zone Reseau"@fr, "Network Zone"@en .
+
+# --- Propriétés de données -----------------------------------------------------
+dkg:assetId a owl:DatatypeProperty ; rdfs:domain dkg:Asset ; rdfs:range xsd:string ;
+    skos:prefLabel "identifiant d'actif"@fr, "asset identifier"@en .
+dkg:componentId a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:string ;
+    skos:prefLabel "identifiant de produit"@fr, "product identifier"@en .
+dkg:cveId a owl:DatatypeProperty ; rdfs:domain dkg:Vulnerability ; rdfs:range xsd:string ;
+    skos:prefLabel "identifiant CVE"@fr, "CVE identifier"@en .
+dkg:cweId a owl:DatatypeProperty ; rdfs:domain dkg:Weakness ; rdfs:range xsd:string ;
+    skos:prefLabel "identifiant CWE"@fr, "CWE identifier"@en .
+dkg:cvssScore a owl:DatatypeProperty ; rdfs:domain dkg:Vulnerability ; rdfs:range xsd:float ;
+    skos:prefLabel "score CVSS"@fr, "CVSS score"@en .
+dkg:hostname a owl:DatatypeProperty ; rdfs:domain dkg:Asset ; rdfs:range xsd:string ;
+    skos:prefLabel "nom d'hote"@fr, "hostname"@en .
+dkg:ipAddress a owl:DatatypeProperty ; rdfs:domain dkg:Asset ; rdfs:range xsd:string ;
+    skos:prefLabel "adresse IP"@fr, "IP address"@en ;
+    skos:definition "Adresse IPv4 locale de l'équipement sur le réseau."@fr .
+dkg:hasOperatingSystem a owl:DatatypeProperty ; rdfs:domain dkg:Asset ; rdfs:range xsd:string ;
+    skos:prefLabel "systeme d'exploitation"@fr, "operating system"@en .
+dkg:exposesService a owl:DatatypeProperty ; rdfs:domain dkg:Asset ; rdfs:range xsd:string ;
+    skos:prefLabel "expose le service"@fr, "exposes service"@en ;
+    skos:definition "Service réseau exposé par l'actif (nom, port, état d'exposition)."@fr .
+dkg:version a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:string ;
+    skos:prefLabel "version"@fr, "version"@en ;
+    skos:definition "Version du composant, hors nom de produit (ex. '2.4.49')."@fr .
+dkg:releaseDate a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:date ;
+    skos:prefLabel "date de sortie"@fr, "release date"@en .
+dkg:eolDate a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:date ;
+    skos:prefLabel "date de fin de support"@fr, "end-of-life date"@en .
+dkg:supportStatus a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:string ;
+    skos:prefLabel "statut de support"@fr, "support status"@en ;
+    skos:definition "Statut : 'supported' | 'deprecated' | 'end-of-life'."@fr .
+dkg:eolSource a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:string ;
+    skos:prefLabel "source du statut EOL"@fr, "EOL source"@en .
+
+# --- Propriétés d'objet --------------------------------------------------------
+dkg:hasInstalledComponent a owl:ObjectProperty ;
+    rdfs:domain dkg:Asset ; rdfs:range dkg:SoftwareComponent ;
+    owl:inverseOf dkg:isComponentOf ;
+    skos:prefLabel "a pour composant"@fr, "has installed component"@en .
+dkg:isComponentOf a owl:ObjectProperty ;
+    rdfs:domain dkg:SoftwareComponent ; rdfs:range dkg:Asset ;
+    owl:inverseOf dkg:hasInstalledComponent ;
+    skos:prefLabel "est composant de"@fr, "is component of"@en .
+dkg:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain dkg:SoftwareComponent ; rdfs:range dkg:Vulnerability ;
+    owl:inverseOf dkg:isVulnerabilityOf ;
+    skos:prefLabel "a pour vulnerabilite"@fr, "has vulnerability"@en .
+dkg:isVulnerabilityOf a owl:ObjectProperty ;
+    rdfs:domain dkg:Vulnerability ; rdfs:range dkg:SoftwareComponent ;
+    owl:inverseOf dkg:hasVulnerability ;
+    skos:prefLabel "impacte le composant"@fr, "is vulnerability of"@en .
+dkg:hasWeakness a owl:ObjectProperty ;
+    rdfs:domain dkg:Vulnerability ; rdfs:range dkg:Weakness ;
+    skos:prefLabel "est de type faiblesse"@fr, "has weakness"@en .
+dkg:hasThreatPattern a owl:ObjectProperty ;
+    rdfs:domain dkg:Weakness ; rdfs:range dkg:ThreatPattern ;
+    skos:prefLabel "a pour schema de menace"@fr, "has threat pattern"@en .
+dkg:hasTLPMarking a owl:ObjectProperty ;
+    rdfs:domain owl:Thing ; rdfs:range dkg:TLPMarking ;
+    skos:prefLabel "a pour marquage TLP"@fr, "has TLP marking"@en .
+dkg:connectedTo a owl:ObjectProperty ;
+    rdfs:domain dkg:Asset ; rdfs:range dkg:Asset ;
+    skos:prefLabel "connecte a"@fr, "connected to"@en ;
+    skos:definition "Liaison réseau entre deux actifs (ex. équipement raccordé à la box)."@fr .
+dkg:inNetworkZone a owl:ObjectProperty ;
+    rdfs:domain dkg:Asset ; rdfs:range dkg:NetworkZone ;
+    skos:prefLabel "situe dans la zone"@fr, "in network zone"@en .

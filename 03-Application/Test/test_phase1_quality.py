@@ -53,7 +53,7 @@ def test_exg_tb_04_rbox_inverses(tbox_graph):
 
 @pytest.mark.non_regression
 def test_exg_tb_05_skos_completeness(tbox_graph):
-    """EXG-TB-05  /  EXG-FWK-P1-T-R_5    : Vérifie les annotations SKOS sur classes et propriétés."""
+    """EXG-TB-05  /  EXG-FWK-P1-T-R_2    : Vérifie les annotations SKOS sur classes et propriétés."""
     entities = list(tbox_graph.subjects(RDF.type, OWL.Class)) + \
                list(tbox_graph.subjects(RDF.type, OWL.ObjectProperty))
     
@@ -79,7 +79,9 @@ def test_exg_qu_01_shacl_coverage(tbox_graph, shacl_graph):
     )
 
 def test_markdown_documentation_structure(master_dir):
-    """Vérifie la présence du Glossaire, du schéma Mermaid et des tableaux dans le Markdown."""
+    """
+    exigence : EXG-FWK-P1-GOU_3
+    Vérifie la présence du Glossaire, du schéma Mermaid et des tableaux dans le Markdown."""
     md_file = master_dir / TBOX_MASTER_PATH.with_suffix(".md").name
     assert md_file.exists(), f"Fichier Markdown introuvable: {md_file}"
     content = md_file.read_text(encoding="utf-8")

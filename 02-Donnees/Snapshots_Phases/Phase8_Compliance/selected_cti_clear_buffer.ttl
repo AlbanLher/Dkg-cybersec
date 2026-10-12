@@ -1,0 +1,58 @@
+# Bulletins bruts des sources cochées (TLP:CLEAR)
+# --- anssi_2024 (ANSSI) ---
+# Bulletin ANSSI — SMBv1 / EternalBlue
+# ALERTE CTI CERT-FR : Exploitation active du protocole SMBv1 (CVE-2017-0144) avec implant DoublePulsar par APT29...
+
+# --- cisa_kev_2025 (CISA) ---
+# Rapport CISA KEV — Botnet RTSP FreeRTOS
+# CISA KEV : Recrutement massif de caméras IP FreeRTOS sur le port RTSP 554 au sein de botnets DDoS...
+
+# --- mitre_attck_2026 (MITRE) ---
+# MITRE ATT&CK — T1210 Exploitation of Remote Services
+# MITRE ATT&CK T1210 : Adversaries may attempt to exploit software vulnerabilities in client/server applications...
+
+# --- nvd_cve_feed (NVD) ---
+# NVD NIST — Feed CVE-2017-0144 High Severity
+# NVD CVE-2017-0144 : Vulnerability in SMBv1 allows remote attackers to execute arbitrary code...
+
+# Sous-graphe CTI sélectionné : ['ANSSI', 'Bulletin ANSSI — SMBv1 / EternalBlue', 'CISA', 'MITRE', 'MITRE ATT&CK — T1210 Exploitation of Remote Services', 'NVD', 'NVD NIST — Feed CVE-2017-0144 High Severity', 'Rapport CISA KEV — Botnet RTSP FreeRTOS', 'anssi_2024', 'cisa_kev_2025', 'mitre_attck_2026', 'nvd_cve_feed']
+
+# --- DKG_ABox_CTI_External.ttl ---
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-cti:ABox_CTI_External a owl:Ontology ;
+    rdfs:label "DKG External CTI Feed - TLP:CLEAR"@en .
+
+dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;
+    dkg:cvssScore "10.0"^^xsd:float ;
+    dkg:exploitsWeakness dkg-cti:CWE-502 ;
+    dkg:isCisaKev false ;
+    rdfs:comment "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints."@en .
+
+dkg-cti:CVE-2023-4863 a dkg:Vulnerability ;
+    dkg:cvssScore "8.8"^^xsd:float ;
+    dkg:exploitsWeakness dkg-cti:CWE-119 ;
+    dkg:isCisaKev false ;
+    rdfs:comment "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187."@en .
+
+dkg-cti:CAPEC-100 a dkg:ThreatPattern ;
+    rdfs:label "Overflow Buffers"@en ;
+    rdfs:comment "Attacker targets a buffer overflow vulnerability to execute shellcode or cause DoS."@en .
+
+dkg-cti:CAPEC-586 a dkg:ThreatPattern ;
+    rdfs:label "Object Injection"@en ;
+    rdfs:comment "An attacker injects malicious objects into an application to execute arbitrary code."@en .
+
+dkg-cti:CWE-119 a dkg:Weakness ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-100 .
+
+dkg-cti:CWE-502 a dkg:Weakness ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-586 .
+
+dkg-data:CTI-EOL-SMBv1 a dkg:Vulnerability ;
+    rdfs:label "SMBv1 End-of-Life / CVE-2017-0144"@en ;
+    dkg:cvssScore "9.8"^^xsd:float .

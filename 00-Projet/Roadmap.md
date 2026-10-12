@@ -133,3 +133,22 @@ graph TB
   * P10 (Planned): Load logs & performance abacuses.
   * P11-P14 (Planned): GraphRAG NL-to-SPARQL, Neo4j n10s hybridization, Distributed SOC relays & automated SOAR.
 ```
+
+
+## 6. Specification prospective
+**1. Canvas §37 (spécification prospective, fait foi pour le détail)** — complète et autonome :
+
+- **37.1** problème constaté en recette (liaison SMBv1 par mot-clé vs Log4Shell formel) ;
+- **37.2** les trois actes (détection → formalisation HITL → raisonnement formel), règle de priorité « le formel prime », delta ABox type SMBv1 (vocabulaire TBox déclaré uniquement, GOU_22 par construction) ;
+- **37.3** détection hybride : mot-clé v0 conservé comme repli Air-Gapped, modèle local v1 (LoRA) — avec la boucle vertueuse : l'audit trail DEM_5 comme jeu d'entraînement ;
+- **37.4** garde-fous non négociables (le modèle ne décide jamais, Local-First, preuve de chaque proposition, workset uniquement) ;
+- **37.5** périmètre d'implémentation pour l'étape dédiée ;
+- **37.6** argumentaire Roadmap (« système qui apprend sous gouvernance humaine », double capitalisation).
+  
+
+
+- **39.1 thèse** : SOC Assistant sobre sans GPU/16 Go, SOC_1→SOC_2→SOC_3, standards W3C purs et limites à chiffrer ;
+- **39.2 les 4 couches data** : repos distants (volumétrie déclarée), fichiers locaux (segmentation), RAM (`ram_peak` **estimé acté** — `len(g)` × ~1-2 Ko/triplet, complété par le RSS réel du simulateur), distribution (extrapolation seuil 16 Go, fédération SPARQL `SERVICE` — reste standard) ;
+- **39.3 simulateur** : il existe déjà (`DKGSimulator`, psutil, échelle progressive) — le travail P9 est l'**alignement SSOT** (il référence encore `DIR_SNAPSHOT_P6`/`DKG_TBOX` de la P6), les **personas PME/ETI** (plutôt que les triplets uniformes actuels), le **pont vers l'abaque** (persistance TSV) et la courbe de charge front ;
+- **39.4 benchmark décision Neo4j** : rdflib → Oxigraph (store SPARQL natif embarqué, standard) → Neo4j en option comparative, avec la ligne de conclusion chiffrée « limites du standard pur » ;
+- **39.5 traçabilité** : future ligne §38 (exigence AGE_3), et lien avec §37 — l'abaque couche 3 devra inclure l'empreinte RAM des modèles IA locaux (embeddings, NER, futur détecteur v1).

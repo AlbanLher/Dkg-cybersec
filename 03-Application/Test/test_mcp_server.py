@@ -8,14 +8,16 @@ import sys
 from pathlib import Path
 import pytest
 
-# Ajustement du path pour accéder au core
 sys.path.append(str(Path(__file__).resolve().parent.parent / "core"))
 from mcp_server import DKGMCPRegistry
 
 
 @pytest.mark.non_regression
 def test_mcp_resources_listing():
-    """Vérifie que le registre expose bien les ressources de données (TLP:RED et CLEAR)."""
+    """
+    Exigence: EXG-TEC-P8-soc_3
+    Vérifie que le registre expose bien les ressources de données (TLP:RED et CLEAR).
+    """
     resources = DKGMCPRegistry.list_resources()
     assert isinstance(resources, list), "Les ressources doivent être retournées sous forme de liste."
     assert len(resources) >= 2, "Le serveur doit exposer au moins les ressources internes et externes."
@@ -27,7 +29,10 @@ def test_mcp_resources_listing():
 
 @pytest.mark.non_regression
 def test_mcp_tools_listing():
-    """Vérifie que les outils indispensables de la Phase 8 et du simulateur sont enregistrés."""
+    """
+    Exigence: EXG-TEC-P8-soc_3
+    Vérifie que les outils indispensables de la Phase 8 et du simulateur sont enregistrés.
+    """
     tools = DKGMCPRegistry.list_tools()
     assert isinstance(tools, list), "Les outils doivent être retournés sous forme de liste."
     
@@ -40,7 +45,10 @@ def test_mcp_tools_listing():
 
 @pytest.mark.non_regression
 def test_mcp_call_simulation_tool():
-    """Teste l'appel direct de l'outil de simulation via le registre MCP avec un faible volume."""
+    """
+    Exigence: EXG-TEC-P8-soc_3
+    Teste l'appel direct de l'outil de simulation via le registre MCP avec un faible volume.
+    """
     arguments = {"scale_factor": 100}
     result = DKGMCPRegistry.call_tool("run_simulation_benchmark", arguments)
     
@@ -51,6 +59,9 @@ def test_mcp_call_simulation_tool():
 
 @pytest.mark.non_regression
 def test_mcp_unknown_tool_raises_error():
-    """Vérifie qu'un appel à un outil non enregistré lève bien une exception explicite."""
+    """
+    Exigence: EXG-TEC-P8-soc_3
+    Vérifie qu'un appel à un outil non enregistré lève bien une exception explicite.
+    """
     with pytest.raises(ValueError, match="Outil MCP non reconnu"):
         DKGMCPRegistry.call_tool("outil_inexistant", {})

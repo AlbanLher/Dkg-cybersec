@@ -33,3 +33,6 @@ dkg-cti:CWE-119 a dkg:Weakness ;
 dkg-cti:CWE-502 a dkg:Weakness ;
     dkg:hasThreatPattern dkg-cti:CAPEC-586 .
 
+dkg-data:CTI-EOL-SMBv1 a dkg:Vulnerability ;
+    rdfs:label "SMBv1 End-of-Life / CVE-2017-0144"@en ;
+    dkg:cvssScore "9.8"^^xsd:float .

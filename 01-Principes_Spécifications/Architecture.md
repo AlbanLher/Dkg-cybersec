@@ -1,8 +1,11 @@
 
-### 1. Les Communs (Sources Publiques de Référence)
-
-- **Catalogues Externes (MITRE ATT&CK, CVE, Feeds CTI) :**
-    
+### 1. Les Communs - Sources de connaissance Publiques 
+- Dans le cas d'usage de ce développement qui est le SOC en cybersecurité, les communs sont constitués de bases externes recenssant les menaces, les vulnérabilités : 
+> - MITRE ATT&CK,
+> - CVE,
+> - Feeds CTI
+- Ces sources sont identifiées dans un catalogue maintenu par le SOC,
+	     
     - _Rôle / Fonction :_ Flux de données de cybermenaces publics et de référence. Ils constituent la matière brute externe que l'agent en charge va capturer périodiquement de manière sélective.
         
 
@@ -144,25 +147,25 @@ graph TD
 ```
 
 ### 7. LLM version,
-
-```
-[CONTEXT: DKG-CyberSec Phase 8 - Sovereign Air-Gapped Multi-Agent Architecture]
-- ROOT & SSOT: /Workspace with external '02-Donnees/' (TLP-segmented Masters & Snapshots) and '03-Application/core/config.py'.
+```tsv
+[CONTEXT: DKG-CyberSec Phase 8 - Sovereign Air-Gapped MCP Multi-Agent Architecture]
+- ROOT & SSOT: /Workspace with external '02-Donnees/' (TLP-segmented Masters) and '03-Application/core/config.py'.
 - MASTER TLP SEGMENTATION (02-Donnees/Master_Transversal/):
   * TLP:AMBER: Core TBox ontology (DKG_TBox_Master.ttl) & reasoning rules.
-  * TLP:RED: Critical ABox instances, inferred graphs & private residential/host data (.private).
-  * TLP:CLEAR: Filtered public CTI (MITRE/CVE) & compliance standards.
-- INPUT SOURCES: Public references ('Les Communs' like MITRE/CVE) & internal raw data chunks.
-- CORE ENGINES & AGENTS (03-Application/core/):
-  * mcp_server.py: Central Model Context Protocol registry in Air-Gapped mode.
-  * simulator.py: Load benchmarking & resource abacuses (Green-by-Design).
-  * frugal_engine.py: Upstream CTI filtering for high semantic density deltas.
-  * tbox_guardian.py: Supervises external catalog ingestion & enrichment proposals.
-  * hitm_gateway.py: Human-in-the-Middle sovereign validation gateway.
-  * mitm_engine.py: Core semantic matching engine (embeddings, similarity thresholds, skos:exactMatch).
-  * soc_engine.py: SOC audit pipeline, SHACL validation & compliance reporting.
-- OFFLINE AI LAYER (03-Application/models/cache/): Local sentence-transformers (embeddings) & GLiNER (NER) cache provisioned via fetch_models.py.
-- ACCESS LAYER (stage_2_decoupled_api/): FastAPI backend (api_backend.py, compliance_api_extension.py) & static JS dashboard (frontend_js/).
-- TESTING: Comprehensive pytest suite in Test/.
+  * TLP:RED: Critical ABox instances, inferred graphs & local network scans (.private).
+  * TLP:CLEAR: Filtered public CTI/EOL (TLP_CLEAR_CTI_External/*.ttl) & compliance standards.
+- INPUT SOURCES: Public references catalog ('02-Donnees/Input_Phases/Phase8_Compliance/external_sources.json').
+- CORE ENGINES & MCP AGENTS (03-Application/core/ & Phase8/):
+  * mcp_server.py: Central Model Context Protocol registry & tool router in Air-Gapped mode.
+  * tbox_guardian.py / compliance_steward_agent.py: Supervises external catalog ingestion & network toggles.
+  * hitm_gateway.py: Human-in-the-Middle sovereign validation gateway (Delta TBox approval).
+  * frugal_engine.py: Local-first semantic subset filtering (ABox INTERSECT CTI_Local).
+- OFFLINE AI LAYER (03-Application/models/cache/): Local sentence-transformers & GLiNER cached via fetch_models.py.
+- ACCESS LAYER & DEMO UI (03-Application/stage_2_decoupled_api/ & api/ & static/):
+  * api/routes_phase8.py: FastAPI MCP-compliant endpoints for Phase 8 audit, network toggle & HITL merge.
+  * static/index.html: Tri-pane TTL Dashboard (TBox AMBER, ABox RED, CTI CLEAR) & NL Risk Bilan.
+  * static/app.js: Dynamic UI handler, network toggle state manager & HITL validation trigger.
+- TESTING: Pytest suite in '03-Application/Test/test_phase8_demonstrator.py' asserting EXG-MET-P8-DEM_1, DEM_2, DEM_3.
 - GOAL: Sovereign, Air-Gapped, Green-by-Design, human-validated semantic security graph management.
 ```
+  

@@ -17,7 +17,10 @@ from core.tbox_guardian import TBoxGuardianAgent
 
 @pytest.mark.non_regression
 def test_frugal_engine_execution():
-    """Vérifie que le moteur de filtrage frugal produit correctement un delta valide."""
+    """
+    Exigence: EXG-FWK-P8-age_1
+    Vérifie que le moteur de filtrage frugal produit correctement un delta valide.
+    """
     result = run_frugal_filtering()
     assert result["status"] == "success", "Le filtrage frugal doit aboutir avec succès."
     
@@ -32,9 +35,12 @@ def test_frugal_engine_execution():
 
 @pytest.mark.non_regression
 def test_soc_audit_pipeline():
-    """Vérifie le bon fonctionnement de l'orchestrateur d'audit SOC[cite: 15]."""
+    """
+    Exigence: EXG-FWK-P8-soc_2
+    Vérifie le bon fonctionnement de l'orchestrateur d'audit SOC.
+    """
     report = run_soc_audit_pipeline()
-    assert report["status"] == "success", "L'audit SOC doit renvoyer un statut de succès[cite: 15]."
+    assert report["status"] == "success", "L'audit SOC doit renvoyer un statut de succès."
     
     report_path = Path(report["report_path"])
     assert report_path.exists(), "Le fichier de rapport d'audit SOC doit être généré."
@@ -42,7 +48,10 @@ def test_soc_audit_pipeline():
 
 @pytest.mark.non_regression
 def test_mitm_engine_indexing():
-    """Vérifie l'initialisation et l'indexation sémantique du moteur MITM[cite: 13]."""
+    """
+    Exigence: EXG-TEC-P5-CON_1
+    Vérifie l'initialisation et l'indexation sémantique du moteur MITM.
+    """
     engine = MITMEngine()
     g = Graph()
     # Test avec un graphe minimal contenant une entité
@@ -50,23 +59,29 @@ def test_mitm_engine_indexing():
     
     # Évaluation d'un candidat textuel
     match_uri, score = engine.evaluate_candidate("Sécurité du traitement et chiffrement")
-    assert 0.0 <= score <= 1.0, "Le score de similarité doit être compris entre 0 et 1[cite: 13]."
+    assert 0.0 <= score <= 1.0, "Le score de similarité doit être compris entre 0 et 1."
 
 
 @pytest.mark.non_regression
 def test_dkg_simulator_benchmark():
-    """Vérifie la génération de charge synthétique et les métriques d'empreinte[cite: 14]."""
+    """
+    Exigence: EXG-TEC-P8-sim_1
+    Vérifie la génération de charge synthétique et les métriques d'empreinte.
+    """
     simulator = DKGSimulator()
     metrics = simulator.benchmark_execution(scale_factor=100)
     
     assert metrics["status"] == "SUCCESS", "Le benchmark de simulation doit réussir."
     assert metrics["triple_count"] > 0, "Le nombre de triplets générés doit être supérieur à 0."
-    assert "memory_delta_mb" in metrics, "Les métriques de delta mémoire doivent être mesurées[cite: 14]."
+    assert "memory_delta_mb" in metrics, "Les métriques de delta mémoire doivent être mesurées."
 
 
 @pytest.mark.non_regression
 def test_tbox_guardian_pipeline(monkeypatch):
-    """Vérifie l'agent gardien TBox avec simulation de validation HitM automatique[cite: 12, 16]."""
+    """
+    Exigence: EXG-FWK-P8-age_1
+    Vérifie l'agent gardien TBox avec simulation de validation HitM automatique.
+    """
     monkeypatch.setenv("HITM_AUTO_APPROVE", "1")
     
     guardian = TBoxGuardianAgent()

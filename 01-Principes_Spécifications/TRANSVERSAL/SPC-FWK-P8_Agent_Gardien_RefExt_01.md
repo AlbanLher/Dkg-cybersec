@@ -48,22 +48,40 @@ graph TD
     classDef clear fill:#e2f0cb,stroke:#388e3c,stroke-width:2px,color:#1b5e20;
     classDef process fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b;
     classDef registry fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#f57f17;
+    classDef web fill:#ffe0b2,stroke:#f57c00,stroke-width:2px,color:#e65100;
 
-    Registry["external_sources_compliance_registry.json<br>(Registre de Traçabilité Brute)"]:::registry
-    Steward["ExternalReferenceStewardAgent<br>(Agent Gardien Générique)"]:::process
-    Subset["abox_compliance_standards_clear.ttl<br>(Subset Frugal TLP:CLEAR)"]:::clear
+    Catalog["external_sources.json<br>(Catalogue Maître Géré par l'Humain)"]:::registry
+    IHM["IHM / Cases à Cocher<br>(Consigne Réseau)"]:::process
+    WebExt["Sources Distantes<br>(endoflife.date, CISA, etc.)"]:::web
+    Steward["ExternalReferenceStewardAgent<br>(Agent Gardien)"]:::process
+    LocalTTL["TLP_CLEAR_CTI_External/*.ttl<br>(Fonds Documentaire Local)"]:::clear
+    RAMSubset["Sous-graphe Minimal en RAM<br>(ABox ∩ CTI_Locale)"]:::clear
 
-    Registry -->|Lecture des métadonnées & URI| Steward
-    Steward -->|Application des règles de filtrage| Subset
+    Catalog -->|Lecture Métadonnées & Tooltips| IHM
+    IHM -->|Si Source Cochée : Requête Réseau| WebExt
+    WebExt -->|Mise à jour / Ingestion| LocalTTL
+    IHM -.->|Si 0 Source Cochée : 0 Réseau| LocalTTL
+    LocalTTL -->|Extraction Sémantique| Steward
+    Steward -->|Chargement Frugal| RAMSubset
 ```
+
+
+
 ## 📐 3. Spécifications Formelles & Règles
 
 ### 3.1 Axiomes, Structures RDF ou Scénario Métier
 
-- **Principe du Subset Minimal :** Interdiction stricte de charger l'intégralité d'une ontologie externe lourde en mémoire. L'agent extrait uniquement les concepts cibles nécessaires (ex: _Article 32 du RGPD_).
+
+### 3.1 Axiomes, Structures RDF ou Scénario Métier
+
+- **Découplage Consigne Réseau vs Raisonnement Local (Air-Gapped Native) :**
+  - **IHM / Cases à cocher (Consigne Réseau) :** Elles servent exclusivement d'instruction d'interrogation distante pour l'Agent Gardien (rafraîchissement ou enrichissement des fichiers `.ttl` locaux dans `TLP_CLEAR_CTI_External/`).
+  - **Fonctionnement Air-Gapped (0 source cochée / Offline) :** Si aucune source n'est cochée (ou en l'absence de réseau), **0 requête web n'est émise**. L'Agent s'appuie intégralement sur les triplets déjà présents dans les fichiers `.ttl` locaux sur disque.
+  
+- **Principe du Subset Minimal (RAM Frugale) :** Interdiction stricte de charger l'intégralité d'une ontologie ou base CTI/EOL externe lourde en mémoire. L'agent extrait uniquement le sous-graphe sémantique minimal issu du croisement entre l'ABox et le fonds `.ttl` local ($\text{ABox} \cap \text{CTI}_{\text{locale}}$).
     
 - **Isolation TLP :** Le référentiel public supervisé et généré par l'agent est obligatoirement étiqueté en **`TLP:CLEAR`**. Aucune fuite vers les graphes internes (`TLP:RED` / `AMBER`) n'est tolérée.
-    
+   
 
 ### 3.2 Directives d'Implémentation Code & Scripts
 
@@ -74,10 +92,11 @@ graph TD
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant**  | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**            | **Description & Critères d'Acceptation**                                                            | **Mode de Test / Asset** |
-| ---------------- | ---------------- | ----------- | ------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-P8-01**    | EXG-FWK-P8-age_1 | `SE`        | Core          | Traçabilité & Filtrage Frugal Externe | Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire. | Pytest / SPARQL / SHACL  |
-| **EXG-GREEN-01** | EXG-FWK-P8-age_2 | `TEC`       | Core          | Sobriété et Local-First               | Exécution fluide en moins de 1s sur poste hôte standard 16 Go RAM Air-Gapped.                       | Benchmark / Pytest       |
+| **Identifiant**  | **UID**            | **Domaine** | **Core/Non-Core** | **Intitulé de l'Exigence**            | **Description & Critères d'Acceptation**                                                                                                                                                                                                                                            | **Mode de Test / Asset**              |
+| ---------------- | ------------------ | ----------- | ----------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| **EXG-P8-01**    | `EXG-FWK-P8-age_1` | `SE`        | Core              | Traçabilité & Filtrage Frugal Externe | **1.** Conservation du catalogue source (`external_sources.json`).<br>**2.** Si 0 source sélectionnée : **0 requête réseau émise**.<br>**3.** Exploitation du fonds `.ttl` local existant et extraction RAM du sous-graphe minimal ($\text{ABox} \cap \text{CTI}_{\text{locale}}$). | Pytest / SPARQL / Assert Network Logs |
+| **EXG-GREEN-01** | `EXG-FWK-P8-age_2` | `TEC`       | Core              | Sobriété et Local-First               | Exécution fluide en moins de 1s sur poste hôte standard 16 Go RAM Air-Gapped.                                                                                                                                                                                                       | Benchmark / Pytest                    |
+
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest
 
@@ -88,10 +107,18 @@ graph TD
 - **Critères d'Acceptation** : Validation syntaxique RDFlib, absence de violation sous pySHACL (`sh:Violation` = 0).
     
 - **Artefacts Produits** : `02-Donnees/Master_Transversal/abox_compliance_standards_clear.ttl`
+
+- **Catalogue maître :** `02-Donnees/Input_Phases/Phase8_Compliance/external_sources.json`
     
+- **Répertoire TTL Local :** `02-Donnees/Master_Transversal/TLP_CLEAR_CTI_External/`
+    
+- **Route / Agent API :** `03-Application/api/routes_phase8.py`
+
+
 
 ## 📚 6. Documents Liés & Références
 
 - **SPEC-SOCLE-01** : Socle TBox Master & Règles W3C.
     
 - **SPEC-METIER-UC08** : Compliance & Preuve Réglementaire Frugale (RGPD).
+- 
