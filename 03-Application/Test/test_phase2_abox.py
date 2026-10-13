@@ -77,7 +77,6 @@ def test_exg_uc_abox_01_namespace_integrity(full_graph: Graph):
 
 
 @pytest.mark.non_regression
-def test_exg_uc_abox_03_cyber_chain_completeness(full_graph: Graph):
 def test_exg_uc_abox_03_cyber_chain_completeness(full_graph):
     """EXG-TEC-P2-ABO_3 : la chaîne cyber Asset → SoftwareComponent
     → Vulnerability (CVE) → Weakness (CWE) → ThreatPattern (CAPEC)
