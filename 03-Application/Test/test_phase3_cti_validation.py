@@ -81,7 +81,7 @@ def test_cti_multi_hop_chain(combined_graph):
     
     SELECT ?cve ?cwe ?capec WHERE {
         ?cve a dkg:Vulnerability ;
-             dkg:exploitsWeakness ?cwe .
+             dkg:hasWeakness ?cwe .
         ?cwe a dkg:Weakness ;
              dkg:hasThreatPattern ?capec .
         ?capec a dkg:ThreatPattern .
