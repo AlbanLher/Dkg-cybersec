@@ -1,3 +1,4 @@
+@prefix dkg-data: <http://dkg.cybersec.org/data#> . 
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .

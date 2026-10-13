@@ -18,6 +18,7 @@
 # Sous-graphe CTI sélectionné : ['ANSSI', 'Bulletin ANSSI — SMBv1 / EternalBlue', 'CISA', 'MITRE', 'MITRE ATT&CK — T1210 Exploitation of Remote Services', 'NVD', 'NVD NIST — Feed CVE-2017-0144 High Severity', 'Rapport CISA KEV — Botnet RTSP FreeRTOS', 'anssi_2024', 'cisa_kev_2025', 'mitre_attck_2026', 'nvd_cve_feed']
 
 # --- DKG_ABox_CTI_External.ttl ---
+@prefix dkg-data: <http://dkg.cybersec.org/data#> . 
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .

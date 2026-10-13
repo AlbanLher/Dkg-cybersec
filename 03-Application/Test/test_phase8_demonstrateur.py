@@ -81,6 +81,7 @@ def workset(tmp_path, monkeypatch):
 # ------------------------------------------------------------------------------
 # EXG-FWK-P8-AGE_1 — Catalogue SSOT des sources externes
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_get_external_sources_catalog_exg_fwk_p8_age_1():
     """Exigence: EXG-FWK-P8-AGE_1 - Catalogue maître JSON lu via le chemin SSOT (EXG-FWK-P8-AGE_1)."""
     response = client.get("/api/phase8/sources")                       # AGE_1
@@ -92,6 +93,7 @@ def test_get_external_sources_catalog_exg_fwk_p8_age_1():
 # ------------------------------------------------------------------------------
 # EXG-MET-P8-DEM_1 — TBox affichée dès le chargement + Tri-Boîtes + RBox
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_tbox_loaded_on_start_exg_met_p8_dem_1():
     """Exigence: EXG-MET-P8-DEM_1 - La TBox doit être servie dès l'ouverture (UI_Render_3_TTL_Zones)."""
     response = client.get("/api/phase8/tbox")                          # DEM_1
@@ -101,6 +103,7 @@ def test_tbox_loaded_on_start_exg_met_p8_dem_1():
     assert "soc1:SMBv1Service" not in data["tbox_ttl"]  # bloc polluant absent
 
 
+@pytest.mark.non_regression
 def test_rbox_served_on_trigger_exg_met_p8_dem_1():
     """Exigence: EXG-MET-P8-DEM_1 - La RBox est servie à chaque trigger (coche/mode) — raisonnement local."""
     response = client.get("/api/phase8/rbox")                          # DEM_1
@@ -108,6 +111,7 @@ def test_rbox_served_on_trigger_exg_met_p8_dem_1():
     assert "rbox_ttl" in response.json()                              # DEM_1
 
 
+@pytest.mark.non_regression
 def test_audit_tri_boxes_render_exg_met_p8_dem_1():
     """Exigence: EXG-MET-P8-DEM_1 - Audit : les 3 zones Tri-Boîtes sont présentes dans la réponse."""
     response = client.post("/api/phase8/audit",                        # DEM_1
@@ -121,6 +125,7 @@ def test_audit_tri_boxes_render_exg_met_p8_dem_1():
 # ------------------------------------------------------------------------------
 # EXG-MET-P8-DEM_2 — Air-Gapped : 0 coche => 0 requête HTTP
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_audit_air_gapped_zero_network_exg_met_p8_dem_2():
     """Exigence: EXG-MET-P8-DEM_2 - 0 source cochée => 0 requête réseau émise (HTTP_Requests_Count == 0)."""
     payload = {"mode": "foyer", "enabled_network_sources": []}         # DEM_2
@@ -134,6 +139,7 @@ def test_audit_air_gapped_zero_network_exg_met_p8_dem_2():
         mock_requests.assert_not_called()                             # DEM_2
 
 
+@pytest.mark.non_regression
 def test_audit_with_network_toggle_exg_met_p8_dem_2():
     """Exigence: EXG-MET-P8-DEM_2 - N sources cochées => compteur réseau == N (consigne sélective)."""
     payload = {"mode": "foyer",
@@ -143,6 +149,7 @@ def test_audit_with_network_toggle_exg_met_p8_dem_2():
     assert response.json()["network_requests_made"] == 2              # DEM_2
 
 
+@pytest.mark.non_regression
 def test_bilan_computed_from_abox_exg_fwk_p8_age_1():
     """Exigence: EXG-FWK-P8-AGE_1 - Le bilan NL est calculé depuis le contenu ABox réel (Local-First)."""
     response = client.post("/api/phase8/audit",                        # AGE_1
@@ -158,6 +165,7 @@ def test_bilan_computed_from_abox_exg_fwk_p8_age_1():
 # ------------------------------------------------------------------------------
 # EXG-MET-P8-DEM_3 + DEM_6 — Gatekeeper HITL centralisé dans la passerelle
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_tbox_merge_hitl_gatekeeper_exg_met_p8_dem_3():
     """Exigence: EXG-MET-P8-DEM_3
     Delta vide => 422 ; delta invalide (rdflib) => 422 ; valide => 200.
@@ -188,6 +196,7 @@ def test_tbox_merge_hitl_gatekeeper_exg_met_p8_dem_3():
         mock_merge.assert_called_once_with(VALID_DELTA_TTL)           # DEM_6
 
 
+@pytest.mark.non_regression
 def test_tbox_merge_never_automatic_exg_met_p8_dem_3():
     """Exigence: EXG-MET-P8-DEM_3
     Aucun appel audit ne déclenche l'écriture TBox (DEM_3) : le symbole
@@ -200,6 +209,7 @@ def test_tbox_merge_never_automatic_exg_met_p8_dem_3():
         mock_merge.assert_not_called()  # TBox_Master_Modified only if APPROVE
 
 
+@pytest.mark.non_regression
 def test_tbox_merge_idempotent_noop_exg_met_p8_dem_3(workset):
     """Exigence: EXG-MET-P8-DEM_3
     Vraie passerelle, workset tmp : 1er appel SUCCESS (delta écrit UNE
@@ -219,6 +229,7 @@ def test_tbox_merge_idempotent_noop_exg_met_p8_dem_3(workset):
     assert "NOOP(already-merged)" in log                              # DEM_5
 
 
+@pytest.mark.non_regression
 def test_tbox_reject_journalized_exg_met_p8_dem_3(workset):
     """Exigence: EXG-MET-P8-DEM_3
     POST /tbox/reject : issue explicite REJECTED + décision journalisée
@@ -239,6 +250,7 @@ def test_tbox_reject_journalized_exg_met_p8_dem_3(workset):
 # ------------------------------------------------------------------------------
 # EXG-MET-P8-RES_1 — Seed/Reset : seeds JAMAIS modifiés, workset restauré
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_reset_restores_workset_seeds_intact_exg_met_p8_res_1(workset):
     """Exigence: EXG-MET-P8-RES_1
     POST /reset : workset recopié depuis les seeds, buffer CTI purgé,
@@ -255,6 +267,7 @@ def test_reset_restores_workset_seeds_intact_exg_met_p8_res_1(workset):
     assert seed_after == seed_before  # seed JAMAIS modifié            # RES_1
 
 
+@pytest.mark.non_regression
 def test_ensure_workset_initialized_on_first_access_exg_met_p8_res_1(workset):
     """Exigence: EXG-MET-P8-RES_1
     GET /tbox sans workset => reset automatique depuis les seeds (RES_1),
@@ -269,6 +282,7 @@ def test_ensure_workset_initialized_on_first_access_exg_met_p8_res_1(workset):
 # ------------------------------------------------------------------------------
 # CTI CLEAR — chargement différé + persistance dans le buffer workset (AGE_1)
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_cti_lazy_select_and_buffer_exg_fwk_p8_age_1(workset):
     """Exigence: EXG-FWK-P8-AGE_1
     POST /cti/select retourne le sous-graphe et l'écrit dans le buffer
@@ -287,6 +301,7 @@ def test_cti_lazy_select_and_buffer_exg_fwk_p8_age_1(workset):
 # ------------------------------------------------------------------------------
 # EXG-MET-P8-DEM_4b — Vue superposition verticale par alerte (TLP:RED/CTI vert)
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_superposition_graph_vertical_tlp_colors_exg_met_p8_dem_4b():
     """Exigence: EXG-MET-P8-DEM_4B
     GET /superposition/graph : flowchart TD VERTICAL, nœuds internes
@@ -304,6 +319,7 @@ def test_superposition_graph_vertical_tlp_colors_exg_met_p8_dem_4b():
     assert "classDef intern" in m and "classDef extern" in m           # DEM_4b
 
 
+@pytest.mark.non_regression
 def test_superposition_flags_undeclared_cti_vocab_exg_fwk_p1_gou_22(workset):
     """Exigence: EXG-FWK-P1-GOU_22
     Lien exploitsWeakness du CTI non déclaré en TBox de référence =>
@@ -344,6 +360,7 @@ def test_superposition_flags_undeclared_cti_vocab_exg_fwk_p1_gou_22(workset):
 
 # EXG-FWK-P8-AGE_2 — Abaque Green-Dev : volumes chargés vs disponibles
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_frugality_abaque_green_dev_exg_fwk_p8_age_2():
     """Exigence: EXG-FWK-P8-AGE_2
     GET /frugality : ratio chargé/disponible cohérent (<= 100), TOP
@@ -363,6 +380,7 @@ def test_frugality_abaque_green_dev_exg_fwk_p8_age_2():
 # ------------------------------------------------------------------------------
 # EXG-FWK-P1-GOU_22 — Cohérence vocabulaire ABox / TBox de référence
 # ------------------------------------------------------------------------------
+@pytest.mark.non_regression
 def test_abox_tbox_vocabulary_coherence_exg_fwk_p1_gou_22():
     """Exigence: EXG-FWK-P1-GOU_22
     L'ABox seed ne doit utiliser que des propriétés déclarées dans la
