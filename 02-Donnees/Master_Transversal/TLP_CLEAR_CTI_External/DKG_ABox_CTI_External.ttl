@@ -1,4 +1,3 @@
-@prefix dkg-data: <http://dkg.cybersec.org/data#> . 
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -34,6 +33,6 @@ dkg-cti:CWE-119 a dkg:Weakness ;
 dkg-cti:CWE-502 a dkg:Weakness ;
     dkg:hasThreatPattern dkg-cti:CAPEC-586 .
 
-dkg-data:CTI-EOL-SMBv1 a dkg:Vulnerability ;
+dkg-cti:CTI-EOL-SMBv1 a dkg:Vulnerability ;
     rdfs:label "SMBv1 End-of-Life / CVE-2017-0144"@en ;
     dkg:cvssScore "9.8"^^xsd:float .

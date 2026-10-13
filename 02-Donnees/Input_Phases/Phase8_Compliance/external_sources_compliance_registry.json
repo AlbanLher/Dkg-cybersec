@@ -17,7 +17,7 @@
       "type": "unstructured_nlp",
       "local_ttl_file": "DKG_ABox_CTI_External.ttl",
       "content": "ALERTE CTI CERT-FR : Exploitation active du protocole SMBv1 (CVE-2017-0144) avec implant DoublePulsar par APT29...",
-      "extracted_triples": "dkg-data:Threat_APT29 dkg:exploits dkg-data:Vuln_EternalBlue ."
+      "extracted_triples": "dkg-cti:Threat_APT29 dkg:exploits dkg-cti:Vuln_EternalBlue ."
     },
     {
       "id": "cisa_kev_2025",
@@ -26,7 +26,7 @@
       "type": "unstructured_nlp",
       "local_ttl_file": "DKG_ABox_CTI_External.ttl",
       "content": "CISA KEV : Recrutement massif de caméras IP FreeRTOS sur le port RTSP 554 au sein de botnets DDoS...",
-      "extracted_triples": "dkg-data:Threat_MiraiVariant dkg:targetsDevice dkg-data:IoTCamera ."
+      "extracted_triples": "dkg-cti:Threat_MiraiVariant dkg:targetsDevice dkg-cti:IoTCamera ."
     },
     {
       "id": "mitre_attck_2026",
@@ -35,7 +35,7 @@
       "type": "unstructured_nlp",
       "local_ttl_file": "DKG_ABox_CTI_External.ttl",
       "content": "MITRE ATT&CK T1210 : Adversaries may attempt to exploit software vulnerabilities in client/server applications...",
-      "extracted_triples": "dkg-data:Technique_T1210 rdfs:subClassOf dkg:RemoteExploitation ."
+      "extracted_triples": "dkg-cti:Technique_T1210 rdfs:subClassOf dkg:RemoteExploitation ."
     },
     {
       "id": "nvd_cve_feed",
@@ -44,7 +44,7 @@
       "type": "unstructured_nlp",
       "local_ttl_file": "DKG_ABox_CTI_External.ttl",
       "content": "NVD CVE-2017-0144 : Vulnerability in SMBv1 allows remote attackers to execute arbitrary code...",
-      "extracted_triples": "dkg-data:Vuln_EternalBlue dkg:hasCVSS '9.8' ."
+      "extracted_triples": "dkg-cti:Vuln_EternalBlue dkg:hasCVSS '9.8' ."
     }
   ]
 }

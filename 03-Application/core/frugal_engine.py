@@ -29,18 +29,27 @@ def run_frugal_filtering() -> Dict[str, Any]:
 
     registry_path = config.EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH
 
-    if registry_path.exists():
+
+        if registry_path.exists():
         try:
             with open(registry_path, "r", encoding="utf-8") as f:
                 registry = json.load(f)
-                
-            for src in registry.get("sources", []):
-                source_uri = URIRef(f"http://home.secure/cti/source/{src.get('source_id')}")
-                delta_graph.add((source_uri, RDF.type, SOC1.CTISource))
-                delta_graph.add((source_uri, RDFS.label, Literal(src.get("title"), lang="fr")))
-                delta_graph.add((source_uri, SOC1.tlp, Literal(src.get("tlp"))))
-                delta_graph.add((source_uri, SOC1.status, Literal(src.get("status"))))
-                
+
+            DKG = Namespace("http://dkg.cybersec.org/tbox#")   # GOU_22
+            DKG_CTI = Namespace("http://dkg.cybersec.org/cti#")
+            delta_graph.bind("dkg", DKG)
+            delta_graph.bind("dkg-cti", DKG_CTI)
+            delta_graph.bind("rdfs", RDFS)
+
+            # schéma réel du registre : cti_sources / id, acronym, label
+            for src in registry.get("cti_sources", []):
+                sid = src.get("id", "")
+                source_uri = URIRef(f"http://dkg.cybersec.org/cti#{sid}")
+                delta_graph.add((source_uri, RDF.type, DKG.CTISource))
+                delta_graph.add((source_uri, RDFS.label,
+                                 Literal(src.get("label"), lang="fr")))
+                delta_graph.add((source_uri, DKG_CTI.acronym,
+                                 Literal(src.get("acronym"))))
         except Exception as err:
             logger.error(f"Erreur lors de la lecture du registre CTI : {err}")
     else:

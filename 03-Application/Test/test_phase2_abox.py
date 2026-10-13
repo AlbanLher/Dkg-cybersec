@@ -85,15 +85,16 @@ def test_exg_uc_abox_03_cyber_chain_completeness(full_graph: Graph):
     """
     query = """
     PREFIX dkg: <http://dkg.cybersec.org/tbox#>
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
     SELECT ?asset ?comp ?cve ?cwe ?capec WHERE {
-        ?asset a dkg:Asset ;
-               dkg:hasInstalledComponent ?comp .
-        ?comp a dkg:SoftwareComponent ;
-              dkg:hasVulnerability ?cve .
-        ?cve a dkg:Vulnerability ;
-             dkg:exploitsWeakness ?cwe .
-        ?cwe a dkg:Weakness ;
-             dkg:hasThreatPattern ?capec .
+        ?asset a dkg:Asset ; dkg:hasInstalledComponent ?comp .
+        ?comp a dkg:SoftwareComponent ; dkg:hasVulnerability ?cve .
+        ?cve a dkg:Vulnerability .
+        { ?cve dkg:exploitsWeakness ?cwe }                     
+        UNION
+        { ?cve skos:exactMatch ?cve_cti .                     
+          ?cve_cti dkg:exploitsWeakness ?cwe . }
+        ?cwe a dkg:Weakness ; dkg:hasThreatPattern ?capec .
         ?capec a dkg:ThreatPattern .
     }
     """

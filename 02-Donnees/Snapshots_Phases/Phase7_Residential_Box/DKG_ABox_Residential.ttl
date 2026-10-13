@@ -54,7 +54,7 @@ dkg-data:Comp-Samba-SMBv1 a dkg:SoftwareComponent ;
     dkg:hasVulnerability dkg-data:CVE-2017-0144 ;
     dkg:isComponentOf dkg-data:Asset-Freebox-Delta .
 
-dkg-data:CVE-2017-0144 a dkg:Vulnerability ;
+dkg-cti:CVE-2017-0144 a dkg:Vulnerability ;
     rdfs:label "SMBv1 Remote Code Execution (EternalBlue family)"@en ;
     dkg:cvssScore "9.8"^^xsd:float ;
     dkg:hasWeakness dkg-data:CWE-121 .  
