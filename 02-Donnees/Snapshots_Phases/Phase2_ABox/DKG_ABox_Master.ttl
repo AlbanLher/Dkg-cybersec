@@ -34,13 +34,13 @@ dkg-data:CAPEC-63 a dkg:ThreatPattern ;
 dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
     rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
     dkg:cvssScore "7.5"^^xsd:float ;
-    dkg:exploitsWeakness dkg-data:CWE-22 ;
+    dkg:hasWeakness dkg-data:CWE-22 ;
     dkg:isVulnerabilityOf dkg-data:Comp-Apache-2-4-49 .
 
 dkg-data:CVE-2021-44228 a dkg:Vulnerability ;
     rdfs:label "Log4Shell Remote Code Execution"@en ;
     dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:exploitsWeakness dkg-data:CWE-78 ;
+    dkg:hasWeakness dkg-data:CWE-78 ;
     dkg:isVulnerabilityOf dkg-data:Comp-Log4j-2-14 .
 
 dkg-data:CWE-22 a dkg:Weakness ;

@@ -78,33 +78,41 @@ def test_exg_uc_abox_01_namespace_integrity(full_graph: Graph):
 
 @pytest.mark.non_regression
 def test_exg_uc_abox_03_cyber_chain_completeness(full_graph: Graph):
-    """
-    EXG-UC-ABOX-03  /  EXG-TEC-P2-ABO_3   : Complétude de la chaîne CTI Traversante.
-    Asset -> SoftwareComponent -> Vulnerability -> Weakness -> ThreatPattern
-    Utilise le prédicat normé dkg:exploitsWeakness (SPEC-TECH-UC01).
+def test_exg_uc_abox_03_cyber_chain_completeness(full_graph):
+    """EXG-TEC-P2-ABO_3 : la chaîne cyber Asset → SoftwareComponent
+    → Vulnerability (CVE) → Weakness (CWE) → ThreatPattern (CAPEC)
+    est complète et traversables en SPARQL.
+
+    Le maillon CVE→CWE utilise le prédicat normé dkg:hasWeakness
+    (TBox de référence §25). Les CVE RED et les CVE CTI étant des IRI
+    distinctes non fusionnées, la traversée s'appuie sur trois ponts :
+    direct, skos:exactMatch, ou rapprochement par littéral cveId.
     """
     query = """
     PREFIX dkg: <http://dkg.cybersec.org/tbox#>
+    PREFIX dkg-data: <http://dkg.cybersec.org/data#>
+    PREFIX dkg-cti: <http://dkg.cybersec.org/cti#>
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
     SELECT ?asset ?comp ?cve ?cwe ?capec WHERE {
         ?asset a dkg:Asset ; dkg:hasInstalledComponent ?comp .
         ?comp a dkg:SoftwareComponent ; dkg:hasVulnerability ?cve .
         ?cve a dkg:Vulnerability .
-        { ?cve dkg:exploitsWeakness ?cwe }                     
+        { ?cve dkg:hasWeakness ?cwe }
         UNION
-        { ?cve skos:exactMatch ?cve_cti .                     
-          ?cve_cti dkg:exploitsWeakness ?cwe . }
+        { ?cve skos:exactMatch ?cve_cti . ?cve_cti dkg:hasWeakness ?cwe }
         UNION
-        { ?cve dkg:cveId ?id .                
-          ?cve_cti dkg:cveId ?id .            
-          ?cve_cti dkg:exploitsWeakness ?cwe . }
+        { ?cve dkg:cveId ?id . ?cve_cti dkg:cveId ?id . ?cve_cti dkg:hasWeakness ?cwe }
         ?cwe a dkg:Weakness ; dkg:hasThreatPattern ?capec .
         ?capec a dkg:ThreatPattern .
     }
     """
-    res = list(full_graph.query(query))
-    assert len(res) > 0, "La chaîne CTI complète (Asset -> Component -> CVE -> CWE -> CAPEC) est absente !"
-
+    rows = list(full_graph.query(query))
+    assert len(rows) >= 1, (
+        "Aucune chaîne cyber complète Asset→Comp→CVE→CWE→CAPEC trouvée. "
+        "Vérifier les maillons avec diag_chain.py (§49.10) : le premier "
+        "compteur à 0 localise la rupture."
+    )
 
 @pytest.mark.non_regression
 def test_exg_fwk_02_01_referential_integrity(full_graph: Graph):
