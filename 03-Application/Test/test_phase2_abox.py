@@ -94,6 +94,10 @@ def test_exg_uc_abox_03_cyber_chain_completeness(full_graph: Graph):
         UNION
         { ?cve skos:exactMatch ?cve_cti .                     
           ?cve_cti dkg:exploitsWeakness ?cwe . }
+        UNION
+        { ?cve dkg:cveId ?id .                
+          ?cve_cti dkg:cveId ?id .            
+          ?cve_cti dkg:exploitsWeakness ?cwe . }
         ?cwe a dkg:Weakness ; dkg:hasThreatPattern ?capec .
         ?capec a dkg:ThreatPattern .
     }
