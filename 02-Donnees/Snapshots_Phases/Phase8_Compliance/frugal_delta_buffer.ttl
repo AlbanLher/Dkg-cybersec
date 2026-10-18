@@ -1,1 +1,11 @@
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dkg-cti:anssi_2024 rdfs:label "Bulletin ANSSI — SMBv1 / EternalBlue"@fr .
+
+dkg-cti:cisa_kev_2025 rdfs:label "Rapport CISA KEV — Botnet RTSP FreeRTOS"@fr .
+
+dkg-cti:mitre_attck_2026 rdfs:label "MITRE ATT&CK — T1210 Exploitation of Remote Services"@fr .
+
+dkg-cti:nvd_cve_feed rdfs:label "NVD NIST — Feed CVE-2017-0144 High Severity"@fr .
 

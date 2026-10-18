@@ -31,9 +31,9 @@ Formalisation des exigences fonctionnelles permettant d'associer un constat de v
 - **Lien de Violation :** Établissement d'un triplet d'inférence sécurisé en `TLP:RED`. 
 - **Zéro fuite normative :** Le référentiel public reste strictly étanche en `TLP:CLEAR`. 
 ## 3. Matrice des Exigences 
-| Identifiant   | UID              | Domaine | Core/Non-Core | Intitulé                     | Description                        | Mode de Test    |
-| :------------ | :--------------- | :------ | :------------ | :--------------------------- | :--------------------------------- | :-------------- |
-| **EXG-P8-02** | EXG-MET-P8-com_1 | `QU`    | Core          | Qualification Non-Conformité | Association actif -> standard RGPD | Pytest / SPARQL |
+| Identifiant        | UID                | Domaine | Core/Non-Core | Intitulé                     | Description                        | Mode de Test    |
+| :----------------- | :----------------- | :------ | :------------ | :--------------------------- | :--------------------------------- | :-------------- |
+| `EXG-MET-P8-COM_1` | `EXG-MET-P8-COM_1` | `QU`    | Core          | Qualification Non-Conformité | Association actif -> standard RGPD | Pytest / SPARQL |
 # 📜 Conformité & Preuve Réglementaire RGPD (Art. 32)
 
 ## 1. Règles Métier de Qualification (OK / KO)

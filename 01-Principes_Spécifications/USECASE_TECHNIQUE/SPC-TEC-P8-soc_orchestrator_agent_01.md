@@ -64,11 +64,11 @@ Spécifier l'implémentation logicielle de la Phase 8 en adoptant une approche *
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant   | UID              | Domaine | Core/Non-Core | Intitulé de l'Exigence | Description & Critères d'Acceptation          | Mode de Test / Asset      |
-| :------------ | :--------------- | :------ | :------------ | :--------------------- | :-------------------------------------------- | :------------------------ |
-| **EXG-P8-05** | EXG-TEC-P8-soc_1 | `TEC`   | Core          | API Asynchrone         | Pilotage asynchrone avec timeout de 30s.      | PyTest / AsyncIO Suite    |
-| **EXG-P8-06** | EXG-TEC-P8-soc_2 | `TEC`   | Core          | Pipeline NER Local     | Exécution 100% Air-Gapped du modèle GLiNER.   | PyTest / Air-Gapped Check |
-| **EXG-P8-07** | EXG-TEC-P8-soc_3 | `TEC`   | Core          | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check  |
+| Identifiant        | UID                | Domaine | Core/Non-Core | Intitulé de l'Exigence | Description & Critères d'Acceptation          | Mode de Test / Asset      |
+| :----------------- | :----------------- | :------ | :------------ | :--------------------- | :-------------------------------------------- | :------------------------ |
+| `EXG-TEC-P8-SOC_1` | `EXG-TEC-P8-SOC_1` | `TEC`   | Core          | API Asynchrone         | Pilotage asynchrone avec timeout de 30s.      | PyTest / AsyncIO Suite    |
+| `EXG-TEC-P8-SOC_2` | `EXG-TEC-P8-SOC_2` | `TEC`   | Core          | Pipeline NER Local     | Exécution 100% Air-Gapped du modèle GLiNER.   | PyTest / Air-Gapped Check |
+| `EXG-TEC-P8-SOC_3` | `EXG-TEC-P8-SOC_3` | `TEC`   | Core          | Architecture MCP-Ready | Typage strict et découplage pour wrapper MCP. | PyTest / Interface Check  |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

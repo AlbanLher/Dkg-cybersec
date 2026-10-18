@@ -57,10 +57,10 @@ Plafond strict défini dans config.py : MAX_TRIPLES_IN_MEMORY = 50000.
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant | UID              | Domaine | Core/Non-Core | Intitulé de l'Exigence    | Description & Critères d'Acceptation                 | Mode de Test / Asset      |
-| ----------- | ---------------- | ------- | ------------- | ------------------------- | ---------------------------------------------------- | ------------------------- |
-| EXG-P8-03   | EXG-MET-P8-inc_1 | `TEC`   | Core          | Interdiction Monolithique | Respect du plafond RAM et chargement par partitions. | Profiling RAM PyTest      |
-| EXG-P8-04   | EXG-MET-P8-inc_2 | `QU`    | Core          | Validation Incrémentale   | Fusion par deltas validés par contraintes SHACL.     | SPARQL / SHACL validation |
+| Identifiant        | UID                | Domaine | Core/Non-Core | Intitulé de l'Exigence    | Description & Critères d'Acceptation                 | Mode de Test / Asset      |
+| ------------------ | ------------------ | ------- | ------------- | ------------------------- | ---------------------------------------------------- | ------------------------- |
+| `EXG-MET-P8-INC_1` | `EXG-MET-P8-INC_1` | `TEC`   | Core          | Interdiction Monolithique | Respect du plafond RAM et chargement par partitions. | Profiling RAM PyTest      |
+| `EXG-MET-P8-INC_2` | `EXG-MET-P8-INC_2` | `QU`    | Core          | Validation Incrémentale   | Fusion par deltas validés par contraintes SHACL.     | SPARQL / SHACL validation |
 
 
 # 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

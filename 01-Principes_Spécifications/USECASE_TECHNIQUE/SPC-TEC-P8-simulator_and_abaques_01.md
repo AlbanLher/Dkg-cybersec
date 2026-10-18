@@ -70,10 +70,10 @@ le simulateur prend en charge la génération de topologies de réseaux segment�
 
 ## 📊 4. Matrice des Exigences & Critères d'Acceptation (EXG-)
 
-| **Identifiant**   | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**     | **Description & Critères d'Acceptation**                                               | **Mode de Test / Asset**         |
-| ----------------- | ---------------- | ----------- | ------------- | ------------------------------ | -------------------------------------------------------------------------------------- | -------------------------------- |
-| **EXG-P8-SIM-01** | EXG-TEC-P8-sim_1 | `TEC`       | Core          | Génération Procédurale Frugale | Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta). | `pytest tests/test_simulator.py` |
-| **EXG-P8-SIM-02** | EXG-TEC-P8-sim_2 | `TEC`       | Core          | Traçabilité des Abaques        | Consignation automatisée des temps de traitement et des volumes dans les rapports.     | Validation des logs d'exécution  |
+| **Identifiant**    | UID                | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence**     | **Description & Critères d'Acceptation**                                               | **Mode de Test / Asset**         |
+| ------------------ | ------------------ | ----------- | ------------- | ------------------------------ | -------------------------------------------------------------------------------------- | -------------------------------- |
+| `EXG-TEC-P8-SIM_1` | `EXG-TEC-P8-SIM_1` | `TEC`       | Core          | Génération Procédurale Frugale | Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta). | `pytest tests/test_simulator.py` |
+| `EXG-TEC-P8-SIM_2` | `EXG-TEC-P8-SIM_2` | `TEC`       | Core          | Traçabilité des Abaques        | Consignation automatisée des temps de traitement et des volumes dans les rapports.     | Validation des logs d'exécution  |
 
 
 ## 🛡️ 5. Outillage, CI/CD & Traçabilité Pytest

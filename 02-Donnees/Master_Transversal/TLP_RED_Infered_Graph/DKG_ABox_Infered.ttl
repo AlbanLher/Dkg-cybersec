@@ -11,13 +11,13 @@ dkg-cti:ABox_CTI_External a owl:Ontology ;
 
 dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;
     dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:exploitsWeakness dkg-cti:CWE-502 ;
+    dkg:hasWeakness dkg-cti:CWE-502 ;
     dkg:isCisaKev false ;
     rdfs:comment "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints."@en .
 
 dkg-cti:CVE-2023-4863 a dkg:Vulnerability ;
     dkg:cvssScore "8.8"^^xsd:float ;
-    dkg:exploitsWeakness dkg-cti:CWE-119 ;
+    dkg:hasWeakness dkg-cti:CWE-119 ;
     dkg:isCisaKev false ;
     rdfs:comment "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187."@en .
 
@@ -115,13 +115,13 @@ dkg-data:CAPEC-63 a dkg:ThreatPattern ;
 dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
     rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
     dkg:cvssScore "7.5"^^xsd:float ;
-    dkg:exploitsWeakness dkg-data:CWE-22 ;
+    dkg:hasWeakness dkg-data:CWE-22 ;
     dkg:isVulnerabilityOf dkg-data:Comp-Apache-2-4-49 .
 
 dkg-data:CVE-2021-44228 a dkg:Vulnerability ;
     rdfs:label "Log4Shell Remote Code Execution"@en ;
     dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:exploitsWeakness dkg-data:CWE-78 ;
+    dkg:hasWeakness dkg-data:CWE-78 ;
     dkg:isVulnerabilityOf dkg-data:Comp-Log4j-2-14 .
 
 dkg-data:CWE-22 a dkg:Weakness ;
@@ -134,7 +134,6 @@ dkg-data:CWE-78 a dkg:Weakness ;
 
 dkg-data:TLP-AMBER a dkg:TLPMarking ;
     rdfs:label "TLP:AMBER"@en .
-
 dkg-data:TLP-RED a dkg:TLPMarking ;
     rdfs:label "TLP:RED"@en .
 

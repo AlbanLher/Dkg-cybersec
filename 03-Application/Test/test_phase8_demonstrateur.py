@@ -12,6 +12,9 @@ Décisions actées v2 :
     dans api.routes_phase8 ; chemins workset via core.config (monkeypatch).
   - Idempotence, rejet, reset et audit trail testés avec la VRAIE passerelle
     sur des fichiers temporaires (jamais le workspace réel ni les seeds).
+Tracabilite : EXG-MET-P8-DEM_1, EXG-MET-P8-DEM_2, EXG-MET-P8-DEM_3, 
+              EXG-MET-P8-DEM_4b, EXG-MET-P8-RES_1, EXG-FWK-P8-AGE_1, 
+              EXG-FWK-P8-AGE_2, EXG-FWK-P1-GOU_22
 """
 
 import re
@@ -303,7 +306,7 @@ def test_cti_lazy_select_and_buffer_exg_fwk_p8_age_1(workset):
 # ------------------------------------------------------------------------------
 @pytest.mark.non_regression
 def test_superposition_graph_vertical_tlp_colors_exg_met_p8_dem_4b():
-    """Exigence: EXG-MET-P8-DEM_4B
+    """Exigence: EXG-MET-P8-DEM_4b
     GET /superposition/graph : flowchart TD VERTICAL, nœuds internes
     TLP:RED (classe intern) et externes TLP:CLEAR (classe extern) ; lecture
     pure (aucune écriture)."""
@@ -333,12 +336,24 @@ def test_superposition_flags_undeclared_cti_vocab_exg_fwk_p1_gou_22(workset):
     # de l'ABox, mais aucun lien exploitsWeakness ni ⚠️).
     client.get("/api/phase8/tbox")                                    # RES_1
     workset["cti"].write_text(                                         # AGE_1
-        "@prefix dkg: <http://dkg.cybersec.org/tbox#> .\n"
-        "@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .\n"
-        "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n"
-        "dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;\n"
-        "    dkg:cveId \"CVE-2021-44228\" ;\n"
-        "    dkg:exploitsWeakness dkg-cti:CWE-502 .\n", encoding="utf-8")
+            "@prefix dkg: <http://dkg.cybersec.org/tbox#> .\n"
+            "@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .\n"
+            "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n"
+            "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n"
+            "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n"
+            # Fonds CTI complet : CONFRONTATION_1 (P9) produit le finding
+            # Local-CVE-2021-44228 sur l'inventaire pur du seed hote
+            # (comp-apache-log4j-core / 2.14.1), relié par skos:exactMatch.
+            "dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;\n"
+            "    dkg:cveId \"CVE-2021-44228\" ;\n"
+            "    rdfs:label \"Log4Shell\"@en ;\n"
+            "    dkg:cvssScore \"10.0\"^^xsd:float ;\n"
+            "    dkg:affectsComponentId \"comp-apache-log4j-core\" ;\n"
+            "    dkg:affectsVersion \"2.14.1\" ;\n"
+            "    dkg:exploitsWeakness dkg-cti:CWE-502 .\n"
+            "dkg-cti:CWE-502 a dkg:Weakness ;\n"
+            "    rdfs:label \"CWE-502 Deserialization of Untrusted Data\"@en .\n",
+            encoding="utf-8")
     params = {"mode": "hote", "equipment": "Serveur Authentification Central"}
     r1 = client.get("/api/phase8/superposition/graph", params=params)  # GOU_22
     assert r1.status_code == 200

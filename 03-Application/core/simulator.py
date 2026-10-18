@@ -2,6 +2,7 @@
 03-Application/core/simulator.py
 Moteur de simulation évolutif et de banc d'essai (Phase 10 & Transversal).
 Mesure l'empreinte matérielle et alimente les abaques de performance sous contrainte Green-by-Design.
+EXG-TEC-P8-SIM_1 (⚠️ code actuel : EXG-FWK-P8-SIM_1 à corriger), EXG-TEC-P8-SIM_2
 """
 
 import time

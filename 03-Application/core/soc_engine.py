@@ -4,7 +4,7 @@ Orchestrateur SOC et audit de conformité (Core Service).
 """
 
 from typing import Dict, Any
-from core.config import DIR_SNAPSHOT_P8
+from core.config import DIR_SNAPSHOT_P8, DELTA_BUFFER_PATH, SOC_AUDIT_REPORT_PATH
 
 DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / "frugal_delta_buffer.ttl"
 SOC_AUDIT_REPORT_PATH = DIR_SNAPSHOT_P8 / "soc_audit_compliance_report.json"

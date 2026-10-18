@@ -109,7 +109,7 @@ graph TD
 
 ### 3.2 Directives d'Architecture TBox (Classes & Typage)
 
-- **Typage OWL Strict [`EXG-TB-02`]** : Tout concept du schéma doit être explicitement typé `owl:Class`, `owl:ObjectProperty` ou `owl:DatatypeProperty`.
+- **Typage OWL Strict [`EXG-TB-02`, `EXG-FWK-P1-T-R_2`]** : Tout concept du schéma doit être explicitement typé `owl:Class`, `owl:ObjectProperty` ou `owl:DatatypeProperty`.
     
 - **Héritage N-Tiers** : Les sous-classes doivent utiliser `rdfs:subClassOf` de manière stricte sans boucle cyclique.
     

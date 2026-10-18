@@ -1,0 +1,105 @@
+# =============================================================================
+# DKG_CTI_Funds_Demo.ttl — TLP:CLEAR (EXG-FWK-P1-GOU_11)
+# Fonds CTI du démonstrateur : connaissances PUBLIQUES (CVE/CWE/CAPEC).
+# C'est ICI et uniquement ici que vivent les vulnérabilités de référence.
+# La confrontation (règle CONFRONTATION, RBox) croise affectsComponentId /
+# affectsVersion avec l'inventaire local et matérialise le finding local
+# relié par skos:exactMatch au présent fonds.
+# Les prédicats dkg:exploitsWeakness / dkg:isCisaKev restent NON DÉCLARÉS
+# dans la TBox : déclencheurs HITL amenés par le CTI coché (KEV).
+# dkg:providedBy = provenance (ids du catalogue P7) : la confrontation ne
+# n'utilise QUE les CVE dont la provenance intersecte les sources cochées
+# (EXG-MET-P8-DEM_2) ; à déclarer en TBox (cf. PATCH_TBox_et_recette.md).
+# DÉCLENCHEUR HITL VOLONTAIRE (GOU_22) : dkg:exploitsWeakness / dkg:isCisaKev /
+# dkg:targetsDevice sont UTILISÉS ci-dessous mais NON DÉCLARÉS dans la TBox
+# de référence — dès qu'une source les chargeant est cochée, l'audit propose
+# le delta TBox à valider par l'opérateur (fusion = le raisonnement
+# CVE->faiblesse exploitée / menace->catégorie d'appareil devient possible ;
+# rejet = écart journalisé, reproposé à chaque audit tant que non résolu).
+# Cas didactique IoT : la caméra IP locale (comp-freertos 10.0.1) est reliée
+# au fonds par la CVE réelle CVE-2018-16574 (FreeRTOS+TCP, divulgation
+# Zimperium 2018 — versions affectées jusqu'à V10.0.1) ET à l'acteur de
+# menace (variante Mirai, bulletin CISA caméras/botnets RTSP) — l'extraction
+# CTI est liée aux DONNÉES INTERNES, le recallage TBox en assure l'intégration
+# cohérente (GOU_22).
+# =============================================================================
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-cti:CTI_Funds_Demo a owl:Ontology ;
+    rdfs:label "DKG Fonds CTI Demo (CVE/CWE/CAPEC publics)"@fr ;
+    dkg:hasTLPMarking dkg-cti:TLP-CLEAR .
+
+dkg-cti:TLP-CLEAR a dkg:TLPMarking ; rdfs:label "TLP:CLEAR"@en .
+
+# --- CVE (affectations : product id + version exacte du composant local) ----
+dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;
+    dkg:cveId "CVE-2021-44228" ;
+    rdfs:label "Log4Shell Remote Code Execution"@en ;
+    dkg:cvssScore "10.0"^^xsd:float ;
+    dkg:affectsComponentId "comp-apache-log4j-core" ;
+    dkg:affectsVersion "2.14.1" ;
+    dkg:providedBy "cisa_kev_2025" , "nvd_cve_feed" ;
+    dkg:exploitsWeakness dkg-cti:CWE-78 ;
+    dkg:isCisaKev true .
+
+dkg-cti:CVE-2021-41773 a dkg:Vulnerability ;
+    dkg:cveId "CVE-2021-41773" ;
+    rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
+    dkg:cvssScore "7.5"^^xsd:float ;
+    dkg:affectsComponentId "comp-apache-http-server" ;
+    dkg:affectsVersion "2.4.49" ;
+    dkg:providedBy "anssi_2024" , "nvd_cve_feed" ;
+    dkg:exploitsWeakness dkg-cti:CWE-22 .
+
+# --- IoT : FreeRTOS (caméra IP locale comp-freertos 10.0.1) ------------------
+dkg-cti:CVE-2018-16574 a dkg:Vulnerability ;
+    dkg:cveId "CVE-2018-16574" ;
+    rdfs:label "FreeRTOS+TCP IP Stack Memory Corruption (Zimperium 2018)"@en ;
+    dkg:cvssScore "9.8"^^xsd:float ;
+    dkg:affectsComponentId "comp-freertos" ;
+    dkg:affectsVersion "10.0.1" ;
+    dkg:providedBy "cisa_kev_2025" , "nvd_cve_feed" ;
+    dkg:exploitsWeakness dkg-cti:CWE-120 ;
+    dkg:isCisaKev true .
+
+# --- Acteur de menace (bulletin CISA caméras/botnets RTSP) -------------------
+dkg-cti:Threat_MiraiVariant a dkg:ThreatActor ;
+    rdfs:label "Variante Mirai — botnet DDoS (recrutement RTSP 554)"@en ;
+    dkg:targetsDevice dkg-cti:IoTCamera ;
+    dkg:providedBy "cisa_kev_2025" .
+
+dkg-cti:IoTCamera a dkg:DeviceCategory ;
+    rdfs:label "Caméra IP"@fr , "IP camera"@en .
+
+# --- CWE ---------------------------------------------------------------------
+dkg-cti:CWE-120 a dkg:Weakness ;
+    dkg:cweId "CWE-120" ;
+    rdfs:label "Buffer Copy without Checking Size of Input (Classic Buffer Overflow)"@en ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-100 .
+
+dkg-cti:CWE-78 a dkg:Weakness ;
+    dkg:cweId "CWE-78" ;
+    rdfs:label "Improper Neutralization of Special Elements used in an OS Command"@en ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-63 .
+
+dkg-cti:CWE-22 a dkg:Weakness ;
+    dkg:cweId "CWE-22" ;
+    rdfs:label "Improper Limitation of a Pathname to a Restricted Directory"@en ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-126 .
+
+# --- CAPEC -------------------------------------------------------------------
+dkg-cti:CAPEC-100 a dkg:ThreatPattern ;
+    rdfs:label "Overflow Buffers"@en ;
+    rdfs:comment "An attacker transfers excessive data to a fixed-length buffer, corrupting adjacent memory (RCE)."@en .
+
+dkg-cti:CAPEC-63 a dkg:ThreatPattern ;
+    rdfs:label "Simple Pass-Through"@en ;
+    rdfs:comment "Attacker executes arbitrary code by passing commands through input fields."@en .
+
+dkg-cti:CAPEC-126 a dkg:ThreatPattern ;
+    rdfs:label "Path Traversal"@en ;
+    rdfs:comment "An attacker manipulates path references to access files outside the intended folder."@en .

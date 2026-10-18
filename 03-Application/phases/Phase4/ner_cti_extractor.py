@@ -4,6 +4,12 @@ ner_cti_extractor.py
 Pipeline d'extraction CTI Non-Structurée & Génération RDF - Phase 4.
 Parse les bulletins textuels bruts, applique le filtrage de confiance (>= 0.85)
 et génère l'ABox CTI Unstructured (TLP:CLEAR) alignée sur la TBox Master.
+
+Correctifs P8 (keyset §49.11) :
+- les préfixes canoniques sont bindés sur le graphe SÉRIALISÉ (output_graph),
+  avec replace=True pour purger les alias hérités des anciens runs ;
+- dkg:exploitsVulnerability est le prédicat normé ThreatActor→Vulnerability
+  (à déclarer en TBox Master — voie A, sens métier STIX 'exploits').
 """
 
 import re
@@ -33,25 +39,29 @@ class CTIUnstructuredExtractor:
         self.graph = Graph()
         self.tbox = Graph()
         self._load_tbox_semantics()
-        self._bind_namespaces()
+        self._bind_namespaces(self.graph)
 
     def _load_tbox_semantics(self) -> None:
         """Charge la sémantique et les concepts définis dans le Socle TBox."""
         if TBOX_MASTER_PATH.exists():
             self.tbox.parse(str(TBOX_MASTER_PATH), format="turtle")
 
-    def _bind_namespaces(self) -> None:
-        """Déclaration explicite des préfixes RDF obligatoires."""
-        self.graph.bind("dkg", DKG_TBOX)
-        self.graph.bind("dkg-cti", DKG_CTI)
-        self.graph.bind("rdfs", RDFS)
-        self.graph.bind("skos", SKOS)
-        self.graph.bind("xsd", XSD)
-        self.graph.bind("rdf", RDF)
+    def _bind_namespaces(self, graph: Graph) -> None:
+        """Déclaration explicite des préfixes RDF canoniques sur le graphe cible.
+
+        replace=True : un alias hérité d'un run précédent (ex. dkg_tbox:)
+        est écrasé au profit de la forme canonique.
+        """
+        graph.bind("dkg", DKG_TBOX, replace=True)
+        graph.bind("dkg-cti", DKG_CTI, replace=True)
+        graph.bind("rdfs", RDFS)
+        graph.bind("skos", SKOS)
+        graph.bind("xsd", XSD)
+        graph.bind("rdf", RDF)
 
     def extract_from_text(self, text_content: str, source_name: str) -> None:
         """Extraction déterministe par regex/règles avec ancrage TBox."""
-        
+
         # 1. ThreatActor (APT / Identity)
         actor_match = re.search(r"(APT29|Cozy Bear|Lazarus|Fancy Bear)", text_content, re.IGNORECASE)
         actor_uri = None
@@ -96,6 +106,7 @@ class CTIUnstructuredExtractor:
 
         if actor_uri:
             for cve_uri in cve_uris:
+                # Prédicat normé ThreatActor→Vulnerability (déclaré TBox, cf. STIX 'exploits')
                 self.graph.add((actor_uri, DKG_TBOX.exploitsVulnerability, cve_uri))
 
     def process_all_sources(self) -> None:
@@ -112,14 +123,18 @@ class CTIUnstructuredExtractor:
             self.extract_from_text(content, source_name=file_path.name)
 
     def merge_and_sync(self) -> None:
-        """Double écriture découpée (Snapshot P4 -> Master CTI-U)."""
+        """Double écriture découpée (Snapshot P4 -> Master CTI-U), keyset conforme."""
         output_graph = Graph()
-        self._bind_namespaces()
-        
+
         # Récupération de l'existant s'il existe
         if ABOX_CTI_U_PATH.exists():
             output_graph.parse(str(ABOX_CTI_U_PATH), format="turtle")
-        
+
+        # Bind canonique sur le graphe sérialisé, APRÈS le parse de l'existant
+        # (replace=True purge les alias hérités des runs précédents)
+        self._bind_namespaces(output_graph)
+
+        # Compteurs frugalité (l'idempotence déduplique : re-run = +0)
         initial_len = len(output_graph)
         output_graph += self.graph
         final_len = len(output_graph)
@@ -132,7 +147,8 @@ class CTIUnstructuredExtractor:
         # 2. Copie Master Transversal TLP:CLEAR
         DIR_CTI_CLEAR.mkdir(parents=True, exist_ok=True)
         shutil.copy(snapshot_ttl, ABOX_CTI_U_PATH)
-        print(f"✅ ABox CTI-U Master mise à jour ({initial_len} -> {final_len} triplets, +{final_len - initial_len} ajouts).")
+        print(f"✅ ABox CTI-U Master mise à jour ({initial_len} -> {final_len} triplets, "
+              f"+{final_len - initial_len} ajouts).")
 
 
 if __name__ == "__main__":

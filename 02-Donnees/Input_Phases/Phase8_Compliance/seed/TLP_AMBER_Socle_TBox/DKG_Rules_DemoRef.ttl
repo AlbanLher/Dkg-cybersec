@@ -1,17 +1,52 @@
 # =============================================================================
 # DKG_Rules_DemoRef.ttl — TLP:AMBER (EXG-FWK-P1-GOU_11)
-# RBox DU DÉMONSTRATEUR P8. Clarification terminologique (glossaire rév.2) :
-#   - RBox au sens logique (Role Box) = les rôles/propriétés et leurs axiomes
-#     (inverseOf...) : DÉJÀ DÉCLARÉS dans DKG_TBox_DemoRef.ttl (GOU_17).
-#   - CE FICHIER = la boîte à RÈGLES métier (inférences, seuils, déductions).
-#     À ce stade : aucune règle — c'est le point de départ du démonstrateur.
-#     Premières règles attendues en P10 (détection de cascade de risque,
-#     classe HighRiskAsset). Les règles seront des requêtes SPARQL CONSTRUCT
-#     nommées ou des shapes à sévérité, jamais du code applicatif.
+# RBox DU DÉMONSTRATEUR P8. Règle métier n°1 (P9, anticipée depuis P10) :
+# la CONFRONTATION — c'est ELLE, et uniquement elle, qui fait entrer une
+# vulnérabilité dans le graphe local. Jamais le scan, jamais le seed.
+# Principe : les règles sont des requêtes SPARQL CONSTRUCT nommées,
+# jamais du code applicatif (GOU/standardisation RBox).
 # =============================================================================
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://dkg.cybersec.org/rules#RBox_DemoRef> a owl:Ontology ;
-    rdfs:label "RBox Regles Metier - Demonstrateur P8 (vide a date)"@fr .
+    rdfs:label "RBox Regles Metier - Demonstrateur P8"@fr .
+
+# --- RÈGLE CONFRONTATION_1 ---------------------------------------------------
+# Déclencheur : CTI coché (fonds TLP:CLEAR ingéré).
+# Effet : pour chaque composant local dont componentId+version matche une CVE
+# du fonds, matérialise LE finding local (copie TLP:RED du contexte) relié
+# au fonds public par skos:exactMatch — le maillon W3C/SKOS de la démo.
+# Les prédicats dkg:exploitsWeakness / dkg:isCisaKev (non déclarés en TBox)
+# restent hors de cette règle : déclencheurs HITL (checkbox KEV).
+#
+# CONSTRUCT {
+#   ?localCve a dkg:Vulnerability ;
+#       dkg:cveId ?cveId ;
+#       rdfs:label ?lbl ;
+#       dkg:cvssScore ?score ;
+#       dkg:hasWeakness ?localCwe ;
+#       skos:exactMatch ?ctiCve .
+#   ?comp dkg:hasVulnerability ?localCve .
+# }
+# WHERE {
+#   ?ctiCve a dkg:Vulnerability ;
+#       dkg:cveId ?cveId ;
+#       rdfs:label ?lbl ;
+#       dkg:cvssScore ?score ;
+#       dkg:affectsComponentId ?cid ;
+#       dkg:affectsVersion ?ver ;
+#       dkg:hasWeakness ?ctiCwe .
+#   ?comp a dkg:SoftwareComponent ;
+#       dkg:componentId ?cid ;
+#       dkg:version ?ver .
+#   BIND(IRI(CONCAT("http://dkg.cybersec.org/data#Local-", ?cveId)) AS ?localCve)
+#   BIND(IRI(CONCAT("http://dkg.cybersec.org/data#Local-",
+#                   STRAFTER(STR(?ctiCwe), "#")) ) AS ?localCwe)
+#   FILTER NOT EXISTS { ?comp dkg:hasVulnerability/dkg:cveId ?cveId }
+# }

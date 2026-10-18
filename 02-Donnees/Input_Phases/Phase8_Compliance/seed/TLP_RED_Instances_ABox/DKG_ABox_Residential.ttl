@@ -2,6 +2,12 @@
 # DKG_ABox_Residential.ttl — TLP:RED (EXG-FWK-P1-GOU_11)
 # Inventaire foyer résidentiel (5 actifs + box, P7). Conforme à la TBox de
 # référence §29.1 (aucune propriété non déclarée — 0 écart au premier audit).
+# Cas didactique IoT (recallage TBox) : la caméra IP du foyer embarque
+# FreeRTOS 10.0.1 (fait d'inventaire pur) ; le bulletin CISA KEV
+# (caméras/botnets RTSP) la révélera par confrontation via la CVE réelle
+# CVE-2018-16574 (FreeRTOS+TCP ≤ V10.0.1, Zimperium 2018) — en apportant un
+# vocabulaire NON DÉCLARÉ (targetsDevice, ThreatActor, DeviceCategory) :
+# l'audit proposera le recallage TBox (GOU_22/HITL).
 # =============================================================================
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-data: <http://dkg.cybersec.org/data#> .
@@ -50,11 +56,12 @@ dkg-data:Asset-Cam-IP a dkg:Asset ;
     dkg:assetId "asset_cam_01" ;
     rdfs:label "Camera Surveillance IP"@fr ;
     dkg:hostname "cam-ip" ;
-    dkg:hasOperatingSystem "Embedded Linux" ;
+    dkg:hasOperatingSystem "FreeRTOS 10.0.1 (Embedded RTOS)" ;
     dkg:ipAddress "192.168.1.50" ;
-    dkg:exposesService "Telnet (Port 23, Exposed)" ;
+    dkg:exposesService "RTSP (Port 554, Exposed)" ;
     dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
     dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
+    dkg:hasInstalledComponent dkg-data:Comp-FreeRTOS-10-0-1 ;
     dkg:hasTLPMarking dkg-data:TLP-RED .
 
 dkg-data:Asset-Tablette-Enfants a dkg:Asset ;
@@ -77,3 +84,14 @@ dkg-data:Asset-Thermostat a dkg:Asset ;
     dkg:connectedTo dkg-data:Asset-Box-Fai-Livebox ;
     dkg:inNetworkZone dkg-data:Zone-LAN-Foyer ;
     dkg:hasTLPMarking dkg-data:TLP-RED .
+
+# --- Composants logiciels (inventaire pur ; version uniquement dans
+# dkg:version, label sans version — évite le doublon dans les rendus) ---------
+dkg-data:Comp-FreeRTOS-10-0-1 a dkg:SoftwareComponent ;
+    dkg:componentId "comp-freertos" ;
+    dkg:version "10.0.1" ;
+    dkg:releaseDate "2017-11-15"^^xsd:date ;
+    dkg:supportStatus "unsupported" ;
+    dkg:eolSource "FreeRTOS (annonce locale, source externe à brancher)" ;
+    rdfs:label "FreeRTOS"@fr ;
+    dkg:isComponentOf dkg-data:Asset-Cam-IP .

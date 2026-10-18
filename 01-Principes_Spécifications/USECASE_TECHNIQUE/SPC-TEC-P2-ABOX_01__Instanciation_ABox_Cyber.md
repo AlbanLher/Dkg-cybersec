@@ -69,7 +69,7 @@ Elle définit le namespace, la convention de nommage des URIs, la population de 
 graph TD
     Asset[dkg:Asset] -->|hasInstalledComponent| Comp[dkg:SoftwareComponent]
     Comp -->|hasVulnerability| CVE[dkg:Vulnerability]
-    CVE -->|exploitsWeakness| CWE[dkg:Weakness]
+    CVE -->|hassWeakness| CWE[dkg:Weakness]
     CWE -->|hasThreatPattern| CAPEC[dkg:ThreatPattern]
 ```
 
@@ -115,7 +115,7 @@ dkg-data:Comp-Apache-2-4 a dkg:SoftwareComponent ;
 
 dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
     dkg:cvssScore "7.5"^^xsd:decimal ;
-    dkg:exploitsWeakness dkg-data:CWE-22 .
+    dkg:hassWeakness dkg-data:CWE-22 .
 
 dkg-data:CWE-22 a dkg:Weakness ;
     rdfs:label "Path Traversal"@en ;

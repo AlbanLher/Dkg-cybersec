@@ -1,8 +1,13 @@
 """
 03-Application/core/tbox_guardian.py
-Agent TBoxGuardian pour la Phase 8 (SOC_1).
+Agent TBoxGuardian (Phase 8 / SOC_1) : orchestration du flux d'enrichissement
+TBox — déclenche le filtrage frugal du catalogue externe (frugal_engine),
+soumet le delta buffer à la validation HitM (hitm_gateway), qui seule
+applique ou rejette la fusion. L'analyse fine (GOU_22/GOU_18) vit dans
+audit_engine.py pour la route API /audit.
+traçability : EXG-TEC-P8-soc_3 (outillage MCP-ready du pipeline Gardien),
+              EXG-FWK-P8-age_1 (filtrage frugal des référentiels externes)
 """
-
 import logging
 from typing import Dict, Any
 
@@ -29,7 +34,7 @@ class TBoxGuardianAgent:
         approved = request_human_validation(delta_path)
 
         if approved:
-            print("[TBoxGuardian] Validation acceptée. Fusion des concepts dans la TBox maître...")
+            print("[TBoxGuardian] Validation acceptée. La fusion sera appliquée par la passerelle HitM....")
             return {"status": "success", "message": "Enrichissement TBox validé et appliqué."}
         else:
             print("[TBoxGuardian] Validation refusée par l'opérateur.")

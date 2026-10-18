@@ -151,7 +151,7 @@ def test_exg_mitm_02_reconciliation_threshold(setup_mitm_context):
 @pytest.mark.non_regression
 def test_exg_skos_01_taxonomic_consolidation(setup_mitm_context):
     """
-    EXG-SKOS-01  /  EXG-TEC-P5-CON_3     : Alignement Taxonomique SKOS & Consolidation TBox Master
+   EXG-TEC-P5-CON_3     : Alignement Taxonomique SKOS & Consolidation TBox Master
     Critère : Intégration et déduction des triplets réconciliés dans TBox Master.
     """
     agent = setup_mitm_context["agent"]

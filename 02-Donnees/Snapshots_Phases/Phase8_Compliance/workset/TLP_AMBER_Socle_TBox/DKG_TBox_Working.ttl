@@ -77,6 +77,17 @@ dkg:supportStatus a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; r
     skos:definition "Statut : 'supported' | 'deprecated' | 'end-of-life'."@fr .
 dkg:eolSource a owl:DatatypeProperty ; rdfs:domain dkg:SoftwareComponent ; rdfs:range xsd:string ;
     skos:prefLabel "source du statut EOL"@fr, "EOL source"@en .
+dkg:affectsComponentId a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ; rdfs:range xsd:string ;
+    skos:prefLabel "affecte le produit (id)"@fr, "affects component id"@en ;
+    skos:definition "Identifiant de produit affecté par la CVE (côté fonds CTI, TLP:CLEAR)."@fr .
+dkg:affectsVersion a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ; rdfs:range xsd:string ;
+    skos:prefLabel "affecte la version"@fr, "affects version"@en ;
+    skos:definition "Version exacte affectée par la CVE (matching exact en P9 ; fourchettes en P9-c)."@fr .
+
+
+
 
 # --- Propriétés d'objet --------------------------------------------------------
 dkg:hasInstalledComponent a owl:ObjectProperty ;
@@ -111,3 +122,97 @@ dkg:connectedTo a owl:ObjectProperty ;
 dkg:inNetworkZone a owl:ObjectProperty ;
     rdfs:domain dkg:Asset ; rdfs:range dkg:NetworkZone ;
     skos:prefLabel "situe dans la zone"@fr, "in network zone"@en .
+
+# Delta d'annotation SKOS proposé (Gardien TBox — EXG-FWK-P1-GOU_18)
+# Entités déclarées sans couche lexicale complète (prefLabel FR/EN,
+# définition). Proposition HITL : à valider/amender/rejeter.
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+dkg:assetId ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:componentId ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:cveId ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:cvssScore ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:cweId ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:eolDate ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:eolSource ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hasInstalledComponent ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hasOperatingSystem ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hasTLPMarking ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hasThreatPattern ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hasVulnerability ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hasWeakness ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:hostname ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:inNetworkZone ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:isComponentOf ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:isVulnerabilityOf ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+dkg:releaseDate ;
+    skos:definition "À compléter par l'analyste (proposition Gardien)."@fr .
+
+
+# Delta TBox proposé (Gatekeeper HITL)
+# Justification EXG-FWK-P1-GOU_22 : propriétés du fonds CTI
+# (TLP:CLEAR coché) non déclarées dans la TBox de référence.
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:exploitsWeakness a owl:ObjectProperty ;
+    rdfs:domain dkg:Vulnerability ; rdfs:range dkg:Weakness ;
+    skos:prefLabel "exploits weakness"@en, "exploite la faiblesse"@fr ;
+    skos:definition "Relie une vulnérabilité à la faiblesse (CWE) qu'elle exploite."@fr .
+
+# Delta TBox proposé (Gatekeeper HITL)
+# Justification EXG-FWK-P1-GOU_22 : propriétés du fonds CTI
+# (TLP:CLEAR coché) non déclarées dans la TBox de référence.
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg:isCisaKev a owl:DatatypeProperty ;
+    rdfs:domain dkg:Vulnerability ; rdfs:range xsd:boolean ;
+    skos:prefLabel "is CISA KEV"@en, "référencé CISA KEV"@fr ;
+    skos:definition "Indique que la vulnérabilité figure au catalogue CISA KEV (exploitée activement)."@fr .
+
+dkg:targetsDevice a owl:ObjectProperty ;
+    rdfs:domain dkg:ThreatActor ; rdfs:range dkg:DeviceCategory ;
+    skos:prefLabel "targets device category"@en, "cible la catégorie d'appareil"@fr ;
+    skos:definition "Relie un acteur de menace à la catégorie d'appareil qu'il recrute (ex. botnet -> caméras IP)."@fr .

@@ -144,71 +144,6 @@ dkg:hasThreatPattern a owl:ObjectProperty ;
     skos:prefLabel "has threat pattern"@en, "a pour schéma de menace"@fr .
 
 # Delta TBox proposé (Gatekeeper HITL)
-# Justification EXG-FWK-P1-GOU_22 : dkg:hasThreatPattern est utilisée dans
-# l'ABox mais non déclarée dans la TBox Master.
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-
-dkg:hasThreatPattern a owl:ObjectProperty ;
-    rdfs:domain dkg:Weakness ;
-    rdfs:range dkg:ThreatPattern ;
-    skos:prefLabel "has threat pattern"@en, "a pour schéma de menace"@fr .
-
-# Delta TBox proposé (Gatekeeper HITL)
-# Justification EXG-FWK-P1-GOU_22 : dkg:hasThreatPattern est utilisée dans
-# l'ABox mais non déclarée dans la TBox Master.
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-
-dkg:hasThreatPattern a owl:ObjectProperty ;
-    rdfs:domain dkg:Weakness ;
-    rdfs:range dkg:ThreatPattern ;
-    skos:prefLabel "has threat pattern"@en, "a pour schéma de menace"@fr .
-
-# Delta TBox proposé (Gatekeeper HITL)
-# Justification EXG-FWK-P1-GOU_22 : dkg:hasThreatPattern est utilisée dans
-# l'ABox mais non déclarée dans la TBox Master.
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-
-dkg:hasThreatPattern a owl:ObjectProperty ;
-    rdfs:domain dkg:Weakness ;
-    rdfs:range dkg:ThreatPattern ;
-    skos:prefLabel "has threat pattern"@en, "a pour schéma de menace"@fr .
-
-# Delta TBox proposé (Gatekeeper HITL)
-# Justification EXG-FWK-P1-GOU_22 : dkg:hasThreatPattern est utilisée dans
-# l'ABox mais non déclarée dans la TBox Master.
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-
-dkg:hasThreatPattern a owl:ObjectProperty ;
-    rdfs:domain dkg:Weakness ;
-    rdfs:range dkg:ThreatPattern ;
-    skos:prefLabel "has threat pattern"@en, "a pour schéma de menace"@fr .
-
-# Delta TBox proposé (Gatekeeper HITL)
-# Justification EXG-FWK-P1-GOU_22 : dkg:hasThreatPattern est utilisée dans
-# l'ABox mais non déclarée dans la TBox Master.
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-
-dkg:hasThreatPattern a owl:ObjectProperty ;
-    rdfs:domain dkg:Weakness ;
-    rdfs:range dkg:ThreatPattern ;
-    skos:prefLabel "has threat pattern"@en, "a pour schéma de menace"@fr .
-
-# Delta TBox proposé (Gatekeeper HITL)
 # Justification EXG-FWK-P1-GOU_22 : propriétés utilisées en ABox
 # mais non déclarées dans la TBox Master.
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
@@ -221,3 +156,11 @@ dkg:exposesService a owl:DatatypeProperty ;
     rdfs:domain dkg:Asset ;
     rdfs:range xsd:string ;
     skos:prefLabel "exposes service"@en, "expose le service"@fr .
+
+dkg:exploitsVulnerability a owl:ObjectProperty ;
+    rdfs:label "exploits vulnerability"@en , "exploite la vulnérabilité"@fr ;
+    rdfs:comment "Relie un ThreatActor à la Vulnerability qu'il exploite (cf. STIX relationship 'exploits')." ;
+    rdfs:domain dkg:ThreatActor ;
+    rdfs:range dkg:Vulnerability ;
+    skos:prefLabel "exploits vulnerability"@en, "exploite la vulnérabilité"@fr ; 
+    skos:definition "Définition a compléter..."@fr .

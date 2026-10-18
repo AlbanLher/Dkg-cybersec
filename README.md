@@ -198,3 +198,10 @@ Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé
 3. **Relancez les scripts :** Exécutez les scripts de chaque phase pour reconstruire TBox et ABox.
     
 4. **Interagissez avec le LLM :** Respectez les consignes de partage de données et de génération de contextes de fin de phase.
+
+
+
+## 7. Dette de versions
+
+
+> ⚠️ **Dette de données — snapshots version ≤ 2** : les `.ttl` de `Snapshots_Phases/` ont été générés avant le nettoyage terminologique et keyset de la version 3 (`dkg-data:` → `dkg-cti:` sur CTI, `exploitsWeakness` → `hasWeakness`, normalisation des préfixes). Ils sont sciemment exclus du lint et **ne doivent être ni corrigés à la main ni utilisés comme référence**. Ils seront régénérés conformes au prochain replay des générateurs (phase1/phase2 + inférence + reset démo) depuis les seeds et la TBox Master de la version 3. Toute comparaison seed/snapshot doit se faire post-replay.

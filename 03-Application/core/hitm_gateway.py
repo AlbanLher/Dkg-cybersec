@@ -6,6 +6,8 @@ EXG-MET-P8-RES_1 (Seed/Reset). Deux interfaces :
   - CLI (pipelines) : request_human_validation() — préservé à l'identique.
   - API (démonstrateur) : approve_and_merge / reject / reset_demo — fusion
     idempotente dans le WORKING SET uniquement (jamais le Master ni les seeds).
+Traçabilité: EXG-MET-P8-DEM_3, EXG-FWK-P8-soc_1 (validation humaine obligatoire — gouvernance),
+             EXG-MET-P8-DEM_5, EXG-MET-P8-DEM_6 
 """
 
 import hashlib

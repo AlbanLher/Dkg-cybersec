@@ -1,58 +1,84 @@
-# Bulletins bruts des sources cochées (TLP:CLEAR)
-# --- anssi_2024 (ANSSI) ---
-# Bulletin ANSSI — SMBv1 / EternalBlue
-# ALERTE CTI CERT-FR : Exploitation active du protocole SMBv1 (CVE-2017-0144) avec implant DoublePulsar par APT29...
-
-# --- cisa_kev_2025 (CISA) ---
-# Rapport CISA KEV — Botnet RTSP FreeRTOS
-# CISA KEV : Recrutement massif de caméras IP FreeRTOS sur le port RTSP 554 au sein de botnets DDoS...
-
-# --- mitre_attck_2026 (MITRE) ---
-# MITRE ATT&CK — T1210 Exploitation of Remote Services
-# MITRE ATT&CK T1210 : Adversaries may attempt to exploit software vulnerabilities in client/server applications...
-
-# --- nvd_cve_feed (NVD) ---
-# NVD NIST — Feed CVE-2017-0144 High Severity
-# NVD CVE-2017-0144 : Vulnerability in SMBv1 allows remote attackers to execute arbitrary code...
-
-# Sous-graphe CTI sélectionné : ['ANSSI', 'Bulletin ANSSI — SMBv1 / EternalBlue', 'CISA', 'MITRE', 'MITRE ATT&CK — T1210 Exploitation of Remote Services', 'NVD', 'NVD NIST — Feed CVE-2017-0144 High Severity', 'Rapport CISA KEV — Botnet RTSP FreeRTOS', 'anssi_2024', 'cisa_kev_2025', 'mitre_attck_2026', 'nvd_cve_feed']
-
-# --- DKG_ABox_CTI_External.ttl ---
+# Volume CTI local TLP:CLEAR (frugalité — cumul conservé, décocher ne supprime rien, /reset purge)
+# SOURCES: anssi_2024,cisa_kev_2025,mitre_attck_2026,nvd_cve_feed
+# 🌐 nvd_cve_feed — site distant consulté | ⬇️ téléchargé : 103,303 octets
+#    ↳ 3 requête(s) ciblée(s) — seules des CVE publiques sont envoyées
+# 🔒 Discrétion : seuls des identifiants CVE PUBLICS sont envoyés aux API — l'inventaire interne (TLP:RED) ne quitte jamais le poste
+# 💾 Local (fichier buffer) : 2,813 octets (simulation fonds : 5,271) | 🧠 RAM : 2,813 octets
+# Triplets: 57 | CVE ajoutées cette fois: 3
+# # --- anssi_2024 (ANSSI) --- # Bulletin ANSSI — SMBv1 / EternalBlue # ALERTE CTI CERT-FR : Exploitation active du protocole SMBv1 (CVE-2017-0144) avec implant DoublePulsar par APT29...
+# # --- cisa_kev_2025 (CISA) --- # Rapport CISA KEV — Botnet RTSP FreeRTOS # CISA KEV : Recrutement massif de caméras IP FreeRTOS sur le port RTSP 554 au sein de botnets DDoS...
+# # --- mitre_attck_2026 (MITRE) --- # MITRE ATT&CK — T1210 Exploitation of Remote Services # MITRE ATT&CK T1210 : Adversaries may attempt to exploit software vulnerabilities in client/server applications...
+# # --- nvd_cve_feed (NVD) --- # NVD NIST — Feed CVE-2017-0144 High Severity # NVD CVE-2017-0144 : Vulnerability in SMBv1 allows remote attackers to execute arbitrary code...
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-dkg-cti:ABox_CTI_External a owl:Ontology ;
-    rdfs:label "DKG External CTI Feed - TLP:CLEAR"@en .
+dkg-cti:CVE-2018-16574 a dkg:Vulnerability ;
+    rdfs:label "FreeRTOS+TCP IP Stack Memory Corruption (Zimperium 2018)"@en ;
+    dkg:affectsComponentId "comp-freertos" ;
+    dkg:affectsVersion "10.0.1" ;
+    dkg:cveId "CVE-2018-16574" ;
+    dkg:cvssScore "9.8"^^xsd:float ;
+    dkg:exploitsWeakness dkg-cti:CWE-120 ;
+    dkg:isCisaKev true ;
+    dkg:providedBy "cisa_kev_2025",
+        "nvd_cve_feed" .
+
+dkg-cti:CVE-2021-41773 a dkg:Vulnerability ;
+    rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
+    dkg:affectsComponentId "comp-apache-http-server" ;
+    dkg:affectsVersion "2.4.49" ;
+    dkg:cveId "CVE-2021-41773" ;
+    dkg:cvssScore "7.5"^^xsd:float ;
+    dkg:exploitsWeakness dkg-cti:CWE-22 ;
+    dkg:providedBy "anssi_2024",
+        "nvd_cve_feed" .
 
 dkg-cti:CVE-2021-44228 a dkg:Vulnerability ;
+    rdfs:label "Log4Shell Remote Code Execution"@en ;
+    dkg:affectsComponentId "comp-apache-log4j-core" ;
+    dkg:affectsVersion "2.14.1" ;
+    dkg:cveId "CVE-2021-44228" ;
     dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:exploitsWeakness dkg-cti:CWE-502 ;
-    dkg:isCisaKev false ;
-    rdfs:comment "Apache Log4j2 JNDI features do not protect against attacker controlled LDAP endpoints."@en .
+    dkg:exploitsWeakness dkg-cti:CWE-78 ;
+    dkg:isCisaKev true ;
+    dkg:providedBy "cisa_kev_2025",
+        "nvd_cve_feed" .
 
-dkg-cti:CVE-2023-4863 a dkg:Vulnerability ;
-    dkg:cvssScore "8.8"^^xsd:float ;
-    dkg:exploitsWeakness dkg-cti:CWE-119 ;
-    dkg:isCisaKev false ;
-    rdfs:comment "Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187."@en .
+dkg-cti:Threat_MiraiVariant a dkg:ThreatActor ;
+    rdfs:label "Variante Mirai — botnet DDoS (recrutement RTSP 554)"@en ;
+    dkg:providedBy "cisa_kev_2025" ;
+    dkg:targetsDevice dkg-cti:IoTCamera .
 
 dkg-cti:CAPEC-100 a dkg:ThreatPattern ;
     rdfs:label "Overflow Buffers"@en ;
-    rdfs:comment "Attacker targets a buffer overflow vulnerability to execute shellcode or cause DoS."@en .
+    rdfs:comment "An attacker transfers excessive data to a fixed-length buffer, corrupting adjacent memory (RCE)."@en .
 
-dkg-cti:CAPEC-586 a dkg:ThreatPattern ;
-    rdfs:label "Object Injection"@en ;
-    rdfs:comment "An attacker injects malicious objects into an application to execute arbitrary code."@en .
+dkg-cti:CAPEC-126 a dkg:ThreatPattern ;
+    rdfs:label "Path Traversal"@en ;
+    rdfs:comment "An attacker manipulates path references to access files outside the intended folder."@en .
 
-dkg-cti:CWE-119 a dkg:Weakness ;
+dkg-cti:CAPEC-63 a dkg:ThreatPattern ;
+    rdfs:label "Simple Pass-Through"@en ;
+    rdfs:comment "Attacker executes arbitrary code by passing commands through input fields."@en .
+
+dkg-cti:CWE-120 a dkg:Weakness ;
+    rdfs:label "Buffer Copy without Checking Size of Input (Classic Buffer Overflow)"@en ;
+    dkg:cweId "CWE-120" ;
     dkg:hasThreatPattern dkg-cti:CAPEC-100 .
 
-dkg-cti:CWE-502 a dkg:Weakness ;
-    dkg:hasThreatPattern dkg-cti:CAPEC-586 .
+dkg-cti:CWE-22 a dkg:Weakness ;
+    rdfs:label "Improper Limitation of a Pathname to a Restricted Directory"@en ;
+    dkg:cweId "CWE-22" ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-126 .
 
-dkg-cti:CTI-EOL-SMBv1 a dkg:Vulnerability ;
-    rdfs:label "SMBv1 End-of-Life / CVE-2017-0144"@en ;
-    dkg:cvssScore "9.8"^^xsd:float .
+dkg-cti:CWE-78 a dkg:Weakness ;
+    rdfs:label "Improper Neutralization of Special Elements used in an OS Command"@en ;
+    dkg:cweId "CWE-78" ;
+    dkg:hasThreatPattern dkg-cti:CAPEC-63 .
+
+dkg-cti:IoTCamera a dkg:DeviceCategory ;
+    rdfs:label "IP camera"@en,
+        "Caméra IP"@fr .
+

@@ -1,23 +1,22 @@
 # =============================================================================
-# DKG_ABox_Master.ttl — TLP:RED (EXG-FWK-P1-GOU_11)
-# Instances opérationnelles du SI (ABox Hôte, scan local). Conforme à la TBox
-# de référence §29.1 — 0 écart au premier audit. alignée au fonds CTI via
-# skos:exactMatch (CVE-2021-44228).
+# DKG_ABox_Master.ttl — TLP:RED/AMBER par actif (EXG-FWK-P1-GOU_11)
+# Inventaire du SI hôte (ABox, scan local) — INVENTAIRE PUR.
+# Standard P9 : un scan ne produit que des faits d'inventaire (Asset,
+# SoftwareComponent, services exposés, marquages TLP par actif).
+# Les vulnérabilités n'apparaissent QUE par confrontation CTI (règle
+# CONFRONTATION de la RBox) — jamais dans ce seed.
+# Leçon du cas hôte : AVANT CTI = silencieux ; APRÈS CTI = findings.
 # =============================================================================
 @prefix dkg: <http://dkg.cybersec.org/tbox#> .
 @prefix dkg-data: <http://dkg.cybersec.org/data#> .
-@prefix dkg-cti: <http://dkg.cybersec.org/cti#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 dkg-data:ABox_Master a owl:Ontology ;
-    rdfs:label "DKG ABox Master - Operational Cyber Security Graph"@fr ;
-    dkg:hasTLPMarking dkg-data:TLP-RED .
+    rdfs:label "DKG ABox Master - Inventaire SI (scan local)"@fr .
 
 dkg-data:TLP-RED a dkg:TLPMarking ; rdfs:label "TLP:RED"@en .
-dkg-data:TLP-AMBER a dkg:TLPMarking ; rdfs:label "TLP:AMBER"@en .
 
 dkg-data:Asset-Srv-Auth-02 a dkg:Asset ;
     dkg:assetId "asset-srv-auth-02" ;
@@ -31,7 +30,7 @@ dkg-data:Asset-Srv-Prod-01 a dkg:Asset ;
     rdfs:label "Serveur Web Frontend Production"@fr ;
     dkg:hostname "srv-prod-01" ;
     dkg:hasInstalledComponent dkg-data:Comp-Apache-2-4-49 ;
-    dkg:hasTLPMarking dkg-data:TLP-AMBER .
+    dkg:hasTLPMarking dkg-data:TLP-RED .
 
 dkg-data:Comp-Apache-2-4-49 a dkg:SoftwareComponent ;
     dkg:componentId "comp-apache-http-server" ;
@@ -39,8 +38,7 @@ dkg-data:Comp-Apache-2-4-49 a dkg:SoftwareComponent ;
     dkg:releaseDate "2021-09-16"^^xsd:date ;
     dkg:supportStatus "deprecated" ;
     dkg:eolSource "Apache HTTP Server Project (annonce locale, source externe à brancher)" ;
-    rdfs:label "Apache HTTP Server v2.4.49"@fr ;
-    dkg:hasVulnerability dkg-data:CVE-2021-41773 ;
+    rdfs:label "Apache HTTP Server"@fr ;
     dkg:isComponentOf dkg-data:Asset-Srv-Prod-01 .
 
 dkg-data:Comp-Log4j-2-14-1 a dkg:SoftwareComponent ;
@@ -49,39 +47,5 @@ dkg-data:Comp-Log4j-2-14-1 a dkg:SoftwareComponent ;
     dkg:releaseDate "2021-03-12"^^xsd:date ;
     dkg:supportStatus "end-of-life" ;
     dkg:eolSource "Apache Log4j (annonce locale, source externe à brancher)" ;
-    rdfs:label "Apache Log4j Core v2.14.1"@fr ;
-    dkg:hasVulnerability dkg-data:CVE-2021-44228 ;
+    rdfs:label "Apache Log4j Core"@fr ;
     dkg:isComponentOf dkg-data:Asset-Srv-Auth-02 .
-
-dkg-data:CVE-2021-41773 a dkg:Vulnerability ;
-    dkg:cveId "CVE-2021-41773" ;
-    rdfs:label "Apache HTTP Server Path Traversal Vulnerability"@en ;
-    dkg:cvssScore "7.5"^^xsd:float ;
-    dkg:hasWeakness dkg-data:CWE-22 ;
-    dkg:isVulnerabilityOf dkg-data:Comp-Apache-2-4-49 .
-
-dkg-data:CVE-2021-44228 a dkg:Vulnerability ;
-    dkg:cveId "CVE-2021-44228" ;
-    rdfs:label "Log4Shell Remote Code Execution"@en ;
-    dkg:cvssScore "10.0"^^xsd:float ;
-    dkg:hasWeakness dkg-data:CWE-78 ;
-    dkg:isVulnerabilityOf dkg-data:Comp-Log4j-2-14-1 ;
-    skos:exactMatch dkg-cti:CVE-2021-44228 .
-
-dkg-data:CWE-22 a dkg:Weakness ;
-    dkg:cweId "CWE-22" ;
-    rdfs:label "Improper Limitation of a Pathname to a Restricted Directory"@en ;
-    dkg:hasThreatPattern dkg-data:CAPEC-126 .
-
-dkg-data:CWE-78 a dkg:Weakness ;
-    dkg:cweId "CWE-78" ;
-    rdfs:label "Improper Neutralization of Special Elements used in an OS Command"@en ;
-    dkg:hasThreatPattern dkg-data:CAPEC-63 .
-
-dkg-data:CAPEC-126 a dkg:ThreatPattern ;
-    rdfs:label "Path Traversal"@en ;
-    rdfs:comment "An attacker manipulates path references to access files outside the intended folder."@en .
-
-dkg-data:CAPEC-63 a dkg:ThreatPattern ;
-    rdfs:label "Simple Pass-Through"@en ;
-    rdfs:comment "Attacker executes arbitrary code by passing commands through input fields."@en .

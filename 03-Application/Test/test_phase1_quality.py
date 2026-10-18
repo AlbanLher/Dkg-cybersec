@@ -53,7 +53,7 @@ def test_exg_tb_04_rbox_inverses(tbox_graph):
 
 @pytest.mark.non_regression
 def test_exg_tb_05_skos_completeness(tbox_graph):
-    """EXG-TB-05  /  EXG-FWK-P1-T-R_2    : Vérifie les annotations SKOS sur classes et propriétés."""
+    """EXG-FWK-P1-GOU_18    : Vérifie les annotations SKOS sur classes et propriétés."""
     entities = list(tbox_graph.subjects(RDF.type, OWL.Class)) + \
                list(tbox_graph.subjects(RDF.type, OWL.ObjectProperty))
     

@@ -1,5 +1,0 @@
-@prefix data: <http://dkg.cybersec.org/data#> .
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-
-data:asset-01 a dkg:Asset .
-

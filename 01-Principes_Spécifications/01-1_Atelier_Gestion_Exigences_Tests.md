@@ -398,3 +398,246 @@ if (rows.length === 0) {
 })();
 
 ```
+
+
+
+---
+---
+Objet : vue consolidée de traçabilité P8 — chaque exigence (EXG-*) tracée jusqu'à son implémentation (fichier · ligne), son test et sa section de conception. Convention : le code porte l'UID complet en commentaire au point d'application. **Généré dynamiquement** — toute dérive spec/code/test apparaît ici sans maintenance manuelle.
+
+```dataviewjs
+(async () => {
+    // ── Table manuelle : sections de conception canvas (le seul ancrage non scannable)
+    const CANVAS_SECTIONS = {
+        "EXG-MET-P8-DEM_1":  "§34.2, §36.2",
+        "EXG-MET-P8-DEM_2":  "§34.2, §36.1",
+        "EXG-MET-P8-DEM_3":  "§34.1, §34.2",
+        "EXG-MET-P8-DEM_4a": "§36.1, §36.2",
+        "EXG-MET-P8-DEM_4b": "§34.2, §36.1, design §37.2",
+        "EXG-MET-P8-DEM_4c": "§34.2",
+        "EXG-MET-P8-DEM_4d": "§36.1, §36.2",
+        "EXG-MET-P8-DEM_4e": "§36.2, §36.4",
+        "EXG-MET-P8-DEM_5":  "§34.1",
+        "EXG-MET-P8-DEM_6":  "§34.1",
+        "EXG-MET-P8-DEM_7":  "§34.2 (découpage v2)",
+        "EXG-MET-P8-RES_1":  "§34.2, §36.1",
+        "EXG-FWK-P8-AGE_1":  "§34.2",
+        "EXG-FWK-P8-AGE_2":  "§34.2, §36.1, §36.2",
+        "EXG-FWK-P1-GOU_22":"§25 (seeds), §34.2",
+        "EXG-FWK-P1-GOU_11":"§36.2, §36.4",
+        "EXG-FWK-P1-GOU_13":"§36.2, §36.4"
+    };
+
+    // ── 1. Registre : exigences des specs P8 (+ P1 invoquées par P8)
+    const specPages = dv.pages().where(p =>
+        p.type === "spec" && p.exigences &&
+        (String(p.phase_code).includes("P8")  | p.phase_code === undefined ||
+         /P8|demonstrateur/i.test(p.reference || "")));
+    const reg = {};  // uid -> {titre, spec, domaine}
+    for (const page of specPages)
+        for (const ex of page.exigences || []) {
+            const id = (ex.uid || ex.id || "").trim();
+            if (id && /-P8-|GOU_/.test(id))
+                reg[id] = { titre: ex.titre || ex.intitule || "—",
+                            spec: `[[${page.file.path}|${page.reference || page.file.name}]]`,
+                            domaine: ex.domaine || "—" };
+        }
+
+    // ── 2. Scan CODE : chaque annotation EXG-* avec fichier + ligne + contexte
+    const codeFiles = app.vault.getFiles().filter(f =>
+        f.path.startsWith("03-Application/") &&
+        /\.(py|js|html|css)$/.test(f.path) &&
+        !f.path.includes("/Test/") && !f.path.includes("__pycache__"));
+    const impl = {};   // uid -> [ "file\:Lxx (ctx)" ]
+    for (const f of codeFiles) {
+        const lines = (await app.vault.read(f)).split("\n");
+        lines.forEach((line, i) => {
+            for (const m of line.matchAll(/EXG-[\w]+(?:-[\w]+)*/g)) {
+                const uid = m[0];
+                (impl[uid] = impl[uid] || []).push(
+                    `[[${f.path}|${f.name}]]:L${i + 1}`);
+            }
+        });
+    }
+
+    // ── 3. Scan TESTS : uid -> [ fichier(s) ]
+    const testFiles = app.vault.getFiles().filter(f =>
+        f.path.startsWith("03-Application/Test/") && f.path.endsWith(".py"));
+    const tests = {};
+    for (const f of testFiles) {
+        const content = await app.vault.read(f);
+        const blocks = content.split(/(?=def test_)/);
+        for (const blk of blocks) {
+            const fn = blk.match(/def\s+(test_[\w]+)/);
+            if (!fn) continue;
+            for (const m of blk.matchAll(/EXG-[\w]+(?:-[\w]+)*/g))
+                (tests[m[0]] = tests[m[0]] || []).push(
+                    `[[${f.path}|${fn[1]}]]`);
+        }
+    }
+    for (const k in tests) tests[k] = [...new Set(tests[k])];
+
+    // ── 4. Fusion : toutes les exigences P8, ancrage par ancrage
+    const allUids = [...new Set([...Object.keys(reg),
+        ...Object.keys(impl), ...Object.keys(tests)])]
+        .filter(id => /-P8-|GOU_/.test(id)).sort();
+
+    const rows = allUids.map(id => [
+        reg[id] ? reg[id].spec : "⚠️ **ABSENT DE LA SPEC**",
+        id,
+        reg[id] ? reg[id].titre : "—",
+        impl[id] ? impl[id].join("<br>") : "— (voir recette visuelle/inspection)",
+        tests[id] ? tests[id].join("<br>") : "⚠️ non couvert",
+        CANVAS_SECTIONS[id] || "—"
+    ]);
+
+    dv.table(["Spécification", "Exigence", "Intitulé",
+              "Implémentation (fichier · ligne)", "Test pytest", "Section canvas"],
+             rows);
+
+    // ── 5. KPI de dérive
+    const noSpec = allUids.filter(id => !reg[id]);
+    const noCode = allUids.filter(id => reg[id] && !impl[id] && !tests[id]);
+    const noTest = allUids.filter(id => reg[id] && !tests[id]);
+    dv.paragraph(
+        `> [!info] KPI traçabilité P8 — ${allUids.length} exigences<br>` +
+        (noSpec.length  ? `⚠️ Sans spec : ${noSpec.join(", ")}<br>`  : "✅ Toutes déclarées en spec<br>") +
+        (noTest.length  ? `⚠️ Sans test : ${noTest.join(", ")}<br>`  : "✅ Toutes testées (ou recette visuelle)<br>") +
+        (noCode.length  ? `⚠️ Sans ancrage code : ${noCode.join(", ")}` : "✅ Toutes ancrées dans le code"));
+})();
+```
+
+**Règle de maintenance (inchangée, pérennisée)** : cette vue est régénérée à l'ouverture — nulle copie manuelle à mettre à jour. Toute nouvelle exigence apparaît dès qu'elle est déclarée en spec **et** annotée `EXG-*` dans le code ; toute évolution de livrable canonique met seulement à jour la table `CANVAS_SECTIONS` en tête de script. Les exigences sans test automatisable portent la mention « recette visuelle » ou « inspection » dans la spec — elles restent traçables.
+
+
+
+
+---
+---
+
+### 6. Cartographie des Canvas de Conception (lecture humaine)
+
+
+```dataviewjs
+(async () => {
+    // ── 0. Configuration : dossiers des canvas de design (à ajuster)
+    const CANVAS_FOLDERS = ["00-Projet/phases/", "00-Projet/canvases/"];
+
+    // ── 1. Registre : uid -> {titre, spec, design, domaine}
+    const specPages = dv.pages().where(p => p.type === "spec" && p.exigences);
+    const reg = {};
+    for (const page of specPages)
+        for (const ex of page.exigences  | []) {
+            const id = (ex.uid || ex.id || "").trim();
+            if (id) reg[id] = {
+                titre: ex.titre || ex.intitule || "—",
+                spec: `[[${page.file.path}|${page.reference || page.file.name}]]`,
+                design: (ex.design || "").trim(),
+                domaine: ex.domaine || "—"
+            };
+        }
+
+    // ── 2. Scan CODE et TESTS (pour la colonne couverture) — version corrigée
+    const scan = async (pred) => {
+        const map = {};  // uid -> Set(files)
+        const files = app.vault.getFiles().filter(pred);
+        for (const f of files) {
+            const content = await app.vault.read(f);
+            for (const m of content.matchAll(/EXG-[\w]+(?:-[\w]+)*/g)) {
+                (map[m[0]] = map[m[0]] || new Set()).add(f.name);
+            }
+        }
+        return map;
+    };
+    const impl = await scan(f => f.path.startsWith("03-Application/") &&
+        /\.(py|js|html|css)$/.test(f.path) &&
+        !f.path.includes("/Test/") && !f.path.includes("__pycache__"));
+    const tests = await scan(f => f.path.startsWith("03-Application/Test/"));
+
+    // ── 3. Index inverse : section (§xx) -> [uid]
+    const sections = {};
+    for (const [uid, info] of Object.entries(reg)) {
+        if (!info.design) continue;
+        for (const sec of info.design.match(/§[\d.]+/g) || []) {
+            (sections[sec] = sections[sec] || []).push(uid);
+        }
+    }
+
+    // ── 4. Lecture des canvas : titres de sections réels
+    const canvasFiles = app.vault.getFiles().filter(f =>
+        CANVAS_FOLDERS.some(d => f.path.startsWith(d)) && f.extension === "md");
+    const sectionTitles = {};  // "§34.2" -> {titre, canvas}
+    for (const f of canvasFiles) {
+        const lines = (await app.vault.read(f)).split("\n");
+        for (let i = 0; i < lines.length; i++) {
+            const m = lines[i].match(/^#{1,4}\s*(?:§)?\s*(\d+(?:\.\d+)*)\s*[—–-]?\s*(.*)/);
+            if (m) {
+                const sec = `§${m[1]}`;
+                if (!sectionTitles[sec])
+                    sectionTitles[sec] = {
+                        titre: m[2].trim() || "(sans titre)",
+                        canvas: `[[${f.path}|${f.name}]]`
+                    };
+            }
+        }
+    }
+
+    // ── 5. Rendu : un tableau par canvas
+    const byCanvas = {};
+    const allSecs = new Set([...Object.keys(sections), ...Object.keys(sectionTitles)]);
+    for (const sec of allSecs) {
+        const info = sectionTitles[sec] ||
+            { titre: "⚠️ citée en spec mais introuvable dans les canvas", canvas: "—" };
+        (byCanvas[info.canvas] = byCanvas[info.canvas] || []).push({ sec, info });
+    }
+
+    for (const [canvas, secs] of Object.entries(byCanvas)) {
+        dv.header(3, canvas.replace(/\[\[|\]\]|.*\|/g, ""));
+        const rows = secs
+            .sort((a, b) => a.sec.localeCompare(b.sec, "fr", { numeric: true }))
+            .map(({ sec, info }) => {
+                const uids = sections[sec] || [];
+                const exgCell = uids.length
+                    ? uids.map(u => reg[u]
+                        ? `${u} — ${reg[u].titre}`
+                        : `${u} ⚠️ (hors registre)`).join("<br>")
+                    : "—";
+                const specCell = [...new Set(
+                    uids.map(u => reg[u] && reg[u].spec).filter(Boolean))].join("<br>") || "—";
+                const codeOk = uids.some(u => impl[u]);
+                const testOk = uids.length > 0 && uids.every(u => tests[u]);
+                return [sec, info.titre, exgCell, specCell,
+                        codeOk ? "✅" : "—",
+                        testOk ? "✅" : "❌"];
+            });
+        dv.table(["Section", "Titre", "Exigences ancrées", "Spec", "Code", "Test"], rows);
+    }
+
+    // ── 6. KPI d'alerte
+    const ghostSecs = Object.keys(sections).filter(s => !sectionTitles[s]);
+    if (ghostSecs.length)
+        dv.paragraph(`⚠️ **Sections citées en spec mais introuvables :** ${ghostSecs.join(", ")} — à recalage (C6).`);
+    const orphanSecs = Object.keys(sectionTitles).filter(s => !sections[s]);
+    if (orphanSecs.length)
+        dv.paragraph(`ℹ️ **Sections sans exigence ancrée :** ${orphanSecs.length} (design sans contrainte — normal pour les sections méthodo).`);
+})();
+```
+
+
+```dataviewjs
+(async () => {
+    const f = app.vault.getAbstractFileByPath("00-Projet/phases/Phase8/Phase8_content.md");
+    if (!f) { dv.paragraph("❌ fichier introuvable"); return; }
+    const lines = (await app.vault.read(f)).split("\n");
+    const hits = [];
+    lines.forEach((line, i) => {
+        if (/^#{1,4}\s/.test(line)) {           // tous les headings
+            const m = line.match(/^#{1,4}\s*(?:§)?\s*(\d+(?:\.\d+)*)\s*[—–-]?\s*(.*)/);
+            hits.push(`${m ? "✅" : "❌"} L${i+1} : ${line.slice(0, 80)}`);
+        }
+    });
+    dv.paragraph(hits.length
+        ? `<br>${hits.join("<br>")}`
+        : "❌ Aucun heading trouvé dans ce fichier.");
+})();
+```

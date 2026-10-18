@@ -13,31 +13,31 @@ public_vise:
   - Architectes Ontologues
   - Développeurs DevSecOps
 exigences:
-  - id: EXG-MITM-01
+  - id: EXG-TEC-P5-CON_1
     domaine: MET
     core: true
     titre: IA
     critere: Interception & Calcul Similitude
     test: L'Agent MITM doit vectoriser les entités via all-MiniLM-L6-v2 et calculer la similarité cosinus.
-  - id: EXG-MITM-02
+  - id: EXG-TEC-P5-CON_2
     domaine: IN
     core: true
     titre: Réconciliation Seuil 0.85
     critere: Toute entité ayant un score $\ge 0.85$ doit être consolidée via skos:exactMatch au lieu d'être dupliquée.
     test: Pytest (test_phase5_mitm)
-  - id: EXG-TB-01
+  - id: EXG-TEC-P5-CON_3
     domaine: TB
     core: true
     titre: Alignement Taxonomique SKOS
     critere: Les catégories de menaces et taxonomies d'actifs doivent intégrer skos:Concept et skos:ConceptScheme.
     test: Validation SHACL
-  - id: EXG-SE-02
+  - id: EXG-TEC-P5-CON_4
     domaine: SE
     core: true
     titre: Ségrégation TLP en Ingestion Interceptée
     critere: L'Agent MITM ne doit jamais inscrire un triplet contenant des données TLP:RED dans la ABox CTI (TLP:CLEAR).
     test: Audit Graphe / Pytest
-  - id: EXG-HW-01
+  - id: EXG-TEC-P5-CON_5
     domaine: HW
     core: true
     titre: Temps de Réponse Offline
@@ -143,13 +143,13 @@ WHERE {
 
 ## 📊 4. Matrice d'Exigences & Critères d'Acceptation (EXG-)
 
-| Identifiant | UID              | Domaine | Core/Non-Core | Intitulé de l'Exigence                   | Description & Critères d'Acceptation                                                                          | **Mode de Test / Asset**    |
-| ----------- | ---------------- | ------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| EXG-MITM-01 | EXG-TEC-P5-CON_1 | `IA`    | Core          | Interception & Calcul Similitude         | L'Agent MITM doit vectoriser les entités via `all-MiniLM-L6-v2` et calculer la similarité cosinus.            | Pytest / Benchmark          |
-| EXG-MITM-02 | EXG-TEC-P5-CON_2 | `IN`    | Core          | Réconciliation Seuil 0.85                | Toute entité ayant un score $\ge 0.85$ doit être consolidée via `skos:exactMatch` au lieu d'être dupliquée.   | Pytest (`test_phase5_mitm`) |
-| EXG-TB-01   | EXG-TEC-P5-CON_3 | `TB`    | Core          | Alignement Taxonomique SKOS              | Les catégories de menaces et taxonomies d'actifs doivent intégrer `skos:Concept` et `skos:ConceptScheme`.     | Validation SHACL            |
-| EXG-SE-02   | EXG-TEC-P5-CON_4 | `SE`    | Core          | Ségrégation TLP en Ingestion Interceptée | L'Agent MITM ne doit jamais inscrire un triplet contenant des données TLP:RED dans la ABox CTI (`TLP:CLEAR`). | Audit Graphe / Pytest       |
-| EXG-HW-01   | EXG-TEC-P5-CON_5 | `HW`    | Core          | Temps de Réponse Offline                 | Le calcul de similitude pour une entité doit s'exécuter en $< 100$ ms en local (Air-Gapped).                  | Benchmark / Pytest          |
+| Identifiant        | UID                | Domaine | Core/Non-Core | Intitulé de l'Exigence                   | Description & Critères d'Acceptation                                                                          | **Mode de Test / Asset**    |
+| ------------------ | ------------------ | ------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| `EXG-TEC-P5-CON_1` | `EXG-TEC-P5-CON_1` | `IA`    | Core          | Interception & Calcul Similitude         | L'Agent MITM doit vectoriser les entités via `all-MiniLM-L6-v2` et calculer la similarité cosinus.            | Pytest / Benchmark          |
+| `EXG-TEC-P5-CON_2` | `EXG-TEC-P5-CON_2` | `IN`    | Core          | Réconciliation Seuil 0.85                | Toute entité ayant un score $\ge 0.85$ doit être consolidée via `skos:exactMatch` au lieu d'être dupliquée.   | Pytest (`test_phase5_mitm`) |
+| `EXG-TEC-P5-CON_3` | `EXG-TEC-P5-CON_3` | `TB`    | Core          | Alignement Taxonomique SKOS              | Les catégories de menaces et taxonomies d'actifs doivent intégrer `skos:Concept` et `skos:ConceptScheme`.     | Validation SHACL            |
+| `EXG-TEC-P5-CON_4` | `EXG-TEC-P5-CON_4` | `SE`    | Core          | Ségrégation TLP en Ingestion Interceptée | L'Agent MITM ne doit jamais inscrire un triplet contenant des données TLP:RED dans la ABox CTI (`TLP:CLEAR`). | Audit Graphe / Pytest       |
+| `EXG-TEC-P5-CON_5` | `EXG-TEC-P5-CON_5` | `HW`    | Core          | Temps de Réponse Offline                 | Le calcul de similitude pour une entité doit s'exécuter en $< 100$ ms en local (Air-Gapped).                  | Benchmark / Pytest          |
 
 
 

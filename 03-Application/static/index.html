@@ -32,12 +32,13 @@
       <!-- p8-actions-grid : droite = boutons en largeur minimale (DEM_4) -->
       <div class="grid grid-cols-1 p8-actions-grid gap-6">
         <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
-          <label for="p8-mode-select" class="block text-sm font-medium text-slate-300 mb-2">Mode de Topologie (ABox)</label>
+          <label for="p8-mode-select" class="block text-sm font-medium text-slate-300 mb-2">Terrain (ABox)</label>
           <select id="p8-mode-select" class="w-full">
-            <option value="foyer">Foyer Résidentiel (Snapshot local)</option>
-            <option value="local_scan">PC Hôte — Scan Local (127.0.0.1)</option>
+            <option value="foyer">Foyer Résidentiel (simulé — seed)</option>
+            <option value="hote">SI Hôte (simulé — seed)</option>
+            <option value="scan">Poste réel (scan local — .private/)</option>
           </select>
-          <p class="text-xs text-slate-500 mt-1 italic">Mode PC Hôte : données TLP:RED écrites dans .private/ (hors Git — EXG-MET-P8-DEM_4c).</p>
+          <p class="text-xs text-slate-500 mt-1 italic">Mode « Poste réel » : scan non intrusif de VOTRE machine, projeté en TLP:RED dans .private/ (hors Git — EXG-MET-P8-DEM_4c). Le scan est un acte HITL : il ne se lance QUE sur votre clic, jamais automatiquement.</p>
         </div>
         <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
           <div class="flex justify-between items-center mb-2">
@@ -55,8 +56,13 @@
           <button id="p8-btn-audit" onclick="runPhase8Audit()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg transition duration-200 shadow-md">
             Lancer l'Analyse
           </button>
+          <!-- v-real : scan du poste réel — ACTE HITL journalisé (consentement explicite) -->
+          <button id="p8-btn-scan" onclick="scanLocalHost()" title="Scan non intrusif du poste (hostname, OS, ports locaux 127.0.0.1, composants). Consentement journalisé dans l'audit trail. Écrit dans .private/ (TLP:RED, hors Git). Jamais purgé par le reset."
+                  class="w-full py-2 bg-rose-700 hover:bg-rose-600 text-rose-50 text-sm font-semibold rounded-lg transition border border-rose-500/50">
+            🖥️ Scanner mon poste (TLP:RED)
+          </button>
           <!-- EXG-MET-P8-RES_1 : retour garanti au point de départ (seeds intacts) -->
-          <button id="p8-btn-reset" onclick="resetPhase8Demo()" title="Restaure le working set depuis les seeds, purge le buffer CTI et l'audit trail. Les seeds ne sont jamais modifiés."
+          <button id="p8-btn-reset" onclick="resetPhase8Demo()" title="Restaure le working set depuis les seeds, purge le buffer CTI et l'audit trail. Les seeds ne sont jamais modifiés. Le scan réel (.private/) est conservé : c'est un fait d'observation durable."
                   class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-lg transition border border-slate-600">
             Réinitialiser la démo
           </button>
@@ -153,5 +159,6 @@
   </div>
 
   <script src="/static/app.js"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" nonce="U5/wRZ63egj9m9gyC39YdQ==" data-cf-beacon='{"version":"2024.11.0","token":"36b4216ae2dc4d5488c249161e71fe1e","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

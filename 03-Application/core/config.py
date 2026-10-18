@@ -3,6 +3,8 @@
 Single Source of Truth (SSOT) - Configuration centralisée du projet DKG-CyberSec.
 Sécurisé et validé par Pydantic V2 (EXG-FWK-P1-GOU_5, GOU_7).
 Phase 8 Active : Démonstrateur Seed/Reset, HITL, Simulateur (résolution canonique).
+Tracability: EXG-FWK-P1-GOU_5 (SSOT — déclarée dans la spec demonstrateur §4.2),
+             EXG-TEC-P8-SIM_1 (profil simulateur, à corriger FWK→TEC)
 """
 
 from pathlib import Path
@@ -255,7 +257,7 @@ class DKGConfig(BaseSettings):
 
 
 class DemoConfig(BaseSettings):
-    """Profil de démo + paramètres Simulateur (EXG-FWK-P8-SIM_1..4).
+    """Profil de démo + paramètres Simulateur (EXG-TEC-P8-SIM_1..4).
     Classe SÉPARÉE du SSOT principal (GOU_5 : un seul config.py, deux modèles)."""
 
     model_config = SettingsConfigDict(
@@ -267,7 +269,7 @@ class DemoConfig(BaseSettings):
     # Profil d'ABox au lancement : foyer | hote (EXG-MET-P8-DEM_1, toggle IHM)
     profile: str = Field(default="foyer", pattern="^(foyer|hote)$")
 
-    # Personas du Simulateur (EXG-FWK-P8-SIM_1) — défaut rév.2 (~3 actifs/pers, ×4 composants)
+    # Personas du Simulateur (EXG-TEC-P8-SIM_1) — défaut rév.2 (~3 actifs/pers, ×4 composants)
     persona_foyer_actifs: int = Field(default=5, ge=1)
     persona_startup_actifs: int = Field(default=60, ge=1)
     persona_pme_actifs: int = Field(default=250, ge=1)
@@ -377,6 +379,11 @@ SOC_AUDIT_REPORT_PATH = DIR_SNAPSHOT_P8 / "soc_audit_compliance_report.json"
 # TLP:RED sécurisés et non versionnés
 SECURE_INPUT_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "input_residential_family_env.json"
 SECURE_ABOX_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "DKG_ABox_Residential.ttl"
+SECURE_INPUT_HOST_SCAN_PATH = DIR_PRIVATE_RED / "input_host_scan.json"
+SECURE_ABOX_HOST_SCAN_PATH = DIR_PRIVATE_RED / "DKG_ABox_HostScan.ttl"
+
+
+
 
 # Registres Phase 8
 INPUT_P8_REGULATION_PATH = DIR_INPUTS_P8 / "external_sources_compliance_registry.json"

@@ -1,6 +1,7 @@
 // LOGIQUE PHASE 8 v3 (Étape B) — EXG-MET-P8-DEM_1 (Tri-Boîtes), DEM_2
 // (Air-Gapped), DEM_3 (HITL), DEM_4 (didactique/Mermaid/frugalité),
 // DEM_5 (audit trail), RES_1 (Seed/Reset), EXG-FWK-P8-AGE_1 (Local-First).
+// tracabilité : EXG-MET-P8-DEM_1, EXG-MET-P8-DEM_4a, EXG-MET-P8-DEM_4d, EXG-MET-P8-DEM_4e, EXG-MET-P8-RES_1 (bouton reset), EXG-FWK-P8-AGE_2
 // ==============================================================================
 
 let currentProposedDelta = null;
@@ -35,14 +36,47 @@ async function loadPhase8TBox() {
     setDidactic("La TBox (volet AMBER) est l'ossature historique du socle : vocabulaire et règles, affichés dès votre arrivée. Cliquez sur [Vue graphique] si le Turtle vous rebute. Prochaine étape : choisissez votre terrain avec le Toggle.");
 }
 
-// --- Étape 2 : Toggle ABox (EXG-MET-P8-DEM_4c : .private/ hors Git) ------------
+// --- Étape 2 : Terrain ABox (EXG-MET-P8-DEM_4c : .private/ hors Git) -----------
 async function onModeChanged() {
     const mode = document.getElementById("p8-mode-select").value;
     // Préchargement ABox côté UI : l'ABox est servie par l'audit ; ici on annonce.
-    setDidactic(mode === "local_scan"
-        ? "Mode PC Hôte sélectionné : le scan de VOTRE machine sera projeté en TLP:RED (bordure rouge) et écrit dans .private/, exclu du versionnement Git. Aucune donnée ne quitte votre poste."
-        : "Mode Foyer sélectionné : l'inventaire résidentiel (snapshot local) sera projeté en TLP:RED (bordure rouge). Rien n'est parti sur le réseau. Cochez maintenant des sources CTI si besoin, puis lancez l'analyse.");
+    if (mode === "scan") {
+        setDidactic("Terrain « Poste réel » sélectionné : l'ABox sera celle de VOTRE machine (scan non intrusif, TLP:RED, .private/). Si aucun scan n'a encore été fait, cliquez sur [🖥️ Scanner mon poste] — c'est un acte HITL, jamais automatique. La confrontation CTI s'appliquera ensuite à l'identique des terrains simulés.");
+    } else if (mode === "hote") {
+        setDidactic("Terrain « SI Hôte » (simulé) sélectionné : l'inventaire serveur du seed (Log4j 2.14.1, Apache 2.4.49) sera projeté en TLP:RED. Cochez maintenant des sources CTI si besoin, puis lancez l'analyse.");
+    } else {
+        setDidactic("Terrain « Foyer » (simulé) sélectionné : l'inventaire résidentiel du seed (box, PC, caméra FreeRTOS…) sera projeté en TLP:RED (bordure rouge). Rien n'est parti sur le réseau. Cochez maintenant des sources CTI si besoin, puis lancez l'analyse.");
+    }
     await onTriggerSelected();     // RBox + CTI rafraîchis à chaque trigger
+}
+
+// --- v-real : scan du poste (ACTE HITL — POST /api/phase8/scan) ----------------
+async function scanLocalHost() {
+    const btn = document.getElementById("p8-btn-scan");
+    if (!btn) return;
+    // Consentement explicite : la demande elle-même est le geste HITL.
+    if (!confirm("Scanner CE poste ?\n\nCollecte non intrusive : hostname, IP locale, OS, ports en écoute sur 127.0.0.1, composants logiciels détectés.\n\nDonnées classées TLP:RED, écrites dans .private/ (hors Git), ne quittent jamais votre poste.\nLe consentement est journalisé dans l'audit trail.")) {
+        setDidactic("Scan annulé — aucune donnée collectée. Le démonstrateur ne scanne JAMAIS sans votre geste explicite (HITL).");
+        return;
+    }
+    btn.disabled = true;
+    btn.textContent = "Scan en cours...";
+    setDidactic("Scan non intrusif en cours : lecture locale uniquement (aucun paquet vers l'extérieur). Le JSON TLP:RED part dans .private/, puis l'agent d'inventaire le matérialise en ABox conforme à la TBox.");
+    try {
+        const res = await fetch("/api/phase8/scan", { method: "POST" });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.detail || `HTTP ${res.status}`);
+        setDidactic(`Scan TLP:RED enregistré (HITL journalisé) : ${result.assets || 1} actif(s), ${result.components || 0} composant(s) détecté(s) — ABox dans .private/, jamais purgée par le reset. Basculez le terrain sur « Poste réel » puis lancez l'analyse : la confrontation CTI s'appliquera à VOS vraies versions.`);
+        // Sélection du terrain scan pour fluidifier la démo
+        const modeSelect = document.getElementById("p8-mode-select");
+        if (modeSelect) { modeSelect.value = "scan"; await onModeChanged(); }
+        refreshPhase8Frugality();
+    } catch (err) {
+        setDidactic(`Échec du scan : ${err.message} — vérifiez que core/local_host_scanner.py et core/local_host_abox_agent.py sont déposés (cf. PATCH_scan_reel.md).`);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "🖥️ Scanner mon poste (TLP:RED)";
+    }
 }
 
 // --- Étape 3 : catalogue + checkbox (EXG-MET-P8-DEM_2) -------------------------
@@ -123,7 +157,12 @@ async function refreshPhase8CtiSelection() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         pane.textContent = data.cti_clear_ttl || "# CTI vide";
-        updateFrugalFooter((data.cti_clear_ttl || "").length, "CTI");
+        updateFrugalFooter((data.cti_clear_ttl || "").length, "CTI", {
+            remote: data.remote_volume_bytes,
+            downloaded: data.downloaded_volume_bytes,
+            local: data.local_volume_bytes,
+            ram: data.ram_volume_bytes
+        });
         showBulletin(data.cti_clear_ttl);
     } catch (err) {
         pane.textContent = `# Erreur CTI : ${err.message}`;
@@ -140,11 +179,19 @@ function showBulletin(raw) {
     }
 }
 
-// --- Footer frugalité (EXG-FWK-P8-AGE_2) ---------------------------------------
-function updateFrugalFooter(bytes, zone) {
+// --- Footer frugalité (EXG-FWK-P8-AGE_2 + ratios v-live distant/local/RAM) -----
+function updateFrugalFooter(bytes, zone, ratios) {
     const el = document.getElementById("p8-frugal-footer");
     const checked = document.querySelectorAll("#p8-sources-container input[type='checkbox']:checked").length;
-    if (el) el.textContent = `Frugalité : ${(bytes / 1024).toFixed(1)} Ko chargés (${zone}) — ${checked} requête(s) réseau.`;
+    if (!el) return;
+    const ko = b => (b / 1024).toFixed(1);
+    if (ratios && ratios.remote > 0) {
+        // v-live : ratios réels issus de la sonde distante (POST /cti/select)
+        const pctLocal = ratios.remote ? (100 * ratios.local / ratios.remote).toFixed(2) : "0";
+        el.textContent = `Frugalité v-live : distant sondé ${ko(ratios.remote)} Ko → téléchargé ${ko(ratios.downloaded)} Ko → local ${ko(ratios.local)} Ko (${pctLocal}% du distant) → RAM ${ko(ratios.ram)} Ko — ${checked} source(s) consultée(s).`;
+    } else {
+        el.textContent = `Frugalité : ${(bytes / 1024).toFixed(1)} Ko chargés (${zone}) — ${checked} requête(s) réseau.`;
+    }
 }
 
 // --- Abaque Green-Dev (EXG-FWK-P8-AGE_2) : volumes + TOP entités --------------
@@ -386,10 +433,12 @@ async function showTBoxGraph() {
 async function showABoxGraph() {
     // Exécute EXG-MET-P8-DEM_4b étendu : vue graphique de l'ABox active (RED).
     const mode = document.getElementById("p8-mode-select").value;
+    const terrain = mode === "foyer" ? "Foyer (simulé)"
+        : (mode === "scan" ? "Poste réel (scan)" : "SI Hôte (simulé)");
     await renderMermaid("/api/phase8/abox/graph?mode=" + mode,
-        "Vue graphique de l'ABox " + (mode === "foyer" ? "Foyer" : "PC Hôte") + " (TLP:RED)",
+        "Vue graphique de l'ABox " + terrain + " (TLP:RED)",
         "Erreur vue ABox");
-    setDidactic("Vue graphique de l'ABox : chaque instance réelle de votre terrain apparaît sous sa classe (Asset, SoftwareComponent, Vulnerability…). C'est l'inventaire vivant qui vient d'être projeté — en TLP:RED.");
+    setDidactic(`Vue graphique de l'ABox (${terrain}) : chaque instance réelle de votre terrain apparaît sous sa classe (Asset, SoftwareComponent, Vulnerability…). C'est l'inventaire vivant qui vient d'être projeté — en TLP:RED.`);
 }
 
 // --- EXG-MET-P8-DEM_4b étendu : superposition TBox/ABox/CTI PAR ALERTE ------

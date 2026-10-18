@@ -3,6 +3,7 @@
 Serveur MCP (Model Context Protocol) & API FastAPI central pour DKG-CyberSec.
 Expose l'ensemble des capacités (Simulateur, Filtre Frugal, Agent MITM, Orchestrateur SOC, Agent TBox)
 sous un format standardisé et souverain (Air-Gapped) ainsi qu'en API REST pour l'IHM.
+Traçability : EXG-TEC-P8-soc_1 (API asynchrone timeout 30s), EXG-TEC-P8-soc_3 (MCP-ready)
 """
 
 import sys
@@ -55,12 +56,31 @@ def run_mitm_reconciliation() -> Dict[str, Any]:
 
 
 # --- ENDPOINTS REST POUR LE FRONTEND ---
-
 @app.get("/api/v1/inventory")
-def get_inventory(source: str = Query("local", enum=["local", "family"])):
-    """Renvoie l'inventaire des actifs selon le contexte sélectionné (local TLP:RED ou family)."""
+def get_inventory(source: str = Query("local", enum=["local", "family", "scan"])):
+    """Renvoie l'inventaire des actifs selon le contexte :
+    local (TLP:RED simulé), family (foyer simulé) ou scan (poste RÉEL,
+    .private/ — produit par POST /api/phase8/scan, acte HITL journalisé)."""
     try:
-        # Simulation des deux contextes pour la séquence SCO_1
+        if source == "scan":
+            # Terrain v-real : lecture du scan enregistré (SSOT config.py)
+            scan_path = config.SECURE_INPUT_HOST_SCAN_PATH
+            if not scan_path.exists():
+                return {
+                    "source_mode": "scan",
+                    "household_assets": [],
+                    "message": ("Aucun scan du poste enregistré — cliquez "
+                                "« Scanner mon poste » (consentement HITL, TLP:RED).")
+                }
+            with open(scan_path, "r", encoding="utf-8") as f:
+                scan = json.load(f)
+            return {
+                "source_mode": "scan",
+                "household_assets": scan.get("household_assets", []),
+                "software_components": scan.get("software_components", []),
+                "message": "Inventaire du poste réel (TLP:RED, .private/) — jamais purgé par le reset."
+            }
+        # Simulation des deux contextes pour la séquence SCO_1 (inchangé)
         if source == "family":
             assets = [
                 {"name": "Box Internet Familiale", "ip_address": "192.168.1.1", "os": "OpenWrt", "zone": "DMZ-Home", "exposed_services": ["dns", "http", "upnp"]},
@@ -70,21 +90,32 @@ def get_inventory(source: str = Query("local", enum=["local", "family"])):
             assets = [
                 {"name": "Poste de Travail LHERMINE", "ip_address": "10.0.2.15", "os": "Ubuntu 24.04 LTS (Python 3.14)", "zone": "Air-Gapped Host", "exposed_services": ["ssh", "fastapi-mcp", "pytest"]}
             ]
-        
-        return {
-            "source_mode": source,
-            "household_assets": assets
-        }
+        return {"source_mode": source, "household_assets": assets}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/v1/audit")
-def get_audit(source: str = Query("local", enum=["local", "family"])):
-    """Exécute ou restitue l'audit SOC et la corrélation de menaces."""
+def get_audit(source: str = Query("local", enum=["local", "family", "scan"])):
+    """Exécute ou restitue l'audit SOC et la corrélation de menaces.
+    source='scan' : audit du poste RÉEL — délégation au pipeline Phase 8
+    (confrontation CTI + Gardien TBox sur l'ABox .private/), pas une
+    simulation : les findings dépendent des vraies versions détectées."""
     try:
+        if source == "scan":
+            # Délégation au démonstrateur P8 : audit sur l'ABox du scan réel
+            from api.routes_phase8 import run_phase8_audit          # ou core.routes_phase8
+            result = run_phase8_audit(
+                AuditRequest(mode="scan", enabled_network_sources=[]))
+            return {
+                "source_mode": "scan",
+                "audit_data": result.nl_bilan,        # findings SPARQL réels
+                "tbox_delta_proposed": result.delta_tbox_proposed,
+                "message": ("Audit du poste réel — findings produits par "
+                            "confrontation CTI sur vos vraies versions.")
+            }
+        # Contextes simulés SCO_1 (inchangé)
         audit_result = run_soc_audit_pipeline()
-        # Structuration pour le front-end
         return {
             "source_mode": source,
             "audit_data": [
@@ -105,7 +136,6 @@ def get_audit(source: str = Query("local", enum=["local", "family"])):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.post("/api/v1/abox/reset")
 def reset_abox_family():
@@ -195,7 +225,8 @@ class DKGMCPRegistry:
             {"name": "run_frugal_filtering", "description": "Exécute le filtrage amont.", "parameters": {}},
             {"name": "run_mitm_reconciliation", "description": "Active l'Agent MITM.", "parameters": {}},
             {"name": "run_soc_audit_pipeline", "description": "Lance l'audit SOC complet.", "parameters": {}},
-            {"name": "run_tbox_guardian_pipeline", "description": "Déclenche l'Agent Gardien TBox sous contrôle HitM.", "parameters": {}}
+            {"name": "run_tbox_guardian_pipeline", "description": "Déclenche l'Agent Gardien TBox sous contrôle HitM.", "parameters": {}},
+            {"name": "scan_local_host", "description": "Scan non intrusif du poste (TLP:RED, HITL) + ABox .private/"}
         ]
 
     @staticmethod
@@ -210,6 +241,9 @@ class DKGMCPRegistry:
             return run_soc_audit_pipeline()
         elif tool_name == "run_tbox_guardian_pipeline":
             return TBoxGuardianAgent().inspect_and_propose_enrichment()
+        elif tool_name == "scan_local_host":
+            from api.routes_phase8 import scan_local_host
+            return scan_local_host()
         else:
             raise ValueError(f"Outil MCP non reconnu : {tool_name}")
 

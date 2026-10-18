@@ -100,7 +100,23 @@ def test_ma_fonction():
 ```
     
 
-### Tuto 3 : Vérifier la couverture locale des tests
+### Tuto 3: Non regression
+
+Le marqueur manuel (règle officielle) 
+
+```python
+@pytest.mark.non_regression
+def test_ma_fonction():
+    """Exigence: EXG-FWK-P1-GOU_1 - Description du test associé."""
+    # Logique de test...
+       assert True
+```
+
+
+
+les 3 règles d'application (docstring `Exigence:` obligatoire sur tout test marqué, marquage d'un test non recetté interdit, retrait du marqueur = décision en revue), et la CI inchangée (`pytest -m non_regression` + `--strict-markers` + déclaration dans `pytest.ini`).
+
+### Tuto 4 : Vérifier la couverture locale des tests
 
 Ouvrez le fichier de pilotage **`01-1_Atelier_Gestion_Exigences_Tests.md`** dans Obsidian :
 
