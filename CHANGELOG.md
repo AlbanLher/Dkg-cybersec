@@ -4,13 +4,23 @@ Toutes les modifications notables de ce projet sont documentées dans ce fichier
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/) et le projet adhère au versioning sémantique ([SemVer](https://semver.org/spec/v2.0.0.html)).
 
 
-| Date       | Release | Comment                                                                                                                                               |
-| ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 10/09/2026 | v1.0.0  | First release.  Scope : Roadmap Wave 1 & 2.<br>Purpose : Step in with  first principles :  Graph, RTF/OWL standards, TLP & confidentiality management |
-| 22/09/2026 | v1.1.0  | Vague 3 : Industrialisation & Première Application :                                                                                                                                                    |
+| Date       | Release | Comment                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 10/09/2026 | v1.0.0  | First release.  Scope : Roadmap Wave 1 & 2.<br>Purpose : Step in with  first principles :  Graph, RTF/OWL standards, TLP & confidentiality management                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 22/09/2026 | v1.1.0  | Vague 3 : Industrialisation & Première Application :                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 18/10/2026 | v1.2.0  | Vague 4 - Phase 8 : Structure Applicative MCP sur première partie du role SOC **SOC_1** (Actifs, Vulnérabilités, Menaces),<br>Objectif : <br>- Amélioration du démonstrateur permettant d'illustrer l'articulation données publique et privées autour des standars OWL..<br>- Illustration de connexion aux données externe (Bulletin ANSSI, Rapport CISA ...)<br>- Confrontation à la TBox, demande de validation de mise a jour et identification des vulnerabilité. <br>- Présentation de l'analyse resultant de la superposition des graphs avec pour chaque vulnérabilité un graphique.<br>       _( Deux cas prédéfinis plus le scan du PC hôte de l'installation.)_<br>- Traçabilité : extension à la traçabilité exigence  - <-> design <br> |
+|            |         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
+---
 
-
+## [1.2.0] — (Clôture de la Phase 8 de la Vague 4)
+### 🚀 Nouveautés 
+- **MCP** vient compléter l'API Gateway : 
+- **Renforcement des illustration sur cas d'usage**
+  - Priorité mise à l'illustration de l’intégration de données externes réelles non simulées. (Mais toujours compatible d'une gestion de sécurité complète TLP )
+  - Illustration d'évolution de TBox suite à l'ingestion de données externe. 
+  - 3 cas de détection de vulnérabilités: mot-clés , formelle complète, formelle partielle ( Modification TBox non acceptée par le SOC)
+  - Le cas du PC local est désormais un scan du PC Hôte dont les données sont dans `.gitignore` non transmises.
 
 ---
 
@@ -41,3 +51,4 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
   - Extracteur NER local Air-Gapped avec score de confiance.
 - **Agent MITM & Inférence (Phase 5) :**
   - Moteur de réconciliation cosinus (`all-MiniLM-L6-v2`, seuil $\ge 0.85$) et matérialisation des cascades de risques.
+

@@ -2,7 +2,7 @@
 
 Un Framework souverain pour concevoir des Graphes de Connaissances Dynamiques (DKG) sous la gouvernance stricte des standards W3C (OWL2, SKOS, SHACL), doté d'une sécurité et d'une isolation natives (Matrice TLP), et résolument **Green-by-Design & Local-First**.  
 Le cas d'usage étalon didactique utilisé pour les démonstrateurs est un Security Operation Center (SOC) résidentiel et d'entreprise.
-....
+
 ---
 
 ## Le Constat : Le Défi Humain & Informatique du "Sens Partagé"
@@ -11,9 +11,9 @@ Les technologies d'IA basées sur les Graphes de Connaissances Dynamiques (DKG) 
 
 ## La Vision & Les Piliers Techniques
 1. **Adhérence W3C Stricte (100% OWL2 / SKOS / SHACL) :** Traçabilité formelle, réversibilité et validation logique formelle.
-2. **Sécurité & Isolation Native (TLP Matrix) :** Ségrégation absolue des flux (CLEAR, AMBER, RED) garantie par architecture et filtrage par passerelle[cite: 1, 2].
-3. **Green-by-Design & Local-First :** Calibré pour tourner en local et en mode Air-Gapped (poste standard de 16 Go de RAM, sans GPU dédié), minimisant l'empreinte carbone[cite: 1, 2].
-4. **L'Arbitrage de Rupture (W3C vs Moteurs Propriétaires) :** Évaluer empiriquement les limites de charge du modèle standard avant d'envisager, si nécessaire, une passerelle vers des moteurs de graphes non-standards (type Neo4j), tout en documentant formellement la perte sémantique associée[cite: 1, 2].
+2. **Sécurité & Isolation Native (TLP Matrix) :** Ségrégation absolue des flux (CLEAR, AMBER, RED) garantie par architecture et filtrage par passerelle.
+3. **Green-by-Design & Local-First :** Calibré pour tourner en local et en mode Air-Gapped (poste standard de 16 Go de RAM, sans GPU dédié), minimisant l'empreinte carbone.
+4. **L'Arbitrage de Rupture (W3C vs Moteurs Propriétaires) :** Évaluer empiriquement les limites de charge du modèle standard avant d'envisager, si nécessaire, une passerelle vers des moteurs de graphes non-standards (type Neo4j), tout en documentant formellement la perte sémantique associée.
 
 | ![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg) | ![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg) | ![CI-Tests](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/ci.yml/badge.svg) |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -115,15 +115,15 @@ Obsidian s’avère être un outil particulièrement bien adapté. Il est recomm
 
 ### 3.1 - Principes Pédagogiques
 
-- **Usage des Standards W3C (OWL2, SKOS, SHACL)** : Modélisation formelle pour éviter tout enfer propriétaire[cite: 1, 2].
+- **Usage des Standards W3C (OWL2, SKOS, SHACL)** : Modélisation formelle pour éviter tout enfer propriétaire.
     
-- **Gouvernance & Qualité Stricte (SHACL CWA)** : Contrôle systématique aux portes d'entrée du graphe (_Closed World Assumption_)[cite: 1, 2].
+- **Gouvernance & Qualité Stricte (SHACL CWA)** : Contrôle systématique aux portes d'entrée du graphe (_Closed World Assumption_).
     
-- **Gestion de la Confidentialité (TLP)** : Marquage natif de la sensibilité de la donnée (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`)[cite: 1, 2].
+- **Gestion de la Confidentialité (TLP)** : Marquage natif de la sensibilité de la donnée (`TLP:CLEAR`, `TLP:AMBER`, `TLP:RED`).
     
 - **Standardisation Agentique (MCP)** : Utilisation du protocole MCP dès la Vague 4 pour exposer les ressources du graphe et les outils de validation de manière découplée.
     
-- **Souveraineté & Sobriété** : Capacité d'exécution complète sur PC standard (16 Go RAM, sans GPU dédié)[cite: 1, 2].
+- **Souveraineté & Sobriété** : Capacité d'exécution complète sur PC standard (16 Go RAM, sans GPU dédié).
     
 
 ### 3.2 - L'Articulation des Technologies : Qui fait quoi ? (Anti-Overlap)
@@ -174,18 +174,25 @@ DKG-CYBERSEC/
 
 ## 5. Comment Utiliser
 
-1. Cloner le repository GitHub.
-    
+### 5.1. Installation de l'application
+1. Cloner le répertoire GitHub.
 2. Mettre en place un environnement virtuel avec le fichier `requirements.txt`.
-    
 3. Configurer Obsidian et ses plugins recommandés.
-    
-4. Garder les sources dans `02-Donnees/Input_Phases/`.
-    
-5. Exécuter phase par phase les scripts situés dans `03-Application/PhaseX/` et observer la régénération des snapshots et du Master Transversal.
-    
-6. Lancer les tests correspondants via `pytest` dans `03-Application/Test/`.
-    
+4. Lancer le backend `python 03-Application/main.py`
+5. Connecter le front-end. `localhost:8000` sur le navigateur.
+6. Sélectionnez différents "terrains" , observer la TBox, l'ABox tant en ttl qu'en graph.
+7. Cochez les sources externes et lancez l'analyse. Observer les demandes de mise a jour de la TBox ainsi que les Vulnérabilités remontées.
+### 5.2. Dévelopement - Evolution
+1. Cloner le répository GitHub.
+2. Mettre en place un environnement virtuel avec le fichier `requirements.txt`.
+3. Configurer Obsidian et ses plugins recommandés.
+4. Consulter les spécifications et exigences dans `01_Principes_Specification/` avec en particulier
+   - `01.1 - Atelier_Gestion_Exigences_Tests.md` présentant l'état de suivi des couvertures d'exigences.
+   - `01.2 - Architecture.md` présentant l'architecture.
+5. Consultez les Données `02-Donnes`
+6. Consulter l'arborescence et les script dans `03-Application` avec en particulier : 
+   - le `core/config.py ` qui contient tous es chemins utilisé en variable dans les scripts.
+   - Le `Test/` contenant tous les scripts de test avec le marquage Non-Reg et en Doc-String la réference à l'exigence.
 
 ## 6. Réutilisation du Framework sur Votre Propre Domaine
 
