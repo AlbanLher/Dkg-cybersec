@@ -10,6 +10,8 @@ Les ambiguïtés lexicales, le jargon cloisonné et la perte de contexte coûten
 Les technologies d'IA basées sur les Graphes de Connaissances Dynamiques (DKG) apportent une solution pour partager le sens tout en respectant les niveaux de confidentialité. Cependant, pour éviter les fausses équivalences et les hallucinations, ces technologies doivent impérativement reposer sur une **Source Unique de Vérité (SSOT)** et être gouvernées par des standards formels (Closed World Assumption).
 
 ## La Vision & Les Piliers Techniques
+
+> Triptyque fondateur *(acté 2026-10-19)* : **Connaissances · Confidentialité · Frugalité**. Intuition à démontrer (registre d'honnêteté méthodique, jamais un acquis) : l'IA frugale, locale, n'est pas incompatible avec la gestion de volumes. Le LLM propose sans jamais écrire ; le graphe garantit ce qui est écrit ; l'humain arbitre.
 1. **Adhérence W3C Stricte (100% OWL2 / SKOS / SHACL) :** Traçabilité formelle, réversibilité et validation logique formelle.
 2. **Sécurité & Isolation Native (TLP Matrix) :** Ségrégation absolue des flux (CLEAR, AMBER, RED) garantie par architecture et filtrage par passerelle.
 3. **Green-by-Design & Local-First :** Calibré pour tourner en local et en mode Air-Gapped (poste standard de 16 Go de RAM, sans GPU dédié), minimisant l'empreinte carbone.
@@ -18,7 +20,7 @@ Les technologies d'IA basées sur les Graphes de Connaissances Dynamiques (DKG) 
 | ![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg) | ![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg) | ![CI-Tests](https://github.com/AlbanLher/Dkg-cybersec/actions/workflows/ci.yml/badge.svg) |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 
-![](DKG_OA_1.png)
+![Vision DKG — Dynamic Knowledge Graph powered by Agentic AI : LLM local propose, standards W3C garantissent, l'humain arbitre, triptyque Connaissances · Confidentialité · Frugalité sous marquage TLP](DKG_OA_vision_master_C.png)
 
 ---
 ## 🚦 État d'Avancement Macro (Roadmap par Vagues)
@@ -28,9 +30,11 @@ Les technologies d'IA basées sur les Graphes de Connaissances Dynamiques (DKG) 
 | **V1** | Socle Structurel & Cartographie Interne | (P1) Standards W3C (OWL2, SKOS, SHACL)<br>(P2) Confidentialité native (TLP:AMBER / TLP:RED).<br>Cas d'usage : PC individuel. | 🟢 PASSED |
 | **V2** | Ingestion CTI, NER & Alignement Primitif | Superposition de graphes<br>Rapprochement sémantique et NER local.<br>Cas d'usage : CTI externe (NVD, CISA KEV) & texte brut. | 🟢 PASSED |
 | **V3** | Industrialisation, Micro-Agents & Gateway | Structure IA Agentique et API Gateway sécurisée (Cross-TLP).<br>Cas d'usage : Micro-entreprise, passerelle SPARQL immutable. | 🟢 PASSED |
-| **V4** | Gouvernance Agentique, MCP & Conformité | **Intégration du protocole MCP**, architecture multi-agents, découpage incrémental, finesse SKOS et conformité RGPD/NIS2. | 🟡 ACTIVE |
-| **V5** | GraphRAG Hybride & Multi-Engine Neo4j | Assistant NL-to-SPARQL avancé, pont vers base de graphe propriétaire (n10s) et production des abaques de comparaison W3C/Neo4j. | ⚪ Planifié |
-| **V6** | SOC Distribué, Émulation Edge & SOAR | Calcul distribué (Map-Reduce SPARQL), génération de playbooks de remédiation et mesure de la sobriété. | ⚪ Planifié |
+| **V4** | SOC_1 : Finalisation & Briques de Gouvernance | **Intégration du protocole MCP**, architecture multi-agents. Découpage Agile (acté 2026-11-17) : briques cœur développées seules (P9 : passerelle HITM, intégration EOL, llm_bridge), puis brique d'exposition (P10 : modélisation TBox des règles de filtrage & posture de durcissement, métrique d'exploitabilité, requêtes d'atteignabilité), puis mise en œuvre SOC_1 (P11 : Gardien ABox, rapport évolutionné vulnérabilité×exploitabilité, abaque 4 couches) clôturée par l'**arbitrage GO/NO-GO Neo4j**. | 🟡 ACTIVE |
+| **V5** | SOC_2 : Conformité RGPD & Taxonomies SKOS | Réutilise les briques de V4 sans nouvelle brique majeure attendue. Internationalisation (FR/EN), poly-hiérarchies, conformité RGPD/NIS2. | ⚪ Planifié |
+| **V6** | SOC_3 : Logs & Surveillance | Montée en charge progressive, génération de deltas et abaques de performance, par la méthode abaque produite en V4. | ⚪ Planifié |
+| **V7** | GraphRAG Hybride & Multi-Engine Neo4j | Assistant NL-to-SPARQL avancé et pont vers base de graphe propriétaire (n10s), **conditionnés par l'arbitrage chiffré de V4** (on ne s'engage qu'avec les chiffres), avec documentation formelle de la perte sémantique. | ⚪ Planifié |
+| **V8** | SOC Distribué, Émulation Edge & SOAR | Calcul distribué (Map-Reduce SPARQL), génération de playbooks de remédiation et mesure de la sobriété. | ⚪ Planifié |
 
 👉 **[Pour plus de détails sur la roadmap, consulter la Roadmap complète](Roadmap.md)**
 
@@ -170,7 +174,7 @@ DKG-CYBERSEC/
 └── 03-Application/                     # Outillage Python, agents IA, API Gateway et suites PyTest
 ```
 
-👉 **[Pour plus de détails, consulter l'index fichiers _( certaines vues peuvent requérir l'autorisation JavaScript et/ou Obsidian)_](https://www.google.com/search?q=./00-Projet/Index_fichiers.md&utm_source=gemini)**
+👉 **[Pour plus de détails, consulter l'index fichiers _( certaines vues peuvent requérir l'autorisation JavaScript et/ou Obsidian)_](./00-Projet/Index_fichiers.md)**
 
 ## 5. Comment Utiliser
 
@@ -179,19 +183,19 @@ DKG-CYBERSEC/
 2. Mettre en place un environnement virtuel avec le fichier `requirements.txt`.
 3. Configurer Obsidian et ses plugins recommandés.
 4. Lancer le backend `python 03-Application/main.py`
-5. Connecter le front-end. `localhost:8000` sur le navigateur.
-6. Sélectionnez différents "terrains" , observer la TBox, l'ABox tant en ttl qu'en graph.
-7. Cochez les sources externes et lancez l'analyse. Observer les demandes de mise a jour de la TBox ainsi que les Vulnérabilités remontées.
-### 5.2. Dévelopement - Evolution
+5. Connectez le front-end : `localhost:8000` dans le navigateur.
+6. Sélectionnez différents "terrains", observez la TBox, l'ABox, tant en `.ttl` qu'en graphe.
+7. Cochez les sources externes et lancez l'analyse. Observez les demandes de mise à jour de la TBox ainsi que les vulnérabilités remontées.
+### 5.2. Développement - Évolution
 1. Cloner le répository GitHub.
 2. Mettre en place un environnement virtuel avec le fichier `requirements.txt`.
 3. Configurer Obsidian et ses plugins recommandés.
 4. Consulter les spécifications et exigences dans `01_Principes_Specification/` avec en particulier
    - `01.1 - Atelier_Gestion_Exigences_Tests.md` présentant l'état de suivi des couvertures d'exigences.
    - `01.2 - Architecture.md` présentant l'architecture.
-5. Consultez les Données `02-Donnes`
+5. Consultez les Données `02-Donnees`
 6. Consulter l'arborescence et les script dans `03-Application` avec en particulier : 
-   - le `core/config.py ` qui contient tous es chemins utilisé en variable dans les scripts.
+   - le `core/config.py` qui contient tous les chemins utilisés en variable dans les scripts.
    - Le `Test/` contenant tous les scripts de test avec le marquage Non-Reg et en Doc-String la réference à l'exigence.
 
 ## 6. Réutilisation du Framework sur Votre Propre Domaine
