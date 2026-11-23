@@ -5,3 +5,17 @@
 [2026-11-23T16:22:09+00:00] CTI_INGEST regime='M2' detail='0 CVE ajoutées, 57 triplets, sources: mitre_attck_2026' delta_sha256=37224501408b target='WORKSET_CTI_BUFFER'
 [2026-11-23T16:22:13+00:00] CTI_INGEST regime='M2' detail='3 CVE ajoutées, 57 triplets, sources: nvd_cve_feed' delta_sha256=f2403785b09c target='WORKSET_CTI_BUFFER'
 [2026-11-23T16:22:25+00:00] HITL_APPROVE user_click='APPROVE' delta_sha256=c5765ff573d4
+[2026-11-23T17:34:56+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T17:34:56+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f
+[2026-11-23T17:46:04+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T17:46:04+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f
+[2026-11-23T17:48:40+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T17:48:40+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f
+[2026-11-23T17:52:21+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T17:52:21+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f
+[2026-11-23T17:54:31+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T17:54:31+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f
+[2026-11-23T18:04:05+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T18:04:05+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f
+[2026-11-23T18:04:15+00:00] HITL_APPROVE user_click='REJECT(empty)' delta_sha256=0aad7da77d2e
+[2026-11-23T18:04:15+00:00] HITL_APPROVE user_click='REJECT(unparsable)' delta_sha256=eab4ec93045f

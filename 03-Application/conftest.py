@@ -40,6 +40,10 @@ FILE_DOMAIN_MAPPING = {
     "test_phase8_confrontation.py": "MET",  # pipeline confrontation (DEM_2, RES_1)
     "test_shacl_conformance.py": "SH",      # SHACL Shapes (à ajuster si besoin)
     "test_hitm_gateway.py": "SE",         # Passerelle HITL & régimes (C1/P9)
+    "test_architecture_separation.py": "AR",   # Loi de séparation brique/app (inc_1)
+    "test_agent_local_host_abox.py": "CT",  # ABox scan réel (ABO_1/ABO_3/mi_1)
+    "test_local_volumes.py": "CT",          # SSOT lecture volumes (RES_1/AGE_1)
+    "test_routes_phase8.py": "SE",         # Routes démonstrateur P8 (cio DEM_1-7)
     "test_dkg_pipeline.py": "TEC",           # Technique & Core Framework
     "test_mcp_server.py": "TEC",             # Technique & Core Framework
 }

@@ -1,7 +1,8 @@
 {
   "metadata": {
     "description": "Registre centralisé des exigences DKG-CyberSec",
-    "spec_driven_version": "2.0"
+    "spec_driven_version": "2.1",
+    "revision": "2026-11-23 — Dettes D1/D2 (sprint P9) : purge des doublons de déclaration (GOU_14≡T-R_1, GOU_15≡T-R_2, GOU_16≡T-R_3, GOU_17≡T-R_4, GOU_21≡ABO_2, GOU_10≈RUL_4 — la déclaration conservée est la plus ancienne et testée), nettoyage des marqueurs '[cite]' (artefacts d'export), ajout du champ 'recette' par exigence (auto|visuelle|inspection). Règle : une exigence = une déclaration."
   },
   "exigences": [
     {
@@ -12,7 +13,8 @@
       "spec_source": "SPC-MET-P3-SILENT_01",
       "titre": "Détection de Cascade",
       "critere": "Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique.",
-      "test": "Requête SPARQL / Pytest"
+      "test": "Requête SPARQL / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P3-SIL_2",
@@ -22,7 +24,8 @@
       "spec_source": "SPC-MET-P3-SILENT_01",
       "titre": "Étanchéité TLP",
       "critere": "L'analyse CTI ne doit jamais révéler publiquement la topologie de l'actif critique (TLP:RED).",
-      "test": "Audit Graphe / Pytest"
+      "test": "Audit Graphe / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P5-CTI_1",
@@ -32,7 +35,8 @@
       "spec_source": "SPC-MET-P5-CTI_01",
       "titre": "Ingestion Flux CTI Multi-Sources",
       "critere": "Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés.",
-      "test": "Pytest / Audit Ingestion"
+      "test": "Pytest / Audit Ingestion",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P2-CAR_1",
@@ -42,7 +46,8 @@
       "spec_source": "SPC-MET-P2-CARTO_01",
       "titre": "Marquage TLP Obligatoire",
       "critere": "Tag TLP présent sur tout document ou graphe Turtle d'infrastructure.",
-      "test": "Linter / Pytest"
+      "test": "Linter / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P8-com_1",
@@ -52,7 +57,8 @@
       "spec_source": "SPC-MET-P8-compliance_rgpd_01",
       "titre": "Qualification Non-Conformité",
       "critere": "Association actif -> standard RGPD",
-      "test": "Pytest / SPARQL"
+      "test": "Pytest / SPARQL",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P8-inc_1",
@@ -62,7 +68,8 @@
       "spec_source": "SPC-MET-P8-incremental_graph_partitioning_01",
       "titre": "Interdiction Monolithique",
       "critere": "Respect du plafond RAM et chargement par partitions.",
-      "test": "Profiling RAM PyTest"
+      "test": "Profiling RAM PyTest",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P7-01",
@@ -72,7 +79,8 @@
       "spec_source": "SPC-MET-P07-assistant_soc_foyer_01",
       "titre": "Cartographie Résidentielle",
       "critere": "Ingestion et validation des 5 actifs du foyer.",
-      "test": "PyTest / Schéma Pydantic V2"
+      "test": "PyTest / Schéma Pydantic V2",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P7-02",
@@ -82,7 +90,8 @@
       "spec_source": "SPC-MET-P07-assistant_soc_foyer_01",
       "titre": "Analyse d'Exposition WAN",
       "critere": "Détection des services exposés couplée aux flux TLP:CLEAR.",
-      "test": "PyTest / Validation SPARQL"
+      "test": "PyTest / Validation SPARQL",
+      "recette": "auto"
     },
     {
       "id": "EXG-MET-P7-03",
@@ -92,7 +101,8 @@
       "spec_source": "SPC-MET-P07-assistant_soc_foyer_01",
       "titre": "Restitution & Agent Conseil",
       "critere": "Génération du rapport de risque et arbitrage de pré-installation.",
-      "test": "Validation Markdown / Test API"
+      "test": "Validation Markdown / Test API",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P2-ABO_1",
@@ -102,7 +112,8 @@
       "spec_source": "SPC-FWK-P2-ABOX_01",
       "titre": "Intégrité & Datatypes CWA",
       "critere": "Interdiction de pointer vers une instance orpheline ; contrôle strict des typages xsd et plages.",
-      "test": "pySHACL CWA"
+      "test": "pySHACL CWA",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P2-ABO_2",
@@ -112,7 +123,8 @@
       "spec_source": "SPC-FWK-P2-ABOX_01",
       "titre": "Sanity Check Zero Violation",
       "critere": "0 violation sh:Violation détectée lors du contrôle automatisé pySHACL.",
-      "test": "Pytest / SHACL"
+      "test": "Pytest / SHACL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P2-ABO_3",
@@ -122,7 +134,8 @@
       "spec_source": "SPC-FWK-P2-ABOX_01",
       "titre": "Matérialisation des Inverses",
       "critere": "Conformité et existence des paires de relations inverses d'instances.",
-      "test": "SPARQL / Reasoner"
+      "test": "SPARQL / Reasoner",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-T-R_1",
@@ -132,7 +145,8 @@
       "spec_source": "SPC-FWK-P1-T-RBox_01",
       "titre": "Espace de Noms & Séparateur #",
       "critere": "Obligation d'utiliser le séparateur # pour la TBox/RBox.",
-      "test": "Parsing RDF"
+      "test": "Parsing RDF",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-T-R_2",
@@ -142,7 +156,8 @@
       "spec_source": "SPC-FWK-P1-T-RBox_01",
       "titre": "Typage OWL Strict",
       "critere": "100% des classes et propriétés doivent avoir un typage OWL formel.",
-      "test": "Parsing OWL / SPARQL"
+      "test": "Parsing OWL / SPARQL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-T-R_3",
@@ -152,7 +167,8 @@
       "spec_source": "SPC-FWK-P1-T-RBox_01",
       "titre": "Déclaration Domaine & Portée",
       "critere": "Interdiction de déclarer une owl:ObjectProperty sans rdfs:domain ni rdfs:range.",
-      "test": "Requête SPARQL TBox"
+      "test": "Requête SPARQL TBox",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-T-R_4",
@@ -162,7 +178,8 @@
       "spec_source": "SPC-FWK-P1-T-RBox_01",
       "titre": "Sémantique RBox & Inverses",
       "critere": "Toute propriété d'objet possède une propriété inverse liée par owl:inverseOf.",
-      "test": "Check Inverses SPARQL"
+      "test": "Check Inverses SPARQL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-T-R_6",
@@ -172,7 +189,8 @@
       "spec_source": "SPC-FWK-P1-T-RBox_01",
       "titre": "Couplage TBox ↔ SHACL",
       "critere": "100% des classes owl:Class possèdent au moins une sh:NodeShape dédiée.",
-      "test": "Execution pySHACL"
+      "test": "Execution pySHACL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-T-R_7",
@@ -182,7 +200,8 @@
       "spec_source": "SPC-FWK-P1-T-RBox_01",
       "titre": "Shapes Structurales Abstraites",
       "critere": "Présence de contraintes SHACL conformes aux spécifications W3C.",
-      "test": "Execution SHACL"
+      "test": "Execution SHACL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P3-CTI_1",
@@ -192,7 +211,8 @@
       "spec_source": "SPC-FWK-P3-CTI_01",
       "titre": "Typage CTI Externe",
       "critere": "Toute vulnérabilité CTI doit posséder un score CVSS (xsd:float) et un drapeau CISA KEV (xsd:boolean).",
-      "test": "Pytest / pySHACL"
+      "test": "Pytest / pySHACL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P3-CTI_3",
@@ -202,7 +222,8 @@
       "spec_source": "SPC-FWK-P3-CTI_01",
       "titre": "Ségrégation TLP",
       "critere": "Les données CTI publiques sont restreintes au graphe TLP:CLEAR.",
-      "test": "Pytest (test_02)"
+      "test": "Pytest (test_02)",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-GOU_1",
@@ -212,7 +233,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Spec-Driven Development",
       "critere": "Mise à jour SPEC obligatoire avant toute modification de code.",
-      "test": "Revue Git / Audit"
+      "test": "Revue Git / Audit",
+      "recette": "inspection"
     },
     {
       "id": "EXG-FWK-P1-GOU_3",
@@ -222,7 +244,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Standard Traçabilité Phase",
       "critere": "Découpage strict des livrables selon les 4 briques projet.",
-      "test": "Inspection Dossiers"
+      "test": "Inspection Dossiers",
+      "recette": "inspection"
     },
     {
       "id": "EXG-FWK-P1-GOU_5",
@@ -232,7 +255,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Architecture SSOT (config.py)",
       "critere": "Centralisation stricte des répertoires et URIs dans config.py.",
-      "test": "Test Python / AST"
+      "test": "Test Python / AST",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-GOU_6",
@@ -242,7 +266,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Double Export Anti-Collision",
       "critere": "Synchronisation Snapshot -> Master sans erreur SameFileError.",
-      "test": "Execution Script"
+      "test": "Execution Script",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-GOU_8",
@@ -252,17 +277,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Unicité et Conformité des Domaines",
       "critere": "Tout code de domaine utilisé doit obligatoirement figurer dans la taxonomie officielle.",
-      "test": "Pytest / Pydantic Enum Check / Linter Spec"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_10",
-      "domaine": "HW",
-      "core": false,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Inférence Local Économe",
-      "critere": "Exécution PC 16 Go RAM sans GPU dédié, Air-Gapped strict.",
-      "test": "Benchmark Resource"
+      "test": "Pytest / Pydantic Enum Check / Linter Spec",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-GOU_11",
@@ -272,7 +288,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Marquage TLP Obligatoire",
       "critere": "Tag TLP présent sur tout document ou graphe Turtle.",
-      "test": "Linter / Pytest"
+      "test": "Linter / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-GOU_13",
@@ -282,57 +299,8 @@
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Air-Gapped & Modèles Locaux",
       "critere": "Exécution MLOps/NLP 100% locale sans accès Internet runtime.",
-      "test": "Check Réseau / Cache"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_14",
-      "domaine": "TB",
-      "core": true,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Espace de Noms & Séparateur URI",
-      "critere": "Namespace TBox unique avec séparateur #.",
-      "test": "Parsing RDF"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_15",
-      "domaine": "TB",
-      "core": true,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Typage OWL Strict",
-      "critere": "Typage formel obligatoire (owl:Class, owl:ObjectProperty).",
-      "test": "Parsing OWL / SPARQL"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_16",
-      "domaine": "TB",
-      "core": true,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Déclaration Domaine & Portée",
-      "critere": "rdfs:domain et rdfs:range obligatoires sur toute propriété.",
-      "test": "Requête SPARQL TBox"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_17",
-      "domaine": "TB",
-      "core": true,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Sémantique RBox & Inverses",
-      "critere": "Rôles inverses obligatoires via owl:inverseOf.",
-      "test": "Check Inverses SPARQL"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_21",
-      "domaine": "QU",
-      "core": true,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Sanity Check Automatisé",
-      "critere": "0 violation sh:Violation au contrôle pySHACL.",
-      "test": "Pytest / SHACL[cite: 1]"
+      "test": "Check Réseau / Cache",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P1-GOU_22",
@@ -341,8 +309,9 @@
       "phase": "P1",
       "spec_source": "SPC-FWK-P1-GOUV_01",
       "titre": "Vocabulaire TBox First",
-      "critere": "0 prédicat hors-TBox Master utilisé dans le projet.[cite: 1]",
-      "test": "Pytest (test_00)[cite: 1]"
+      "critere": "0 prédicat hors-TBox Master utilisé dans le projet.",
+      "test": "Pytest (test_00)",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P5-RUL_1",
@@ -352,7 +321,8 @@
       "spec_source": "SPC-FWK-P5-RULES_01",
       "titre": "Inférence HighRiskAsset",
       "critere": "Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe dkg:HighRiskAsset.",
-      "test": "Pytest / SPARQL"
+      "test": "Pytest / SPARQL",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P5-RUL_2",
@@ -362,7 +332,8 @@
       "spec_source": "SPC-FWK-P5-RULES_01",
       "titre": "Matérialisation Cascade",
       "critere": "La relation dkg:exposesToCascade doit être créée si un hôte pivot mène à un actif CRITICAL.",
-      "test": "Pytest (test_phase5)"
+      "test": "Pytest (test_phase5)",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P5-RUL_3",
@@ -372,7 +343,8 @@
       "spec_source": "SPC-FWK-P5-RULES_01",
       "titre": "Ségrégation TLP Inférencée",
       "critere": "Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (TLP:CLEAR).",
-      "test": "Audit Graphe / Pytest"
+      "test": "Audit Graphe / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P5-RUL_4",
@@ -382,7 +354,8 @@
       "spec_source": "SPC-FWK-P5-RULES_01",
       "titre": "Raisonnement Local Économe",
       "critere": "L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.",
-      "test": "Benchmark / Pytest"
+      "test": "Benchmark / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P6-HAB_1",
@@ -392,7 +365,8 @@
       "spec_source": "SPC-FWK-P6-HABILITATION_01",
       "titre": "Étanchéité TLP:CLEAR",
       "critere": "0 résultat RED renvoyé sur une requête CLEAR.",
-      "test": "PyTest (test_tlp_isolation_clear)"
+      "test": "PyTest (test_tlp_isolation_clear)",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P6-HAB_2",
@@ -402,7 +376,8 @@
       "spec_source": "SPC-FWK-P6-HABILITATION_01",
       "titre": "Accès Intégral TLP:RED",
       "critere": "Accès complet aux instances RED et inférées.",
-      "test": "PyTest (test_tlp_access_red)"
+      "test": "PyTest (test_tlp_access_red)",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P6-HAB_3",
@@ -412,7 +387,8 @@
       "spec_source": "SPC-FWK-P6-HABILITATION_01",
       "titre": "Audit Traçabilité",
       "critere": "Traçabilité de chaque appel dans le fichier de log.",
-      "test": "Audit Log (api_gateway_audit.log)"
+      "test": "Audit Log (api_gateway_audit.log)",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P8-soc_2",
@@ -422,7 +398,8 @@
       "spec_source": "SPC-FWK-P8-soc_orchestration_governance_01",
       "titre": "Étanchéité TLP Stricte",
       "critere": "Interdiction de fuite TLP:CLEAR vers TLP:RED.",
-      "test": "SHACL / Tests d'isolation"
+      "test": "SHACL / Tests d'isolation",
+      "recette": "auto"
     },
     {
       "id": "EXG-FWK-P8-age_1",
@@ -432,7 +409,8 @@
       "spec_source": "SPC-FWK-P8-agent_gardien_references_externes_01",
       "titre": "Traçabilité & Filtrage Frugal Externe",
       "critere": "Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire.",
-      "test": "Pytest / SPARQL / SHACL"
+      "test": "Pytest / SPARQL / SHACL",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P2-ABO_1",
@@ -442,7 +420,8 @@
       "spec_source": "SPC-TEC-P2-ABOX_01",
       "titre": "Namespace Instance Dedicated",
       "critere": "Utilisation exclusive de http://dkg.cybersec.org/data/.",
-      "test": "Parsing RDF / Code"
+      "test": "Parsing RDF / Code",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P2-ABO_3",
@@ -452,7 +431,8 @@
       "spec_source": "SPC-TEC-P2-ABOX_01",
       "titre": "Instanciation Graphe Complète",
       "critere": "Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC.",
-      "test": "Requête SPARQL"
+      "test": "Requête SPARQL",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P2-ABO_4",
@@ -462,7 +442,8 @@
       "spec_source": "SPC-TEC-P2-ABOX_01",
       "titre": "Typage & Plages CVSS",
       "critere": "Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.",
-      "test": "pySHACL CWA"
+      "test": "pySHACL CWA",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P08-gr_2",
@@ -472,7 +453,8 @@
       "spec_source": "SPC-TEC-P08-green_development_framework_01",
       "titre": "Traitement Incrémentiel",
       "critere": "Interdiction stricte des recalculs globaux (zéro ré-indexation ou re-vectorisation complète de la base lors de modifications mineures).",
-      "test": "Audit de pipeline / Test unitaire de delta"
+      "test": "Audit de pipeline / Test unitaire de delta",
+      "recette": "inspection"
     },
     {
       "id": "EXG-TEC-P08-gr_3",
@@ -482,7 +464,8 @@
       "spec_source": "SPC-TEC-P08-green_development_framework_01",
       "titre": "Arbitrage d'Échelle et FinOps",
       "critere": "Tout déploiement d'un composant lourd (Triple Store persistant, base vectorielle serveur) requiert un arbitrage documenté prouvant le rapport valeur/empreinte.",
-      "test": "Revue d'architecture & Dossier d'arbitrage (.md)"
+      "test": "Revue d'architecture & Dossier d'arbitrage (.md)",
+      "recette": "inspection"
     },
     {
       "id": "EXG-TEC-P5-NER_2",
@@ -492,7 +475,8 @@
       "spec_source": "SPC-TEC-P5-NER_01",
       "titre": "Seuil de Confiance NLP",
       "critere": "Rejet systématique de tout triplet dont le score de confiance NLP est $< 0.85$.",
-      "test": "Pytest (test_phase5_ner.py)"
+      "test": "Pytest (test_phase5_ner.py)",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P5-NER_4",
@@ -502,7 +486,8 @@
       "spec_source": "SPC-TEC-P5-NER_01",
       "titre": "NLP Air-Gapped",
       "critere": "Le modèle NER doit s'exécuter localement sans aucun appel API externe.",
-      "test": "Check Réseau / Local Cache"
+      "test": "Check Réseau / Local Cache",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P5-DAT_1",
@@ -512,7 +497,8 @@
       "spec_source": "SPC-TEC-P5-DATA_01",
       "titre": "Inférence Hôte Pivot",
       "critere": "Assertion Pytest vérifiée : dkg-data:Host-Proxy-DMZ a dkg:HighRiskAsset.",
-      "test": "test_phase5_inference.py"
+      "test": "test_phase5_inference.py",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P5-DAT_2",
@@ -522,7 +508,8 @@
       "spec_source": "SPC-TEC-P5-DATA_01",
       "titre": "Inférence Cascade",
       "critere": "Assertion Pytest vérifiée : présence du triplet dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal.",
-      "test": "test_phase5_inference.py"
+      "test": "test_phase5_inference.py",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P5-CON_1",
@@ -532,7 +519,8 @@
       "spec_source": "SPC-TEC-P5-CONSO_01",
       "titre": "Interception & Calcul Similitude",
       "critere": "L'Agent MITM doit vectoriser les entités via all-MiniLM-L6-v2 et calculer la similarité cosinus.",
-      "test": "Pytest / Benchmark"
+      "test": "Pytest / Benchmark",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P5-CON_4",
@@ -542,7 +530,8 @@
       "spec_source": "SPC-TEC-P5-CONSO_01",
       "titre": "Ségrégation TLP en Ingestion Interceptée",
       "critere": "L'Agent MITM ne doit jamais inscrire un triplet contenant des données TLP:RED dans la ABox CTI (TLP:CLEAR).",
-      "test": "Audit Graphe / Pytest"
+      "test": "Audit Graphe / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P5-CON_5",
@@ -552,7 +541,8 @@
       "spec_source": "SPC-TEC-P5-CONSO_01",
       "titre": "Temps de Réponse Offline",
       "critere": "Le calcul de similitude pour une entité doit s'exécuter en $< 100$ ms en local (Air-Gapped).",
-      "test": "Benchmark / Pytest"
+      "test": "Benchmark / Pytest",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P6-GAT_1",
@@ -562,7 +552,8 @@
       "spec_source": "SPC-TEC-P6-GATEWAY_01",
       "titre": "Immutabilité Payloads",
       "critere": "Modification interdite sur l'objet instancié (frozen=True).",
-      "test": "PyTest (test_pydantic_immutability)"
+      "test": "PyTest (test_pydantic_immutability)",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P6-GAT_2",
@@ -572,7 +563,8 @@
       "spec_source": "SPC-TEC-P6-GATEWAY_01",
       "titre": "Standard Horodatage UTC",
       "critere": "Utilisation de timezone.utc compatible Python 3.14+.",
-      "test": "PyTest / Audit Log"
+      "test": "PyTest / Audit Log",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P8-soc_1",
@@ -582,7 +574,8 @@
       "spec_source": "SPC-TEC-P8-soc_orchestrator_agent_01",
       "titre": "API Asynchrone",
       "critere": "Pilotage asynchrone avec timeout de 30s.",
-      "test": "PyTest / AsyncIO Suite"
+      "test": "PyTest / AsyncIO Suite",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P8-soc_2",
@@ -592,7 +585,8 @@
       "spec_source": "SPC-TEC-P8-soc_orchestrator_agent_01",
       "titre": "Pipeline NER Local",
       "critere": "Exécution 100% Air-Gapped du modèle GLiNER.",
-      "test": "PyTest / Air-Gapped Check"
+      "test": "PyTest / Air-Gapped Check",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P8-soc_3",
@@ -602,7 +596,8 @@
       "spec_source": "SPC-TEC-P8-soc_orchestrator_agent_01",
       "titre": "Architecture MCP-Ready",
       "critere": "Typage strict et découplage pour wrapper MCP.",
-      "test": "PyTest / Interface Check"
+      "test": "PyTest / Interface Check",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P8-sim_1",
@@ -612,7 +607,8 @@
       "spec_source": "SPC-TEC-P8-simulator_and_abaques_01",
       "titre": "Génération Procédurale Frugale",
       "critere": "Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta).",
-      "test": "pytest tests/test_simulator.py"
+      "test": "pytest tests/test_simulator.py",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P07-mi_1",
@@ -621,8 +617,9 @@
       "phase": "P7",
       "spec_source": "SPC-TEC-P07-micro_agents_residential_01",
       "titre": "Immuabilité & Parsers Défensifs",
-      "critere": "Classes Pydantic V2 frozen=True et gestion anti-crash des clés JSON[cite: 6].",
-      "test": "PyTest unitaire"
+      "critere": "Classes Pydantic V2 frozen=True et gestion anti-crash des clés JSON.",
+      "test": "PyTest unitaire",
+      "recette": "auto"
     },
     {
       "id": "EXG-TEC-P07-mi_2",
@@ -631,8 +628,9 @@
       "phase": "P7",
       "spec_source": "SPC-TEC-P07-micro_agents_residential_01",
       "titre": "Isolation TLP & Config Externe",
-      "critere": "Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6].",
-      "test": "Audit de code & Logs"
+      "critere": "Respect de la ségrégation et lecture dynamique des sources via JSON.",
+      "test": "Audit de code & Logs",
+      "recette": "inspection"
     },
     {
       "id": "EXG-TEC-P07-mi_3",
@@ -642,7 +640,8 @@
       "spec_source": "SPC-TEC-P07-micro_agents_residential_01",
       "titre": "Contrat d'API Agnostique",
       "critere": "Exposition des services par routes JSON pour découplage d'IHM.",
-      "test": "Tests de contrat API"
+      "test": "Tests de contrat API",
+      "recette": "inspection"
     }
   ]
 }

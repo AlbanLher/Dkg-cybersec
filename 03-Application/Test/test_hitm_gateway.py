@@ -195,3 +195,24 @@ def test_exg_gtw_13_mcp_tools_registered(sandbox):
     names = {t["name"] for t in DKGMCPRegistry.list_tools()}
     assert {"hitm_merge_delta", "hitm_reject_delta",
             "hitm_reset_workset", "hitm_audit_tail"} <= names
+
+
+# -------------------------------------------------GAT_2 : horodatage UTC (D5)
+def test_exg_gat2_horodatage_utc_iso8601(sandbox):
+    """EXG-TEC-P6-GAT_2 (dette D5) : toute ligne du journal HITL porte un
+    horodatage UTC ISO-8601 (timezone+00:00), parse strict — jamais une
+    date locale ou un format libre."""
+    from datetime import datetime, timedelta
+    record_write("M2", "CTI_INGEST", detail="1 CVE", target="WORKSET_CTI_BUFFER")
+    reject("delta quelconque")
+    lignes = [l for l in _log(sandbox).splitlines() if l.strip()]
+    assert lignes, "journal vide : rien à vérifier"
+    for l in lignes:
+        ts = l.split("]")[0].lstrip("[")
+        dt = datetime.fromisoformat(ts)          # ISO-8601 strict (échec = GAT_2 KO)
+        assert dt.utcoffset() == timedelta(0), \
+            f"horodatage non-UTC dans le journal : {ts}"
+
+# CI : enregistre le fichier dans la baseline NonReg (P9)
+import pytest
+pytestmark = pytest.mark.non_regression

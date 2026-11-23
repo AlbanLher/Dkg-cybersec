@@ -13,7 +13,7 @@ jamais via api/ — loi de séparation).
 import sys
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Literal
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -64,7 +64,7 @@ def run_mitm_reconciliation() -> Dict[str, Any]:
 
 # --- ENDPOINTS REST POUR LE FRONTEND ---
 @app.get("/api/v1/inventory")
-def get_inventory(source: str = Query("local", enum=["local", "family", "scan"])):
+def get_inventory(source: Literal["local", "family", "scan"] = "local"):
     """Renvoie l'inventaire des actifs selon le contexte :
     local (TLP:RED simulé), family (foyer simulé) ou scan (poste RÉEL,
     .private/ — produit par POST /api/phase8/scan, acte HITL journalisé)."""
@@ -103,7 +103,7 @@ def get_inventory(source: str = Query("local", enum=["local", "family", "scan"])
 
 
 @app.get("/api/v1/audit")
-def get_audit(source: str = Query("local", enum=["local", "family", "scan"])):
+def get_audit(source: Literal["local", "family", "scan"] = "local"):
     """Exécute ou restitue l'audit SOC et la corrélation de menaces.
     source='scan' : audit du poste RÉEL — délégation au pipeline Phase 8
     (confrontation CTI + Gardien TBox sur l'ABox .private/), pas une
