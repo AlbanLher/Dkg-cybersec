@@ -16,7 +16,7 @@ if str(APPLICATION_ROOT) not in sys.path:
 from core import config
 from core.soc_engine import run_soc_audit_pipeline
 from core.frugal_engine import run_frugal_filtering
-from core.tbox_guardian import TBoxGuardianAgent
+from core.agent_tbox_guardian import TBoxGuardianAgent
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - [%(levelname)s] - %(message)s")
 

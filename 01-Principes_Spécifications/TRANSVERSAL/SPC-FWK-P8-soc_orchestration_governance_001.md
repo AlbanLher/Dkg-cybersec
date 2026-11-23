@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P8-soc_orchestration_governance_01
-revision: 1
+revision: 2
 titre: Gouvernance et Orchestration Multi-Agents SOC (HitM)
 titre_court: soc_orchestration_governance
 description: Définit les règles d'autorité, les rôles des agents et l'obligation stricte du contrôle Human-in-the-Middle (HitM).
@@ -22,6 +22,7 @@ exigences:
     titre: Étanchéité TLP Stricte
     critere: Interdiction de fuite TLP:CLEAR vers TLP:RED.
     test: SHACL / Tests d'isolation
+    recette: auto
 ---
 
 # 📜 Gouvernance et Orchestration Multi-Agents SOC (HitM)

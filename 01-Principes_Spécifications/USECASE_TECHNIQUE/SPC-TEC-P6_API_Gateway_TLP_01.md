@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P6-GATEWAY_01
-revision: 1
+revision: 2
 titre: API Gateway TLP & Immutabilité SPARQL
 titre_court: api_gateway_tlp_01
 description: Spécifie l'implémentation logicielle du point d'entrée unique (API Gateway) assurant le traitement sécurisé et immutable des requêtes SPARQL.
@@ -22,6 +22,7 @@ exigences:
     titre: Immutabilité Payloads
     critere: Modification interdite sur l'objet instancié (frozen=True).
     test: PyTest (test_pydantic_immutability)
+    recette: auto
   - id: EXG-TEC-P6-GAT_2
     code_exigence: EXG-TE-02
     domaine: TEC
@@ -31,6 +32,7 @@ exigences:
     titre: Standard Horodatage UTC
     critere: Utilisation de timezone.utc compatible Python 3.14+.
     test: PyTest / Audit Log
+    recette: auto
 ---
 
 # 📜 API Gateway TLP & Immutabilité SPARQL

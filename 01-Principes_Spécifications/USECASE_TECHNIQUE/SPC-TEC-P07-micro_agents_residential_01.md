@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P07-micro_agents_residential_01
-revision: 2
+revision: 3
 titre: Architecture des Micro-Agents, API Agnostique & Sécurisation des Données
 titre_court: micro_agents_residential
 description: Spécification technique de l'orchestrateur, des micro-agents, du découplage d'API et de la robustesse de lecture des propriétés.
@@ -22,6 +22,7 @@ exigences:
     titre: Immuabilité & Parsers Défensifs
     critere: "Classes Pydantic V2 frozen=True et gestion anti-crash des clés JSON[cite: 6]."
     test: PyTest unitaire
+    recette: auto
   - id: EXG-TEC-P07-mi_2
     code_exigence: EXG-P7-05
     domaine: TEC
@@ -31,6 +32,7 @@ exigences:
     titre: Isolation TLP & Config Externe
     critere: "Respect de la ségrégation et lecture dynamique des sources via JSON[cite: 6]."
     test: Audit de code & Logs
+    recette: inspection
   - id: EXG-TEC-P07-mi_3
     code_exigence: EXG-P7-06
     domaine: TEC
@@ -40,6 +42,7 @@ exigences:
     titre: Contrat d'API Agnostique
     critere: Exposition des services par routes JSON pour découplage d'IHM.
     test: Tests de contrat API
+    recette: auto
 ---
 
 # 📜 Architecture des Micro-Agents, API Agnostique & Sécurisation des Données 

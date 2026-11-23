@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P6-HABILITATION_01
-revision: 1
+revision: 2
 titre: Matrice d'Habilitations & Isolation TLP
 titre_court: habilitation_tlp_01
 description: Définit la politique transversale d'isolation sémantique et de ségrégation d'accès au Knowledge Graph selon le protocole TLP.
@@ -23,6 +23,7 @@ exigences:
     titre: Étanchéité TLP:CLEAR
     critere: 0 résultat RED renvoyé sur une requête CLEAR.
     test: PyTest (test_tlp_isolation_clear)
+    recette: auto
   - id: EXG-FWK-P6-HAB_2
     code_exigence: EXG-SE-02
     domaine: SE
@@ -32,6 +33,7 @@ exigences:
     titre: Accès Intégral TLP:RED
     critere: Accès complet aux instances RED et inférées.
     test: PyTest (test_tlp_access_red)
+    recette: auto
   - id: EXG-FWK-P6-HAB_3
     code_exigence: EXG-SE-03
     domaine: SE
@@ -41,6 +43,7 @@ exigences:
     titre: Audit Traçabilité
     critere: Traçabilité de chaque appel dans le fichier de log.
     test: Audit Log (api_gateway_audit.log)
+    recette: auto
 ---
 
 # 📜 Matrice d'Habilitations & Isolation TLP

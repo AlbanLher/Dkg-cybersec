@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P2-ABOX_01
-revision: 1
+revision: 2
 titre: Instanciation ABox Cyber & Référentiels CTI
 titre_court: abox_cyber_01
 description: Encadre la réalisation du Jeu de Données Factuelles de Synthèse (ABox) pour le UseCase Cybersécurité. Définit le namespace, la convention de nommage des URIs, la population de la cartographie du SI et l'intégration des référentiels publics de menaces.
@@ -22,6 +22,7 @@ exigences:
     titre: Namespace Instance Dedicated
     critere: Utilisation exclusive de http://dkg.cybersec.org/data/.
     test: Parsing RDF / Code
+    recette: auto
   - id: EXG-TEC-P2-ABO_3
     code_exigence: EXG-CT-03
     domaine: CT
@@ -31,6 +32,7 @@ exigences:
     titre: Instanciation Graphe Complète
     critere: Population de la chaîne complète Asset -> CVE -> CWE -> CAPEC.
     test: Requête SPARQL
+    recette: auto
   - id: EXG-TEC-P2-ABO_4
     code_exigence: EXG-QU-02
     domaine: QU
@@ -40,6 +42,7 @@ exigences:
     titre: Typage & Plages CVSS
     critere: Strict respect du format CVSS decimal [0.0, 10.0] sous CWA.
     test: pySHACL CWA
+    recette: auto
 ---
 
 # 📜 Instanciation ABox Cyber & Référentiels CTI

@@ -1,5 +1,5 @@
 """
-03-Application/core/tbox_guardian.py
+03-Application/core/agent_tbox_guardian.py
 Agent TBoxGuardian (Phase 8 / SOC_1) : orchestration du flux d'enrichissement
 TBox — déclenche le filtrage frugal du catalogue externe (frugal_engine),
 soumet le delta buffer à la validation HitM (hitm_gateway), qui seule

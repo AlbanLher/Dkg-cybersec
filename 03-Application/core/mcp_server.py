@@ -7,6 +7,7 @@ Traçability : EXG-TEC-P8-soc_1 (API asynchrone timeout 30s), EXG-TEC-P8-soc_3 (
 """
 
 import sys
+import json
 from pathlib import Path
 from typing import Any, Dict
 from fastapi import FastAPI, HTTPException, Query
@@ -18,11 +19,12 @@ APP_DIR = CORE_DIR.parent
 sys.path.append(str(APP_DIR))
 
 # Importation sécurisée depuis le Core
-from simulator import DKGSimulator
+from core.simulator import DKGSimulator
 from core.frugal_engine import run_frugal_filtering
 from core.soc_engine import run_soc_audit_pipeline
 from core.mitm_engine import MITMEngine
-from core.tbox_guardian import TBoxGuardianAgent
+from core.agent_tbox_guardian import TBoxGuardianAgent
+from core import config
 
 # Initialisation de l'application FastAPI pour le Frontend
 app = FastAPI(
@@ -104,7 +106,7 @@ def get_audit(source: str = Query("local", enum=["local", "family", "scan"])):
     try:
         if source == "scan":
             # Délégation au démonstrateur P8 : audit sur l'ABox du scan réel
-            from api.routes_phase8 import run_phase8_audit          # ou core.routes_phase8
+            from api.routes_phase8 import run_phase8_audit, AuditRequest
             result = run_phase8_audit(
                 AuditRequest(mode="scan", enabled_network_sources=[]))
             return {

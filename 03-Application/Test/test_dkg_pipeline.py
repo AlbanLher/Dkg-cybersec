@@ -13,7 +13,7 @@ from core.frugal_engine import run_frugal_filtering
 from core.soc_engine import run_soc_audit_pipeline
 from core.mitm_engine import MITMEngine
 from core.simulator import DKGSimulator
-from core.tbox_guardian import TBoxGuardianAgent
+from core.agent_tbox_guardian import TBoxGuardianAgent
 
 @pytest.mark.non_regression
 def test_frugal_engine_execution():

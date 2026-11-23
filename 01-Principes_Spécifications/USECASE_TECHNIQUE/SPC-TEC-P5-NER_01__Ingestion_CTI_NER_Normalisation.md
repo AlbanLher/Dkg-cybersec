@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P5-NER_01
-revision: 1
+revision: 2
 titre: Ingestion CTI, Pipeline NER & Normalisation
 titre_court: ner_cti_01
 description: Spécifie l'architecture du pipeline NER pour l'extraction d'entités cyber à partir de flux CTI non structurés et leur normalisation.
@@ -22,6 +22,7 @@ exigences:
     titre: Seuil de Confiance NLP
     critere: Rejet systématique de tout triplet dont le score de confiance NLP est $< 0.85$.
     test: Pytest (test_phase5_ner.py)
+    recette: auto
   - id: EXG-TEC-P5-NER_4
     code_exigence: EXG-SE-03
     domaine: SE
@@ -31,6 +32,7 @@ exigences:
     titre: NLP Air-Gapped
     critere: Le modèle NER doit s'exécuter localement sans aucun appel API externe.
     test: Check Réseau / Local Cache
+    recette: auto
 ---
 
 # 📜 Ingestion CTI, Pipeline NER & Normalisation

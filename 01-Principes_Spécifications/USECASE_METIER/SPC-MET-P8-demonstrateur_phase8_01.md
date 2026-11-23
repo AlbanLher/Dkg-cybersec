@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-MET-P8-demonstrateur_phase8_01
-revision: 1
+revision: 2
 titre: Spécification d'IHM et Démonstrateur Phase 8
 titre_court: demonstrateur_phase8
 description: Spécification d'intégration fonctionnelle, IHM et d'orchestration pour le démonstrateur Phase 8 (Ciblage réseau, tri-boîtes TTL, Green IT et validation HITL).
@@ -21,108 +21,93 @@ exigences:
     titre: Agencement Tri-Boîtes TTL & Bilan NL
     critere: Visualisation IHM des 3 zones TTL côte à côte (TBox, ABox, CTI) et génération du bilan de risques/obsolescence sous les boîtes.
     test: E2E Playwright / Pytest UI
+    recette: auto
   - id: EXG-MET-P8-DEM_2
     domaine: TEC
     core: true
     titre: Consigne de Ciblage Réseau IHM
     critere: "Les cases à cocher agissent comme consigne réseau. Si 0 case cochée : 0 requête HTTP émise sur le réseau."
     test: Pytest Mock Network Logs
+    recette: auto
   - id: EXG-MET-P8-DEM_3
     domaine: SE
     core: true
     titre: Gatekeeper HITL pour Extension TBox
     critere: Toute proposition de Delta TBox (obsolescence/CVE) reste en attente de la validation explicite [Approuver & Fusionner].
     test: Pytest / SPARQL Assert
+    recette: auto
   - id: EXG-MET-P8-DEM_4a
     domaine: MET
     core: true
     titre: Message didactique unique
     critere: Un message didactique en tête de page explicite chaque étape (« ce qui s'est passé / à retenir »), mis à jour à chaque action (connexion, toggle, coche, analyse, approbation).
     test: Pytest UI
+    recette: auto
   - id: EXG-MET-P8-DEM_4b
     domaine: MET
     core: true
     titre: Vue graphique dynamique Mermaid
     critere: La TBox propose une vue graphique (classes) ET la vue superposition par alerte (flowchart TD vertical, nœuds internes TLP:RED / externes TLP:CLEAR, nature de liaison formelle vs implicite ⚠️).
     test: Pytest / endpoint /superposition/graph
+    recette: auto
   - id: EXG-MET-P8-DEM_4c
     domaine: SE
     core: true
     titre: Exclusion .private/ (TLP:RED)
     critere: Le mode « PC Hôte » écrit toute donnée de scan dans .private/ (DIR_PRIVATE_RED), exclu du versionnement Git (".private" in .gitignore) et des métriques de frugalité.
     test: Pytest / gitignore
+    recette: auto
   - id: EXG-MET-P8-DEM_4d
     domaine: MET
     core: true
     titre: Carte Bulletin repliée
     critere: La carte « Bulletin Brut Ingesté » est repliée par défaut, dépliable en un clic.
     test: Recette visuelle
+    recette: visuelle
   - id: EXG-MET-P8-DEM_4e
     domaine: MET
     core: true
     titre: Lisibilité fond sombre
     critere: Tout texte reste lisible sur fond sombre (contraste ≥ AA).
     test: Recette visuelle
+    recette: visuelle
   - id: EXG-MET-P8-RES_1
     domaine: OR
     core: true
     titre: "Seed/Reset : les seeds ne sont jamais modifiés"
     critere: Toute écriture de démonstration vit dans un workset séparé ; POST /reset restaure le workset depuis les seeds et purge le buffer CTI ; les fichiers seed restent byte-identiques avant/après (recette vérifiée par test).
     test: Pytest / fixtures workset tmp
+    recette: auto
   - id: EXG-MET-P8-DEM_5
     domaine: OR
     core: true
     titre: Audit trail HITL journalisé
     critere: Chaque décision HITL (APPROVE / REJECT / NOOP) est journalisée avec horodatage dans hitl_validation_audit.log (workset) ; le journal atteste l'absence d'écriture automatique (DEM_3).
     test: Pytest / lecture du log
+    recette: auto
   - id: EXG-MET-P8-DEM_6
     domaine: SE
     core: true
     titre: Passerelle HITL unique (CLI + API)
     critere: "La décision de fusion vit dans UN SEUL endroit : core/hitm_gateway.py (approve_and_merge) ; les routes /tbox/merge et /tbox/reject sont des adaptateurs purs ; statut REJECTED uniforme 422 (delta vide OU non parsable) — le refus n'est jamais décidé côté route."
     test: Pytest / mock de la passerelle
+    recette: auto
   - id: EXG-MET-P8-DEM_7
     domaine: TEC
     core: true
     titre: "Découpage v2 : adaptateurs purs"
     critere: "routes_phase8.py ne porte aucune logique métier : l'audit vit dans core/audit_engine.py, la confrontation dans core/confrontation.py, les vues Mermaid dans core/mermaid_views.py, les métriques de frugalité dans core/frugality_metrics.py — chaque module porte l'UID de son exigence en tête."
     test: Audit code / revue NonReg
-  - id: EXG-FWK-P8-AGE_1
-    domaine: SE
-    core: true
-    titre: SPC-FWK-P8_AGE_1
-    critere: Ingestion Frugale & Base Locale
-    test: L'agent raisonne sur les fichiers .ttl locaux existants (TLP_CLEAR_CTI_External/*.ttl) sans perte de données.
-  - id: EXG-FWK-P8-AGE_2
-    domaine: TEC
-    core: true
-    titre: SPC-FWK-P8_AGE_2
-    critere: Sobriété & Performance (Green IT)
-    test: Extraction du sous-graphe minimal ($\text{ABox} \cap \text{CTI}_{\text{locale}}$) et calcul du bilan NL en < 1 seconde sur RAM 16 Go.
-  - id: EXG-FWK-P1-GOU_11
-    domaine: SE
-    core: true
-    titre: SPC-FWK-P1-GOUV_01
-    critere: Marquage TLP Obligatoire
-    test: Ingestion et affichage isolés des flux CTI étiquetés strictement en TLP:CLEAR.
-  - id: EXG-FWK-P1-GOU_13
-    domaine: SE
-    core: true
-    titre: SPC-FWK-P1-GOUV_01
-    critere: Air-Gapped & Modèles Locaux
-    test: Le démonstrateur fonctionne de manière 100 % autonome sans accès Web lorsque le réseau est coupé.
-  - id: EXG-FWK-P1-GOU_22
-    domaine: QU
-    core: true
-    titre: SPC-FWK-P1-GOUV_01
-    critere: Vocabulaire *TBox First*
-    test: L'ABox projetée (Mode Foyer ou Scan local 127.0.0.1) utilise exclusivement les classes/propriétés dkg:.
-  - id: EXG-FWK-P1-GOU_5
-    domaine: OR
-    core: true
-    titre: SPC-FWK-P1-GOUV_01
-    critere: Architecture SSOT (config.py)
-    test: L'IHM et l'Agent lisent le catalogue external_sources.json via les chemins centralisés de config.py.
+    recette: inspection
+mise_a_niveau: "2026-11-23 — S1 : suppression des 6 re-déclarations malformées (titres cassés) ; les déclarations mères vivent dans leurs spec d'origine"
+renvois:  # exigences déclarées canoniquement ailleurs — non dupliquées ici
+  - EXG-FWK-P8-AGE_1
+  - EXG-FWK-P8-AGE_2
+  - EXG-FWK-P1-GOU_11
+  - EXG-FWK-P1-GOU_13
+  - EXG-FWK-P1-GOU_22
+  - EXG-FWK-P1-GOU_5
+
 ---
 # 📜 Spécification d'IHM et Démonstrateur Phase 8
 ## 📖 1. Résumé Exécutif & Glossaire
@@ -238,19 +223,19 @@ Cette section regroupe l'ensemble des exigences vérifiées lors de la recette d
 ### 4.1 Exigences Propres au Démonstrateur (Nouvelles Exigences Métier & IHM)
 	
 | **UID**           | **ID**              | **Domaine** | Core/Non-Core | **Intitulé**                                   | **Description & Critère d'Acceptation**                                                                                                                                                                                                                                                           | **Mode de Test**                       |
-| ----------------- | ------------------- | ----------- | ------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| EXG-MET-P8-DEM_1  | `EXG-MET-P8-DEM_1`  | `MET`       | Core          | Agencement Tri-Boîtes TTL & Bilan NL           | Visualisation IHM des 3 zones TTL côte à côte (TBox, ABox, CTI) et génération du bilan de risques/obsolescence sous les boîtes.                                                                                                                                                                   | E2E Playwright / Pytest UI             |
-| EXG-MET-P8-DEM_2  | `EXG-MET-P8-DEM_2`  | `TEC`       | Core          | Consigne de Ciblage Réseau IHM                 | Les cases à cocher agissent comme consigne réseau. Si 0 case cochée : **0 requête HTTP émise** sur le réseau.                                                                                                                                                                                     | Pytest Mock Network Logs               |
-| EXG-MET-P8-DEM_3  | `EXG-MET-P8-DEM_3`  | `SE`        | Core          | Gatekeeper HITL pour Extension TBox            | Toute proposition de Delta TBox (obsolescence/CVE) reste en attente de la validation explicite `[Approuver & Fusionner]`.                                                                                                                                                                         | Pytest / SPARQL Assert                 |
-| EXG-MET-P8-DEM_4a | `EXG-MET-P8-DEM_4a` | `MET`       | Core          | Message didactique unique                      | Un message didactique en tête de page explicite chaque étape (« ce qui s'est passé / à retenir »), mis à jour à chaque action (connexion, toggle, coche, analyse, approbation).                                                                                                                   | Pytest UI                              |
-| EXG-MET-P8-DEM_4b | `EXG-MET-P8-DEM_4b` | `MET`       | Core          | Vue graphique dynamique Mermaid                | La TBox propose une vue graphique (classes) ET la vue superposition par alerte (flowchart TD vertical, nœuds internes TLP:RED / externes TLP:CLEAR, nature de liaison formelle vs implicite ⚠️).                                                                                                  | Pytest / endpoint /superposition/graph |
-| EXG-MET-P8-DEM_4c | `EXG-MET-P8-DEM_4c` | `SE`        | Core          | Exclusion .private/ (TLP:RED)                  | Le mode « PC Hôte » écrit toute donnée de scan dans .private/ (DIR_PRIVATE_RED), exclu du versionnement Git (".private" in .gitignore) et des métriques de frugalité.                                                                                                                             | Pytest / gitignore                     |
-| EXG-MET-P8-DEM_4d | `EXG-MET-P8-DEM_4d` | `MET`       | Core          | Carte Bulletin repliée                         | La carte « Bulletin Brut Ingesté » est repliée par défaut, dépliable en un clic.                                                                                                                                                                                                                  | Recette visuelle                       |
-| EXG-MET-P8-DEM_4e | `EXG-MET-P8-DEM_4e` | `MET`       | Core          | Lisibilité fond sombre                         | Tout texte reste lisible sur fond sombre (contraste ≥ AA).                                                                                                                                                                                                                                        | Recette visuelle                       |
-| EXG-MET-P8-RES_1  | `EXG-MET-P8-RES_1`  | `OR`        | Core          | Seed/Reset : les seeds ne sont jamais modifiés | Toute écriture de démonstration vit dans un workset séparé ; POST /reset restaure le workset depuis les seeds et purge le buffer CTI ; les fichiers seed restent byte-identiques avant/après (recette vérifiée par test).                                                                         | Pytest / fixtures workset tmp          |
-| EXG-MET-P8-DEM_5  | `EXG-MET-P8-DEM_5`  | `OR`        | Core          | Audit trail HITL journalisé                    | Chaque décision HITL (APPROVE / REJECT / NOOP) est journalisée avec horodatage dans hitl_validation_audit.log (workset) ; le journal atteste l'absence d'écriture automatique (DEM_3).                                                                                                            | Pytest / lecture du log                |
-| EXG-MET-P8-DEM_6  | `EXG-MET-P8-DEM_6`  | `SE`        | Core          | Passerelle HITL unique (CLI + API)             | La décision de fusion vit dans UN SEUL endroit : core/hitm_gateway.py (approve_and_merge) ; les routes /tbox/merge et /tbox/reject sont des adaptateurs purs ; statut REJECTED uniforme 422 (delta vide OU non parsable) — le refus n'est jamais décidé côté route.                               | Pytest / mock de la passerelle         |
-| EXG-MET-P8-DEM_7  | `EXG-MET-P8-DEM_7`  | `TEC`       | Core          | Découpage v2 : adaptateurs purs                | routes_phase8.py ne porte aucune logique métier : l'audit vit dans core/audit_engine.py, la confrontation dans core/confrontation.py, les vues Mermaid dans core/mermaid_views.py, les métriques de frugalité dans core/frugality_metrics.py — chaque module porte l'UID de son exigence en tête. | Audit code / revue NonReg              |
+| ----------------- | ------------------- | :---------: | :-----------: | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| EXG-MET-P8-DEM_1  | `EXG-MET-P8-DEM_1`  |    `MET`    |     Core      | Agencement Tri-Boîtes TTL & Bilan NL           | Visualisation IHM des 3 zones TTL côte à côte (TBox, ABox, CTI) et génération du bilan de risques/obsolescence sous les boîtes.                                                                                                                                                                   | E2E Playwright / Pytest UI             |
+| EXG-MET-P8-DEM_2  | `EXG-MET-P8-DEM_2`  |    `TEC`    |     Core      | Consigne de Ciblage Réseau IHM                 | Les cases à cocher agissent comme consigne réseau. Si 0 case cochée : **0 requête HTTP émise** sur le réseau.                                                                                                                                                                                     | Pytest Mock Network Logs               |
+| EXG-MET-P8-DEM_3  | `EXG-MET-P8-DEM_3`  |    `SE`     |     Core      | Gatekeeper HITL pour Extension TBox            | Toute proposition de Delta TBox (obsolescence/CVE) reste en attente de la validation explicite `[Approuver & Fusionner]`.                                                                                                                                                                         | Pytest / SPARQL Assert                 |
+| EXG-MET-P8-DEM_4a | `EXG-MET-P8-DEM_4a` |    `MET`    |     Core      | Message didactique unique                      | Un message didactique en tête de page explicite chaque étape (« ce qui s'est passé / à retenir »), mis à jour à chaque action (connexion, toggle, coche, analyse, approbation).                                                                                                                   | Pytest UI                              |
+| EXG-MET-P8-DEM_4b | `EXG-MET-P8-DEM_4b` |    `MET`    |     Core      | Vue graphique dynamique Mermaid                | La TBox propose une vue graphique (classes) ET la vue superposition par alerte (flowchart TD vertical, nœuds internes TLP:RED / externes TLP:CLEAR, nature de liaison formelle vs implicite ⚠️).                                                                                                  | Pytest / endpoint /superposition/graph |
+| EXG-MET-P8-DEM_4c | `EXG-MET-P8-DEM_4c` |    `SE`     |     Core      | Exclusion .private/ (TLP:RED)                  | Le mode « PC Hôte » écrit toute donnée de scan dans .private/ (DIR_PRIVATE_RED), exclu du versionnement Git (".private" in .gitignore) et des métriques de frugalité.                                                                                                                             | Pytest / gitignore                     |
+| EXG-MET-P8-DEM_4d | `EXG-MET-P8-DEM_4d` |    `MET`    |     Core      | Carte Bulletin repliée                         | La carte « Bulletin Brut Ingesté » est repliée par défaut, dépliable en un clic.                                                                                                                                                                                                                  | Recette visuelle                       |
+| EXG-MET-P8-DEM_4e | `EXG-MET-P8-DEM_4e` |    `MET`    |     Core      | Lisibilité fond sombre                         | Tout texte reste lisible sur fond sombre (contraste ≥ AA).                                                                                                                                                                                                                                        | Recette visuelle                       |
+| EXG-MET-P8-RES_1  | `EXG-MET-P8-RES_1`  |    `OR`     |     Core      | Seed/Reset : les seeds ne sont jamais modifiés | Toute écriture de démonstration vit dans un workset séparé ; POST /reset restaure le workset depuis les seeds et purge le buffer CTI ; les fichiers seed restent byte-identiques avant/après (recette vérifiée par test).                                                                         | Pytest / fixtures workset tmp          |
+| EXG-MET-P8-DEM_5  | `EXG-MET-P8-DEM_5`  |    `OR`     |     Core      | Audit trail HITL journalisé                    | Chaque décision HITL (APPROVE / REJECT / NOOP) est journalisée avec horodatage dans hitl_validation_audit.log (workset) ; le journal atteste l'absence d'écriture automatique (DEM_3).                                                                                                            | Pytest / lecture du log                |
+| EXG-MET-P8-DEM_6  | `EXG-MET-P8-DEM_6`  |    `SE`     |     Core      | Passerelle HITL unique (CLI + API)             | La décision de fusion vit dans UN SEUL endroit : core/hitm_gateway.py (approve_and_merge) ; les routes /tbox/merge et /tbox/reject sont des adaptateurs purs ; statut REJECTED uniforme 422 (delta vide OU non parsable) — le refus n'est jamais décidé côté route.                               | Pytest / mock de la passerelle         |
+| EXG-MET-P8-DEM_7  | `EXG-MET-P8-DEM_7`  |    `TEC`    |     Core      | Découpage v2 : adaptateurs purs                | routes_phase8.py ne porte aucune logique métier : l'audit vit dans core/audit_engine.py, la confrontation dans core/confrontation.py, les vues Mermaid dans core/mermaid_views.py, les métriques de frugalité dans core/frugality_metrics.py — chaque module porte l'UID de son exigence en tête. | Audit code / revue NonReg              |
 
 
 

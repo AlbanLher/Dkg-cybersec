@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P8-agent_gardien_references_externes_01
-revision: 1
+revision: 2
 titre: Agent Gardien des Références Externes (External Reference Steward)
 titre_court: agent_gardien_references_externes
 description: "Supervision, filtrage frugal et validation sémantique des référentiels et flux publics externes (ex: RGPD, DPV)."
@@ -23,6 +23,7 @@ exigences:
     titre: Traçabilité & Filtrage Frugal Externe
     critere: Conservation du registre d'origine et extraction d'un sous-ensemble minimal sans surcharge mémoire.
     test: Pytest / SPARQL / SHACL
+    recette: auto
 ---
 # 📜 Agent Gardien des Références Externes (External Reference Steward)
 

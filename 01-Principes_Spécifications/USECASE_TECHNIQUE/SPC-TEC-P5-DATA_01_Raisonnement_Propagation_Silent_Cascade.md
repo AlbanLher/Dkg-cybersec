@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P5-DATA_01
-revision: 1
+revision: 2
 titre: Raisonnement & Propagation Silent Cascade
 titre_court: propagation_silent_cascade_01
 description: Spécifie le jeu de données de validation ABox et le harnais d'exécution Pytest pour le moteur de raisonnement sur le cas d'usage Silent Cascade.
@@ -22,6 +22,7 @@ exigences:
     titre: Inférence Hôte Pivot
     critere: "Assertion Pytest vérifiée : dkg-data:Host-Proxy-DMZ a dkg:HighRiskAsset."
     test: test_phase5_inference.py
+    recette: inspection
   - id: EXG-TEC-P5-DAT_2
     code_exigence: EXG-IN-02
     domaine: IN
@@ -31,6 +32,7 @@ exigences:
     titre: Inférence Cascade
     critere: "Assertion Pytest vérifiée : présence du triplet dkg-data:Host-Proxy-DMZ dkg:exposesToCascade dkg-data:Host-DB-Internal."
     test: test_phase5_inference.py
+    recette: inspection
 ---
 
 # 📜 Raisonnement & Propagation Silent Cascade

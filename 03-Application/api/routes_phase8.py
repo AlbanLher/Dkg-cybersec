@@ -7,7 +7,7 @@ Tout est délégué aux modules core/ (découpage v2) :
   core/audit_engine.py    — bilan SPARQL + Gardien TBox 
   core/mermaid_views.py   — vues Mermaid (DEM_4b) — présentation pure
   core/frugality_metrics.py — abaque Green-Dev 
-  core/scan_terrain.py    — terrain « scan » réel (HITL journalisé)
+  core/scan_engine.py    — terrain « scan » réel (HITL journalisé)
   core/hitm_gateway.py   — Gatekeeper HITL  — inchangé
 Lectures : TBox/RBox = WORKING SET ; ABox = SEEDS ou scan .private/ ;
 CTI = buffer workset (cumul frugal, seul /reset purge — RES_1).
@@ -30,7 +30,7 @@ from core.audit_engine import _generate_risk_analysis
 from core.mermaid_views import (tbox_graph_mermaid, abox_graph_mermaid,
                                  _generate_superposition_mermaid)
 from core.frugality_metrics import _generate_frugality_metrics
-from core.scan_terrain import scan_orchestrate
+from core.scan_engine import scan_orchestrate
 
 router = APIRouter(prefix="/api/phase8", tags=["Phase 8 - Demonstrator MCP"])
 
@@ -144,7 +144,7 @@ async def reset_demonstrator():
 # ------------------------------------------------------------------------------
 @router.post("/scan")
 async def scan_local_host():
-    """Terrain « scan » : délégation à core/scan_terrain (HITL journalisé,
+    """Terrain « scan » : délégation à core/scan_engine (HITL journalisé,
     EXG-MET-P8-DEM_7). Le routeur ne fait que traduire l'échec en HTTP."""
     try:
         return scan_orchestrate()

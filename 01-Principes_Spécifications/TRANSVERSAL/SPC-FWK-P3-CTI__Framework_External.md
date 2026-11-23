@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P3-CTI_01
-revision: 1
+revision: 2
 titre: Framework CTI Externe & Alignment Sémantique
 titre_court: cti_framework_01
 description: Définit l'ingestion de données externes, l'alignement sémantique ainsi que l'agent de consolidation TBox/RBox.
@@ -24,6 +24,7 @@ exigences:
     titre: Typage CTI Externe
     critere: Toute vulnérabilité CTI doit posséder un score CVSS (xsd:float) et un drapeau CISA KEV (xsd:boolean).
     test: Pytest / pySHACL
+    recette: auto
   - id: EXG-FWK-P3-CTI_3
     code_exigence: EXG-SE-01
     domaine: SE
@@ -33,6 +34,7 @@ exigences:
     titre: Ségrégation TLP
     critere: Les données CTI publiques sont restreintes au graphe TLP:CLEAR.
     test: Pytest (test_02)
+    recette: auto
 ---
 
 # 📜 Framework CTI Externe & Alignment Sémantique

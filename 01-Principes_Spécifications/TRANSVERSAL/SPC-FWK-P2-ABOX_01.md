@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P2-ABOX_01
-revision: 1
+revision: 2
 titre: Règles d'Intégrité & Recette ABox
 titre_court: abox_01
 description: Présentation de l'ABox générique. Fixe les critères d'intégrité référentielle, le typage strict des littéraux, la cohérence des relations inverses et le sas de recette qualité sous CWA.
@@ -22,6 +22,7 @@ exigences:
     titre: Intégrité & Datatypes CWA
     critere: Interdiction de pointer vers une instance orpheline ; contrôle strict des typages xsd et plages.
     test: pySHACL CWA
+    recette: auto
   - id: EXG-FWK-P2-ABO_2
     code_exigence: EXG-QU-03
     domaine: QU
@@ -31,6 +32,7 @@ exigences:
     titre: Sanity Check Zero Violation
     critere: 0 violation sh:Violation détectée lors du contrôle automatisé pySHACL.
     test: Pytest / SHACL
+    recette: auto
   - id: EXG-FWK-P2-ABO_3
     code_exigence: EXG-TB-04
     domaine: TB
@@ -40,6 +42,7 @@ exigences:
     titre: Matérialisation des Inverses
     critere: Conformité et existence des paires de relations inverses d'instances.
     test: SPARQL / Reasoner
+    recette: auto
 ---
 
 # 📜 Règles d'Intégrité & Recette ABox

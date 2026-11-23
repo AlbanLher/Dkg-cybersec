@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P5-CONSO_01
-revision: 1
+revision: 2
 titre: SPC-TEC-P5-CONSO_01__AgentMITM_Consolidation_SKOS-RéconciliationSémantique
 titre_court: agent_mitm_conso_01
 description: Définit le cadre technique de l'Agent MITM et du Moteur de Consolidation SKOS pour la réconciliation sémantique déterministe.
@@ -19,30 +19,35 @@ exigences:
     titre: IA
     critere: Interception & Calcul Similitude
     test: L'Agent MITM doit vectoriser les entités via all-MiniLM-L6-v2 et calculer la similarité cosinus.
+    recette: inspection
   - id: EXG-TEC-P5-CON_2
     domaine: IN
     core: true
     titre: Réconciliation Seuil 0.85
     critere: Toute entité ayant un score $\ge 0.85$ doit être consolidée via skos:exactMatch au lieu d'être dupliquée.
     test: Pytest (test_phase5_mitm)
+    recette: auto
   - id: EXG-TEC-P5-CON_3
     domaine: TB
     core: true
     titre: Alignement Taxonomique SKOS
     critere: Les catégories de menaces et taxonomies d'actifs doivent intégrer skos:Concept et skos:ConceptScheme.
     test: Validation SHACL
+    recette: auto
   - id: EXG-TEC-P5-CON_4
     domaine: SE
     core: true
     titre: Ségrégation TLP en Ingestion Interceptée
     critere: L'Agent MITM ne doit jamais inscrire un triplet contenant des données TLP:RED dans la ABox CTI (TLP:CLEAR).
     test: Audit Graphe / Pytest
+    recette: auto
   - id: EXG-TEC-P5-CON_5
     domaine: HW
     core: true
     titre: Temps de Réponse Offline
     critere: Le calcul de similitude pour une entité doit s'exécuter en $< 100$ ms en local (Air-Gapped).
     test: Benchmark / Pytest
+    recette: auto
 ---
 
 # 📜 Agent MITM, Consolidation SKOS & Réconciliation Sémantique

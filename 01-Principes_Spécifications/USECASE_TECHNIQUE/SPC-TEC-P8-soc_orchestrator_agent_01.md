@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P8-soc_orchestrator_agent_01
-revision: 2
+revision: 4
 titre: SPC-TEC-P8-soc_orchestrator_agent_01
 titre_court: soc_orchestrator_agent_mcp
 description: Spécification technique actualisée des scripts de la Phase 8 conçus comme des outils natifs MCP (Model Context Protocol).
@@ -22,15 +22,7 @@ exigences:
     titre: API Asynchrone
     critere: Pilotage asynchrone avec timeout de 30s.
     test: PyTest / AsyncIO Suite
-  - id: EXG-TEC-P8-soc_2
-    code_exigence: EXG-P8-06
-    domaine: TEC
-    domaine_nom: Technique & Core Framework
-    core: true
-    phase: P8
-    titre: Pipeline NER Local
-    critere: Exécution 100% Air-Gapped du modèle GLiNER.
-    test: PyTest / Air-Gapped Check
+    recette: auto
   - id: EXG-TEC-P8-soc_3
     code_exigence: EXG-P8-07
     domaine: TEC
@@ -40,6 +32,11 @@ exigences:
     titre: Architecture MCP-Ready
     critere: Typage strict et découplage pour wrapper MCP.
     test: PyTest / Interface Check
+    recette: auto
+mise_a_niveau: "2026-11-23 — S5 (cadrage P9) : exigence redéclarée ; la déclaration canonique vit dans sa spec la plus spécifique"
+renvois:  # exigences déclarées canoniquement ailleurs — non dupliquées ici
+  - EXG-TEC-P5-NER_4
+
 ---
 
 # 📜 Composants Techniques MCP-Ready : Orchestrateur, Filtrage Frugal & Gateway HitM

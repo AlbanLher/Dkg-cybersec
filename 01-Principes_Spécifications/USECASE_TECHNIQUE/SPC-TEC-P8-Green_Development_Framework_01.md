@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P08-green_development_framework_01
-revision: 1
+revision: 2
 titre: Green Development Framework
 titre_court: green_development_framework
 description: Cadre de développement éco-responsable et exigences Green-by-Design pour la Phase 8.
@@ -22,6 +22,7 @@ exigences:
     titre: Traitement Incrémentiel
     critere: Interdiction stricte des recalculs globaux (zéro ré-indexation ou re-vectorisation complète de la base lors de modifications mineures).
     test: Audit de pipeline / Test unitaire de delta
+    recette: auto
   - id: EXG-TEC-P08-gr_3
     code_exigence: EXG-GREEN-03
     domaine: TEC
@@ -31,6 +32,7 @@ exigences:
     titre: Arbitrage d'Échelle et FinOps
     critere: Tout déploiement d'un composant lourd (Triple Store persistant, base vectorielle serveur) requiert un arbitrage documenté prouvant le rapport valeur/empreinte.
     test: Revue d'architecture & Dossier d'arbitrage (.md)
+    recette: inspection
 ---
 
 

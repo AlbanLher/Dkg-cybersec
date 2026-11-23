@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-MET-P8-incremental_graph_partitioning_01
-revision: 1
+revision: 2
 titre: Méthodologie de Partitionnement et Mise à Niveau Incrémentale
 titre_court: incremental_graph_partitioning
 description: Définit les règles de découpage des graphes et d'injection par deltas pour respecter la contrainte Green Dev (< 16 Go RAM).
@@ -22,6 +22,7 @@ exigences:
     titre: Interdiction Monolithique
     critere: Respect du plafond RAM et chargement par partitions.
     test: Profiling RAM PyTest
+    recette: auto
 ---
 
 # 📜 Méthodologie de Partitionnement et Mise à Niveau Incrémentale

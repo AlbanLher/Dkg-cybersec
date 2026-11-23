@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P1-GOUV_01
-revision: 1
+revision: 3
 titre: SPC-FWK-P1-GOUVERNANCE 01
 titre_court: GOUV
 phase_code: P1
@@ -18,138 +18,119 @@ exigences:
     titre: Spec-Driven Development
     critere: Mise à jour SPEC obligatoire avant toute modification de code.
     test: Revue Git / Audit
+    recette: inspection
   - id: EXG-FWK-P1-GOU_2
     domaine: OR
     core: false
     titre: Parité Master / Snapshot
     critere: Empreinte binaire identique entre Master et Snapshot.
     test: Control Hash / CI
+    recette: auto
   - id: EXG-FWK-P1-GOU_3
     domaine: OR
     core: true
     titre: Standard Traçabilité Phase
     critere: Découpage strict des livrables selon les 4 briques projet.
     test: Inspection Dossiers
+    recette: inspection
   - id: EXG-FWK-P1-GOU_4
     domaine: OR
     core: true
     titre: Gatekeeper Inter-Phase
     critere: Validation préalable du formulaire de cadrage inter-phase.
     test: Validation Cadrage
+    recette: inspection
   - id: EXG-FWK-P1-GOU_5
     domaine: OR
     core: true
     titre: Architecture SSOT (config.py)
     critere: Centralisation stricte des répertoires et URIs dans config.py.
     test: Test Python / AST
+    recette: auto
   - id: EXG-FWK-P1-GOU_6
     domaine: OR
     core: true
     titre: Double Export Anti-Collision
     critere: Synchronisation Snapshot -> Master sans erreur SameFileError.
     test: Execution Script
+    recette: auto
   - id: EXG-FWK-P1-GOU_7
     domaine: OR
     core: true
     titre: Validation aux Frontières (Pydantic)
     critere: Validation stricte des données entrantes/configs via Pydantic V2 avant conversion RDF.
     test: Pytest / Pydantic ValidationError
+    recette: auto
   - id: EXG-FWK-P1-GOU_8
     domaine: OR
     core: true
     titre: Unicité et Conformité des Domaines
     critere: Tout code de domaine utilisé doit obligatoirement figurer dans la taxonomie officielle.
     test: Pytest / Pydantic Enum Check / Linter Spec
+    recette: auto
   - id: EXG-FWK-P1-GOU_9
     domaine: OR
     core: true
     titre: Formatage des IDs
     critere: Format strict ^EXG-([A-Z]{2,4})-[0-9]{2,3}$ rattaché à un domaine officiel.
     test: Linter Regex / CI AST Check
-  - id: EXG-FWK-P1-GOU_10
-    domaine: HW
-    core: false
-    titre: Inférence Local Économe
-    critere: Exécution PC 16 Go RAM sans GPU dédié, Air-Gapped strict.
-    test: Benchmark Resource
+    recette: auto
   - id: EXG-FWK-P1-GOU_11
     domaine: SE
     core: true
     titre: Marquage TLP Obligatoire
     critere: Tag TLP présent sur tout document ou graphe Turtle.
     test: Linter / Pytest
+    recette: auto
   - id: EXG-FWK-P1-GOU_12
     domaine: SE
     core: true
     titre: Isolation des Snapshots
     critere: Immuabilité des snapshots de jalons validés.
     test: Droits Fichiers
+    recette: inspection
   - id: EXG-FWK-P1-GOU_13
     domaine: SE
     core: true
     titre: Air-Gapped & Modèles Locaux
     critere: Exécution MLOps/NLP 100% locale sans accès Internet runtime.
     test: Check Réseau / Cache
-  - id: EXG-FWK-P1-GOU_14
-    domaine: TB
-    core: true
-    titre: Espace de Noms & Séparateur URI
-    critere: "Namespace TBox unique avec séparateur #."
-    test: Parsing RDF
-  - id: EXG-FWK-P1-GOU_15
-    domaine: TB
-    core: true
-    titre: Typage OWL Strict
-    critere: Typage formel obligatoire (owl:Class, owl:ObjectProperty).
-    test: Parsing OWL / SPARQL
-  - id: EXG-FWK-P1-GOU_16
-    domaine: TB
-    core: true
-    titre: Déclaration Domaine & Portée
-    critere: rdfs:domain et rdfs:range obligatoires sur toute propriété.
-    test: Requête SPARQL TBox
-  - id: EXG-FWK-P1-GOU_17
-    domaine: TB
-    core: true
-    titre: Sémantique RBox & Inverses
-    critere: Rôles inverses obligatoires via owl:inverseOf.
-    test: Check Inverses SPARQL
+    recette: inspection
   - id: EXG-FWK-P1-GOU_18
     domaine: TB
     core: true
     titre: Couche Lexicale SKOS
     critere: Labels multilingues (FR/EN) et définitions SKOS.
     test: Validation SKOS
-  - id: EXG-FWK-P1-GOU_19
-    domaine: QU
-    core: true
-    titre: Couverture SHACL
-    critere: Validation SHACL couvrante sur l'ensemble du schéma.
-    test: Execution pySHACL
+    recette: auto
   - id: EXG-FWK-P1-GOU_20
     domaine: QU
     core: true
     titre: Contrôle Conformité Données
     critere: Datatypes, plages et formats validés sous CWA.
     test: pySHACL CWA
-  - id: EXG-FWK-P1-GOU_21
-    domaine: QU
-    core: true
-    titre: Sanity Check Automatisé
-    critere: 0 violation sh:Violation au contrôle pySHACL.
-    test: "Pytest / SHACL[cite: 1]"
+    recette: auto
   - id: EXG-FWK-P1-GOU_22
     domaine: QU
     core: true
     titre: Vocabulaire TBox First
     critere: "0 prédicat hors-TBox Master utilisé dans le projet.[cite: 1]"
     test: "Pytest (test_00)[cite: 1]"
-  - id: EXG-FWK-P1-GOU_23
-    domaine: SH
-    core: true
-    titre: Shapes Structurales Abstraites
-    critere: "Méta-shapes de validation intégrées au schéma.[cite: 1]"
-    test: "Execution SHACL[cite: 1]"
+    recette: auto
+mise_a_niveau:
+  - "2026-11-23 — S2 : GOU_14-17 et GOU_23 deviennent des renvois vers T-R_1-4 / T-R_7 (déclarations canoniques T-RBOX)"
+  - "2026-11-23 — S5 (cadrage P9) : GOU_10/GOU_19/GOU_21 deviennent des renvois vers RUL_4 / T-R_6 / ABO_2 (déclarations canoniques dans leurs specs les plus spécifiques)"
+renvois:  # exigences déclarées canoniquement ailleurs — non dupliquées ici
+  - EXG-FWK-P1-GOU_14
+  - EXG-FWK-P1-GOU_15
+  - EXG-FWK-P1-GOU_16
+  - EXG-FWK-P1-GOU_17
+  - EXG-FWK-P1-GOU_23
+  - EXG-FWK-P5-RUL_4
+  - EXG-FWK-P1-T-R_6
+  - EXG-FWK-P2-ABO_2
+
+
 ---
 
 

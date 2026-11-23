@@ -1,27 +1,27 @@
 ```
-├── 00-Projet/                                        # Documents de la gestion de projet
+├── 00-Projet/                            # Documents de la gestion de projet
 │   ├── AssistanceLLM/
-│   │   ├── Kits_Amorçage/                    # context bundle  (.md) permet aux nouvelles discussions LLM de collecter l'avancement
-│   │   ├── Prompts/                               #  Prompts d'initialisation d'une discussion et ceux cadran chaque étapes
-│   ├── PhaseX/                                      #  décomposées par phases
+│   │   ├── Kits_Amorçage/                     # context bundle  (.md) permet aux nouvelles discussions LLM de collecter l'avancement
+│   │   ├── Prompts/                           #  Prompts d'initialisation d'une discussion et ceux cadran chaque étapes
+│   ├── PhaseX/                                #  décomposées par phases
 │   ├── REX/
-│   └── Templates/                                  # utilisés par Obsidian/templeter pour générer des vues 
+│   └── Templates/                             # utilisés par Obsidian/templeter pour générer des vues 
 ├── 01-Principes_Spécifications/          #  Documents sur les Princes technique et les SPEC avec 
-│   ├── TRANSVERSAL/                          #  SPEC transverses applicable à d'autre cas d'usages
-│   ├── USECASE_METIER/                    #  SPEC Métier Cyber 
-│   └── USECASE_TECHNIQUE/             #  SPEC technique pour le dev
+│   ├── TRANSVERSAL/                           #  SPEC transverses applicable à d'autre cas d'usages
+│   ├── USECASE_METIER/                        #  SPEC Métier Cyber 
+│   └── USECASE_TECHNIQUE/                     #  SPEC technique pour le dev
 ├── 02-Donnees/
-│   ├── Input_Phases/                             # Données d'entrée générées pour le cas d'usage
-│   │   └── PhaseX/                                     décomposées par phases
-│   ├── Master_Transversal/                   #  Données capitalisées au travers des phases
-│   └── Snapshots_Phases/                    #  Données générées dans chaque phases (snapshot)
-│       └── PhaseX/                                        décomposées par phases
-	└── 03-Application/                        #  Section des codes python
-    ├── config.py                                      #  fichier utilisé contenant les variables utilisées par les script
+│   ├── Input_Phases/                          # Données d'entrée générées pour le cas d'usage
+│   │   └── PhaseX/                                  # décomposées par phases
+│   ├── Master_Transversal/                    #  Données capitalisées au travers des phases
+│   └── Snapshots_Phases/                      #  Données générées dans chaque phases (snapshot)
+│       └── PhaseX/                                  # décomposées par phases
+└── 03-Application/                       #  Section des codes python
+    ├── config.py                              #  fichier utilisé contenant les variables utilisées par les script
     ├── conftest.py
-    ├── models/                                         #  models chargés localement avec leur paramètres
-    ├── PhaseX/                                         #  Script des fonctionnalités
-    └── Test/                                               #  Script de test vérifiant un ensemble d'exigences
+    ├── models/                                #  models chargés localement avec leur paramètres
+    ├── PhaseX/                                #  Script des fonctionnalités
+    └── Test/                                  #  Script de test vérifiant un ensemble d'exigences
 
 ```
 ci-dessous vue sur les princpaux fichiers avec lien d'accés directe  (utilise plugins Obsidian )

@@ -198,15 +198,6 @@ dkg:exploitsWeakness a owl:ObjectProperty ;
     skos:prefLabel "exploits weakness"@en, "exploite la faiblesse"@fr ;
     skos:definition "Relie une vulnérabilité à la faiblesse (CWE) qu'elle exploite."@fr .
 
-# Delta TBox proposé (Gatekeeper HITL)
-# Justification EXG-FWK-P1-GOU_22 : propriétés du fonds CTI
-# (TLP:CLEAR coché) non déclarées dans la TBox de référence.
-@prefix dkg: <http://dkg.cybersec.org/tbox#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
 dkg:isCisaKev a owl:DatatypeProperty ;
     rdfs:domain dkg:Vulnerability ; rdfs:range xsd:boolean ;
     skos:prefLabel "is CISA KEV"@en, "référencé CISA KEV"@fr ;

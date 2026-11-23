@@ -1,29 +1,64 @@
-# 🧹 Prompt 3/3 — Rétrospective 5S, Replay & Clôture (`[CONTEXT: RETRO-5S]`)
+# 🧹 Prompt 3/3 — Rétrospective 5S, Replay & Clôture (`[CONTEXT: RETRO-5S]`) — rév. 2026-11-23
+
+> Rév. 2026-11-23 : le miroir TTL→MD (abrogé par 5S du 19/11, règle §7 du
+> 01.1) est remplacé par la vue générée à la demande ; le 5S gagne ses
+> critères consolidés (grep d'imports = preuve de vie, NonReg avant tout) ;
+> les fichiers vitrines sont actualisés ; le Context Bundle archivé est
+> remplacé par la mémoire projet.
 
 ## 📌 Fichiers à joindre obligatoirement dans votre message :
-1. Résultat complet de l'exécution `pytest` (Logs de recette)
+1. Résultat complet de l'exécution `pytest` (logs de recette, NonReg 61 inclus)
 2. `03-Application/config.py`
-3. `Roadmap_Suivi-Avancement.md`
-4. Liste des artefacts générés dans `02-Donnees/Snapshots_Phases/PhaseX.../`
+3. `Roadmap.md` (vagues statuts) + `README.md` (tableau macro)
+4. Liste des artefacts générés dans `02-Donnees/Snapshots_Phases/PhaseX…/`
+5. Le backlog de la phase (carnet de session) — items traités et restants
 
-## Périmètre d'Action
-- Répertoires : `02-Donnees/Master_Transversal/`, `00-Projet/`, `Roadmap_Suivi-Avancement.md`
-- Objectif : Appliquer le principe de Replay, générer la documentation miroir Markdown, procéder au nettoyage 5S et mettre à jour le State Vector Master.
+## Périmètre d'action
+- Répertoires : `02-Donnees/Master_Transversal/`, `00-Projet/`, `01-Principes_Spécifications/`, `03-Application/`
+- Objectif : appliquer le principe de Replay, générer les vues à la demande,
+  procéder au nettoyage 5S, mettre à jour l'avancement et clôturer
+  l'étape/la phase par arbitrage documenté.
 
 ## 📋 Directives & Check-list 5S
-- [ ] **Principe de Replay :** Copier/Capitaliser les fichiers `.ttl` de `Snapshots_Phases/` vers `Master_Transversal/` (TBox AMBER, ABox RED, CTI CLEAR).
-- [ ] **Auto-Documentation (TTL ➔ MD) :** Générer pour chaque fichier `.ttl` son miroir `.md` contenant :
-  - Un tableau des acronymes utilisés (Glossaire).
-  - Un diagramme Mermaid synthétique des entités et relations.
-- [ ] **Nettoyage 5S :**
-  - *Seiri (Tri) :* Suppression des fichiers temporaires ou scripts de debug.
-  - *Seiton (Rangement) :* Synchronisation intégrale de `config.py`.
-  - *Seiso (Nettoyage) :* Vérification de la parité stricte Snapshots vs Masters.
-  - *Seiketsu (Standardisation) :* Remplissage de la section "Synthèse de Clôture" dans `Phase_Content.md`.
-- [ ] **Mise à Jour Roadmap :** Passage du statut de la phase à 🟢 **PASSED** dans `Roadmap_Suivi-Avancement.md`.
-- [ ] **Mise à Jour Systématique des 2 Fichiers Vitrines :** S'assurer que le Prompt 3 exige  : (1) Passage du statut de la phase à 🟢 **PASSED** dans `Roadmap_Suivi-Avancement.md`, (2) la mise à jour synchrone de `Roadmap_Suivi-Avancement.md` (vue détaillée des phases) et (3) du tableau macro dans `README.md`.
+- [ ] **Principe de Replay :** copier/capitaliser les `.ttl` de
+      `Snapshots_Phases/` vers `Master_Transversal/` (TBox AMBER, ABox
+      Interne RED, ABox Externe CLEAR). **Les `.ttl` seulement** — aucun
+      miroir `.md`/`.json` (abrogés) ; les chemins miroirs du SSOT sont
+      supprimés au Lot A/D.
+- [ ] **Vue générée à la demande (remplace l'auto-documentation) :** si une
+      vue graphique est jugée utile, elle est produite par
+      `core/mermaid_views.py` (moteur de vue) et marquée « générée, ne pas
+      éditer » — jamais manuscrite. Vérifier l'équilibre `subgraph`/`end`
+      de tout Mermaid édité.
+- [ ] **Nettoyage 5S (règles consolidées — 01.1 §7) :**
+  - *Seiton (Rangement) :* synchronisation de `config.py` ; un fichier = un
+    seul groupe cohérent ; nommage canonique et docstring d'en-tête
+    conformes (01.2 § 1.quater).
+  - *Seiso (Nettoyage) :* parité stricte Snapshots vs Masters ; purge des
+    `__pycache__` et fichiers errants prévus au backlog.
+  - *Seiketsu (Standardisation) :* remplissage de la section « Synthèse de
+    Clôture » dans `Phase_Content.md` ; registre d'exigences purgé (une
+    exigence = une déclaration ; champ `recette` renseigné) ; dashboard de
+    couverture relu sur le critère « recetté ».
+  - *Sustain :* le **grep d'imports réel** confirme qu'aucun module mort ne
+    survit au tree (`core` n'importe jamais `phases`) ; les items de backlog
+    ne quittent le carnet qu'à leur NonReg vert.
+- [ ] **Couverture & dette :** exiger que les EXG nouvelles de la phase
+      aient leur test (ou leur étiquette `visuelle`/`inspection`) ; les tests
+      de dette planifiés au cadrage sont écrits ou re-reportés avec motif.
+- [ ] **Fichiers vitrines :** (1) statut de la phase dans `Roadmap.md`
+      (🟢 PASSED — et si clôture de scope, l'**arbitrage documenté** joint) ;
+      (2) mise à jour synchrone de la vue détaillée et du tableau macro du
+      `README.md` ; (3) vue LLM (Roadmap § 5) actualisée pour le contexte
+      de la session suivante.
+- [ ] **Mémoire projet :** consigner au journal (mémoire Vibe) les décisions
+      de la phase, arbitrages, questions restées ouvertes et la prochaine
+      étape du fil directeur (01.3) — c'est l'amorce de la phase suivante
+      (remplace le Context Bundle, archivé).
 
-## 📤 Livrables Attendus
-1. Fichiers Markdown miroirs (`DOC_*.md`) dans `Master_Transversal/`
-2. Mises à jour de `Roadmap_Suivi-Avancement.md` et `config.py`
-3. Nouveau **Context Bundle** mis à jour pour amorcer la phase suivante.
+## 📤 Livrables attendus
+1. Fichiers `.ttl` capitalisés dans `Master_Transversal/` (replay)
+2. Mises à jour de `Roadmap.md`, `README.md`, `config.py` synchronisées
+3. Registre d'exigences purgé + `Phase_Content.md` clôturé (synthèse)
+4. Backlog de phase soldé (items fermés à NonReg vert, reste re-porté)
+5. Journal mémoire projet mis à jour (amorce de la phase suivante)

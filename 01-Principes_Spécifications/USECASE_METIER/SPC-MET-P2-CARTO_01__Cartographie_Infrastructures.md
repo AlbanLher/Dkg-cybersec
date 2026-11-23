@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-MET-P2-CARTO_01
-revision: 1
+revision: 2
 titre: Cartographie des Infrastructures Internes
 titre_court: carto_01
 description: Définit la modélisation de l'infrastructure interne (hôtes, sous-réseaux, dépendances, niveaux de criticité CRITICAL/MEDIUM, exposition Internet) sous marquage TLP:RED / TLP:AMBER d'un point de vue SOC, avant toute injection CTI externe.
@@ -22,6 +22,7 @@ exigences:
     titre: Marquage TLP Obligatoire
     critere: Tag TLP présent sur tout document ou graphe Turtle d'infrastructure.
     test: Linter / Pytest
+    recette: auto
 ---
 
 # 📜 Cartographie des Infrastructures Internes

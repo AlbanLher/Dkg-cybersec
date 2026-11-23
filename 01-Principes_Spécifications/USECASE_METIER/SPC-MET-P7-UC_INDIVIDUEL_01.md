@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-MET-P07-assistant_soc_foyer_01
-revision: 2
+revision: 3
 titre: Assistant SOC du Foyer et Analyse de Risque Résidentiel
 titre_court: assistant_soc_foyer
 description: Cadrage métier, modélisation comportementale et règles décisionnelles (Agent Conseil) pour la sécurité d'un réseau domestique.
@@ -21,6 +21,7 @@ exigences:
     titre: Cartographie Résidentielle
     critere: Ingestion et validation des 5 actifs du foyer.
     test: PyTest / Schéma Pydantic V2
+    recette: auto
   - id: EXG-MET-P7-02
     domaine: MET
     core: true
@@ -29,6 +30,7 @@ exigences:
     titre: Analyse d'Exposition WAN
     critere: Détection des services exposés couplée aux flux TLP:CLEAR.
     test: PyTest / Validation SPARQL
+    recette: auto
   - id: EXG-MET-P7-03
     domaine: MET
     core: true
@@ -37,6 +39,7 @@ exigences:
     titre: Restitution & Agent Conseil
     critere: Génération du rapport de risque et arbitrage de pré-installation.
     test: Validation Markdown / Test API
+    recette: auto
 ---
 
 

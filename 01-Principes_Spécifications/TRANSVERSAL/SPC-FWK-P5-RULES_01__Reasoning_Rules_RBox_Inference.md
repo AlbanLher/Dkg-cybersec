@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P5-RULES_01
-revision: 1
+revision: 3
 titre: Reasoning Rules & RBox Inference
 titre_court: reasoning_rules_01
 description: Consolidation des données par superposition de graphes. Inférence sémantique SPARQL, SWRL et isolation TLP.
@@ -24,15 +24,7 @@ exigences:
     titre: Inférence HighRiskAsset
     critere: Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe dkg:HighRiskAsset.
     test: Pytest / SPARQL
-  - id: EXG-FWK-P5-RUL_2
-    code_exigence: EXG-IN-02
-    domaine: IN
-    domaine_nom: Inférence & Graph Analytics
-    core: true
-    phase: P1
-    titre: Matérialisation Cascade
-    critere: La relation dkg:exposesToCascade doit être créée si un hôte pivot mène à un actif CRITICAL.
-    test: Pytest (test_phase5)
+    recette: auto
   - id: EXG-FWK-P5-RUL_3
     code_exigence: EXG-SE-01
     domaine: SE
@@ -42,6 +34,7 @@ exigences:
     titre: Ségrégation TLP Inférencée
     critere: Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (TLP:CLEAR).
     test: Audit Graphe / Pytest
+    recette: auto
   - id: EXG-FWK-P5-RUL_4
     code_exigence: EXG-HW-01
     domaine: HW
@@ -51,6 +44,11 @@ exigences:
     titre: Raisonnement Local Économe
     critere: L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.
     test: Benchmark / Pytest
+    recette: auto
+mise_a_niveau: "2026-11-23 — S5 (cadrage P9) : exigence redéclarée ; la déclaration canonique vit dans sa spec la plus spécifique"
+renvois:  # exigences déclarées canoniquement ailleurs — non dupliquées ici
+  - EXG-TEC-P5-DAT_2
+
 ---
 
 # 📜 Reasoning Rules & RBox Inference

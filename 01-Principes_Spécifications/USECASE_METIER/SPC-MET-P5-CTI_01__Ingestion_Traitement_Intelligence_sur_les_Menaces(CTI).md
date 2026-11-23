@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-MET-P5-CTI_01
-revision: 1
+revision: 2
 titre: Ingestion & Traitement Threat Intelligence (CTI)
 titre_court: cti_ingestion_01
 description: Définit le cadre fonctionnel d'ingestion, de qualification et de normalisation des flux de renseignement sur les menaces.
@@ -24,6 +24,7 @@ exigences:
     titre: Ingestion Flux CTI Multi-Sources
     critere: Le système doit ingérer et qualifier automatiquement les bulletins CTI non structurés en faits RDF structurés.
     test: Pytest / Audit Ingestion
+    recette: auto
 ---
 
 # 📜 Ingestion & Traitement Threat Intelligence (CTI)

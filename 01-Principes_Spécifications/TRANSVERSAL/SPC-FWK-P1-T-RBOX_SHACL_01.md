@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-FWK-P1-T-RBox_01
-revision: 1
+revision: 2
 titre: SPC-FWK-P1-T-RBOX SHACL 01
 titre_court: T-RBox
 description: |-
@@ -23,6 +23,7 @@ exigences:
     titre: "Espace de Noms & Séparateur #"
     critere: "Obligation d'utiliser le séparateur # pour la TBox/RBox."
     test: Parsing RDF
+    recette: auto
   - id: EXG-FWK-P1-T-R_2
     code_exigence: EXG-TB-02
     domaine: TB
@@ -32,6 +33,7 @@ exigences:
     titre: Typage OWL Strict
     critere: 100% des classes et propriétés doivent avoir un typage OWL formel.
     test: Parsing OWL / SPARQL
+    recette: auto
   - id: EXG-FWK-P1-T-R_3
     code_exigence: EXG-TB-03
     domaine: TB
@@ -41,6 +43,7 @@ exigences:
     titre: Déclaration Domaine & Portée
     critere: Interdiction de déclarer une owl:ObjectProperty sans rdfs:domain ni rdfs:range.
     test: Requête SPARQL TBox
+    recette: auto
   - id: EXG-FWK-P1-T-R_4
     code_exigence: EXG-TB-04
     domaine: TB
@@ -50,6 +53,7 @@ exigences:
     titre: Sémantique RBox & Inverses
     critere: Toute propriété d'objet possède une propriété inverse liée par owl:inverseOf.
     test: Check Inverses SPARQL
+    recette: auto
   - id: EXG-FWK-P1-T-R_6
     code_exigence: EXG-QU-01
     domaine: QU
@@ -59,6 +63,7 @@ exigences:
     titre: Couplage TBox ↔ SHACL
     critere: 100% des classes owl:Class possèdent au moins une sh:NodeShape dédiée.
     test: Execution pySHACL
+    recette: auto
   - id: EXG-FWK-P1-T-R_7
     code_exigence: EXG-SH-01
     domaine: SH
@@ -68,6 +73,7 @@ exigences:
     titre: Shapes Structurales Abstraites
     critere: Présence de contraintes SHACL conformes aux spécifications W3C.
     test: Execution SHACL
+    recette: auto
 ---
 
 # 📜 Méta-Architecture Ontologique TBox, RBox & SHACL

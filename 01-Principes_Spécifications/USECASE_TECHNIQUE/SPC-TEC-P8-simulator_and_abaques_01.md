@@ -1,7 +1,7 @@
 ---
 type: spec
 reference: SPC-TEC-P8-simulator_and_abaques_01
-revision: 1
+revision: 2
 titre: Simulateur Frugal & Abaques de Performance
 titre_court: simulator_and_abaques
 description: Banc d'essai automatisé pour la montée en charge progressive et la mesure de l'empreinte matérielle (Green-by-Design) sous contrainte Air-Gapped 16 Go RAM.
@@ -23,6 +23,7 @@ exigences:
     titre: Génération Procédurale Frugale
     critere: Le simulateur produit des triplets respectant le seuil de RAM fixé (< 20 Mo de delta).
     test: pytest tests/test_simulator.py
+    recette: auto
 ---
 
 # 📜 Simulateur Frugal & Abaques de Performance

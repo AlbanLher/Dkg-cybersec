@@ -1,4 +1,4 @@
-# 03-Application/core/scan_terrain.py
+# 03-Application/core/scan_engine.py
 """
 Terrain « scan » (v-real) : orchestration du scan NON INTRUSIF du poste réel
 (TLP:RED). HITL : ne s'exécute que sur clic explicite — le consentement est
@@ -10,7 +10,6 @@ Extrait de api/routes_phase8.py lors du découpage v2 (logique inchangée).
 """
 from datetime import datetime, timezone
 from pathlib import Path
-import importlib
 
 import core.config as settings
 
@@ -18,17 +17,9 @@ import core.config as settings
 def scan_orchestrate() -> dict:
     """Scan + matérialisation ABox + journalisation du consentement HITL.
     Lève RuntimeError (message propre à l'IHM) en cas d'échec."""
-    # 0. Modules agents (layout canonique core/, replis tolérés)
-    try:
-        scanner_mod = importlib.import_module("core.local_host_scanner")
-        agent_mod = importlib.import_module("core.local_host_abox_agent")
-    except Exception:
-        try:
-            scanner_mod = importlib.import_module("agents.local_host_scanner")
-            agent_mod = importlib.import_module("agents.local_host_abox_agent")
-        except Exception:
-            scanner_mod = importlib.import_module("local_host_scanner")
-            agent_mod = importlib.import_module("local_host_abox_agent")
+    # 0. Modules du scan réel (imports canoniques, layout core/ — règle A4)
+    from core.local_host_scanner import LocalHostScanner
+    from core.agent_local_host_abox import HostScanAboxAgent
 
     # 1. Journalisation du consentement HITL (format gateway _audit)
     log = settings.WORKSET_HITL_AUDIT_LOG_PATH
@@ -39,8 +30,8 @@ def scan_orchestrate() -> dict:
                 "detail='scan local non intrusif du poste (TLP:RED .private/)'\n")
 
     # 2. Scan + matérialisation ABox
-    scanner_mod.LocalHostScanner().scan_current_host()
-    result = agent_mod.HostScanAboxAgent().run()
+    LocalHostScanner().scan_current_host()
+    result = HostScanAboxAgent().run()
     if result.get("status") != "SUCCESS":
         raise RuntimeError(str(result.get("message")))
     result["mode"] = "scan"
