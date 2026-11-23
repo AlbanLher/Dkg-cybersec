@@ -1,10 +1,8 @@
 # Volume CTI local TLP:CLEAR (frugalité — cumul conservé, décocher ne supprime rien, /reset purge)
 # SOURCES: anssi_2024,cisa_kev_2025,mitre_attck_2026,nvd_cve_feed
-# 🌐 nvd_cve_feed — site distant consulté | ⬇️ téléchargé : 103,303 octets
-#    ↳ 3 requête(s) ciblée(s) — seules des CVE publiques sont envoyées
 # 🔒 Discrétion : seuls des identifiants CVE PUBLICS sont envoyés aux API — l'inventaire interne (TLP:RED) ne quitte jamais le poste
 # 💾 Local (fichier buffer) : 2,813 octets (simulation fonds : 5,271) | 🧠 RAM : 2,813 octets
-# Triplets: 57 | CVE ajoutées cette fois: 3
+# Triplets: 57 | CVE ajoutées cette fois: 0
 # # --- anssi_2024 (ANSSI) --- # Bulletin ANSSI — SMBv1 / EternalBlue # ALERTE CTI CERT-FR : Exploitation active du protocole SMBv1 (CVE-2017-0144) avec implant DoublePulsar par APT29...
 # # --- cisa_kev_2025 (CISA) --- # Rapport CISA KEV — Botnet RTSP FreeRTOS # CISA KEV : Recrutement massif de caméras IP FreeRTOS sur le port RTSP 554 au sein de botnets DDoS...
 # # --- mitre_attck_2026 (MITRE) --- # MITRE ATT&CK — T1210 Exploitation of Remote Services # MITRE ATT&CK T1210 : Adversaries may attempt to exploit software vulnerabilities in client/server applications...

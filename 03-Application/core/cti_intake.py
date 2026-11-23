@@ -1,16 +1,21 @@
 # 03-Application/core/cti_intake.py
 """
-Agent CTI / ingestion frugale (EXG-MET-P8-DEM_2, EXG-FWK-P8-AGE_1) :
-sonde v-live des sources distantes (HEAD + sous-ensemble Green/discret),
-extraction des CVE/acteurs du fonds seed vers le buffer workset TLP:CLEAR
-(cumul idempotent), ratios de frugalité distant/local/RAM.
-Extrait de api/routes_phase8.py lors du découpage v2 (logique inchangée).
+MOTEUR|INTAKE — ingestion CTI frugale v-live — recette/EXG :
+  EXG-MET-P8-DEM_2, EXG-FWK-P8-AGE_1 ; EXG-FWK-P9-GTW_2 (P9 rév. 3 —
+  écriture M2 tracée au sas hitm_gateway.record_write).
+Agent CTI / ingestion frugale : sonde v-live des sources distantes
+(HEAD + sous-ensemble Green/discret), extraction des CVE/acteurs du fonds
+seed vers le buffer workset TLP:CLEAR (cumul idempotent), ratios de
+frugalité distant/local/RAM. Extrait de api/routes_phase8.py lors du
+découpage v2 (logique inchangée).
+Rév. 2026-11-23 — Design C1 greffon 2b : preuve M2 au journal unique du sas.
 """
 import re
 from typing import List, Dict
 
 import core.config as settings
 from core.local_volumes import _read, _resolve_source_keywords
+from core.hitm_gateway import record_write
 
 # --- Sources distantes réelles (v-live) ----------------------------------------
 # Chaque entrée : url du flux public + stratégie de sous-ensemble.
@@ -245,6 +250,15 @@ def build_cti_buffer(source_ids: List[str]) -> dict:
         "# " + b.replace("\r", " ").replace("\n", " ") for b in bulletins)
     ttl = header + (bulletin_lines + "\n" if bulletin_lines else "") + body
     buf.write_text(ttl, encoding="utf-8")
+    # GREFFON 2b (Design C1, GTW_2) : l'écriture M2 (ingestion CTI au buffer)
+    # est tracée au JOURNAL UNIQUE du sas — une seule écriture (ici), une
+    # seule preuve (hitm_gateway). Un cumul sans nouvelle source n'est pas
+    # une ingestion, donc pas de trace.
+    if new_sources:
+        record_write("M2", "CTI_INGEST",
+                     detail=f"{added} CVE ajoutées, {len(g)} triplets, "
+                            f"sources: {','.join(new_sources)}",
+                     target="WORKSET_CTI_BUFFER")
     return {"cti_clear_ttl": ttl, "buffer_path": str(buf),
             "sources_volume_bytes": funds_bytes,
             "local_volume_bytes": local_bytes,

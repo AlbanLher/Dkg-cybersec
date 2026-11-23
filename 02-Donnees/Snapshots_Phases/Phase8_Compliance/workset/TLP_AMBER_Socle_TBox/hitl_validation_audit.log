@@ -1,4 +1,7 @@
-[2026-11-23T13:12:51+00:00] HITL_RESET user_click='WORKSET-RESTORED' delta_sha256=-
-[2026-11-23T13:12:55+00:00] SCAN_APPROVE user_click='scan' delta_sha256=- detail='scan local non intrusif du poste (TLP:RED .private/)'
-[2026-11-23T13:13:06+00:00] HITL_APPROVE user_click='APPROVE' delta_sha256=cca79f408629
-[2026-11-23T13:13:32+00:00] HITL_APPROVE user_click='APPROVE' delta_sha256=c5765ff573d4
+[2026-11-23T16:21:09+00:00] HITL_RESET user_click='WORKSET-RESTORED' delta_sha256=-
+[2026-11-23T16:21:34+00:00] HITL_APPROVE user_click='APPROVE' delta_sha256=cca79f408629
+[2026-11-23T16:22:03+00:00] CTI_INGEST regime='M2' detail='1 CVE ajoutées, 16 triplets, sources: anssi_2024' delta_sha256=734d853ef99f target='WORKSET_CTI_BUFFER'
+[2026-11-23T16:22:06+00:00] CTI_INGEST regime='M2' detail='2 CVE ajoutées, 57 triplets, sources: cisa_kev_2025' delta_sha256=e6d40c64c0a3 target='WORKSET_CTI_BUFFER'
+[2026-11-23T16:22:09+00:00] CTI_INGEST regime='M2' detail='0 CVE ajoutées, 57 triplets, sources: mitre_attck_2026' delta_sha256=37224501408b target='WORKSET_CTI_BUFFER'
+[2026-11-23T16:22:13+00:00] CTI_INGEST regime='M2' detail='3 CVE ajoutées, 57 triplets, sources: nvd_cve_feed' delta_sha256=f2403785b09c target='WORKSET_CTI_BUFFER'
+[2026-11-23T16:22:25+00:00] HITL_APPROVE user_click='APPROVE' delta_sha256=c5765ff573d4

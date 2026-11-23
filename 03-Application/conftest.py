@@ -39,6 +39,7 @@ FILE_DOMAIN_MAPPING = {
     "test_phase8_demonstrateur.py": "MET",    # Démonstrateur P8 (EXG-MET-P8-DEM_*) — domaine officialisé
     "test_phase8_confrontation.py": "MET",  # pipeline confrontation (DEM_2, RES_1)
     "test_shacl_conformance.py": "SH",      # SHACL Shapes (à ajuster si besoin)
+    "test_hitm_gateway.py": "SE",         # Passerelle HITL & régimes (C1/P9)
     "test_dkg_pipeline.py": "TEC",           # Technique & Core Framework
     "test_mcp_server.py": "TEC",             # Technique & Core Framework
 }

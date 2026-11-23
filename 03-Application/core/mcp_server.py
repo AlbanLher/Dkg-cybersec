@@ -1,9 +1,13 @@
 """
 03-Application/core/mcp_server.py
-Serveur MCP (Model Context Protocol) & API FastAPI central pour DKG-CyberSec.
-Expose l'ensemble des capacités (Simulateur, Filtre Frugal, Agent MITM, Orchestrateur SOC, Agent TBox)
-sous un format standardisé et souverain (Air-Gapped) ainsi qu'en API REST pour l'IHM.
-Traçability : EXG-TEC-P8-soc_1 (API asynchrone timeout 30s), EXG-TEC-P8-soc_3 (MCP-ready)
+GATEWAY|EXPOSITION — serveur MCP & API FastAPI central — recette/EXG :
+  EXG-TEC-P8-soc_1 (API asynchrone timeout 30s), EXG-TEC-P8-soc_3 (MCP-ready),
+  EXG-FWK-P9-GTW_1 (P9 rév. 3 : exposition MCP du sas hitm_gateway).
+Expose l'ensemble des capacités (Simulateur, Filtre Frugal, Agent MITM,
+Orchestrateur SOC, Agent TBox, Passerelle HITL) sous un format standardisé
+et souverain (Air-Gapped) ainsi qu'en API REST pour l'IHM.
+Rév. 2026-11-23 — Design C1 greffon 3 : outils hitm_* (import direct core.*,
+jamais via api/ — loi de séparation).
 """
 
 import sys
@@ -25,6 +29,7 @@ from core.soc_engine import run_soc_audit_pipeline
 from core.mitm_engine import MITMEngine
 from core.agent_tbox_guardian import TBoxGuardianAgent
 from core import config
+from core.hitm_gateway import approve_and_merge, reject, reset_demo
 
 # Initialisation de l'application FastAPI pour le Frontend
 app = FastAPI(
@@ -106,6 +111,8 @@ def get_audit(source: str = Query("local", enum=["local", "family", "scan"])):
     try:
         if source == "scan":
             # Délégation au démonstrateur P8 : audit sur l'ABox du scan réel
+            # Trace P11 : import d'une route applicative depuis le serveur MCP
+            # (couple inverse) — à arbitrer avec la question des 2 apps FastAPI.
             from api.routes_phase8 import run_phase8_audit, AuditRequest
             result = run_phase8_audit(
                 AuditRequest(mode="scan", enabled_network_sources=[]))
@@ -172,7 +179,6 @@ def get_compliance_report():
 
 
 
-
 @app.get("/")
 def read_root():
     """Page d'accueil de l'API Backend DKG-CyberSec."""
@@ -188,24 +194,6 @@ def read_root():
             "abox_reset": "/api/v1/abox/reset (POST)"
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -228,7 +216,12 @@ class DKGMCPRegistry:
             {"name": "run_mitm_reconciliation", "description": "Active l'Agent MITM.", "parameters": {}},
             {"name": "run_soc_audit_pipeline", "description": "Lance l'audit SOC complet.", "parameters": {}},
             {"name": "run_tbox_guardian_pipeline", "description": "Déclenche l'Agent Gardien TBox sous contrôle HitM.", "parameters": {}},
-            {"name": "scan_local_host", "description": "Scan non intrusif du poste (TLP:RED, HITL) + ABox .private/"}
+            {"name": "scan_local_host", "description": "Scan non intrusif du poste (TLP:RED, HITL) + ABox .private/"},
+            # --- GREFFON 3 (Design C1, EXG-FWK-P9-GTW_1) : exposition MCP du sas ---
+            {"name": "hitm_merge_delta", "description": "Soumet un delta TBox au sas HITL : parse + SHACL + fusion idempotente dans le working set (régime M1).", "parameters": {"delta_ttl": "str"}},
+            {"name": "hitm_reject_delta", "description": "Issue explicite de rejet opérateur d'une proposition TBox (tracée au journal du sas).", "parameters": {"delta_ttl": "str"}},
+            {"name": "hitm_reset_workset", "description": "Restaure le working set depuis les seeds (seeds jamais modifiés, RES_1).", "parameters": {}},
+            {"name": "hitm_audit_tail", "description": "Lecture seule : 20 derniers événements du journal HITL (régimes, SHA, UTC).", "parameters": {}}
         ]
 
     @staticmethod
@@ -244,8 +237,21 @@ class DKGMCPRegistry:
         elif tool_name == "run_tbox_guardian_pipeline":
             return TBoxGuardianAgent().inspect_and_propose_enrichment()
         elif tool_name == "scan_local_host":
+            # Trace P11 : délégation à une route applicative (2 apps FastAPI)
             from api.routes_phase8 import scan_local_host
             return scan_local_host()
+        # --- GREFFON 3 : le sas, en import direct core.* (jamais via api/) ---
+        elif tool_name == "hitm_merge_delta":
+            return approve_and_merge(arguments.get("delta_ttl", ""))
+        elif tool_name == "hitm_reject_delta":
+            return reject(arguments.get("delta_ttl", ""))
+        elif tool_name == "hitm_reset_workset":
+            return reset_demo()
+        elif tool_name == "hitm_audit_tail":
+            log = config.WORKSET_HITL_AUDIT_LOG_PATH
+            lines = (log.read_text(encoding="utf-8").splitlines()[-20:]
+                     if log.exists() else [])
+            return {"log_tail": lines}
         else:
             raise ValueError(f"Outil MCP non reconnu : {tool_name}")
 

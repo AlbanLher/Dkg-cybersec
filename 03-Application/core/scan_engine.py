@@ -22,12 +22,11 @@ def scan_orchestrate() -> dict:
     from core.agent_local_host_abox import HostScanAboxAgent
 
     # 1. Journalisation du consentement HITL (format gateway _audit)
-    log = settings.WORKSET_HITL_AUDIT_LOG_PATH
-    log.parent.mkdir(parents=True, exist_ok=True)
-    ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    with open(log, "a", encoding="utf-8") as f:
-        f.write(f"[{ts}] SCAN_APPROVE user_click='scan' delta_sha256=- "
-                "detail='scan local non intrusif du poste (TLP:RED .private/)'\n")
+    # Consentement HITL — preuve unique au sas (GTW_2, régime M1)
+    from core.hitm_gateway import record_write
+    record_write("M1", "SCAN_APPROVE",
+                 detail="scan local non intrusif du poste (TLP:RED .private/)",
+                 target=".private/")
 
     # 2. Scan + matérialisation ABox
     LocalHostScanner().scan_current_host()
