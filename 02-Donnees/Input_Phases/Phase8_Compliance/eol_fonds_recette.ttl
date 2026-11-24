@@ -1,0 +1,47 @@
+# 02-Donnees/Input_Phases/Phase8_Compliance/eol_fonds_recette.ttl
+# Fonds EOL de recette sandbox — TLP:CLEAR, faits publics de cycle de vie
+# (aucune donnée du poste, jamais le scan réel). Offline-first (FRG_1) :
+# le moteur eol_engine simule la source stand-by depuis ce fonds en recette.
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-eol: <http://dkg.cybersec.org/eol#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-eol:eol-windows-7 a dkg-eol:EndOfLife ;
+    dkg:productName "Windows 7" ; dkg:componentVersion "6.1" ;
+    dkg:supportStatus "end-of-life" ;
+    dkg:eolDate "2020-01-14"^^xsd:date ;
+    dkg:sourceNote "Support étendu terminé — Microsoft Lifecycle (fait public)" ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:providedBy dkg-eol:eol_source .
+
+dkg-eol:eol-ubuntu-1604 a dkg-eol:EndOfLife ;
+    dkg:productName "Ubuntu" ; dkg:componentVersion "16.04 LTS" ;
+    dkg:supportStatus "end-of-life" ;
+    dkg:eolDate "2021-04-01"^^xsd:date ;
+    dkg:sourceNote "Fin de support standard — Canonical release cycle (fait public)" ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:providedBy dkg-eol:eol_source .
+
+dkg-eol:eol-debian-9 a dkg-eol:EndOfLife ;
+    dkg:productName "Debian GNU/Linux" ; dkg:componentVersion "9 (stretch)" ;
+    dkg:supportStatus "end-of-life" ;
+    dkg:eolDate "2022-06-30"^^xsd:date ;
+    dkg:sourceNote "Fin de LTS — Debian security tracker (fait public)" ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:providedBy dkg-eol:eol_source .
+
+dkg-eol:eol-centos-7 a dkg-eol:EndOfLife ;
+    dkg:productName "CentOS Linux" ; dkg:componentVersion "7" ;
+    dkg:supportStatus "end-of-life" ;
+    dkg:eolDate "2024-06-30"^^xsd:date ;
+    dkg:sourceNote "Fin de maintenance — Project CentOS annonce EOL (fait public)" ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:providedBy dkg-eol:eol_source .
+
+dkg-eol:eol-oracle-jdk-8-public a dkg-eol:EndOfLife ;
+    dkg:productName "Oracle JDK" ; dkg:componentVersion "8 (updates publics)" ;
+    dkg:supportStatus "end-of-life" ;
+    dkg:eolDate "2019-01-01"^^xsd:date ;
+    dkg:sourceNote "Fin des mises à jour publiques — Oracle Java SE support roadmap (fait public)" ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:providedBy dkg-eol:eol_source .

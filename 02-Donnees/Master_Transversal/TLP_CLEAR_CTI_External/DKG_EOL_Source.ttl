@@ -1,0 +1,54 @@
+# Volume EOL TLP:CLEAR — ABox Externe (frugalité : cumul conservé, ingestion par delta idempotente, offline-first)
+# SOURCES: eol_source
+# 🌐 eol_source — STAND-BY / HORS-LIGNE () : volume simulé depuis le fonds de recette local
+# 📊 RATIOS — distant sondé : 0 octets | téléchargé : 0 | persisté en local : 1,972 | RAM : 1,972 octets
+# Triplets: 40 | instances EOL ajoutées cette fois: 0
+@prefix dkg: <http://dkg.cybersec.org/tbox#> .
+@prefix dkg-eol: <http://dkg.cybersec.org/eol#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-eol:eol-centos-7 a dkg-eol:EndOfLife ;
+    dkg:componentVersion "7" ;
+    dkg:eolDate "2024-06-30"^^xsd:date ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:productName "CentOS Linux" ;
+    dkg:providedBy dkg-eol:eol_source ;
+    dkg:sourceNote "Fin de maintenance — Project CentOS annonce EOL (fait public)" ;
+    dkg:supportStatus "end-of-life" .
+
+dkg-eol:eol-debian-9 a dkg-eol:EndOfLife ;
+    dkg:componentVersion "9 (stretch)" ;
+    dkg:eolDate "2022-06-30"^^xsd:date ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:productName "Debian GNU/Linux" ;
+    dkg:providedBy dkg-eol:eol_source ;
+    dkg:sourceNote "Fin de LTS — Debian security tracker (fait public)" ;
+    dkg:supportStatus "end-of-life" .
+
+dkg-eol:eol-oracle-jdk-8-public a dkg-eol:EndOfLife ;
+    dkg:componentVersion "8 (updates publics)" ;
+    dkg:eolDate "2019-01-01"^^xsd:date ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:productName "Oracle JDK" ;
+    dkg:providedBy dkg-eol:eol_source ;
+    dkg:sourceNote "Fin des mises à jour publiques — Oracle Java SE support roadmap (fait public)" ;
+    dkg:supportStatus "end-of-life" .
+
+dkg-eol:eol-ubuntu-1604 a dkg-eol:EndOfLife ;
+    dkg:componentVersion "16.04 LTS" ;
+    dkg:eolDate "2021-04-01"^^xsd:date ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:productName "Ubuntu" ;
+    dkg:providedBy dkg-eol:eol_source ;
+    dkg:sourceNote "Fin de support standard — Canonical release cycle (fait public)" ;
+    dkg:supportStatus "end-of-life" .
+
+dkg-eol:eol-windows-7 a dkg-eol:EndOfLife ;
+    dkg:componentVersion "6.1" ;
+    dkg:eolDate "2020-01-14"^^xsd:date ;
+    dkg:hasTLPMarking "TLP:CLEAR" ;
+    dkg:productName "Windows 7" ;
+    dkg:providedBy dkg-eol:eol_source ;
+    dkg:sourceNote "Support étendu terminé — Microsoft Lifecycle (fait public)" ;
+    dkg:supportStatus "end-of-life" .
+

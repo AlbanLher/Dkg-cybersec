@@ -5,7 +5,10 @@
       "name": "PC Portable Travail (Windows 10)",
       "ip_address": "192.168.1.10",
       "os": "Windows 10 Pro (Build 19042)",
-      "exposed_services": ["SMBv1 (Port 445)", "RDP (Port 3389)"],
+      "exposed_services": [
+        "SMBv1 (Port 445)",
+        "RDP (Port 3389)"
+      ],
       "zone": "LAN_DOMESTIQUE"
     }
   ],
@@ -45,6 +48,16 @@
       "local_ttl_file": "DKG_ABox_CTI_External.ttl",
       "content": "NVD CVE-2017-0144 : Vulnerability in SMBv1 allows remote attackers to execute arbitrary code...",
       "extracted_triples": "dkg-cti:Vuln_EternalBlue dkg:hasCVSS '9.8' ."
+    }
+  ],
+  "eol_sources": [
+    {
+      "id": "eol_source",
+      "acronym": "EOL",
+      "label": "Catalogue End-of-Life (stand-by recette, offline-first)",
+      "mode": "fonds-local",
+      "url": "",
+      "content": "Dates de fin de support publiques (sandbox recette). Repli hors-ligne : fonds local eol_fonds_recette.ttl."
     }
   ]
 }

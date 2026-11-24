@@ -321,6 +321,10 @@ DIR_INPUTS_P7 = _settings.dir_inputs_p7
 DIR_PROJET_P7 = _settings.dir_projet_p7
 DIR_PRIVATE_RED = _settings.dir_private_red
 DIR_INPUTS_P8 = _settings.dir_inputs_p8
+# Brique C2 (EOL_1/2/3) : volume EOL de l ABox Externe + fonds de recette sandbox
+ABOX_EXTERNE_EOL_PATH = DIR_ABOX_EXTERNE / "DKG_EOL_Source.ttl"
+EOL_SOURCE_ID = "eol_source"
+EOL_FONDS_RECETTE_PATH = DIR_INPUTS_P8 / "eol_fonds_recette.ttl"
 DIR_SNAPSHOT_P8 = _settings.dir_snapshot_p8
 DIR_PROJET_P8 = _settings.dir_projet_p8          # (coquille dir_projet_p8i corrigée)
 
