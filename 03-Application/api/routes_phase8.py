@@ -8,6 +8,7 @@ Tout est délégué aux modules core/ (découpage v2) :
   core/mermaid_views.py   — vues Mermaid (DEM_4b) — présentation pure
   core/frugality_metrics.py — abaque Green-Dev 
   core/scan_engine.py    — terrain « scan » réel (HITL journalisé)
+  core/eol_engine.py     — moteur EOL (Brique C2) — ingestion frugale
   core/hitm_gateway.py   — Gatekeeper HITL  — inchangé
 Lectures : TBox/RBox = WORKING SET ; ABox = SEEDS ou scan .private/ ;
 CTI = buffer workset (cumul frugal, seul /reset purge — RES_1).
@@ -26,6 +27,7 @@ from core.hitm_gateway import (approve_and_merge, reject, reset_demo,
 from core.local_volumes import (_read, _load_abox_by_mode,
                                  _resolve_source_keywords)
 from core.cti_intake import build_cti_buffer
+from core.eol_engine import ingest_eol_source
 from core.audit_engine import _generate_risk_analysis
 from core.mermaid_views import (tbox_graph_mermaid, abox_graph_mermaid,
                                  _generate_superposition_mermaid)
@@ -89,6 +91,20 @@ async def select_cti_sources(payload: CtiSelectRequest):
     (sonde distante des NOUVELLES sources, buffer cumulatif idempotent,
     ratios distant/local/RAM). Repli hors-ligne silencieux (GOU_13)."""
     return build_cti_buffer(payload.source_ids)
+
+@router.post("/eol/ingest")
+async def ingest_eol():
+    """EXG-FWK-P9-EOL_1 (Brique C2 V5) : adaptateur FIN — délégation pure
+    au moteur EOL core/eol_engine (ingestion frugale par delta idempotent,
+    offline-first, sas M2 EOL_INGEST côté moteur). La réponse est le dict
+    du moteur (ratios distant/local/RAM, volume EOL ABox Externe
+    TLP:CLEAR). Registre MCP : arbitré P11, la brique reste serveable
+    ici en API REST (contrat minimal). Aucune logique métier ici."""
+    try:
+        return ingest_eol_source()
+    except Exception as e:
+        raise HTTPException(status_code=500,
+            detail=f"Ingestion EOL échouée : {str(e)[:120]}")
 
 @router.get("/sources", response_model=List[SourceCatalogItem])
 async def get_external_sources_catalog():
