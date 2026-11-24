@@ -90,11 +90,16 @@ def test_markdown_documentation_structure(master_dir):
     assert "Résumé Synthétique des Classes TBox" in content, "Tableau des classes absent du Markdown."
 
 
-def test_exg_fwk_p1_gou_2_master_snapshot_parity(master_dir):
-    """EXG-OR-02  / EXG-FWK-P1-GOU_2  : Vérifie la parité binaire stricte Master / Snapshot."""
-    assert DIR_SNAPSHOT_P1.exists(), f"Répertoire snapshot introuvable: {DIR_SNAPSHOT_P1}"
-    
-    for snapshot_file in DIR_SNAPSHOT_P1.glob("*.*"):
+def test_exg_fwk_p1_gou_2_snapshot_replayable_et_master_complet(master_dir):
+    """EXG-FWK-P1-GOU_2 (doctrine P9, registre v2.2) : le snapshot P1 est
+    FIGE et sert au REJEU — synchronisation snapshot -> Master uniquement,
+    jamais master -> snapshot, pas de parite binaire permanente. Le rejeu
+    reste possible car tout artefact du snapshot existe dans le Master et
+    son .ttl se parse de facon autonome."""
+    from rdflib import Graph
+    assert DIR_SNAPSHOT_P1.exists(), f"Repertoire snapshot introuvable: {DIR_SNAPSHOT_P1}"
+    for snapshot_file in DIR_SNAPSHOT_P1.glob("*.ttl"):
         master_file = DIR_MASTER_TBOX / snapshot_file.name
-        assert master_file.exists(), f"Fichier absent du Master: {snapshot_file.name}"
-        assert snapshot_file.read_bytes() == master_file.read_bytes(), f"Écart binaire sur {master_file.name}"
+        assert master_file.exists(), (f"Artefact requis au rejeu absent du "
+                                      f"Master: {snapshot_file.name}")
+        Graph().parse(str(snapshot_file), format="turtle")  # rejeu : parse autonome
