@@ -70,3 +70,10 @@ DKG_ABox_Residential_Local.ttl
 *.key
 *.enc
 !*.md  # On garde les README dans .private/
+
+# Artefacts runtime (jamais versionnés — doctrine 24/11/2026)
+**/api_gateway_audit.log
+**/resource_profile_report.json
+**/frugal_delta_buffer.ttl
+**/hitl_validation_audit.log
+02-Donnees/Snapshots_Phases/*/workset/
