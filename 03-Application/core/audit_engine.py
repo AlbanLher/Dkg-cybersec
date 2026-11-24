@@ -8,6 +8,10 @@ SPC-FWK-P8_Agent_Gardien_RefExt rév. 2) : toute classe/propriété de la
 TBox de référence sans skos:prefLabel FR+EN ou sans skos:definition
 génère un delta d'annotation HITL (jamais fusionné automatiquement).
 Extrait de api/routes_phase8.py lors du découpage v2 ; contrôle SKOS v3.
+GREFFON EOL_3 (Brique C2 V4, EXG-FWK-P9-EOL_3 + EOL_2/FRG_1) : les findings
+sont enrichis par jointure SPARQL composant ABox - instance dkg-eol du
+volume EOL de l ABox Externe (TLP:CLEAR), jamais par regex sur le .ttl ;
+les findings sans correspondance EOL restent strictement inchangés.
 Traçabilité : EXG-MET-P8-DEM_1 (bilan NL), EXG-FWK-P1-GOU_22
 (vocabulaire non déclaré → proposition delta), EXG-FWK-P1-GOU_18
 (couche SKOS), EXG-MET-P8-DEM_7 (adaptateur pur).
@@ -36,6 +40,43 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?e ?lbl ?cmt WHERE {
   OPTIONAL { ?e rdfs:label ?lbl }
   OPTIONAL { ?e rdfs:comment ?cmt }
+}
+"""
+
+# --- Greffon EOL_3 (Brique C2) : jointure SPARQL composant-instance dkg-eol --
+# Correspondance en deux étages (lecture seule sur l UNION des graphes) :
+#   1. strict : même nom de produit ET même version ;
+#   2. repli : composant sans version connue (unknown/absente).
+# Toute correspondance porte la date EOL sourcée et son triplet source
+# (dkg:sourceNote) — jamais de regex sur le .ttl EOL (EOL_2/AGE_1).
+_EOL_LINK_STRICT = """
+PREFIX dkg: <http://dkg.cybersec.org/tbox#>
+PREFIX dkg-eol: <http://dkg.cybersec.org/eol#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?comp ?clabel ?asset ?alabel ?ed ?sn ?st WHERE {
+  ?comp a dkg:SoftwareComponent ; rdfs:label ?clabel ; dkg:version ?cv .
+  ?e a dkg-eol:EndOfLife ; dkg:productName ?pn ; dkg:componentVersion ?pv ;
+     dkg:supportStatus ?st ; dkg:eolDate ?ed ; dkg:sourceNote ?sn .
+  FILTER (LCASE(STR(?clabel)) = LCASE(STR(?pn)))
+  FILTER (LCASE(STR(?cv)) = LCASE(STR(?pv)))
+  OPTIONAL { ?comp dkg:isComponentOf ?asset .
+             OPTIONAL { ?asset rdfs:label ?alabel } }
+}
+"""
+
+_EOL_LINK_LOOSE = """
+PREFIX dkg: <http://dkg.cybersec.org/tbox#>
+PREFIX dkg-eol: <http://dkg.cybersec.org/eol#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?comp ?clabel ?asset ?alabel ?ed ?sn ?st WHERE {
+  ?comp a dkg:SoftwareComponent ; rdfs:label ?clabel .
+  OPTIONAL { ?comp dkg:version ?cv }
+  FILTER (!BOUND(?cv) || LCASE(STR(?cv)) = "unknown")
+  ?e a dkg-eol:EndOfLife ; dkg:productName ?pn ;
+     dkg:supportStatus ?st ; dkg:eolDate ?ed ; dkg:sourceNote ?sn .
+  FILTER (LCASE(STR(?clabel)) = LCASE(STR(?pn)))
+  OPTIONAL { ?comp dkg:isComponentOf ?asset .
+             OPTIONAL { ?asset rdfs:label ?alabel } }
 }
 """
 
@@ -116,7 +157,7 @@ def _skos_annotation_delta(tbox_ttl: str) -> Optional[str]:
             + header + "\n" + "\n\n".join(parts) + "\n")
 
 
-def _generate_risk_analysis(abox: str, cti: str) -> Tuple[List[Dict[str, Any]], Optional[str]]:
+def _generate_risk_analysis(abox: str, cti: str, eol: str = "") -> Tuple[List[Dict[str, Any]], Optional[str]]:
     """
     Exécute EXG-FWK-P8-AGE_1 : bilan NL calculé par SPARQL sur le graphe ABox
     (Local-First, ordre de sérialisation indépendant). Regex INTERDITE sur le
@@ -124,6 +165,13 @@ def _generate_risk_analysis(abox: str, cti: str) -> Tuple[List[Dict[str, Any]], 
     EXG-CONF_1 : les findings de confrontation (présents dans l'ABox passée
     quand le CTI est coché) sont détectés par la même requête SPARQL — aucun
     code dédié : le delta avant/après CTI est automatique.
+    GREFFON EOL_3 (Brique C2 V4) : le paramètre eol (texte TTL du volume EOL
+    de l ABox Externe) est OPTIONNEL et se replie sur le SSOT
+    settings.ABOX_EXTERNE_EOL_PATH — les appelants existants (routes, tests)
+    restent inchangés. Toute correspondance composant-instance dkg-eol
+    enrichit le finding concerné (statut support + date EOL sourcée + triplet
+    source dkg:sourceNote) ; les findings sans correspondance EOL ainsi que
+    les non-audits restent strictement inchangés (non-régression).
     Delta HITL proposé UNIQUEMENT sur écart réel vs la TBox DE RÉFÉRENCE
     (§25 base saine : 0 proposition au premier audit ; les écarts viennent du
     CTI coché — exploitsWeakness, isCisaKev). Jamais d'écriture auto (DEM_3).
@@ -146,6 +194,40 @@ def _generate_risk_analysis(abox: str, cti: str) -> Tuple[List[Dict[str, Any]], 
         })
 
     if g is not None:
+        # GREFFON EOL_3 (Brique C2 V4) : correspondances composant ABox -
+        # instance dkg-eol du volume EOL (TLP:CLEAR), jointure SPARQL sur
+        # l UNION LOCALE des graphes, en lecture seule — aucune écriture,
+        # jamais de regex sur le .ttl EOL. Volume absent ou non parsable =
+        # ligne visible, jamais de crash ni de suppression silencieuse.
+        eol_hits: Dict[str, Dict[str, Any]] = {}
+        eol_notice = ""
+        eol_ttl = eol if eol else _read(settings.ABOX_EXTERNE_EOL_PATH)
+        if eol_ttl and "File not found" not in eol_ttl:
+            try:
+                g_eol = Graph()
+                g_eol.parse(data=eol_ttl, format="turtle")
+                ug = g + g_eol
+                seen: set = set()
+                for q_link in (_EOL_LINK_STRICT, _EOL_LINK_LOOSE):
+                    for row in ug.query(q_link):
+                        cu = str(row.comp)
+                        if cu in seen:
+                            continue
+                        seen.add(cu)
+                        eol_hits[cu] = {
+                            "label": str(row.clabel),
+                            "asset": (str(row.alabel) if row.alabel else
+                                      (str(row.asset).split("#")[-1]
+                                       .split("/")[-1] if row.asset
+                                       else "Équipement inconnu")),
+                            "eol_date": str(row.ed),
+                            "source_note": str(row.sn),
+                            "support_status": str(row.st)}
+            except Exception as parse_err:
+                eol_notice = (f"⚠️ Volume EOL non parsable (rdflib) : "
+                              f"{str(parse_err)[:120]} — enrichissement EOL ignoré")
+        comp_covered: set = set()
+
         q = """
         PREFIX dkg: <http://dkg.cybersec.org/tbox#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -191,12 +273,28 @@ def _generate_risk_analysis(abox: str, cti: str) -> Tuple[List[Dict[str, Any]], 
                 severity = ("RED" if score and score >= 9.0
                             else ("AMBER" if score and score >= 7.0 else "CLEAR"))
                 action = "Mise à jour du composant conseillée (patch éditeur)"
-            bilan.append({
+            finding = {
                 "equipment": alabel,
                 "component": f"{clabel} — {vlabel} ({vid})",
                 "linkage": "formel",                     # DEM_4 : graphe formel
                 "status": status, "severity": severity, "action": action
-            })
+            }
+            # GREFFON EOL_3 (Brique C2) : composant du finding en fin de
+            # support → statut étoffé CVE/KEV + EOL sourcée (date EOL + note
+            # de la source publique), action recalée sur la migration. Le
+            # triplet source (dkg:sourceNote) voyage avec le finding.
+            hit = eol_hits.get(str(row.comp)) if row.comp else None
+            if hit:
+                comp_covered.add(str(row.comp))
+                finding["status"] = (
+                    f"{status} ; Fin de support (EOL) : {hit['eol_date']} "
+                    f"({hit['support_status']}) — source : {hit['source_note'][:90]}")
+                finding["action"] = ("Migration vers un composant supporté "
+                                     "requise (fin de support confirmée par "
+                                     "la source EOL publique)")
+                finding["eol_date"] = hit["eol_date"]
+                finding["eol_source_note"] = hit["source_note"]
+            bilan.append(finding)
 
         if any(k in cti_lower for k in ("smbv1", "smb v1", "end-of-life", "eol")):
             q_eol = """
@@ -218,6 +316,32 @@ def _generate_risk_analysis(abox: str, cti: str) -> Tuple[List[Dict[str, Any]], 
                     "severity": "RED",
                     "action": "Désactivation immédiate conseillée"
                 })
+
+        # GREFFON EOL_3 (Brique C2) : un composant en fin de support SANS
+        # vulnérabilité connue dans l ABox audité produit quand même un
+        # finding EOL autonome (date sourcée + triplet source) — la fin de
+        # support est un risque en soi (plus de correctifs).
+        for cu, hit in sorted(eol_hits.items()):
+            if cu in comp_covered:
+                continue
+            bilan.append({
+                "equipment": hit["asset"],
+                "component": hit["label"],
+                "linkage": "formel",
+                "status": (f"Fin de support confirmée (EOL) : {hit['eol_date']} "
+                           f"({hit['support_status']}) — source : "
+                           f"{hit['source_note'][:90]}"),
+                "severity": "AMBER",
+                "action": "Migration vers un composant supporté requise",
+                "eol_date": hit["eol_date"],
+                "eol_source_note": hit["source_note"]
+            })
+        if eol_notice:
+            bilan.append({
+                "equipment": "ABox locale", "component": "-",
+                "status": eol_notice, "severity": "AMBER",
+                "action": "Corriger le volume EOL (DKG_EOL_Source.ttl)"
+            })
 
     if not bilan:
         bilan.append({
