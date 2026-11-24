@@ -89,7 +89,7 @@ def _resolve_source_keywords(source_ids: List[str]) -> tuple:
 
 def _select_cti_subset(keywords: List[str]) -> str:
     """Sous-graphe CTI CLEAR local filtré par mots-clés (id/acronyme/label)."""
-    cti_dir = settings.DIR_CTI_CLEAR
+    cti_dir = settings.DIR_ABOX_EXTERNE
     kws = [k.lower() for k in keywords if k]
     parts = [f"# Sous-graphe CTI sélectionné : {keywords or '(aucun)'}"]
     matched_any = False

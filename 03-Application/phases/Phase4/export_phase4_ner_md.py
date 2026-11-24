@@ -17,7 +17,7 @@ if str(BASE_DIR) not in sys.path:
 from config import (
     ABOX_CTI_U_PATH,
     ABOX_CTI_U_MD_PATH,
-    DIR_CTI_CLEAR,
+    DIR_ABOX_EXTERNE,
     DIR_SNAPSHOT_P4
 )
 
@@ -142,7 +142,7 @@ def generate_ner_markdown() -> None:
     print(f"📦 Documentation Snapshot créée : {snapshot_md_path}")
 
     # 2. Copie Master
-    DIR_CTI_CLEAR.mkdir(parents=True, exist_ok=True)
+    DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
     if snapshot_md_path.resolve() != master_md_path.resolve():
         shutil.copy(snapshot_md_path, master_md_path)
         print(f"✅ Documentation Master synchronisée : {master_md_path}")

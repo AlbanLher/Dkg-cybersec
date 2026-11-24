@@ -300,10 +300,10 @@ DIR_SNAPSHOT_P2 = _settings.dir_snapshot_p2
 DIR_MASTER_ABOX = _settings.dir_master_abox
 DIR_INPUTS_P3 = _settings.dir_inputs_p3
 DIR_SNAPSHOT_P3 = _settings.dir_snapshot_p3
-DIR_CTI_ABOX = _settings.dir_cti_abox
 DIR_TBOX_AMBER = _settings.dir_master_tbox
 DIR_ABOX_RED = _settings.dir_master_abox
-DIR_CTI_CLEAR = _settings.dir_cti_abox
+# ABox Externe (TLP:CLEAR) — canonique 01.2 §1.quater : ex-alias DIR_CTI_CLEAR (vivant) et DIR_CTI_ABOX (mort) abrogés en P9-LotD
+DIR_ABOX_EXTERNE = _settings.dir_cti_abox
 DIR_INFERED_RED = _settings.dir_infered_red
 DIR_INPUTS_P4 = _settings.dir_inputs_p4
 DIR_SNAPSHOT_P4 = _settings.dir_snapshot_p4
@@ -354,11 +354,11 @@ ABOX_MASTER_MD_PATH = DIR_MASTER_ABOX / "DKG_ABox_Master.md"
 ABOX_RED_PATH = ABOX_MASTER_PATH
 
 INPUT_CTI_JSON_PATH = DIR_INPUTS_P3 / "external_nvd_capec_feed.json"
-ABOX_CTI_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.ttl"
-ABOX_CTI_MD_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_External.md"
+ABOX_CTI_PATH = DIR_ABOX_EXTERNE / "DKG_ABox_CTI_External.ttl"
+ABOX_CTI_MD_PATH = DIR_ABOX_EXTERNE / "DKG_ABox_CTI_External.md"
 INPUT_CTI_U_JSON_PATH = DIR_INPUTS_P4 / "bulletin_apt29.txt"
-ABOX_CTI_U_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_U_External.ttl"
-ABOX_CTI_U_MD_PATH = DIR_CTI_CLEAR / "DKG_ABox_CTI_U_External.md"
+ABOX_CTI_U_PATH = DIR_ABOX_EXTERNE / "DKG_ABox_CTI_U_External.ttl"
+ABOX_CTI_U_MD_PATH = DIR_ABOX_EXTERNE / "DKG_ABox_CTI_U_External.md"
 
 RULES_MASTER_PATH = DIR_TBOX_AMBER / "DKG_Rules_Master.ttl"
 RULES_MASTER_MD_PATH = DIR_TBOX_AMBER / "DKG_Rules_Master.md"
@@ -373,7 +373,7 @@ ABOX_RESIDENTIAL_PATH = DIR_SNAPSHOT_P7 / "DKG_ABox_Residential.ttl"
 EXTERNAL_SOURCES_CONFIG_PATH = DIR_INPUTS_P7 / "external_sources_config.json"
 EXTERNAL_SOURCES_CATALOG_PATH = DIR_INPUTS_P7 / "external_sources_catalog.json"
 
-DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / "frugal_delta_buffer.ttl"     # legacy (frugal_engine)
+DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / "frugal_delta_buffer.ttl"     # VIVANT (P9/V0, preuve d usage) : frugal_engine ecrit, soc_engine et agent_tbox_guardian lisent
 SOC_AUDIT_REPORT_PATH = DIR_SNAPSHOT_P8 / "soc_audit_compliance_report.json"
 
 # TLP:RED sécurisés et non versionnés
@@ -388,7 +388,7 @@ SECURE_ABOX_HOST_SCAN_PATH = DIR_PRIVATE_RED / "DKG_ABox_HostScan.ttl"
 # Registres Phase 8
 INPUT_P8_REGULATION_PATH = DIR_INPUTS_P8 / "external_sources_compliance_registry.json"
 EXTERNAL_SOURCES_COMPLIANCE_REGISTRY_PATH = INPUT_P8_REGULATION_PATH
-ABOX_COMPLIANCE_STANDARDS_CLEAR_PATH = DIR_CTI_CLEAR / "abox_compliance_standards_clear.ttl"
+ABOX_COMPLIANCE_STANDARDS_CLEAR_PATH = DIR_ABOX_EXTERNE / "abox_compliance_standards_clear.ttl"
 
 # --- 3. PARAMÈTRES DÉMO & SIMULATEUR ---
 DEMO_PROFILE = _demo.profile

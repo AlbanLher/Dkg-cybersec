@@ -17,7 +17,7 @@ if str(BASE_DIR) not in sys.path:
 from config import (
     ABOX_CTI_PATH,
     ABOX_CTI_MD_PATH,
-    DIR_CTI_CLEAR,
+    DIR_ABOX_EXTERNE,
     DIR_SNAPSHOT_P3,
     DKG_TBOX,
     DKG_CTI
@@ -147,7 +147,7 @@ def generate_cti_markdown():
     print(f"📦 Documentation Snapshot générée : {snapshot_md_path}")
 
     # 2. Synchronisation Master TLP:CLEAR
-    DIR_CTI_CLEAR.mkdir(parents=True, exist_ok=True)
+    DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
     if snapshot_md_path.resolve() != master_md_path.resolve():
         shutil.copy(snapshot_md_path, master_md_path)
         print(f"✅ Documentation Master synchronisée : {master_md_path}")

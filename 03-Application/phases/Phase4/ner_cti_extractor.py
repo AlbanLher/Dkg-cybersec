@@ -26,7 +26,7 @@ from core.config import (
     TBOX_MASTER_PATH,
     DIR_INPUTS_P4,
     DIR_SNAPSHOT_P4,
-    DIR_CTI_CLEAR,
+    DIR_ABOX_EXTERNE,
     ABOX_CTI_U_PATH,
     DKG_TBOX,
     DKG_CTI
@@ -145,7 +145,7 @@ class CTIUnstructuredExtractor:
         output_graph.serialize(destination=str(snapshot_ttl), format="turtle")
 
         # 2. Copie Master Transversal TLP:CLEAR
-        DIR_CTI_CLEAR.mkdir(parents=True, exist_ok=True)
+        DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
         shutil.copy(snapshot_ttl, ABOX_CTI_U_PATH)
         print(f"✅ ABox CTI-U Master mise à jour ({initial_len} -> {final_len} triplets, "
               f"+{final_len - initial_len} ajouts).")

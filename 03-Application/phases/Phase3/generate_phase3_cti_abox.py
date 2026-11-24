@@ -20,7 +20,7 @@ from config import (
     DKG_TBOX,
     DKG_CTI,
     DIR_SNAPSHOT_P3,
-    DIR_CTI_CLEAR,
+    DIR_ABOX_EXTERNE,
     ABOX_CTI_PATH,
     INPUT_CTI_JSON_PATH
 )
@@ -89,7 +89,7 @@ def generate_phase3():
 
     # Création des répertoires
     DIR_SNAPSHOT_P3.mkdir(parents=True, exist_ok=True)
-    DIR_CTI_CLEAR.mkdir(parents=True, exist_ok=True)
+    DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
 
     # 1. Écriture dans Snapshot P3
     snapshot_ttl = DIR_SNAPSHOT_P3 / ABOX_CTI_PATH.name
