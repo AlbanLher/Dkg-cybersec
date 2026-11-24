@@ -189,7 +189,8 @@ class DKGConfig(BaseSettings):
     # ==========================================================================
     @property
     def dir_workset_p8(self) -> Path:
-        return self.dir_snapshot_p8 / "workset"
+        # Workset vivant relogé hors snapshots (doctrine 24/11) : runtime, gitignoré, jamais figé
+        return self.dir_snapshot_p8.parent.parent / "Workset_P8"
 
     @property
     def dir_workset_tbox_amber(self) -> Path:
@@ -373,8 +374,8 @@ ABOX_RESIDENTIAL_PATH = DIR_SNAPSHOT_P7 / "DKG_ABox_Residential.ttl"
 EXTERNAL_SOURCES_CONFIG_PATH = DIR_INPUTS_P7 / "external_sources_config.json"
 EXTERNAL_SOURCES_CATALOG_PATH = DIR_INPUTS_P7 / "external_sources_catalog.json"
 
-DELTA_BUFFER_PATH = DIR_SNAPSHOT_P8 / "frugal_delta_buffer.ttl"     # VIVANT (P9/V0, preuve d usage) : frugal_engine ecrit, soc_engine et agent_tbox_guardian lisent
-SOC_AUDIT_REPORT_PATH = DIR_SNAPSHOT_P8 / "soc_audit_compliance_report.json"
+DELTA_BUFFER_PATH = DIR_WORKSET_P8 / "frugal_delta_buffer.ttl"     # VIVANT (P9/V0, preuve d usage) : frugal_engine ecrit, soc_engine et agent_tbox_guardian lisent
+SOC_AUDIT_REPORT_PATH = DIR_WORKSET_P8 / "soc_audit_compliance_report.json"
 
 # TLP:RED sécurisés et non versionnés
 SECURE_INPUT_RESIDENTIAL_PATH = DIR_PRIVATE_RED / "input_residential_family_env.json"
