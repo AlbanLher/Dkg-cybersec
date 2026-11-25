@@ -10,11 +10,14 @@ Correctifs P8 (keyset §49.11) :
   avec replace=True pour purger les alias hérités des anciens runs ;
 - dkg:exploitsVulnerability est le prédicat normé ThreatActor→Vulnerability
   (à déclarer en TBox Master — voie A, sens métier STIX 'exploits').
+
+Rév. 2026-11-25 (étape 3, vague 3) : ECRITURE DIRECTE dans le CTI-U Master
+(GOU_2 v2.3 — plus de relais Snapshot P4 ni copie miroir) ; le graphe
+existant est mergé en mémoire puis sérialisé une seule fois au Master.
 """
 
 import re
 import sys
-import shutil
 from pathlib import Path
 from rdflib import Graph, Literal, RDF, RDFS, SKOS, XSD
 
@@ -25,7 +28,6 @@ if str(BASE_DIR) not in sys.path:
 from core.config import (
     TBOX_MASTER_PATH,
     DIR_INPUTS_P4,
-    DIR_SNAPSHOT_P4,
     DIR_ABOX_EXTERNE,
     ABOX_CTI_U_PATH,
     DKG_TBOX,
@@ -123,7 +125,7 @@ class CTIUnstructuredExtractor:
             self.extract_from_text(content, source_name=file_path.name)
 
     def merge_and_sync(self) -> None:
-        """Double écriture découpée (Snapshot P4 -> Master CTI-U), keyset conforme."""
+        """Écriture DIRECTE au Master CTI-U (GOU_2 v2.3), keyset conforme."""
         output_graph = Graph()
 
         # Récupération de l'existant s'il existe
@@ -139,15 +141,10 @@ class CTIUnstructuredExtractor:
         output_graph += self.graph
         final_len = len(output_graph)
 
-        # 1. Export Snapshot P4
-        DIR_SNAPSHOT_P4.mkdir(parents=True, exist_ok=True)
-        snapshot_ttl = DIR_SNAPSHOT_P4 / ABOX_CTI_U_PATH.name
-        output_graph.serialize(destination=str(snapshot_ttl), format="turtle")
-
-        # 2. Copie Master Transversal TLP:CLEAR
+        # Sérialisation DIRECTE au Master Transversal TLP:CLEAR (une seule écriture)
         DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
-        shutil.copy(snapshot_ttl, ABOX_CTI_U_PATH)
-        print(f"✅ ABox CTI-U Master mise à jour ({initial_len} -> {final_len} triplets, "
+        output_graph.serialize(destination=str(ABOX_CTI_U_PATH), format="turtle")
+        print(f"✅ ABox CTI-U Master mise à jour en direct ({initial_len} -> {final_len} triplets, "
               f"+{final_len - initial_len} ajouts).")
 
 

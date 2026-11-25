@@ -3,22 +3,26 @@
 export_phase4_ner_md.py
 Génération de la documentation Markdown synthétique miroir (TLP:CLEAR)
 pour l'ABox CTI Unstructured post-extraction.
+
+Rév. 2026-11-25 (étape 3, vague 3) : ancrage core.config (l ancien acces
+top-level visait un module disparu lors du découpage v2) + écriture
+DIRECTE du MD Master (GOU_2 v2.3 — plus de relais snapshot ni copie
+miroir), démarrage depuis n importe où.
 """
 
 import sys
-import shutil
 from pathlib import Path
 from rdflib import Graph
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-if str(BASE_DIR) not in sys.path:
-    sys.path.insert(0, str(BASE_DIR))
+# Ancrage SSOT vers 03-Application/ pour importer core.config
+APP_DIR = Path(__file__).resolve().parent.parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
-from config import (
+from core.config import (
     ABOX_CTI_U_PATH,
     ABOX_CTI_U_MD_PATH,
-    DIR_ABOX_EXTERNE,
-    DIR_SNAPSHOT_P4
+    DIR_ABOX_EXTERNE
 )
 
 
@@ -27,7 +31,6 @@ def generate_ner_markdown() -> None:
     if ABOX_CTI_U_PATH.exists():
         g.parse(str(ABOX_CTI_U_PATH), format="turtle")
 
-    snapshot_md_path = DIR_SNAPSHOT_P4 / ABOX_CTI_U_MD_PATH.name
     master_md_path = ABOX_CTI_U_MD_PATH
 
     lines = [
@@ -44,7 +47,7 @@ def generate_ner_markdown() -> None:
         "| Acronyme | Définition Complète | Contextualisation DKG |",
         "| :--- | :--- | :--- |",
         "| **APT** | Advanced Persistent Threat | Groupe d'attaquants qualifiés menant des opérations ciblées. |",
-        "| **CTI** | Cyber Threat Intelligence | Renseignements structurés sur les menaces informatiques. |",
+        "| **CTI** | Cyber Threat Intelligence | Renseignement structuré sur les menaces informatiques. |",
         "| **CVE** | Common Vulnerabilities and Exposures | Référentiel des vulnérabilités publiques connues. |",
         "| **TLP** | Traffic Light Protocol | Norme de restriction du partage de l'information. |",
         "| **RDF** | Resource Description Framework | Modèle de représentation sous forme de graphes de triplets. |",
@@ -59,8 +62,7 @@ def generate_ner_markdown() -> None:
         "    B -->|Calcul Score| C{Confidence >= 0.85?}",
         "    C -->|Non| D[Rejet / Journal d'Audit]",
         "    C -->|Oui| E[Instanciation Triplets RDF]",
-        "    E --> F[Snapshot Phase 4]",
-        "    F -->|Synchro SSOT| G[Master CTI TLP:CLEAR]",
+        "    E -->|Écriture Directe| F[Master CTI TLP:CLEAR]",
         "```",
         "",
         "---",
@@ -135,17 +137,11 @@ def generate_ner_markdown() -> None:
 
     lines.extend(["", "---", "*Document miroir généré automatiquement.*"])
 
-    # 1. Écriture Snapshot
-    DIR_SNAPSHOT_P4.mkdir(parents=True, exist_ok=True)
-    with open(snapshot_md_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
-    print(f"📦 Documentation Snapshot créée : {snapshot_md_path}")
-
-    # 2. Copie Master
+    # Écriture DIRECTE du MD Master TLP:CLEAR (GOU_2 v2.3)
     DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
-    if snapshot_md_path.resolve() != master_md_path.resolve():
-        shutil.copy(snapshot_md_path, master_md_path)
-        print(f"✅ Documentation Master synchronisée : {master_md_path}")
+    with open(master_md_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"✅ Documentation Master TLP:CLEAR générée en direct : {master_md_path}")
 
 
 if __name__ == "__main__":
