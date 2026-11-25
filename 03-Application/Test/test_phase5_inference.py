@@ -87,7 +87,6 @@ def execution_context(setup_mock_graphs):
     mp.setattr(re_module, "ABOX_CTI_PATH", paths["abox_cti_path"], raising=False)
     mp.setattr(re_module, "ABOX_INFERED_PATH", paths["infered_path"], raising=False)
     mp.setattr(re_module, "ABOX_INFERED_MD_PATH", paths["infered_md_path"], raising=False)
-    mp.setattr(re_module, "DIR_SNAPSHOT_P5", paths["snapshot_dir"], raising=False)
 
     engine = ReasoningEngine()
     exec_duration = engine.run_inference()

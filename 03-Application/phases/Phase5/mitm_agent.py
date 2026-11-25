@@ -1,13 +1,18 @@
 """
-03-Application/Phase5/mitm_agent.py
+03-Application/phases/Phase5/mitm_agent.py
 
 Agent MITM (Man-In-The-Middle) - Phase 5
-Conforme à SPEC-TECH-P05, config.py, Principe de Replay et Auto-Documentation.
+Conforme à SPC-TEC-P5-CONSO_01, config.py, Principe de Replay et Auto-Documentation.
+
+Rév. 2026-11-25 (étape 3, vague 3) : ECRITURE DIRECTE des artefacts
+d'alignement dans la zone Master TLP:AMBER (GOU_2 v2.3 — plus de relais
+snapshot ni copie miroir). Les sorties MITM (alignements validés) sont
+consommables par skos_consolidator (R-MITM-01), qui les capitalise dans
+DKG_SKOS_Master.ttl — jamais dans la TBox Master (sas opérateur).
 """
 
 import logging
 import sys
-import shutil
 from typing import Dict, List, Optional, Tuple
 from pathlib import Path
 import numpy as np
@@ -24,7 +29,6 @@ from core.config import (
     DIR_EMBEDDING_MODEL,
     EMBEDDING_MODEL_NAME,
     MITM_SIMILARITY_THRESHOLD,
-    DIR_SNAPSHOT_P5,
     DIR_TBOX_AMBER,
     DKG_TBOX,
     DKG_DATA,
@@ -163,18 +167,14 @@ SELECT DISTINCT ?entity ?label WHERE {
         return self._build_alignment_subgraph(result)
 
     def save_and_document(self, alignment_graph: Graph, filename_base: str = "DKG_MITM_Alignment"):
-        """Sauvegarde les artefacts TTL et MD selon le principe de Replay & Auto-Doc."""
-        DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
-
-        ttl_snapshot = DIR_SNAPSHOT_P5 / f"{filename_base}.ttl"
-        md_snapshot = DIR_SNAPSHOT_P5 / f"{filename_base}.md"
-
+        """Écriture DIRECTE des artefacts TTL et MD dans la zone Master
+        TLP:AMBER (GOU_2 v2.3 — plus de relais snapshot ni copie miroir)."""
         ttl_master = DIR_TBOX_AMBER / f"{filename_base}.ttl"
         md_master = DIR_TBOX_AMBER / f"{filename_base}.md"
 
-        # 1. Écriture Turtle
+        # 1. Écriture DIRECTE du Turtle Master
         self.bind_mandatory_prefixes(alignment_graph)
-        alignment_graph.serialize(destination=str(ttl_snapshot), format="ttl")
+        alignment_graph.serialize(destination=str(ttl_master), format="ttl")
 
         # 2. Écriture Documentation Markdown Miroir
         md_content = f"""# 📑 Documentation Alignment Agent MITM - {filename_base}
@@ -208,13 +208,10 @@ flowchart LR
 
 *Document généré automatiquement post-alignement MITM.*
 """
-        with open(md_snapshot, "w", encoding="utf-8") as f:
+        with open(md_master, "w", encoding="utf-8") as f:
             f.write(md_content)
 
-        # 3. Replay / Capitalisation vers Master
-        shutil.copy(ttl_snapshot, ttl_master)
-        shutil.copy(md_snapshot, md_master)
-        logger.info(f"[✅] Artefacts MITM Replay & Auto-Doc synchronisés dans {DIR_TBOX_AMBER}")
+        logger.info(f"[✅] Artefacts MITM (Replay & Auto-Doc) écrits en direct dans {DIR_TBOX_AMBER}")
 
 
 if __name__ == "__main__":
