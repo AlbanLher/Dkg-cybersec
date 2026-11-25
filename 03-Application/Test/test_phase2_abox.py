@@ -24,7 +24,6 @@ from core.config import (
     ABOX_MASTER_PATH,
     DKG_TBOX,
     DKG_DATA,
-    DIR_SNAPSHOT_P2,
     DIR_MASTER_ABOX,
 )
 
@@ -146,27 +145,25 @@ def test_exg_qual_02_03_shacl_validation(full_graph: Graph):
     assert conforms, f"Violations SHACL détectées lors de la recette ABox Phase 2 :\n{report_text}"
 
 
-def test_exg_org_02_phase2_master_snapshot_parity():
-    """
-    Exigence: EXG-FWK-P2-ABO_1 - Vérifie la parité et les datatypes CWA de la phase 2.
-    """
-    assert DIR_SNAPSHOT_P2.exists(), f"Répertoire Snapshot Phase 2 introuvable : {DIR_SNAPSHOT_P2}"
+def test_exg_org_02_phase2_figeage_par_tag_master_vivant():
+    """EXG-FWK-P2-ABO_1 (doctrine P9, registre v2.3) : le figeage des
+    livrables P2 est porté par le TAG git phase2-v1 — l historique EST le
+    snapshot, le rejeu se fait par checkout du tag. L ancien test de parité
+    binaire snapshot/master (doctrine v2.2 abrogée) est remplacé : le Master
+    ABox est la référence vivante, générée en direct par le générateur
+    réconcilié (commit 8f53c75), et doit rester complet et parsable."""
+    import subprocess
     assert DIR_MASTER_ABOX.exists(), f"Répertoire Master ABox introuvable : {DIR_MASTER_ABOX}"
-
-    # Vérification ciblée sur l'ABox TTL et sa documentation MD
-    snapshot_files = [
-        f for f in DIR_SNAPSHOT_P2.iterdir()
-        if f.is_file() and f.name in {ABOX_MASTER_PATH.name, ABOX_MASTER_PATH.with_suffix(".md").name}
-    ]
-
-    assert len(snapshot_files) > 0, "Aucun fichier ABox/Doc valide trouvé dans le Snapshot Phase 2 !"
-
-    for snap_file in snapshot_files:
-        master_file = DIR_MASTER_ABOX / snap_file.name
-        assert master_file.exists(), f"Fichier synchronisé absent du Master ABox : {master_file}"
-        
-        # Comparaison contenu texte normalisé (fin de ligne CRLF -> LF)
-        snap_content = snap_file.read_text(encoding="utf-8").strip().replace("\r\n", "\n")
-        master_content = master_file.read_text(encoding="utf-8").strip().replace("\r\n", "\n")
-        
-        assert snap_content == master_content, f"Désynchronisation détectée sur {snap_file.name} entre Snapshot et Master !"
+    # 1. figeage : le tag existe (git résout le repo depuis tout chemin intérieur)
+    tags = subprocess.run(["git", "tag", "-l", "phase2-v1"],
+                          capture_output=True, text=True,
+                          cwd=str(DIR_MASTER_ABOX)).stdout.strip()
+    assert tags == "phase2-v1", (f"Tag de figeage phase2-v1 absent (doctrine "
+                                 f"GOU_2 v2.3) — sortie git : {tags!r}")
+    # 2. Master complet et parsable : référence vivante du terrain ABox.
+    assert ABOX_MASTER_PATH.exists(), f"ABox Master introuvable : {ABOX_MASTER_PATH}"
+    Graph().parse(str(ABOX_MASTER_PATH), format="turtle")   # parse autonome
+    md_path = ABOX_MASTER_PATH.with_suffix(".md")
+    if md_path.exists():
+        content = md_path.read_text(encoding="utf-8")
+        assert "DKG CyberSec" in content, "Documentation MD de l ABox Master incohérente."

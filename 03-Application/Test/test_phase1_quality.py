@@ -10,7 +10,6 @@ if str(APP_DIR) not in sys.path:
 # Importation directe et exclusive des clés config.py (EXG-OR-05)
 from core.config import (
     DIR_MASTER_TBOX,
-    DIR_SNAPSHOT_P1,
     TBOX_MASTER_PATH,
     DKG_TBOX,
     RDF,
@@ -90,16 +89,26 @@ def test_markdown_documentation_structure(master_dir):
     assert "Résumé Synthétique des Classes TBox" in content, "Tableau des classes absent du Markdown."
 
 
-def test_exg_fwk_p1_gou_2_snapshot_replayable_et_master_complet(master_dir):
-    """EXG-FWK-P1-GOU_2 (doctrine P9, registre v2.2) : le snapshot P1 est
-    FIGE et sert au REJEU — synchronisation snapshot -> Master uniquement,
-    jamais master -> snapshot, pas de parite binaire permanente. Le rejeu
-    reste possible car tout artefact du snapshot existe dans le Master et
-    son .ttl se parse de facon autonome."""
+def test_exg_fwk_p1_gou_2_figeage_par_tag_rejeu_par_checkout(master_dir):
+    """EXG-FWK-P1-GOU_2 (doctrine P9, registre v2.3) : le figeage des
+    livrables P1 est porte par le TAG git phase1-v1 — l historique EST le
+    snapshot, le rejeu se fait par checkout du tag (jamais par copie de
+    fichiers). Le Master est la reference vivante : les artefacts du socle
+    y vivent complets et parsables de facon autonome."""
+    import subprocess
     from rdflib import Graph
-    assert DIR_SNAPSHOT_P1.exists(), f"Repertoire snapshot introuvable: {DIR_SNAPSHOT_P1}"
-    for snapshot_file in DIR_SNAPSHOT_P1.glob("*.ttl"):
-        master_file = DIR_MASTER_TBOX / snapshot_file.name
-        assert master_file.exists(), (f"Artefact requis au rejeu absent du "
-                                      f"Master: {snapshot_file.name}")
-        Graph().parse(str(snapshot_file), format="turtle")  # rejeu : parse autonome
+    # 1. figeage : le tag existe (git resoud le repo depuis n importe
+    #    quel chemin interieur ; ancrage = repertoire Master, SSOT).
+    tags = subprocess.run(["git", "tag", "-l", "phase1-v1"],
+                           capture_output=True, text=True,
+                           cwd=str(DIR_MASTER_TBOX)).stdout.strip()
+    assert tags == "phase1-v1", (f"Tag de figeage phase1-v1 absent (doctrine "
+                                 f"GOU_2 v2.3) — sortie git : {tags!r}")
+    # 2. Master complet et parsable : socle vivant, artefacts presents.
+    for ttl_artefact in (TBOX_MASTER_PATH,
+                         DIR_MASTER_TBOX / "DKG_SHACL_Master.ttl",
+                         DIR_MASTER_TBOX / "synthetic_qualification.ttl"):
+        assert ttl_artefact.exists(), f"Artefact du socle absent du Master : {ttl_artefact}"
+        Graph().parse(str(ttl_artefact), format="turtle")   # parse autonome
+    assert (DIR_MASTER_TBOX / TBOX_MASTER_PATH.with_suffix(".md").name).exists(), \
+        "Documentation Markdown du socle absente du Master."
