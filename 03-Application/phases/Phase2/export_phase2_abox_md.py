@@ -3,42 +3,33 @@
 export_phase2_abox_md.py
 Génération de la documentation Markdown synthétique de l'ABox Master (TLP:RED).
 Respect strict de la règle SSOT (EXG-OR-05) : validation explicite des constantes config.py.
-Rév. 2026-11-25 (étape 3, vague 1) : réconciliation au prédicat normé
+Rév. 2026-11-25 (étape 3, vague 2) : réconciliation au prédicat normé
 dkg:hasWeakness (TBox §25, à parité avec generate_phase2_abox.py commis 8f53c75)
 + écriture DIRECTE dans le Master (GOU_2 v2.3 — plus de relais snapshot,
-figeage par tag git) + correctif de l ancrage sys.path (parent.parent.parent :
-le fichier vit sous phases/Phase2/).
+figeage par tag git) + import corrigé vers core.config : l ancien
+« import config » visait le module top-level disparu lors du découpage v2
+(core/config.py est le SSOT unique) — le fichier roulait uniquement en
+mode module depuis 03-Application ; désormais il démarre depuis partout.
 """
 
 import sys
 from pathlib import Path
 from rdflib import Graph
 
-# 1. Ancrage sys.path vers 03-Application/ pour importer config.py
-# Correctif : le fichier vit sous phases/Phase2/ -> parent.parent.parent
+# 1. Ancrage sys.path vers 03-Application/ pour importer core.config (SSOT)
 APP_DIR = Path(__file__).resolve().parent.parent.parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-import config
+import core.config as settings
+from core.config import DIR_MASTER_ABOX, ABOX_MASTER_PATH
 
-# -----------------------------------------------------------------------------
-# VERIFICATION STRICTE SSOT (EXG-OR-05)
-# Validation dynamique sans crash brutal d'importation
-# -----------------------------------------------------------------------------
-ABOX_MASTER_MD_PATH = getattr(config, "ABOX_MASTER_MD_PATH", None) or getattr(config, "ABOX_MD_PATH", None)
-
-if not ABOX_MASTER_MD_PATH:
-    print("❌ ERREUR DE CONFIGURATION (SSOT - EXG-OR-05) :")
-    print("   La constante 'ABOX_MASTER_MD_PATH' n'est pas définie dans config.py.")
-    print("   Veuillez la déclarer dans config.py avant de relancer l'exportation.")
-    sys.exit(1)
-
-from config import (
-    DIR_MASTER_ABOX,
-    ABOX_MASTER_PATH,
-)
-
+# -----------------------------------------------------------------------
+# SSOT (EXG-OR-05) : chemin du MD, avec replis explicites — jamais de crash
+# -----------------------------------------------------------------------
+ABOX_MASTER_MD_PATH = (getattr(settings, "ABOX_MASTER_MD_PATH", None)
+                       or getattr(settings, "ABOX_MD_PATH", None)
+                       or ABOX_MASTER_PATH.with_suffix(".md"))
 
 def generate_abox_markdown():
     if not ABOX_MASTER_PATH.exists():

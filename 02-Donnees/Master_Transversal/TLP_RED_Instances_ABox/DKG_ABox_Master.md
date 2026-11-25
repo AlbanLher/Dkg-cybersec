@@ -43,7 +43,7 @@ graph TD
     end
     subgraph Threat_Chain [Chaîne de Menace CTI]
         Comp -->|hasVulnerability| CVE[dkg:Vulnerability<br/><i>ex: CVE-2021-41773</i>]
-        CVE -->|exploitsWeakness| CWE[dkg:Weakness<br/><i>ex: CWE-22 Path Traversal</i>]
+        CVE -->|hasWeakness| CWE[dkg:Weakness<br/><i>ex: CWE-22 Path Traversal</i>]
         CWE -->|hasThreatPattern| CAPEC[dkg:ThreatPattern<br/><i>ex: CAPEC-126 Path Traversal</i>]
     end
     style Asset fill:#bbf,stroke:#333,stroke-width:2px
