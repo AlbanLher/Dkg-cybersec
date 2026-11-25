@@ -1,0 +1,72 @@
+@prefix dkg-data: <http://dkg.cybersec.org/data#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dkg-data:ResidentialSnapshot a dkg-data:SecuritySnapshot ;
+    dkg-data:hasSecurityRisk [ a dkg-data:SecurityRisk ;
+            dkg-data:recommendedAction "Désactiver l'UPnP et fermer la redirection de port WAN pour Plex." ;
+            dkg-data:riskDescription "Le serveur Plex est directement exposé sur le WAN via la Box FAI." ;
+            dkg-data:riskLevel "CRITICAL" ],
+        [ a dkg-data:SecurityRisk ;
+            dkg-data:recommendedAction "Isoler l'équipement asset_cam_01 ou désactiver le service non sécurisé." ;
+            dkg-data:riskDescription "Service à haut risque détecté (Telnet) sur l'actif Caméra Surveillance IP." ;
+            dkg-data:riskLevel "HIGH" ] ;
+    dkg-data:hasTLP "TLP:RED" .
+
+dkg-data:asset_cam_01 a dkg-data:Asset,
+        dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:hasTLPMarking dkg-data:TLP-RED ;
+    dkg-data:ipAddress "192.168.1.50" ;
+    dkg-data:operatingSystem "Embedded Linux" ;
+    dkg-data:runsService [ a dkg-data:SoftwareComponent ;
+            dkg-data:serviceName "Telnet" ;
+            dkg-data:servicePort 23 ;
+            dkg-data:serviceStatus "Exposed" ] .
+
+dkg-data:asset_fedora_01 a dkg-data:Asset,
+        dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:hasTLPMarking dkg-data:TLP-RED ;
+    dkg-data:ipAddress "192.168.1.20" ;
+    dkg-data:operatingSystem "Fedora 44" ;
+    dkg-data:runsService [ a dkg-data:SoftwareComponent ;
+            dkg-data:serviceName "Plex Media Server" ;
+            dkg-data:servicePort 32400 ;
+            dkg-data:serviceStatus "Active" ] .
+
+dkg-data:asset_tablet_01 a dkg-data:Asset,
+        dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:hasTLPMarking dkg-data:TLP-RED ;
+    dkg-data:ipAddress "192.168.1.100" ;
+    dkg-data:operatingSystem "Android 9 (Obsolete)" .
+
+dkg-data:asset_thermostat_01 a dkg-data:Asset,
+        dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:hasTLPMarking dkg-data:TLP-RED ;
+    dkg-data:ipAddress "192.168.1.200" ;
+    dkg-data:operatingSystem "RTOS" ;
+    dkg-data:runsService [ a dkg-data:SoftwareComponent ;
+            dkg-data:serviceName "HTTP API Unauthenticated" ;
+            dkg-data:servicePort 80 ;
+            dkg-data:serviceStatus "Exposed" ] .
+
+dkg-data:asset_win10_01 a dkg-data:Asset,
+        dkg-data:HostAsset ;
+    dkg-data:connectedToGateway dkg-data:Box_FAI_Livebox ;
+    dkg-data:hasTLPMarking dkg-data:TLP-RED ;
+    dkg-data:ipAddress "192.168.1.10" ;
+    dkg-data:operatingSystem "Windows 10" ;
+    dkg-data:runsService [ a dkg-data:SoftwareComponent ;
+            dkg-data:serviceName "SMB" ;
+            dkg-data:servicePort 445 ;
+            dkg-data:serviceStatus "Active" ] .
+
+dkg-data:Box_FAI_Livebox a dkg-data:Asset,
+        dkg-data:Gateway ;
+    dkg-data:hasTLPMarking dkg-data:TLP-RED ;
+    dkg-data:wanExposureRisk true .
+
+dkg-data:TLP-RED a dkg-data:TLPMarking .
+

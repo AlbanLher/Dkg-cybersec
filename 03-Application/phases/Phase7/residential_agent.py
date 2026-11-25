@@ -18,11 +18,11 @@ Rév. 2026-11-25 (étape 3, vague 3) — v2.3 :
 import sys
 from pathlib import Path
 
-# Injection dynamique du répertoire parent (03-Application) dans le sys.path (SSOT)
-CURRENT_DIR = Path(__file__).resolve().parent
-APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent.parent.parent
-if str(APPLICATION_DIR) not in sys.path:
-    sys.path.insert(0, str(APPLICATION_DIR))
+# Injection dynamique du répertoire 03-Application dans le sys.path (SSOT)
+# Pattern canonique phases/PhaseN : relatif au FICHIER (parent x3 = 03-Application)
+APP_DIR = Path(__file__).resolve().parent.parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
 import json
 from rdflib import Graph, Literal, RDF, BNode, URIRef
