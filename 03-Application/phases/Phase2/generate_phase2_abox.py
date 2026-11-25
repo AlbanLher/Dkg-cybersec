@@ -3,11 +3,17 @@
 generate_phase2_abox.py
 Génération automatisée de l'ABox Master (DKG Phase 2 - UseCase Cyber).
 Validé aux frontières par Pydantic V2 (EXG-OR-07).
-Respecte les principes SSOT (EXG-OR-05) et Double Export Safe Sync (EXG-OR-06).
+Respecte le principe SSOT (EXG-OR-05). Rév. 2026-11-25 (étape 3, vague 1) :
+1. RÉCONCILIATION : le maillon CVE→CWE utilise le prédicat normé
+   dkg:hasWeakness (TBox de référence §25) — l ancien exploitsWeakness
+   du générateur d origine divergeait du Master committed (fidelité
+   rétablie : le rejeu régénère le Master à l identique).
+2. Écriture DIRECTE dans le Master (doctrine GOU_2 v2.3 — le Master est
+   la référence vivante, figeage par tag git ; l ancien relais snapshot
+   + double export EXG-OR-06 abrogé).
 """
 
 import json
-import shutil
 import sys
 from pathlib import Path
 
@@ -21,7 +27,6 @@ from core.config import (
     DKG_TBOX,
     DKG_DATA,
     DIR_INPUT_P2,
-    DIR_SNAPSHOT_P2,
     DIR_MASTER_ABOX,
     ABOX_MASTER_PATH,
 )
@@ -86,7 +91,9 @@ def build_abox_graph(inventory: Phase2InventoryModel) -> Graph:
         g.add((cve_uri, DKG_TBOX.cvssScore, Literal(float(cve.cvss_score), datatype=XSD.float)))
         if cve.weakness_id:
             cwe_uri = DKG_DATA[cve.weakness_id]
-            g.add((cve_uri, DKG_TBOX.exploitsWeakness, cwe_uri))
+            # Prédicat NORMÉ (TBox §25) : dkg:hasWeakness — réconciliation
+            # avec le Master committed (l ancien exploitsWeakness divergeait).
+            g.add((cve_uri, DKG_TBOX.hasWeakness, cwe_uri))
 
     # 5. Software Components
     for comp in inventory.software_components:
@@ -121,19 +128,12 @@ def generate_abox():
     print("Construction du graphe RDF ABox...")
     g = build_abox_graph(inventory_model)
 
-    # Création des répertoires cible
-    DIR_SNAPSHOT_P2.mkdir(parents=True, exist_ok=True)
+    # Écriture DIRECTE dans le Master unique (GOU_2 v2.3 : le Master est la
+    # référence vivante ; plus de relais snapshot, figeage = tag git)
     DIR_MASTER_ABOX.mkdir(parents=True, exist_ok=True)
-
-    # 1. ÉCRITURE PRIORITAIRE DANS LE SNAPSHOT
-    snapshot_ttl_path = DIR_SNAPSHOT_P2 / ABOX_MASTER_PATH.name
-    g.serialize(destination=str(snapshot_ttl_path), format="turtle")
-    print(f"📦 Snapshot ABox généré : {snapshot_ttl_path} ({len(g)} triplets)")
-
-    # 2. DOUBLE EXPORT SAFE SYNC VERS LE MASTER (EXG-OR-06)
-    if snapshot_ttl_path.resolve() != ABOX_MASTER_PATH.resolve():
-        shutil.copy2(snapshot_ttl_path, ABOX_MASTER_PATH)
-        print(f"✅ Master ABox synchronisé depuis Snapshot : {ABOX_MASTER_PATH}")
+    g.serialize(destination=str(ABOX_MASTER_PATH), format="turtle")
+    print(f"✅ ABox Master générée (direct, prédicat normé hasWeakness) : "
+          f"{ABOX_MASTER_PATH} ({len(g)} triplets)")
 
 
 if __name__ == "__main__":
