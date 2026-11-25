@@ -1,6 +1,12 @@
 """
-03-Application/Phase6/generate_phase6_gateway.py
-Pipeline d'exécution de la Phase 6 : Validation, Exécution et Synchronisation Snapshot.
+03-Application/phases/Phase6/generate_phase6_gateway.py
+Pipeline d'exécution de la Phase 6 : Validation & Exécution des payloads SPARQL.
+
+Rév. 2026-11-25 (étape 3, vague 3) — v2.3 : RELOGEMENT de la passerelle P6
+hors de Snapshots_Phases (zone vouée à l abrogation) vers la zone Master
+TLP_GREEN_API_Gateway : journal d audit HAB_3 (PATH_P6_GATEWAY_LOG) et
+résultats de recette (PATH_P6_EXECUTION_RESULTS) vivent désormais au
+Master Transversal. Écriture DIRECTE (GOU_2 v2.3), plus de relais snapshot.
 """
 
 import sys
@@ -18,8 +24,8 @@ import logging
 # 3. Imports SSOT et sous-modules applicatifs
 from core.config import (
     INPUT_P6_QUERY_PAYLOAD,
-    DIR_SNAPSHOT_P6,
-    PATH_P6_GATEWAY_LOG
+    PATH_P6_GATEWAY_LOG,
+    PATH_P6_EXECUTION_RESULTS
 )
 from phases.Phase6.p6_schemas import SPARQLQueryRequest
 from phases.Phase6.api_gateway import APIGateway
@@ -49,12 +55,13 @@ def run_phase6_pipeline() -> None:
         response_obj = gateway.execute_sparql(request_obj)
         execution_summary.append(response_obj.model_dump())
 
-    # Replay/Snapshot - Enregistrement des résultats de recette
-    snapshot_output = DIR_SNAPSHOT_P6 / "execution_results.json"
-    with open(snapshot_output, "w", encoding="utf-8") as f:
+    # Capitalisation directe au Master TLP:GREEN (GOU_2 v2.3, relogement acté)
+    results_output = PATH_P6_EXECUTION_RESULTS
+    results_output.parent.mkdir(parents=True, exist_ok=True)
+    with open(results_output, "w", encoding="utf-8") as f:
         json.dump(execution_summary, f, indent=2, ensure_ascii=False)
 
-    logging.info(f"Résultats exportés dans le Snapshot : {snapshot_output}")
+    logging.info(f"Résultats de recette écrits au Master TLP:GREEN : {results_output}")
     logging.info(f"Journal d'audit mis à jour : {PATH_P6_GATEWAY_LOG}")
     logging.info("=== FIN PIPELINE PHASE 6 : SUCCÈS ===")
 

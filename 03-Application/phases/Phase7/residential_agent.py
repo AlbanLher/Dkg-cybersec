@@ -1,10 +1,26 @@
+"""
+03-Application/phases/Phase7/residential_agent.py
+
+Pipeline résidentiel (Phase 7, UC Individuel TLP:RED) : validation Pydantic,
+corrélation CTI, génération de l'ABox résidentielle et du rapport MD.
+
+Rév. 2026-11-25 (étape 3, vague 3) — v2.3 :
+- ÉCRITURE DIRECTE au Master RED (GOU_2 v2.3) : l'ABox résidentielle et son MD
+  vivent désormais dans TLP_RED_Instances_ABox (relogement acté, ex-Snapshots_Phases/Phase7).
+- ABROGATION de la « promotion » par copie sur ABOX_MASTER_PATH (shutil.copy2) :
+  l'ABox RED Master a UN SEUL écrivain (generate_phase2_abox, sas v2.3) et la
+  spec SPC-MET-P7-UC_INDIVIDUEL_01 §5 désigne DKG_ABox_Residential.ttl comme
+  artefact dédié — jamais une fusion dans le Master. Cette promotion n'était
+  spécifiée nulle part et n'avait jamais été rejouée.
+- Imports corrigés vers phases.Phase7.* (ancien chemin top-level abrogé).
+"""
+
 import sys
 from pathlib import Path
-import shutil
 
 # Injection dynamique du répertoire parent (03-Application) dans le sys.path (SSOT)
 CURRENT_DIR = Path(__file__).resolve().parent
-APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent.parent
+APPLICATION_DIR = CURRENT_DIR if CURRENT_DIR.name == "03-Application" else CURRENT_DIR.parent.parent.parent
 if str(APPLICATION_DIR) not in sys.path:
     sys.path.insert(0, str(APPLICATION_DIR))
 
@@ -12,15 +28,14 @@ import json
 from rdflib import Graph, Literal, RDF, BNode, URIRef
 
 from core.config import (
-    INPUT_RESIDENTIAL_JSON_PATH, 
-    ABOX_RESIDENTIAL_PATH, 
-    ABOX_MASTER_PATH, 
-    DIR_SNAPSHOT_P7,
+    INPUT_RESIDENTIAL_JSON_PATH,
+    ABOX_RESIDENTIAL_PATH,
+    ABOX_RESIDENTIAL_MD_PATH,
     DKG_DATA
 )
-from Phase7.residential_models import ResidentialFamilyEnvironment
-from Phase7.external_cti_agent import ExternalCTIAgent
-from Phase7.correlation_agent import CorrelationAgent, RiskPath
+from phases.Phase7.residential_models import ResidentialFamilyEnvironment
+from phases.Phase7.external_cti_agent import ExternalCTIAgent
+from phases.Phase7.correlation_agent import CorrelationAgent, RiskPath
 
 
 def generate_markdown_report(env_data: ResidentialFamilyEnvironment, risks: list[RiskPath], md_output_path: Path) -> None:
@@ -79,14 +94,14 @@ def run_residential_pipeline() -> tuple[Path, Path]:
     1. Valide les données JSON du foyer (Pydantic V2).
     2. Charge la CTI externe (ExternalCTIAgent).
     3. Exécute l'analyse de corrélation (CorrelationAgent).
-    4. Génère le RDF snapshot TLP:RED incluant les risques.
-    5. Promeut vers le Master Transversal (ABOX_MASTER_PATH).
-    6. Génère le rapport Markdown complet avec Mermaid.
+    4. Génère le RDF résidentiel TLP:RED incluant les risques.
+    5. Écriture DIRECTE au Master RED (ABOX_RESIDENTIAL_PATH, GOU_2 v2.3 —
+       jamais de promotion vers ABOX_MASTER_PATH, artefact dédié spec P7).
+    6. Génère le rapport Markdown complet avec Mermaid (même toit TLP:RED).
     """
     input_path = INPUT_RESIDENTIAL_JSON_PATH
     output_turtle = ABOX_RESIDENTIAL_PATH
-    output_master = ABOX_MASTER_PATH
-    output_md = DIR_SNAPSHOT_P7 / "DKG_ABox_Residential.md"
+    output_md = ABOX_RESIDENTIAL_MD_PATH
     
     if not input_path.exists():
         raise FileNotFoundError(f"Fichier d'entrée introuvable : {input_path}")
@@ -160,21 +175,17 @@ def run_residential_pipeline() -> tuple[Path, Path]:
         g.add((risk_node, URIRef(DKG_DATA.recommendedAction), Literal(r.recommended_action)))
 
 
-    # 5. Sérialisation Snapshot Turtle
+    # 5. Écriture DIRECTE du Turtle au Master RED (GOU_2 v2.3)
     output_turtle.parent.mkdir(parents=True, exist_ok=True)
     g.serialize(destination=str(output_turtle), format="turtle")
-    
-    # 6. Promotion vers le Master Transversal
-    output_master.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(output_turtle, output_master)
-    
-    # 7. Génération du rapport Markdown enrichi (Tableau de risques + Mermaid)
+
+    # 6. Génération du rapport Markdown enrichi (Tableau de risques + Mermaid)
+    output_md.parent.mkdir(parents=True, exist_ok=True)
     generate_markdown_report(env_data, risks, output_md)
-    
-    return output_turtle, output_master
+
+    return output_turtle
 
 if __name__ == "__main__":
-    t_snap, t_master = run_residential_pipeline()
+    t_out = run_residential_pipeline()
     print(f"[SUCCESS] Pipeline complet exécuté !")
-    print(f" -> Snapshot Turtle : {t_snap}")
-    print(f" -> Master Transversal : {t_master}")
+    print(f" -> ABox Résidentielle Master (TLP:RED) : {t_out}")
