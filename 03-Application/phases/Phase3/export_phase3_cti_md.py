@@ -3,24 +3,27 @@
 export_phase3_cti_md.py
 Génération de la documentation Markdown synthétique de l'ABox CTI Externe (TLP:CLEAR).
 Aligné avec le schéma TBox centralisé (tbox#), incluant la table d'acronymes et les diagrammes Mermaid.
+Rév. 2026-11-25 (étape 3, vague 3) : ancrage core.config (l ancien acces
+top-level visait un module disparu lors du découpage v2) + écriture
+DIRECTE du MD Master (GOU_2 v2.3 — plus de relais snapshot ni copie
+miroir), démarrage depuis n importe où. Le prédicat dkg:exploitsWeakness
+est conservé : c'est celui de la zone CTI Externe (signature « CTI coché »
+du greffon audit), pas de réconciliation hasWeakness ici.
 """
 
 import sys
-import shutil
 from pathlib import Path
 from rdflib import Graph
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-if str(BASE_DIR) not in sys.path:
-    sys.path.insert(0, str(BASE_DIR))
+# Ancrage SSOT vers 03-Application/ pour importer core.config
+APP_DIR = Path(__file__).resolve().parent.parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
-from config import (
+from core.config import (
     ABOX_CTI_PATH,
     ABOX_CTI_MD_PATH,
-    DIR_ABOX_EXTERNE,
-    DIR_SNAPSHOT_P3,
-    DKG_TBOX,
-    DKG_CTI
+    DIR_ABOX_EXTERNE
 )
 
 
@@ -31,7 +34,6 @@ def generate_cti_markdown():
     g = Graph()
     g.parse(str(ABOX_CTI_PATH), format="turtle")
 
-    snapshot_md_path = DIR_SNAPSHOT_P3 / ABOX_CTI_MD_PATH.name
     master_md_path = ABOX_CTI_MD_PATH
 
     lines = [
@@ -49,7 +51,7 @@ def generate_cti_markdown():
         "| :--- | :--- | :--- |",
         "| **APT** | Advanced Persistent Threat | Groupe d'attaquants hautement qualifiés menant des attaques ciblées et prolongées. |",
         "| **CISA KEV** | Known Exploited Vulnerabilities Catalogue | Registre des vulnérabilités exploitées activement. |",
-        "| **CTI** | Cyber Threat Intelligence | Renseignements structurés sur les menaces informatiques. |",
+        "| **CTI** | Cyber Threat Intelligence | Renseignement structuré sur les menaces informatiques. |",
         "| **CVE** | Common Vulnerabilities and Exposures | Dictionnaire public des vulnérabilités de sécurité connues. |",
         "| **CWE** | Common Weakness Enumeration | Système de classification des faiblesses logicielles et matérielles. |",
         "| **CAPEC** | Common Attack Pattern Enumeration and Classification | Référentiel des schémas et patterns d'attaque. |",
@@ -67,8 +69,7 @@ def generate_cti_markdown():
         "    B -->|Mappage Ontologique| C[Génération Triplets RDF]",
         "    C -->|Validation SHACL| D{Conforme?}",
         "    D -->|Non| E[Rejet / Error Log]",
-        "    D -->|Oui| F[Snapshot Phase 3]",
-        "    F -->|Synchronisation| G[Master CTI TLP:CLEAR]",
+        "    D -->|Oui| F[Écriture Directe Master CTI TLP:CLEAR]",
         "```",
         "",
         "---",
@@ -140,17 +141,11 @@ def generate_cti_markdown():
 
     lines.extend(["", "---", "*Document généré automatiquement conformément aux exigences de livrables TLP:CLEAR.*"])
 
-    # 1. Écriture Snapshot P3
-    DIR_SNAPSHOT_P3.mkdir(parents=True, exist_ok=True)
-    with open(snapshot_md_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
-    print(f"📦 Documentation Snapshot générée : {snapshot_md_path}")
-
-    # 2. Synchronisation Master TLP:CLEAR
+    # Écriture DIRECTE du MD Master TLP:CLEAR (GOU_2 v2.3)
     DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
-    if snapshot_md_path.resolve() != master_md_path.resolve():
-        shutil.copy(snapshot_md_path, master_md_path)
-        print(f"✅ Documentation Master synchronisée : {master_md_path}")
+    with open(master_md_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"✅ Documentation Master TLP:CLEAR générée en direct : {master_md_path}")
 
 
 if __name__ == "__main__":

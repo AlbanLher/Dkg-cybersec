@@ -2,24 +2,27 @@
 """
 generate_phase3_cti_abox.py
 Ingestion des flux externes NVD/CAPEC (TLP:CLEAR).
-Génère l'ABox CTI Externe et synchronise Snapshot Phase 3 / Master CTI.
+Génère l'ABox CTI Externe en ECRITURE DIRECTE dans le Master Transversal
+(GOU_2 v2.3 — plus de relais snapshot, figeage par tag git).
+Rév. 2026-11-25 (étape 3, vague 3) : ancrage core.config (l ancien acces
+top-level visait un module disparu lors du découpage v2) + suppression
+du relais Snapshot P3 / copie miroir — écriture directe du TTL
+Master, démarrage depuis n importe où.
 """
 
 import json
-import shutil
 import sys
 from pathlib import Path
 
-# Ancrage SSOT
-BASE_DIR = Path(__file__).resolve().parent.parent
-if str(BASE_DIR) not in sys.path:
-    sys.path.insert(0, str(BASE_DIR))
+# Ancrage SSOT vers 03-Application/ pour importer core.config
+APP_DIR = Path(__file__).resolve().parent.parent.parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
 from rdflib import Graph, Literal, RDF, RDFS, OWL, XSD
-from config import (
+from core.config import (
     DKG_TBOX,
     DKG_CTI,
-    DIR_SNAPSHOT_P3,
     DIR_ABOX_EXTERNE,
     ABOX_CTI_PATH,
     INPUT_CTI_JSON_PATH
@@ -61,7 +64,9 @@ def build_cti_graph(cti_data: dict) -> Graph:
         is_kev = info.get("is_cisa_kev", info.get("isCisaKev", False))
         g.add((cve_uri, DKG_TBOX.isCisaKev, Literal(bool(is_kev), datatype=XSD.boolean)))
 
-        # Liaison CWE via le prédicat canonique dkg:exploitsWeakness
+        # Liaison CWE via le prédicat de la zone CTI Externe (dkg:exploitsWeakness,
+        # signature du CTI coché attendue par le greffon audit — pas de réconciliation
+        # hasWeakness ici : celle-ci ne norme que l'ABox RED interne, TBox §25)
         if "cwe_id" in info and info["cwe_id"]:
             cwe_uri = DKG_CTI[info["cwe_id"]]
             g.add((cwe_uri, RDF.type, DKG_TBOX.Weakness))
@@ -87,19 +92,10 @@ def generate_phase3():
     print("Génération du graphe RDF CTI Externe...")
     g = build_cti_graph(cti_data)
 
-    # Création des répertoires
-    DIR_SNAPSHOT_P3.mkdir(parents=True, exist_ok=True)
+    # Écriture DIRECTE dans le Master Transversal TLP:CLEAR (GOU_2 v2.3)
     DIR_ABOX_EXTERNE.mkdir(parents=True, exist_ok=True)
-
-    # 1. Écriture dans Snapshot P3
-    snapshot_ttl = DIR_SNAPSHOT_P3 / ABOX_CTI_PATH.name
-    g.serialize(destination=str(snapshot_ttl), format="turtle")
-    print(f"📦 Snapshot CTI généré : {snapshot_ttl} ({len(g)} triplets)")
-
-    # 2. Copie miroir vers Master CTI (TLP:CLEAR)
-    if snapshot_ttl.resolve() != ABOX_CTI_PATH.resolve():
-        shutil.copy(snapshot_ttl, ABOX_CTI_PATH)
-        print(f"✅ Master CTI synchronisé : {ABOX_CTI_PATH}")
+    g.serialize(destination=str(ABOX_CTI_PATH), format="turtle")
+    print(f"✅ ABox CTI Externe générée en direct (Master TLP:CLEAR) : {ABOX_CTI_PATH} ({len(g)} triplets)")
 
 
 if __name__ == "__main__":
