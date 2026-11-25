@@ -30,7 +30,7 @@ Les technologies d'IA basées sur les Graphes de Connaissances Dynamiques (DKG) 
 | **V1** | Socle Structurel & Cartographie Interne | (P1) Standards W3C (OWL2, SKOS, SHACL)<br>(P2) Confidentialité native (TLP:AMBER / TLP:RED).<br>Cas d'usage : PC individuel. | 🟢 PASSED |
 | **V2** | Ingestion CTI, NER & Alignement Primitif | Superposition de graphes<br>Rapprochement sémantique et NER local.<br>Cas d'usage : CTI externe (NVD, CISA KEV) & texte brut. | 🟢 PASSED |
 | **V3** | Industrialisation, Micro-Agents & Gateway | Structure IA Agentique et API Gateway sécurisée (Cross-TLP).<br>Cas d'usage : Micro-entreprise, passerelle SPARQL immutable. | 🟢 PASSED |
-| **V4** | SOC_1 : Finalisation & Briques de Gouvernance | **Intégration du protocole MCP**, architecture multi-agents. Découpage Agile (acté 2026-11-17) : briques cœur développées seules (P9 : passerelle HITM, intégration EOL, llm_bridge), puis brique d'exposition (P10 : modélisation TBox des règles de filtrage & posture de durcissement, métrique d'exploitabilité, requêtes d'atteignabilité), puis mise en œuvre SOC_1 (P11 : Gardien ABox, rapport évolutionné vulnérabilité×exploitabilité, abaque 4 couches) clôturée par l'**arbitrage GO/NO-GO Neo4j**. | 🟡 ACTIVE |
+| **V4** | SOC_1 : Finalisation & Briques de Gouvernance | **Intégration du protocole MCP**, architecture multi-agents. Découpage Agile (acté 2026-11-17) : briques cœur développées seules (P9 : passerelle HITM, intégration EOL, llm_bridge), puis brique d'exposition (P10 : modélisation TBox des règles de filtrage & posture de durcissement, métrique d'exploitabilité, requêtes d'atteignabilité), puis mise en œuvre SOC_1 (P11 : Gardien ABox, rapport évolutionné vulnérabilité×exploitabilité, abaque 4 couches) clôturée par l'**arbitrage GO/NO-GO Neo4j**. État (2026-11-25) : étape de reprise close (CI vert, plancher NonReg 130 passed) ; P9 ACTIVE avec Brique 2 (Intégration EOL) ✔ PASSED ; P10 ACTIVE — vague EOL ouverte (spec SPC-FWK-P10-EOL_01, registre v2.5, commit a8b877d) : record SMBv1 dans le fonds, imbrication composants/actifs, adaptateur front. | 🟡 ACTIVE |
 | **V5** | SOC_2 : Conformité RGPD & Taxonomies SKOS | Réutilise les briques de V4 sans nouvelle brique majeure attendue. Internationalisation (FR/EN), poly-hiérarchies, conformité RGPD/NIS2. | ⚪ Planifié |
 | **V6** | SOC_3 : Logs & Surveillance | Montée en charge progressive, génération de deltas et abaques de performance, par la méthode abaque produite en V4. | ⚪ Planifié |
 | **V7** | GraphRAG Hybride & Multi-Engine Neo4j | Assistant NL-to-SPARQL avancé et pont vers base de graphe propriétaire (n10s), **conditionnés par l'arbitrage chiffré de V4** (on ne s'engage qu'avec les chiffres), avec documentation formelle de la perte sémantique. | ⚪ Planifié |
@@ -167,10 +167,10 @@ Chaque brique de l'architecture possède un rôle étanche et complémentaire :
 ```
 DKG-CYBERSEC/
 ├── 00-Projet/                          # Gouvernance, checklists, Roadmap et livrables Phase_Content.md
-├── 01-Principes_Spécification/         # Spécifications fonctionnelles et techniques (SPEC-XX)
-├── 02-Donnees/                         # Artefacts RDF Turtle (.ttl) et auto-documentation miroir (.md)
-│   ├── Snapshots_Phases/               # Historique figé par Phase
-│   └── Master_Transversal/             # Graphe unifié consolidé (TBox, ABox RED/CLEAR)
+├── 01-Principes_Spécification/         # Spécifications canoniques (SPC-*) et registre d'exigences vivant (registry_exigences.json)
+├── 02-Donnees/                         # Artefacts RDF Turtle (.ttl) — consolidation en delta Master direct (miroirs .md abrogés, Snapshots_Phases abrogé en 06-Archives)
+│   ├── Input_Phases/                   # Seeds et fonds de recette par phase
+│   └── Master_Transversal/             # Zones TLP : TBox AMBER · ABox Interne RED (Instances) · CTI Externe CLEAR · Infered RED · API_Gateway GREEN
 └── 03-Application/                     # Outillage Python, agents IA, API Gateway et suites PyTest
 ```
 
@@ -215,4 +215,4 @@ Vous souhaitez adapter la méthode DKG-Framework à un autre cas d'usage (Santé
 ## 7. Dette de versions
 
 
-> ⚠️ **Dette de données — snapshots version ≤ 2** : les `.ttl` de `Snapshots_Phases/` ont été générés avant le nettoyage terminologique et keyset de la version 3 (`dkg-data:` → `dkg-cti:` sur CTI, `exploitsWeakness` → `hasWeakness`, normalisation des préfixes). Ils sont sciemment exclus du lint et **ne doivent être ni corrigés à la main ni utilisés comme référence**. Ils seront régénérés conformes au prochain replay des générateurs (phase1/phase2 + inférence + reset démo) depuis les seeds et la TBox Master de la version 3. Toute comparaison seed/snapshot doit se faire post-replay.
+> ✅ **Dette de données résolue (2026-11-25, étape de reprise)** : la zone `Snapshots_Phases/` a été **abrogée physiquement** (19 fichiers déplacés en `06-Archives/Snapshots_Phases_Historique`, commit a015a37). Les zones Master sont régénérées en **delta direct** depuis les rejeus `03-Application/phases/PhaseX/` (fusion abrogée). La régénération depuis les seeds et la TBox Master v3 est la seule voie de reconstruction ; tout Master non rejouable à l'identique est suspect de pollution manuelle.
