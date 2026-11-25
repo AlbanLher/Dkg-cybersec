@@ -12,7 +12,7 @@
 | :--- | :--- | :--- |
 | **APT** | Advanced Persistent Threat | Groupe d'attaquants hautement qualifiés menant des attaques ciblées et prolongées. |
 | **CISA KEV** | Known Exploited Vulnerabilities Catalogue | Registre des vulnérabilités exploitées activement. |
-| **CTI** | Cyber Threat Intelligence | Renseignements structurés sur les menaces informatiques. |
+| **CTI** | Cyber Threat Intelligence | Renseignement structuré sur les menaces informatiques. |
 | **CVE** | Common Vulnerabilities and Exposures | Dictionnaire public des vulnérabilités de sécurité connues. |
 | **CWE** | Common Weakness Enumeration | Système de classification des faiblesses logicielles et matérielles. |
 | **CAPEC** | Common Attack Pattern Enumeration and Classification | Référentiel des schémas et patterns d'attaque. |
@@ -30,8 +30,7 @@ flowchart LR
     B -->|Mappage Ontologique| C[Génération Triplets RDF]
     C -->|Validation SHACL| D{Conforme?}
     D -->|Non| E[Rejet / Error Log]
-    D -->|Oui| F[Snapshot Phase 3]
-    F -->|Synchronisation| G[Master CTI TLP:CLEAR]
+    D -->|Oui| F[Écriture Directe Master CTI TLP:CLEAR]
 ```
 
 ---

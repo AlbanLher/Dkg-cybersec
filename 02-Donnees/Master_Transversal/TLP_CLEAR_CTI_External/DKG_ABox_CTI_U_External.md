@@ -11,7 +11,7 @@
 | Acronyme | Définition Complète | Contextualisation DKG |
 | :--- | :--- | :--- |
 | **APT** | Advanced Persistent Threat | Groupe d'attaquants qualifiés menant des opérations ciblées. |
-| **CTI** | Cyber Threat Intelligence | Renseignements structurés sur les menaces informatiques. |
+| **CTI** | Cyber Threat Intelligence | Renseignement structuré sur les menaces informatiques. |
 | **CVE** | Common Vulnerabilities and Exposures | Référentiel des vulnérabilités publiques connues. |
 | **TLP** | Traffic Light Protocol | Norme de restriction du partage de l'information. |
 | **RDF** | Resource Description Framework | Modèle de représentation sous forme de graphes de triplets. |
@@ -26,8 +26,7 @@ flowchart LR
     B -->|Calcul Score| C{Confidence >= 0.85?}
     C -->|Non| D[Rejet / Journal d'Audit]
     C -->|Oui| E[Instanciation Triplets RDF]
-    E --> F[Snapshot Phase 4]
-    F -->|Synchro SSOT| G[Master CTI TLP:CLEAR]
+    E -->|Écriture Directe| F[Master CTI TLP:CLEAR]
 ```
 
 ---
