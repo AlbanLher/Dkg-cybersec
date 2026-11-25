@@ -1,8 +1,8 @@
 {
   "metadata": {
     "description": "Registre centralisé des exigences DKG-CyberSec",
-    "spec_driven_version": "2.1",
-    "revision": "2026-11-23 — Dettes D1/D2 (sprint P9) : purge des doublons de déclaration (GOU_14≡T-R_1, GOU_15≡T-R_2, GOU_16≡T-R_3, GOU_17≡T-R_4, GOU_21≡ABO_2, GOU_10≈RUL_4 — la déclaration conservée est la plus ancienne et testée), nettoyage des marqueurs '[cite]' (artefacts d'export), ajout du champ 'recette' par exigence (auto|visuelle|inspection). Règle : une exigence = une déclaration."
+    "spec_driven_version": "2.3",
+    "revision": "2026-11-24 — v2.3 : GOU_2 reecrite en figeage par tag git (l historique est le snapshot, rejeu par checkout, Master = reference vivante ; remplace la doctrine v2.2 du rejeu par copie de fichiers, caduque avec l abrogation de Snapshots_Phases) ; GOU_6 (Double Export Anti-Collision) ABROGEE — le flux snapshot->master n existe plus. Suite de la vague de simplification 24/11/2026."
   },
   "exigences": [
     {
@@ -237,6 +237,17 @@
       "recette": "inspection"
     },
     {
+      "id": "EXG-FWK-P1-GOU_2",
+      "domaine": "OR",
+      "core": true,
+      "phase": "P1",
+      "spec_source": "SPC-FWK-P1-GOUV_01",
+      "titre": "Figeage par Tag Git (rejeu par checkout)",
+      "critere": "Le figeage d'une phase se fait par tag git annote (phaseN-vX) et son rejeu par checkout du tag — l historique EST le snapshot, aucune copie de figeage n est maintenue dans le depot. Le Master_Transversal est la seule reference vivante ; les artefacts de generation restent presents dans le Master (doctrine simplification 24/11/2026, remplace la copie snapshot->Master).",
+      "test": "Pytest : tag annote phase1-v1 present (git tag) + artefacts de generation du Master parsables (rdflib)",
+      "recette": "auto"
+    },
+    {
       "id": "EXG-FWK-P1-GOU_3",
       "domaine": "OR",
       "core": true,
@@ -256,17 +267,6 @@
       "titre": "Architecture SSOT (config.py)",
       "critere": "Centralisation stricte des répertoires et URIs dans config.py.",
       "test": "Test Python / AST",
-      "recette": "auto"
-    },
-    {
-      "id": "EXG-FWK-P1-GOU_6",
-      "domaine": "OR",
-      "core": true,
-      "phase": "P1",
-      "spec_source": "SPC-FWK-P1-GOUV_01",
-      "titre": "Double Export Anti-Collision",
-      "critere": "Synchronisation Snapshot -> Master sans erreur SameFileError.",
-      "test": "Execution Script",
       "recette": "auto"
     },
     {
