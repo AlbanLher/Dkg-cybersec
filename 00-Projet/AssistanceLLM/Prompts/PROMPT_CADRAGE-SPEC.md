@@ -1,17 +1,17 @@
-# 📐 Prompt 1/3 — Cadrage & Spécifications Phase X (`[CONTEXT: CADRAGE-SPEC]`) — rév. 2026-11-23
+# 📐 Prompt 1/3 — Cadrage & Spécifications Phase X (`[CONTEXT: CADRAGE-SPEC]`) — rév. 2026-11-25
 
-> Rév. 2026-11-23 : intègre l'étape 0 de réalignement backlog, le fil directeur
-> 01.3, le budget GOU_4 et la sobriété documentaire §7 du 01.1. Le Context
-> Bundle (archivé par 5S) est remplacé par la mémoire projet + le backlog
-> consolidé.
+> Rév. 2026-11-25 : plancher NonReg 61 → **130 passed** ; registre vivant
+> `registry_exigences.json` v2.5 (64 EXG, champ `recette` étendu à `prevue`) ;
+> doctrine replay delta Master (Snapshots_Phases abrogé) ; phase active P10.
 
 ## 📌 Fichiers à joindre obligatoirement dans votre message (demander si absents) :
 - [ ] **`config.py`** — état de fin de phase précédente ou intermédiaire courant
 - [ ] **`Roadmap.md`** — vagues V1-V8, phases P1-P17, statuts (vue YAML de la § 5)
 - [ ] **`01.3 - Scenario_Fil_Directeur.md`** — le scénario pilote qui guide
       l'ordonnancement des briques de la vague (étape d'avancement à jour)
-- [ ] **`Cadrage_P9_Backlog.md`** (ou backlog consolidé de la phase active) —
-      les lots (nettoyage, dette, briques, renommages, EXG candidates)
+- [ ] **Backlog consolidé de la phase active** (ex. `Cadrage_P9_Backlog.md`
+      pour P9 ; à créer pour P10) — lots (nettoyage, dette, briques,
+      renommages, EXG candidates)
 - [ ] **Journal de reprise** (mémoire projet, ex. `reprise-2026-11-17.md`) —
       décisions actées non encore reflétées dans les specs
 
@@ -26,10 +26,15 @@
 
 ### Étape 0 — Réalignement (AVANT toute spécification du neuf)
 - [ ] **Gatekeeper Phase N-1 :** clôture 100% PASSED de la phase précédente ;
-      si la clôture de scope impose un arbitrage, vérifier qu'il est **documenté**.
+      si la clôture de scope impose un arbitrage, vérifier qu'il est **documenté** ;
+      le plancher NonReg courant (**130 passed**) est vert avant d'ouvrir.
+- [ ] **Dossier de phase :** `00-Projet/phases/PhaseX/` doit exister avec au
+      minimum `Phase_Content.md` et `Memo_UseCase_PhaseX.md` (P9 ne les a pas
+      encore — à créer au cadrage).
 - [ ] **Purge du registre :** vérifier qu'aucun doublon d'EXG n'est apparu
-      depuis (une exigence = une déclaration canonique) ; tracer les
-      corrections/dette comme EXG, pas comme travaux fantômes.
+      depuis (une exigence = une déclaration canonique) ; les EXG déclarées
+      par spec entrent en `recette: prevue` et ne passent PASSED qu'avec
+      preuve de commits.
 - [ ] **Clore les questions ouvertes** du backlog (chacune reçoit sa décision
       écrite ; une question non tranchée devient un arbitrage traçable).
 - [ ] **Vérification GOU_4 :** inventorier les EXG candidates du backlog vs le
@@ -43,10 +48,12 @@
       données synthétiques si nécessaire.
 - [ ] **Modélisation sémantique :** structure TBox/ABox cible (domaines, ranges,
       cardinalités, marquage TLP). Vocabulaire canonique obligatoire : **ABox
-      Interne (TLP:RED)** / **ABox Externe (TLP:CLEAR)**.
+      Interne (TLP:RED)** / **ABox Externe (TLP:CLEAR)** ; zones Master :
+      TLP_AMBER_Socle_TBox, TLP_CLEAR_CTI_External, TLP_RED_Instances_ABox,
+      TLP_RED_Infered_Graph, TLP_GREEN_API_Gateway.
 - [ ] **Design données de sortie :** mise à jour proposée de `config.py`.
 - [ ] **Alignement fil directeur :** chaque brique cadrée doit faire avancer
-      le scénario pilote (01.3) d'une étape identificable.
+      le scénario pilote (01.3) d'une étape identifiable.
 
 ### Étape 2 — Artefacts de cadrage obligatoires
 - [ ] `00-Projet/phases/PhaseX/Phase_Content.md` (objectifs, étapes, livrables)
@@ -54,7 +61,10 @@
       Mermaid — vérifier l'équilibre `subgraph`/`end` après édition)
 - [ ] Spécifications formelles dans `01-Principes_Spécifications/` (taxonomie
       TRANSVERSAL / USECASE_METIER / USECASE_TECHNIQUE), chaque EXG avec son
-      champ `recette: auto | visuelle | inspection`
+      champ `recette: auto | visuelle | inspection | prevue`
+- [ ] **Registre versionné :** intégration des nouvelles EXG au
+      `registry_exigences.json` (bump de version + texte de révision daté et
+      sourcé) en même temps que la pose de la spec.
 - [ ] **Backlog rebaseliné** : chaque item reçoit son EXG, son lot, son étape
       bornée — le backlog devient le carnet de session.
 

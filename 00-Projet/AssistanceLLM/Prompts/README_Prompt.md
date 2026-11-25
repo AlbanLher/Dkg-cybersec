@@ -1,58 +1,47 @@
-exemple d'utilisation des prompt 
-#### Cas 1 : Tu veux qu'on développe du code (Python / Pytest / Turtle)
+# 📖 README — Utilisation des prompts DKG-CyberSec — rév. 2026-11-25
 
-Tu tapotes simplement ceci dans ton message :
+## Rôle des fichiers
+- `SYSTEM_MASTER_PROMPT.md` — socle immuable : règles Spec-Driven, SSOT, TLP,
+  vocabulaire canonique, doctrine delta Master, plancher NonReg 130. À coller
+  en premier message de toute nouvelle session.
+- `PROMPT_CADRAGE-SPEC.md` — step 1 : cadrage, réalignement backlog, specs,
+  mise à jour du registre d'exigences versionné.
+- `PROMPT_STEP_DEV_DATA.md` — step 2 : code, data pipeline, tests, recettes.
+- `PROMPT_STEP_RETRO_5S.md` — step 3 : rejeu témoin, delta Master, 5S,
+  fichiers vitrines, clôture par arbitrage documenté.
+- `../Kits_Amorçage/` — **HISTORIQUE** : les Context Bundles P2→P8 sont
+  remplacés depuis la reprise du 17/11 par la **mémoire projet** (journal de
+  reprise Vibe). Ne plus les utiliser comme amorce de session.
 
-> **[CONTEXT: DEV]**
-> 
-> Peux-tu me proposer le script `03-Application/queries_sparql.py` pour exécuter nos premières requêtes CTI ?
+## Procédure d'ouverture d'une nouvelle session
+1. **Injection du Master Prompt** : coller `SYSTEM_MASTER_PROMPT.md` dans le
+   premier message (règles immuables : config.py, @prefix, SSOT, 130).
+2. **Re-synchro rapide** : coller l'état en 3 lignes
+   (ex. « Étape 3 close (CI vert, 130 passed). P10 vague EOL ouverte : spec
+   SPC-FWK-P10-EOL_01 posée, registre v2.5. Prochain geste : record SMBv1
+   dans le fonds. »).
+3. **Joindre la mémoire projet** : le journal de reprise
+   (`reprise-2026-11-17.md`) remplace le Context Bundle ; joindre aussi le
+   backlog consolidé de la phase active et `config.py` selon le step.
 
-_(Dès que je vois `[CONTEXT: DEV]`, je sais que je dois respecter strictement `config.py`, la syntaxe `rdflib` et ajouter les `@prefix` Turtle)._
+## Exemples d'activation par alias
+- **Cadrage/spécifications de la phase :**
+  > **[CONTEXT: SPEC]**
+  > On ouvre la vague suivante de P10. Réalignons le backlog et posons la spec.
+- **Développement :**
+  > **[CONTEXT: DEV]**
+  > Implémente le record SMBv1 dans le fonds EOL selon EXG-FWK-P10-FOND_1.
+  _(Dès que je vois `[CONTEXT: DEV]` : respect strict de `config.py`, syntaxe
+  rdflib, `@prefix` Turtle, NonReg 130 avant commit, un geste = un commit.)_
+- **Rétrospective/clôture :**
+  > **[CONTEXT: RETRO]**
+  > Les 130 tests passent. Faisons le 5S de l'étape et mettons à jour Roadmap/README.
+  _(Dès que je vois `[CONTEXT: RETRO]` : posture d'audit — rejeu témoin,
+  grep d'imports, arbitrage documenté, mémoire projet mise à jour.)_
 
-#### Cas 2 : On termine une phase et on veut faire le ménage
-
-Tu m'envoies :
-
-> **[CONTEXT: RETRO]**
-> 
-> Les tests Pytest passent tous. Faisons le bilan 5S de la Phase 2.5 et mettons à jour la Roadmap.
-
-_(Dès que je vois `[CONTEXT: RETRO]`, j'adopte la posture d'audit : contrôle du code mort, vérification des fiches de synthèse Markdown et mise à jour du backlog)._
-
-#### Cas 3 : On rédige des spécifications ou du cadrage
-
-Tu m'envoies :
-
-> **[CONTEXT: SPEC]**
-> 
-> On démarre la Phase 3. Rédigeons la fiche `SPEC-04_Moteur_Inference.md`.
-
-_(Dès que je vois `[CONTEXT: SPEC]`, je me concentre uniquement sur la modélisation fonctionnelle, les cas d'usage et les diagrammes, sans produire de code d'application)._
-
-
-
-### 🚀 Procédure idéale pour ouvrir la nouvelle session
-
-Dans votre nouveau chat, il vous suffira de suivre ces 3 étapes simples :
-
-#### Étape 1 : Injection du Master Prompt (Premier message)
-
-Collez le contenu de `00-Projet/Prompts/SYSTEM_MASTER_PROMPT.md` pour fixer les règles immuables (`config.py`, `@prefix`, SSOT).
-
-#### Étape 2 : Re-synchro rapide de l'état actif
-
-Ajoutez un court résumé de 3 lignes sur le point de départ :
-
-> _"Phase 2.5 validée par Pytest. Le fichier `config.py` est la SSOT officielle. Nous démarrons la Phase 3 (SPARQL & Moteur d'inférence)."_
-
-#### Étape 3 : Activation du module voulu via l'Alias
-
-Formulez votre premier besoin avec le tag approprié :
-
-> **`[CONTEXT: SPEC]`** _(si vous souhaitez rédiger les cadrages/spécifications de la Phase 3)_
-> 
-> **ou**
-> 
-> **`[CONTEXT: DEV]`** _(si vous souhaitez directement coder les scripts Python/SPARQL de la Phase 3)_
-
-Cette transition nette permettra de démarrer la Phase 3 sur des bases optimales et parfaitement réactives.
+## Rappel des invariants de travail (vagues ≥ V4)
+- Une session = une étape bornée ; gestes ≤ 5s ; un commit par geste, par
+  chemin explicite (jamais `git add -A`).
+- Plancher NonReg inviolable : **130 passed**, rejoué AVANT commit.
+- Une seule version finale par livrable ; échec sonore, jamais silencieux ;
+  SPARQL pour le graphe, jamais de regex sur `.ttl`.
