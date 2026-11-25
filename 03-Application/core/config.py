@@ -375,10 +375,8 @@ ABOX_INFERED_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.ttl"
 ABOX_INFERED_MD_PATH = DIR_INFERED_RED / "DKG_ABox_Infered.md"
 
 INPUT_P6_QUERY_PAYLOAD = DIR_INPUTS_P6 / "sample_query_payloads.json"
-PATH_P6_GATEWAY_LOG = DIR_SNAPSHOT_P6 / "api_gateway_audit.log"
 
 INPUT_RESIDENTIAL_JSON_PATH = DIR_INPUTS_P7 / "input_residential_family_env.json"
-ABOX_RESIDENTIAL_PATH = DIR_SNAPSHOT_P7 / "DKG_ABox_Residential.ttl"
 EXTERNAL_SOURCES_CONFIG_PATH = DIR_INPUTS_P7 / "external_sources_config.json"
 EXTERNAL_SOURCES_CATALOG_PATH = DIR_INPUTS_P7 / "external_sources_catalog.json"
 
@@ -437,3 +435,12 @@ RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
 RDF = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 OWL = Namespace("http://www.w3.org/2002/07/owl#")
 SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
+
+# --- Relogements v2.3 (etape 3, vague 3) : P6/P7 quittent Snapshots_Phases (a abroger) ---
+# P6 : zone Master TLP:GREEN de la passerelle API (audit HAB_3 + resultats de recette)
+DIR_API_GATEWAY_GREEN = DIR_TBOX_AMBER.parent / "TLP_GREEN_API_Gateway"
+PATH_P6_GATEWAY_LOG = DIR_API_GATEWAY_GREEN / "api_gateway_audit.log"
+PATH_P6_EXECUTION_RESULTS = DIR_API_GATEWAY_GREEN / "execution_results.json"
+# P7 : ABox residentielle relogee au Master RED (arbitrage acte, artefact dedie spec P7)
+ABOX_RESIDENTIAL_PATH = DIR_MASTER_ABOX / "DKG_ABox_Residential.ttl"
+ABOX_RESIDENTIAL_MD_PATH = DIR_MASTER_ABOX / "DKG_ABox_Residential.md"
