@@ -1,8 +1,8 @@
 {
   "metadata": {
     "description": "Registre centralisé des exigences DKG-CyberSec",
-    "spec_driven_version": "2.3",
-    "revision": "2026-11-24 — v2.3 : GOU_2 reecrite en figeage par tag git (l historique est le snapshot, rejeu par checkout, Master = reference vivante ; remplace la doctrine v2.2 du rejeu par copie de fichiers, caduque avec l abrogation de Snapshots_Phases) ; GOU_6 (Double Export Anti-Collision) ABROGEE — le flux snapshot->master n existe plus. Suite de la vague de simplification 24/11/2026."
+    "spec_driven_version": "2.4",
+    "revision": "2026-11-25 — v2.4 : entree des EXG-FWK-P9-EOL_1/2/3 (brique C2, spec SPC-FWK-P9-Briques_Coeur_01 l.37-66) dans le registre. Preuve : core/eol_engine.py + greffon audit_engine + route /api/phase8/eol/ingest ; recette Test/test_eol_engine.py (11 tests) ; NonReg 130 passed (commits 1f0b87f, cb74902, 2e67a74, 480d857, f589731)."
   },
   "exigences": [
     {
@@ -642,6 +642,39 @@
       "critere": "Exposition des services par routes JSON pour découplage d'IHM.",
       "test": "Tests de contrat API",
       "recette": "inspection"
+    },
+    {
+      "id": "EXG-FWK-P9-EOL_1",
+      "domaine": "CT",
+      "core": true,
+      "phase": "P9",
+      "spec_source": "SPC-FWK-P9-Briques_Coeur_01",
+      "titre": "Intégration EOL (moteur)",
+      "critere": "Un moteur core (suffixe _engine) ingère la source EOL selon la mécanique des sources CTI : templates de stand-by réactivés, ingestion par delta, tests NonReg dédiés, source tracée.",
+      "test": "Ingestion d'un delta EOL de recette + NonReg EOL",
+      "recette": "auto"
+    },
+    {
+      "id": "EXG-FWK-P9-EOL_2",
+      "domaine": "CT",
+      "core": true,
+      "phase": "P9",
+      "spec_source": "SPC-FWK-P9-Briques_Coeur_01",
+      "titre": "Namespace Dédié dkg-eol",
+      "critere": "Les instances issues de la source EOL vivent dans un namespace dédié dkg-eol (arbitrage 23/11), marquage TLP:CLEAR, hébergées dans l'ABox Externe — séparation des sources par origine.",
+      "test": "Sélection SPARQL du namespace dkg-eol (jamais regex .ttl)",
+      "recette": "auto"
+    },
+    {
+      "id": "EXG-FWK-P9-EOL_3",
+      "domaine": "CT",
+      "core": true,
+      "phase": "P9",
+      "spec_source": "SPC-FWK-P9-Briques_Coeur_01",
+      "titre": "Date EOL Sourcée Propagée",
+      "critere": "La date d'obsolescence porte sa source et son commentaire (convention dkg:sourceNote) ; la vulnérabilité d'un finding s'étoffe CVE + KEV + EOL dès ingestion.",
+      "test": "Requête SPARQL : composant EOL → finding enrichi, triple source présent",
+      "recette": "auto"
     }
   ]
 }
