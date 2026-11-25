@@ -1,8 +1,8 @@
 {
   "metadata": {
     "description": "Registre centralisé des exigences DKG-CyberSec",
-    "spec_driven_version": "2.4",
-    "revision": "2026-11-25 — v2.4 : entree des EXG-FWK-P9-EOL_1/2/3 (brique C2, spec SPC-FWK-P9-Briques_Coeur_01 l.37-66) dans le registre. Preuve : core/eol_engine.py + greffon audit_engine + route /api/phase8/eol/ingest ; recette Test/test_eol_engine.py (11 tests) ; NonReg 130 passed (commits 1f0b87f, cb74902, 2e67a74, 480d857, f589731)."
+    "spec_driven_version": "2.5",
+    "revision": "2026-11-25 — v2.5 : ouverture vague P10-EOL. Entree des EXG-FWK-P10-FOND_1/ABL_1/EOL_4, preuve = spec SPC-FWK-P10-EOL_01 posee (recette prevue, implementation en gestes P10 ; enregistrement avec preuve de commits prevu en v2.6). Notes gouvernance etape 3 (close, CI vert) : arc greffes SMBv1 purge des 2 zones CTI et residentielle (commits 0947758 et 19aea19) ; BNodes deterministes (bruit de re-ID maitrise) ; RBox Master = roadmap, RULES_MASTER_PATH laisse au vide, echec sonore chez les futurs consommateurs (pas de placeholder ballast) ; HAB_3 : journal api_gateway_audit.log versionne (exception .gitignore ligne 84, historique fusionne) ; specs P5 pointant vers Snapshots_Phases : alignement prevu lors d une passe specs ; Snapshots_Phases abroge physiquement (a015a37, archivage 06-Archives). Plancher NonReg : 130 passed."
   },
   "exigences": [
     {
@@ -675,6 +675,39 @@
       "critere": "La date d'obsolescence porte sa source et son commentaire (convention dkg:sourceNote) ; la vulnérabilité d'un finding s'étoffe CVE + KEV + EOL dès ingestion.",
       "test": "Requête SPARQL : composant EOL → finding enrichi, triple source présent",
       "recette": "auto"
+    },
+    {
+      "id": "EXG-FWK-P10-FOND_1",
+      "domaine": "DAT",
+      "core": false,
+      "phase": "P10",
+      "spec_source": "SPC-FWK-P10-EOL_01",
+      "titre": "Record EOL SMBv1 Structuré (Fonds)",
+      "critere": "Le fonds EOL de recette (TLP:CLEAR, faits publics) porte un record SMBv1 au format canonique dkg-eol:EndOfLife complet, date sourcée et commentée (sourceNote, convention EXG-FWK-P9-EOL_3).",
+      "test": "Rejeu moteur eol_engine + recette EOL existante",
+      "recette": "prevue (spec posee, geste P10 suivant)"
+    },
+    {
+      "id": "EXG-FWK-P10-ABL_1",
+      "domaine": "TEC",
+      "core": false,
+      "phase": "P10",
+      "spec_source": "SPC-FWK-P10-EOL_01",
+      "titre": "Imbrication Composants/Actifs (ABox locale)",
+      "critere": "agent_local_host_abox relie chaque composant servi a son actif hot via une propriete dediee de la TBox ; aucune greffe manuelle ad hoc dans le .ttl.",
+      "test": "Pytest agent_local_host_abox + SHACL ABox residentielle",
+      "recette": "prevue (spec posee, geste P10 suivant)"
+    },
+    {
+      "id": "EXG-FWK-P10-EOL_4",
+      "domaine": "UI",
+      "core": false,
+      "phase": "P10",
+      "spec_source": "SPC-FWK-P10-EOL_01",
+      "titre": "Adaptateur Front EOL Pur",
+      "critere": "Case a cocher source EOL + rendu eol_date/sourceNote/successorVersion dans les findings, strictement depuis le contrat findings figé (brique C2). Zero logique front, echec sonore sur champ manquant.",
+      "test": "Recette front + NonReg",
+      "recette": "prevue (spec posee, geste P10 suivant)"
     }
   ]
 }
