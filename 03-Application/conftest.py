@@ -2,6 +2,8 @@
 # Exécute EXG-OR-* (Organisation & Processus : traçabilité Cycle en V / Spec-Driven).
 # Révision 2026-11-17 : ajout mapping test_phase8_demonstrator.py (MET, officialisé),
 # avertissement explicite pour fichier non mappé (règle « aucune erreur silencieuse »).
+# Révision 2026-11-24 : ajout mapping test_eol_engine.py (TEC — brique C2/P9,
+# EXG-FWK-P9-EOL_1/2/3 + FRG_1 + GTW_2 : moteur core, domaine Core Framework).
 import pytest
 from rdflib import Graph
 from core.config import DIR_MASTER_TBOX, TBOX_MASTER_PATH, SHACL_MASTER_PATH
@@ -44,6 +46,7 @@ FILE_DOMAIN_MAPPING = {
     "test_agent_local_host_abox.py": "CT",  # ABox scan réel (ABO_1/ABO_3/mi_1)
     "test_local_volumes.py": "CT",          # SSOT lecture volumes (RES_1/AGE_1)
     "test_routes_phase8.py": "SE",         # Routes démonstrateur P8 (cio DEM_1-7)
+    "test_eol_engine.py": "TEC",           # Moteur EOL brique C2 (EOL_1/2/3, FRG_1, GTW_2)
     "test_dkg_pipeline.py": "TEC",           # Technique & Core Framework
     "test_mcp_server.py": "TEC",             # Technique & Core Framework
 }

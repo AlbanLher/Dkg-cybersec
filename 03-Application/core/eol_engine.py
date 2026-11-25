@@ -9,8 +9,9 @@ crash hors-ligne), fusionne en cumul idempotent dans le volume EOL de
 l ABox Externe (TLP:CLEAR, namespace dkg-eol, jamais dkg-data), ratios
 de frugalité distant/local/RAM. Mécanique clonée de cti_intake.py
 (design C2 A3). Rév. 2026-11-24 — V3.
-Interdits (loi de séparation inc_1) : aucune dépendance applicative (fastapi, api, phases bannis par ce module) ;
-aucune écriture hors ABox Externe ; jamais les seeds ni le scan réel.
+Interdits (loi de séparation inc_1) : aucune dépendance applicative
+(fastapi, api, phases bannis par ce module) ; aucune écriture hors
+ABox Externe ; jamais les seeds ni le scan réel.
 """
 import re
 from typing import Dict, List
@@ -86,7 +87,10 @@ def _ingest_fonds(g) -> int:
         return 0
     from rdflib import Graph
     funds = Graph()
-    funds.parse(str(funds_path), format="turtle")
+    try:
+        funds.parse(str(funds_path), format="turtle")
+    except Exception:
+        return -1                    # fonds corrompu : marqueur visible, pas de crash
     q = """
     PREFIX dkg-eol: <http://dkg.cybersec.org/eol#>
     SELECT ?e WHERE { ?e a dkg-eol:EndOfLife . }"""
@@ -128,6 +132,11 @@ def ingest_eol_source() -> dict:
         except Exception:
             pass                                  # volume corrompu -> repart à zéro
     added = _ingest_fonds(g)
+    fonds_notice = ""
+    if added == -1:
+        added = 0
+        fonds_notice = ("# ⚠️ Fonds EOL de recette non parsable (rdflib) — "
+                        "ingestion ignorée, cumul local conservé\n")
     body = g.serialize(format="turtle")
     funds_bytes = (settings.EOL_FONDS_RECETTE_PATH.stat().st_size
                    if settings.EOL_FONDS_RECETTE_PATH.exists() else 0)
@@ -152,6 +161,7 @@ def ingest_eol_source() -> dict:
                f"téléchargé : {downloaded_total:,} | "
                f"persisté en local : {local_bytes:,} | RAM : {ram_bytes:,} octets\n")
     header += f"# Triplets: {len(g)} | instances EOL ajoutées cette fois: {added}\n"
+    header += fonds_notice
     ttl = header + body
     vol.write_text(ttl, encoding="utf-8")
     # EOL_1 / GTW_2 : l écriture M2 (ingestion au volume EOL de l ABox
