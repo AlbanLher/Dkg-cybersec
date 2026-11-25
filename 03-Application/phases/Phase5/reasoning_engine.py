@@ -1,14 +1,27 @@
+#!/usr/bin/env python3
 """
-03-Application/Phase5/reasoning_engine.py
+03-Application/phases/Phase5/reasoning_engine.py
 
 Moteur de Raisonnement Sémantique (Reasoning Engine) - Phase 5
 Conforme aux règles SSOT, Replay, Auto-Documentation et En-têtes Turtle.
+Script de référence P5 (SPC-TEC-P5-DATA_01 §5, SPC-FWK-P5-RULES_01 §5) :
+R-01 (CISA KEV) + R-02 (Silent Cascade), déductions déterministes.
+
+Rév. 2026-11-25 (étape 3, vague 3) — ACTE ARBITRAGE v2.3 :
+ECRITURE DIRECTE du DELTA des faits déduits dans le Master Infered
+TLP:RED (GOU_2 v2.3 — plus de relais snapshot ni copie miroir).
+L'Infered persistant est la CAPITALISATION du raisonneur (Replay) :
+il est ADDITIF au graphe de lecture TLP:RED (config :
+TLP_RED_READ_GRAPH empile déjà CTI + CTI-U + TBox + ABox Master) ;
+la fusion complète des graphes n'a de sens qu'en mémoire vive, à la
+requête — la persister duperait tout le graphe de lecture (FRG).
+La fusion historique (generate_phase5_inference.py) est ABROGEE
+(HISTORIQUE, archivée en 06-Archives). Règles R-01/R-02 inchangées.
 """
 
 import logging
 import sys
 import time
-import shutil
 from pathlib import Path
 from rdflib import Graph, RDF, RDFS, OWL, SKOS
 
@@ -22,7 +35,6 @@ from core.config import (
     ABOX_CTI_PATH,
     ABOX_INFERED_PATH,
     ABOX_INFERED_MD_PATH,
-    DIR_SNAPSHOT_P5,
     DIR_INFERED_RED,
     DKG_TBOX,
     DKG_CTI,
@@ -141,19 +153,18 @@ class ReasoningEngine:
         return execution_time
 
     def save_and_document(self) -> None:
-        """Matérialise le graphe déduit et génère la documentation miroir (Replay & Auto-Doc)."""
-        DIR_SNAPSHOT_P5.mkdir(parents=True, exist_ok=True)
+        """Écriture DIRECTE du delta déduit au Master Infered (GOU_2 v2.3)
+        + documentation miroir au même toit. Le delta est capitalisé TEL QUEL :
+        graphe vide de déductions = résultat vrai (aucune CVE KEV au feed),
+        pas d'échec silencieux."""
         DIR_INFERED_RED.mkdir(parents=True, exist_ok=True)
 
-        snapshot_ttl = DIR_SNAPSHOT_P5 / ABOX_INFERED_PATH.name
-        snapshot_md = DIR_SNAPSHOT_P5 / ABOX_INFERED_MD_PATH.name
-
-        # 1. Sauvegarde Turtle Snapshot
+        # 1. Écriture DIRECTE du Turtle Master (delta des faits déduits)
         self._bind_namespaces(self.graph_infered)
-        self.graph_infered.serialize(destination=str(snapshot_ttl), format="turtle")
-        logger.info(f"[📦] Snapshot TTL généré : {snapshot_ttl}")
+        self.graph_infered.serialize(destination=str(ABOX_INFERED_PATH), format="turtle")
+        logger.info(f"[✅] Delta déduit écrit en direct (Master TLP:RED) : {ABOX_INFERED_PATH}")
 
-        # 2. Génération Documentation Markdown Miroir
+        # 2. Documentation Markdown miroir, même toit, même geste
         md_content = f"""# 📑 Livrable Phase 5 - Raisonnement Sémantique & Inférences
 
 **Classification :** `TLP:RED`  
@@ -184,15 +195,10 @@ flowchart TD
 
 *Document généré automatiquement post-inférence.*
 """
-        with open(snapshot_md, "w", encoding="utf-8") as f:
-            f.write(md_content)
-        logger.info(f"[📦] Snapshot MD généré : {snapshot_md}")
-
-        # 3. Capitalisation Replay vers Master
-        shutil.copy(snapshot_ttl, ABOX_INFERED_PATH)
         ABOX_INFERED_MD_PATH.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy(snapshot_md, ABOX_INFERED_MD_PATH)
-        logger.info(f"[✅] Synchronisation Master effectuée vers {DIR_INFERED_RED}")
+        with open(ABOX_INFERED_MD_PATH, "w", encoding="utf-8") as f:
+            f.write(md_content)
+        logger.info(f"[✅] Documentation Master TLP:RED écrite en direct : {ABOX_INFERED_MD_PATH}")
 
 
 def main():
