@@ -53,12 +53,13 @@ _EOL_LINK_STRICT = """
 PREFIX dkg: <http://dkg.cybersec.org/tbox#>
 PREFIX dkg-eol: <http://dkg.cybersec.org/eol#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?comp ?clabel ?asset ?alabel ?ed ?sn ?st WHERE {
+SELECT ?comp ?clabel ?cv ?pv ?sv ?asset ?alabel ?ed ?sn ?st WHERE {
   ?comp a dkg:SoftwareComponent ; rdfs:label ?clabel ; dkg:version ?cv .
   ?e a dkg-eol:EndOfLife ; dkg:productName ?pn ; dkg:componentVersion ?pv ;
      dkg:supportStatus ?st ; dkg:eolDate ?ed ; dkg:sourceNote ?sn .
   FILTER (LCASE(STR(?clabel)) = LCASE(STR(?pn)))
   FILTER (LCASE(STR(?cv)) = LCASE(STR(?pv)))
+  OPTIONAL { ?e dkg:successorVersion ?sv }
   OPTIONAL { ?comp dkg:isComponentOf ?asset .
              OPTIONAL { ?asset rdfs:label ?alabel } }
 }
@@ -68,13 +69,15 @@ _EOL_LINK_LOOSE = """
 PREFIX dkg: <http://dkg.cybersec.org/tbox#>
 PREFIX dkg-eol: <http://dkg.cybersec.org/eol#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?comp ?clabel ?asset ?alabel ?ed ?sn ?st WHERE {
+SELECT ?comp ?clabel ?cv ?pv ?sv ?asset ?alabel ?ed ?sn ?st WHERE {
   ?comp a dkg:SoftwareComponent ; rdfs:label ?clabel .
   OPTIONAL { ?comp dkg:version ?cv }
   FILTER (!BOUND(?cv) || LCASE(STR(?cv)) = "unknown")
   ?e a dkg-eol:EndOfLife ; dkg:productName ?pn ;
      dkg:supportStatus ?st ; dkg:eolDate ?ed ; dkg:sourceNote ?sn .
   FILTER (LCASE(STR(?clabel)) = LCASE(STR(?pn)))
+  OPTIONAL { ?e dkg:componentVersion ?pv }
+  OPTIONAL { ?e dkg:successorVersion ?sv }
   OPTIONAL { ?comp dkg:isComponentOf ?asset .
              OPTIONAL { ?asset rdfs:label ?alabel } }
 }
@@ -222,7 +225,15 @@ def _generate_risk_analysis(abox: str, cti: str, eol: str = "") -> Tuple[List[Di
                                        else "Équipement inconnu")),
                             "eol_date": str(row.ed),
                             "source_note": str(row.sn),
-                            "support_status": str(row.st)}
+                            "support_status": str(row.st),
+                            "version_installed": (str(row.cv)
+                                                  if row.cv is not None
+                                                  else "inconnue"),
+                            "version_eol": (str(row.pv)
+                                            if row.pv is not None else ""),
+                            "successor_version": (str(row.sv)
+                                                 if row.sv is not None
+                                                 else "consulter la feuille de route éditeur")}
             except Exception as parse_err:
                 eol_notice = (f"⚠️ Volume EOL non parsable (rdflib) : "
                               f"{str(parse_err)[:120]} — enrichissement EOL ignoré")
@@ -288,12 +299,17 @@ def _generate_risk_analysis(abox: str, cti: str, eol: str = "") -> Tuple[List[Di
                 comp_covered.add(str(row.comp))
                 finding["status"] = (
                     f"{status} ; Fin de support (EOL) : {hit['eol_date']} "
-                    f"({hit['support_status']}) — source : {hit['source_note'][:90]}")
+                    f"({hit['support_status']}) — version installée : "
+                    f"{hit['version_installed']} ; successeur supporté : "
+                    f"{hit['successor_version']} — source : "
+                    f"{hit['source_note'][:90]}")
                 finding["action"] = ("Migration vers un composant supporté "
                                      "requise (fin de support confirmée par "
                                      "la source EOL publique)")
                 finding["eol_date"] = hit["eol_date"]
                 finding["eol_source_note"] = hit["source_note"]
+                finding["eol_version_installed"] = hit["version_installed"]
+                finding["eol_successor_version"] = hit["successor_version"]
             bilan.append(finding)
 
         if any(k in cti_lower for k in ("smbv1", "smb v1", "end-of-life", "eol")):
@@ -326,15 +342,21 @@ def _generate_risk_analysis(abox: str, cti: str, eol: str = "") -> Tuple[List[Di
                 continue
             bilan.append({
                 "equipment": hit["asset"],
-                "component": hit["label"],
+                "component": (f"{hit['label']}"
+                              if hit["version_installed"] == "inconnue"
+                              else f"{hit['label']} "
+                                   f"(version installée : {hit['version_installed']})"),
                 "linkage": "formel",
                 "status": (f"Fin de support confirmée (EOL) : {hit['eol_date']} "
-                           f"({hit['support_status']}) — source : "
+                           f"({hit['support_status']}) ; successeur supporté : "
+                           f"{hit['successor_version']} — source : "
                            f"{hit['source_note'][:90]}"),
                 "severity": "AMBER",
                 "action": "Migration vers un composant supporté requise",
                 "eol_date": hit["eol_date"],
-                "eol_source_note": hit["source_note"]
+                "eol_source_note": hit["source_note"],
+                "eol_version_installed": hit["version_installed"],
+                "eol_successor_version": hit["successor_version"]
             })
         if eol_notice:
             bilan.append({

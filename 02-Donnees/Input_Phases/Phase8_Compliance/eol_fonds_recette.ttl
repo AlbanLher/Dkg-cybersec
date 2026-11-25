@@ -10,6 +10,7 @@ dkg-eol:eol-windows-7 a dkg-eol:EndOfLife ;
     dkg:productName "Windows 7" ; dkg:componentVersion "6.1" ;
     dkg:supportStatus "end-of-life" ;
     dkg:eolDate "2020-01-14"^^xsd:date ;
+    dkg:successorVersion "Windows 10 (ou ultérieur supporté)" ;
     dkg:sourceNote "Support étendu terminé — Microsoft Lifecycle (fait public)" ;
     dkg:hasTLPMarking "TLP:CLEAR" ;
     dkg:providedBy dkg-eol:eol_source .
@@ -18,6 +19,7 @@ dkg-eol:eol-ubuntu-1604 a dkg-eol:EndOfLife ;
     dkg:productName "Ubuntu" ; dkg:componentVersion "16.04 LTS" ;
     dkg:supportStatus "end-of-life" ;
     dkg:eolDate "2021-04-01"^^xsd:date ;
+    dkg:successorVersion "Ubuntu 22.04 LTS (ou ultérieur supporté)" ;
     dkg:sourceNote "Fin de support standard — Canonical release cycle (fait public)" ;
     dkg:hasTLPMarking "TLP:CLEAR" ;
     dkg:providedBy dkg-eol:eol_source .
@@ -26,6 +28,7 @@ dkg-eol:eol-debian-9 a dkg-eol:EndOfLife ;
     dkg:productName "Debian GNU/Linux" ; dkg:componentVersion "9 (stretch)" ;
     dkg:supportStatus "end-of-life" ;
     dkg:eolDate "2022-06-30"^^xsd:date ;
+    dkg:successorVersion "Debian 12 bookworm (ou ultérieur supporté)" ;
     dkg:sourceNote "Fin de LTS — Debian security tracker (fait public)" ;
     dkg:hasTLPMarking "TLP:CLEAR" ;
     dkg:providedBy dkg-eol:eol_source .
@@ -34,6 +37,7 @@ dkg-eol:eol-centos-7 a dkg-eol:EndOfLife ;
     dkg:productName "CentOS Linux" ; dkg:componentVersion "7" ;
     dkg:supportStatus "end-of-life" ;
     dkg:eolDate "2024-06-30"^^xsd:date ;
+    dkg:successorVersion "Migration conseillée : RHEL, Rocky Linux ou AlmaLinux" ;
     dkg:sourceNote "Fin de maintenance — Project CentOS annonce EOL (fait public)" ;
     dkg:hasTLPMarking "TLP:CLEAR" ;
     dkg:providedBy dkg-eol:eol_source .
@@ -42,6 +46,7 @@ dkg-eol:eol-oracle-jdk-8-public a dkg-eol:EndOfLife ;
     dkg:productName "Oracle JDK" ; dkg:componentVersion "8 (updates publics)" ;
     dkg:supportStatus "end-of-life" ;
     dkg:eolDate "2019-01-01"^^xsd:date ;
+    dkg:successorVersion "Oracle JDK 21 LTS (ou builds OpenJDK supportés)" ;
     dkg:sourceNote "Fin des mises à jour publiques — Oracle Java SE support roadmap (fait public)" ;
     dkg:hasTLPMarking "TLP:CLEAR" ;
     dkg:providedBy dkg-eol:eol_source .
