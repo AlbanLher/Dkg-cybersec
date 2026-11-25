@@ -36,10 +36,6 @@ jobs:
       # 4. Préparation de l'arborescence des dossiers de sortie
       - name: Ensure target directories exist
         run: |
-          mkdir -p 02-Donnees/Snapshots_Phases/Phase1_Socle
-          mkdir -p 02-Donnees/Snapshots_Phases/Phase2_ABox
-          mkdir -p 02-Donnees/Snapshots_Phases/Phase5_Inference
-          mkdir -p 02-Donnees/Snapshots_Phases/Phase8_Compliance
           mkdir -p 02-Donnees/Master_Transversal/TLP_AMBER_Socle_TBox
           mkdir -p 02-Donnees/Master_Transversal/TLP_RED_Instances_ABox
 
