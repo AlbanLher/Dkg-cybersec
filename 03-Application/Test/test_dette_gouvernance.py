@@ -206,3 +206,59 @@ def test_exg_gou_8_domaines_registre_conformes():
     assert not hors, (
         f"EXG-FWK-P1-GOU_8 : domaines utilises hors taxonomie officielle : {hors} "
         "(arbitrer : ajouter le code a la table 01.1 §1 ou corriger le registre)")
+
+# ---------------------------------------------------------------------------
+# EXG-TEC-P8-soc_1 — API asynchrone : recette du contrat observable (borne 30 s)
+# Arbitrage 2026-11-27 : la clause timeout 30s n a pas de garde codee, elle est
+# recettee comme borne observable : architecture async de bout en bout et
+# reponse API reelle mesuree sous les 30 secondes.
+# ---------------------------------------------------------------------------
+import inspect
+import time
+
+from fastapi.routing import APIRoute
+from fastapi.testclient import TestClient
+
+
+def _phase8_routes():
+    """Routes APIRoute exposees par le serveur, toutes origines."""
+    import mcp_server
+    return [r for r in mcp_server.app.routes if isinstance(r, APIRoute)]
+
+
+@pytest.mark.non_regression
+def test_exg_soc_1_api_asynchrone_contrat():
+    """EXG-TEC-P8-soc_1 (1/2) : toutes les routes exposees par routes_phase8
+    sont des coroutines — l API est asynchrone de bout en bout."""
+    routes = _phase8_routes()
+    assert len(routes) >= 10, (
+        f"Exposition API inattendue ({len(routes)} routes) : "
+        "le serveur doit exposer les routes phase8.")
+    syncs = [r.path for r in routes
+            if "routes_phase8" in r.endpoint.__module__
+            and not inspect.iscoroutinefunction(r.endpoint)]
+    assert not syncs, (
+        f"EXG-TEC-P8-soc_1 : routes non asynchrones, contrat rompu : {syncs}")
+    exposed = [r.path for r in routes if "routes_phase8" in r.endpoint.__module__]
+    assert len(exposed) >= 10, (
+        f"Routes phase8 non retrouvees dans l exposition ({len(exposed)}) : verifier le montage du routeur.")
+
+
+@pytest.mark.non_regression
+def test_exg_soc_1_reponse_bornee_30s():
+    """EXG-TEC-P8-soc_1 (2/2) : recette de la borne — une route GET phase8
+    reelle repond en moins de 30 secondes (contrat observe, pas revendique)."""
+    import mcp_server
+    gets = [r for r in _phase8_routes()
+            if "GET" in r.methods and "routes_phase8" in r.endpoint.__module__]
+    assert gets, "Aucune route GET phase8 exposee pour recetter la borne 30 s."
+    client = TestClient(mcp_server.app)
+    route = gets[0]
+    t0 = time.monotonic()
+    resp = client.get(route.path)
+    elapsed = time.monotonic() - t0
+    assert resp.status_code < 500, (
+        f"La route {route.path} repond en erreur : {resp.status_code} — recette de borne impossible.")
+    assert elapsed < 30.0, (
+        f"EXG-TEC-P8-soc_1 : reponse de {route.path} en {elapsed:.1f} s (> 30 s), "
+        "la borne du contrat est rompue.")
