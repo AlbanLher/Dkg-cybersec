@@ -49,7 +49,7 @@ def test_exg_gou_5_ssot_config_contrat():
     assert cfg.dir_root == cfg.dir_app.parent
     assert cfg.dir_data == cfg.dir_root / "02-Donnees"
     # 2. les chemins module-level du SSOT sont cohérents avec l instance
-    assert TBOX_MASTER_PATH == cfg.dir_master_tbox / "TBox_Master.ttl"
+    assert TBOX_MASTER_PATH == cfg.dir_master_tbox / "DKG_TBox_Master.ttl"
     # 3. extra=ignore : une clé parasite ne fait pas échouer le SSOT
     #    (validé par instanciation directe, cf. model_config)
     assert DKGConfig.model_config.get("extra") == "ignore"
