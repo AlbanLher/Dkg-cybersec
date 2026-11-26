@@ -222,7 +222,7 @@ from fastapi.testclient import TestClient
 
 def _phase8_routes():
     """Routes APIRoute exposees par le serveur, toutes origines."""
-    import mcp_server
+    from core import mcp_server
     return [r for r in mcp_server.app.routes if isinstance(r, APIRoute)]
 
 
@@ -248,7 +248,7 @@ def test_exg_soc_1_api_asynchrone_contrat():
 def test_exg_soc_1_reponse_bornee_30s():
     """EXG-TEC-P8-soc_1 (2/2) : recette de la borne — une route GET phase8
     reelle repond en moins de 30 secondes (contrat observe, pas revendique)."""
-    import mcp_server
+    from core import mcp_server
     gets = [r for r in _phase8_routes()
             if "GET" in r.methods and "routes_phase8" in r.endpoint.__module__]
     assert gets, "Aucune route GET phase8 exposee pour recetter la borne 30 s."
