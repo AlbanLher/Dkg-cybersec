@@ -1,8 +1,8 @@
 {
   "metadata": {
     "description": "Registre centralisé des exigences DKG-CyberSec",
-    "spec_driven_version": "2.5",
-    "revision": "2026-11-25 — v2.5 : ouverture vague P10-EOL. Entree des EXG-FWK-P10-FOND_1/ABL_1/EOL_4, preuve = spec SPC-FWK-P10-EOL_01 posee (recette prevue, implementation en gestes P10 ; enregistrement avec preuve de commits prevu en v2.6). Notes gouvernance etape 3 (close, CI vert) : arc greffes SMBv1 purge des 2 zones CTI et residentielle (commits 0947758 et 19aea19) ; BNodes deterministes (bruit de re-ID maitrise) ; RBox Master = roadmap, RULES_MASTER_PATH laisse au vide, echec sonore chez les futurs consommateurs (pas de placeholder ballast) ; HAB_3 : journal api_gateway_audit.log versionne (exception .gitignore ligne 84, historique fusionne) ; specs P5 pointant vers Snapshots_Phases : alignement prevu lors d une passe specs ; Snapshots_Phases abroge physiquement (a015a37, archivage 06-Archives). Plancher NonReg : 130 passed."
+    "spec_driven_version": "2.6",
+    "revision": "2026-11-26 — v2.6 : arbitrage RGPD (Alban, 26/11) : la spec SPC-MET-P8-compliance_rgpd_01 est ABROGEE (jamais implementee, reprise en P12) ; son exigence devient EXG-MET-P12-com_1, phase P12, spec_source SPC-MET-P12-Compliance_RGPD_01 (statut PLANNED), recette prevue. Renommage sans impact code (EXG non ancree, aucun test). Regle actee : le statut d une spec se DERIVE du lookup Roadmap (la roadmap fait foi), le frontmatter statut devient secondaire."
   },
   "exigences": [
     {
@@ -50,15 +50,15 @@
       "recette": "auto"
     },
     {
-      "id": "EXG-MET-P8-com_1",
+      "id": "EXG-MET-P12-com_1",
       "domaine": "QU",
       "core": true,
-      "phase": "P9",
-      "spec_source": "SPC-MET-P8-compliance_rgpd_01",
+      "phase": "P12",
+      "spec_source": "SPC-MET-P12-Compliance_RGPD_01",
       "titre": "Qualification Non-Conformité",
       "critere": "Association actif -> standard RGPD",
       "test": "Pytest / SPARQL",
-      "recette": "auto"
+      "recette": "prevue (spec P12 planifiee)"
     },
     {
       "id": "EXG-MET-P8-inc_1",

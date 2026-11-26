@@ -7,7 +7,7 @@ titre_court: compliance_rgpd
 description: Expression des règles métier de non-conformité réglementaire appliquées aux actifs du foyer.
 phase_code: P12
 phase_nom: SOC_2 — Conformité RGPD (vague V5)
-statut: 🟡 ACTIVE
+statut: ⚪ PLANNED
 portee: USECASE_METIER
 public_vise:
   - Analystes CTI / SOC
