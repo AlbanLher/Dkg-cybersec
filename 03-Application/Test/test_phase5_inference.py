@@ -147,7 +147,7 @@ def test_exg_inf_02_cascade_materialization(execution_context):
     """.strip()
     has_cascade_relation = bool(graph.query(query))
     assert has_cascade_relation, \
-        "Violation EXG-INF-02 (EXG-FWK-P5-RUL_2) : La propriété 'exposesToCascade' n'a pas été matérialisée."
+        "Violation EXG-INF-02 (EXG-FWK-P5-RUL_2 / EXG-MET-P3-SIL_1) : La propriété 'exposesToCascade' n'a pas été matérialisée."
 
 
 @pytest.mark.non_regression
