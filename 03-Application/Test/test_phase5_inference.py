@@ -7,6 +7,7 @@ Valide la conformité aux exigences :
 - EXG-INF-01 : Inférence HighRiskAsset (Règle R-01 CISA KEV)
 - EXG-INF-02 : Matérialisation Cascade (Règle R-02 Silent Cascade)
 - EXG-SE-01  : Isolation TLP & Non-pollution des graphes sources
+- Correspondances canon registre v2.7 : EXG-INF-01 = EXG-FWK-P5-RUL_1 ; EXG-INF-02 = EXG-FWK-P5-RUL_2 ; EXG-SE-01 = EXG-MET-P3-SIL_2
 """
 
 import sys
@@ -127,7 +128,7 @@ def test_exg_inf_01_high_risk_asset(execution_context):
     """.strip()
     has_high_risk_asset = bool(graph.query(query))
     assert has_high_risk_asset, \
-        "Violation EXG-INF-01 : Aucune entité 'HighRiskAsset' matérialisée."
+        "Violation EXG-INF-01 (EXG-FWK-P5-RUL_1) : Aucune entité 'HighRiskAsset' matérialisée."
 
 
 @pytest.mark.non_regression
@@ -146,7 +147,7 @@ def test_exg_inf_02_cascade_materialization(execution_context):
     """.strip()
     has_cascade_relation = bool(graph.query(query))
     assert has_cascade_relation, \
-        "Violation EXG-INF-02 : La propriété 'exposesToCascade' n'a pas été matérialisée."
+        "Violation EXG-INF-02 (EXG-FWK-P5-RUL_2) : La propriété 'exposesToCascade' n'a pas été matérialisée."
 
 
 @pytest.mark.non_regression
@@ -164,4 +165,4 @@ def test_exg_se_01_tlp_segregation(execution_context):
     
     high_risk_class = URIRef(f"{DKG_TBOX}HighRiskAsset")
     assert (None, RDF.type, high_risk_class) not in cti_graph, \
-        "Violation EXG-SE-01 : Fuite de données d'inférence TLP:RED vers la source CTI TLP:CLEAR !"
+        "Violation EXG-SE-01 (EXG-MET-P3-SIL_2) : Fuite de données d'inférence TLP:RED vers la source CTI TLP:CLEAR !"

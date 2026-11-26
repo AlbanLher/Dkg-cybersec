@@ -130,7 +130,7 @@ def test_exg_fwk_02_01_referential_integrity(full_graph: Graph):
 
 @pytest.mark.non_regression
 def test_exg_qual_02_03_shacl_validation(full_graph: Graph):
-    """EXG-QUAL-02 / EXG-QUAL-03  /   EXG-FWK-P2-ABO_2    : Validation SHACL sous CWA (0 violation tolérée)."""
+    """EXG-QUAL-02 / EXG-QUAL-03  /   EXG-FWK-P2-ABO_2 / EXG-FWK-P1-T-R_7    : Validation SHACL sous CWA (0 violation tolérée)."""
     assert SHACL_MASTER_PATH.exists(), f"Fichier SHACL Master introuvable : {SHACL_MASTER_PATH}"
     shacl_graph = Graph().parse(str(SHACL_MASTER_PATH), format="turtle")
     

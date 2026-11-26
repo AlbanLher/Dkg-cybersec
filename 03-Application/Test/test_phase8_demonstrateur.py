@@ -129,6 +129,7 @@ def test_audit_tri_boxes_render_exg_met_p8_dem_1():
 # EXG-MET-P8-DEM_2 — Air-Gapped : 0 coche => 0 requête HTTP
 # ------------------------------------------------------------------------------
 @pytest.mark.non_regression
+# Recette aussi EXG-FWK-P1-GOU_13 (Air-Gapped & Modeles Locaux) : 0 requete HTTP hors ligne
 def test_audit_air_gapped_zero_network_exg_met_p8_dem_2():
     """Exigence: EXG-MET-P8-DEM_2 - 0 source cochée => 0 requête réseau émise (HTTP_Requests_Count == 0)."""
     payload = {"mode": "foyer", "enabled_network_sources": []}         # DEM_2

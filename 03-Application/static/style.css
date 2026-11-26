@@ -74,7 +74,7 @@ button.bg-slate-800, #p8-btn-reset.bg-slate-800,
 button.p8-btn-graph { cursor: pointer; border-radius: 0.25rem; }
 #p8-btn-reset.bg-slate-800:hover, button.bg-slate-800:hover {
   background-color: #334155; }
-/* --- bordures TLP (EXG-FWK-P1-GOU_11 : isolation visuelle) --- */
+/* --- bordures TLP (isolation visuelle TLP (regle recetee au back)) --- */
 .border { border: 1px solid #334155; }
 .border-slate-700 { border: 1px solid #334155; }
 .border-slate-600 { border: 1px solid #475569; }
