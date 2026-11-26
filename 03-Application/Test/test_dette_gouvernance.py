@@ -156,3 +156,53 @@ la contrainte est active sous CWA, pas décorative."""
     assert not conforms, (
         "EXG-TEC-P2-ABO_4 : un cvssScore de 10.5 a passé la validation SHACL — "
         f"la borne CWA n est pas active. Rapport :\n{report_text}")
+
+# ---------------------------------------------------------------------------
+# EXG-FWK-P1-GOU_8 — Unicité & Conformité des Domaines (taxonomie officielle)
+# Source de la taxonomie : table des domaines du 01.1 §1 ; consommateur SSOT :
+# le registre canonique des exigences (registre fait foi, regle 01.1).
+# ---------------------------------------------------------------------------
+import json
+import re as _re
+
+REPO_ROOT = APP_DIR.parent
+ATELIER_011_PATH = REPO_ROOT / "01-Principes_Spécifications" / "01.1 - Atelier_Gestion_Exigences_Tests.md"
+REGISTRY_PATH = REPO_ROOT / "01-Principes_Spécifications" / "registry_exigences.json"
+
+
+def _taxonomie_officielle() -> set:
+    """Extrait les codes de domaines de la table officielle du 01.1 (SSOT humain)."""
+    assert ATELIER_011_PATH.exists(), f"Atelier 01.1 introuvable : {ATELIER_011_PATH}"
+    content = ATELIER_011_PATH.read_text(encoding="utf-8")
+    codes = set(_re.findall(r"\*\*`([A-Z]{2,3})`\*\*", content))
+    assert len(codes) >= 5, (
+        f"Table des domaines du 01.1 illisible ou vide ({len(codes)} codes) : "
+        "la taxonomie officielle doit rester materialisee dans le 01.1 §1.")
+    return codes
+
+
+@pytest.mark.non_regression
+def test_exg_gou_8_taxonomie_domaines_unique():
+    """EXG-FWK-P1-GOU_8 (1/2) : la taxonomie officielle est unique (pas de
+    doublon en casse differente) et porte les domaines structurants connus."""
+    taxo = _taxonomie_officielle()
+    bas = sorted(c.lower() for c in taxo)
+    assert len(bas) == len(set(bas)), f"Doublon de domaine en casse differente : {taxo}"
+    assert {"se", "ct", "met"} <= set(bas), (
+        f"Domaines structurants absents de la taxonomie officielle : {taxo}")
+
+
+@pytest.mark.non_regression
+def test_exg_gou_8_domaines_registre_conformes():
+    """EXG-FWK-P1-GOU_8 (2/2) : tout code de domaine utilise dans le registre
+    canonique figure obligatoirement dans la taxonomie officielle du 01.1."""
+    assert REGISTRY_PATH.exists(), f"Registre canonique introuvable : {REGISTRY_PATH}"
+    data = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    exigences = data.get("exigences") or []
+    assert len(exigences) > 0, "Registre vide : la recette GOU_8 ne peut pas trancher."
+    taxo = _taxonomie_officielle()
+    hors = sorted({e.get("domaine") for e in exigences
+                   if e.get("domaine") and e["domaine"] not in taxo})
+    assert not hors, (
+        f"EXG-FWK-P1-GOU_8 : domaines utilises hors taxonomie officielle : {hors} "
+        "(arbitrer : ajouter le code a la table 01.1 §1 ou corriger le registre)")
