@@ -7,7 +7,7 @@ titre_court: green_development_framework
 description: Cadre de développement éco-responsable et exigences Green-by-Design pour la Phase 8.
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: USECASE_TECHNIQUE
 public_vise:
   - Développeurs DevSecOps

@@ -7,7 +7,7 @@ titre_court: soc_orchestration_governance
 description: Définit les règles d'autorité, les rôles des agents et l'obligation stricte du contrôle Human-in-the-Middle (HitM).
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
   - Architectes Ontologues

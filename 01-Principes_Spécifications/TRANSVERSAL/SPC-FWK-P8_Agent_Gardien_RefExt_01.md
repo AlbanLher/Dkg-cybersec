@@ -7,7 +7,7 @@ titre_court: agent_gardien_references_externes
 description: "Supervision, filtrage frugal et validation sémantique des référentiels et flux publics externes (ex: RGPD, DPV)."
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: TRANSVERSAL
 public_vise:
   - Architectes Ontologues

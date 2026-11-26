@@ -7,7 +7,7 @@ titre_court: simulator_and_abaques
 description: Banc d'essai automatisé pour la montée en charge progressive et la mesure de l'empreinte matérielle (Green-by-Design) sous contrainte Air-Gapped 16 Go RAM.
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: USECASE_TECHNIQUE
 public_vise:
   - Architectes Ontologues

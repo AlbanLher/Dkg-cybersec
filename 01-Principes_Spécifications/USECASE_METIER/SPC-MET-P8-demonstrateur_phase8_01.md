@@ -7,7 +7,7 @@ titre_court: demonstrateur_phase8
 description: Spécification d'intégration fonctionnelle, IHM et d'orchestration pour le démonstrateur Phase 8 (Ciblage réseau, tri-boîtes TTL, Green IT et validation HITL).
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: USECASE_METIER
 public_vise:
   - Architectes Ontologues

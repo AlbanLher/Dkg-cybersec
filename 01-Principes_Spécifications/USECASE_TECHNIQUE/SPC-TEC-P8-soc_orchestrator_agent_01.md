@@ -7,7 +7,7 @@ titre_court: soc_orchestrator_agent_mcp
 description: Spécification technique actualisée des scripts de la Phase 8 conçus comme des outils natifs MCP (Model Context Protocol).
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: USECASE_TECHNIQUE
 public_vise:
   - Développeurs DevSecOps

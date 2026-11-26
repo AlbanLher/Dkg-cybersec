@@ -7,7 +7,7 @@ titre_court: incremental_graph_partitioning
 description: Définit les règles de découpage des graphes et d'injection par deltas pour respecter la contrainte Green Dev (< 16 Go RAM).
 phase_code: P8
 phase_nom: Orchestration MCP & Moteurs d'Agents Souverains
-statut: 🟡 ACTIVE
+statut: 🟢 PASSED
 portee: USECASE_METIER
 public_vise:
   - Architectes Ontologues
