@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-FWK-P9-Briques_Coeur_01
 revision: 3
-titre: Briques Cœur SOC_1 (hitm_gateway · Intégration EOL · llm_bridge)
+titre: Briques Cœur SOC_1 (hitm_gateway, EOL, llm_bridge)
 titre_court: briques_coeur
 description: Cadrage P9 rév. 3 — étape 0 de réalignement, périmètre des briques C1-C3, exigences tracées, recettes curl + résultat attendu, ordonnancement rebaseliné.
 phase_code: P9
@@ -24,6 +24,7 @@ exigences:
     critere: Le contrôle HITL des routes migré dans le module core/hitm_gateway.py, exposé à la fois en API REST et en outils MCP ; le Golden Path P8 rejoué à l'identique (NonReg 61).
     test: "Rejeu du Golden Path P8 via exposition API puis MCP (curl documenté)"
     recette: auto
+  
   - id: EXG-FWK-P9-GTW_2
     code_exigence: EXG-P9-02
     domaine: SE
@@ -31,9 +32,10 @@ exigences:
     core: true
     phase: P9
     titre: Régimes d'Écriture par la Passerelle
-    critere: Toute écriture passe par la passerelle avec son régime explicite — M1 écriture directe opérateur validée SHACL (déclarations parc : règles de filtrage, postures), M2 sources externes, HITL boucle pour liens implicites ; aucune autre voie d'écriture.
+    critere: "Toute écriture passe par la passerelle avec son régime explicite — M1 écriture directe opérateur validée SHACL (déclarations parc : règles de filtrage, postures), M2 sources externes, HITL boucle pour liens implicites ; aucune autre voie d'écriture."
     test: "Recette des 3 régimes via curl + contrôle d'erreur sur écriture hors régime"
     recette: auto
+
   - id: EXG-FWK-P9-EOL_1
     code_exigence: EXG-P9-03
     domaine: CT
@@ -41,9 +43,11 @@ exigences:
     core: true
     phase: P9
     titre: Intégration EOL (moteur)
-    critere: Un moteur core (suffixe _engine) ingère la source EOL selon la mécanique des sources CTI : templates de stand-by réactivés, ingestion par delta, tests NonReg dédiés, source tracée.
+    critere: "Un moteur core (suffixe _engine) ingère la source EOL selon la mécanique des sources CTI : templates de stand-by réactivés, ingestion par delta, tests NonReg dédiés, source tracée."
     test: "Ingestion d'un delta EOL de recette + NonReg EOL"
     recette: auto
+
+
   - id: EXG-FWK-P9-EOL_2
     code_exigence: EXG-P9-04
     domaine: CT
@@ -51,7 +55,7 @@ exigences:
     core: true
     phase: P9
     titre: Namespace Dédié dkg-eol
-    critere: Les instances issues de la source EOL vivent dans un namespace dédié dkg-eol (arbitrage 23/11), marquage TLP:CLEAR, hébergées dans l'ABox Externe — séparation des sources par origine.
+    critere: "Les instances issues de la source EOL vivent dans un namespace dédié dkg-eol (arbitrage 23/11), marquage TLP:CLEAR, hébergées dans l'ABox Externe — séparation des sources par origine."
     test: "Sélection SPARQL du namespace dkg-eol (jamais regex .ttl)"
     recette: auto
   - id: EXG-FWK-P9-EOL_3
@@ -61,7 +65,7 @@ exigences:
     core: true
     phase: P9
     titre: Date EOL Sourcée Propagée
-    critere: La date d'obsolescence porte sa source et son commentaire (convention dkg:sourceNote) ; la vulnérabilité d'un finding s'étoffe CVE + KEV + EOL dès ingestion.
+    critere: "La date d'obsolescence porte sa source et son commentaire (convention dkg:sourceNote) ; la vulnérabilité d'un finding s'étoffe CVE + KEV + EOL dès ingestion."
     test: "Requête SPARQL : composant EOL → finding enrichi, triple source présent"
     recette: auto
   - id: EXG-FWK-P9-LLM_1
@@ -71,7 +75,7 @@ exigences:
     core: true
     phase: P9
     titre: Propositionneur Moulé Lecture Seule
-    critere: llm_bridge est un propositionneur moulé sur l'ontologie (candidats TTL/SPARQL pré-contraints) ; il ne produit jamais une écriture directe — toute proposition transite par la passerelle et son régime.
+    critere: "llm_bridge est un propositionneur moulé sur l'ontologie (candidats TTL/SPARQL pré-contraints) ; il ne produit jamais une écriture directe — toute proposition transite par la passerelle et son régime."
     test: "Recette : toute sortie LLM est une proposition, aucune route d'écriture directe n'existe dans llm_bridge (grep d'imports = preuve de vie)"
     recette: auto
   - id: EXG-FWK-P9-LLM_2
@@ -81,7 +85,7 @@ exigences:
     core: true
     phase: P9
     titre: Autodétection Runtime Local
-    critere: Détection automatique d'un runtime local (ollama / llama.cpp) au démarrage ; sans runtime, bascule silencieuse en mode dégradé — jamais d'appel API externe (air-gapped strict).
+    critere: "Détection automatique d'un runtime local (ollama / llama.cpp) au démarrage ; sans runtime, bascule silencieuse en mode dégradé — jamais d'appel API externe (air-gapped strict)."
     test: "Sans runtime : démarrage en mode dégradé sans erreur ; test SIDEBAR présence runtime simulé"
     recette: auto
   - id: EXG-FWK-P9-LLM_3
@@ -91,7 +95,7 @@ exigences:
     core: true
     phase: P9
     titre: Mode Dégradé Templates Figés
-    critere: Le mode dégradé produit des recommandations determinedistes depuis des templates figés (resserrer le filtrage / durcir l'OS) — reproductible, zéro coût d'inférence.
+    critere: "Le mode dégradé produit des recommandations determinedistes depuis des templates figés (resserrer le filtrage / durcir l'OS) — reproductible, zéro coût d'inférence."
     test: "Recommandation identique bit-à-bit sur deux exécutions en mode dégradé"
     recette: auto
   - id: EXG-FWK-P9-FRG_1
@@ -101,7 +105,7 @@ exigences:
     core: true
     phase: P9
     titre: Pipeline Frugal (non fonctionnelle transversale)
-    critere: L'ingestion et les traitements s'exécutent en tâches séquentielles bornées : RAM bornée par tâche, taille de lot fixée, reprise sur checkpoint — capture sélective, jamais de requête ciblée source (01.2 § 1.bis.2).
+    critere: "L'ingestion et les traitements s'exécutent en tâches séquentielles bornées : RAM bornée par tâche, taille de lot fixée, reprise sur checkpoint — capture sélective, jamais de requête ciblée source (01.2 § 1.bis.2)."
     test: "Recette : ingestion d'un delta avec checkpoint interrompu puis repris (aucune perte, mémoire mesurée sous seuil)"
     recette: auto
   - id: EXG-FWK-P9-RAP_1
@@ -111,10 +115,12 @@ exigences:
     core: true
     phase: P9
     titre: Rapport Évolutionné Vulnérabilité × Exploitabilité
-    critere: Le rapport affiche deux colonnes par finding (vulnérabilité, exploitabilité par contexte) avec hiérarchisation différenciée C1 > C2 > C3 — exigence déclarée ici (canonique, candidat acté 18/11), réalisée en P11 avec la métrique P10 ; P11 y renvoie.
+    critere: "Le rapport affiche deux colonnes par finding (vulnérabilité, exploitabilité par contexte) avec hiérarchisation différenciée C1 > C2 > C3 — exigence déclarée ici (canonique, candidat acté 18/11), réalisée en P11 avec la métrique P10 ; P11 y renvoie."
     test: "Rappel : la recette complète (table C1/C2/C3, priorités P1-P4) se recette en P11 avec le fil directeur 01.3 § 7"
     recette: inspection
 ---
+
+
 
 # SPC-FWK-P9 — Briques Cœur SOC_1 — spécification rév. 3
 
