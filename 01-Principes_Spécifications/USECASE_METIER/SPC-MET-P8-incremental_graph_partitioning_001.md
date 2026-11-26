@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-MET-P8-incremental_graph_partitioning_01
 revision: 2
-titre: Méthodologie de Partitionnement et Mise à Niveau Incrémentale
+titre: Partitionnement incrémental du graphe (Green Dev)
 titre_court: incremental_graph_partitioning
 description: Définit les règles de découpage des graphes et d'injection par deltas pour respecter la contrainte Green Dev (< 16 Go RAM).
 phase_code: P8

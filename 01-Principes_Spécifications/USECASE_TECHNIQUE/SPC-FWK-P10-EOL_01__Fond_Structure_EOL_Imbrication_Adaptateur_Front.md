@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-FWK-P10-EOL_01
 revision: 1
-titre: SPC-FWK-P10-EOL_01__Fond_Structure_EOL_Imbrication_Adaptateur_Front
+titre: Vague EOL P10 : fond structuré, imbrication, front
 titre_court: p10_eol_fond_front_01
 description: Définit le cadre de la vague P10-EOL : record EOL SMBv1 structuré dans le fonds de recette, imbrication composants/actifs dans l'ABox locale, et adaptateur front EOL pur consommateur du contrat findings.
 phase_code: P10

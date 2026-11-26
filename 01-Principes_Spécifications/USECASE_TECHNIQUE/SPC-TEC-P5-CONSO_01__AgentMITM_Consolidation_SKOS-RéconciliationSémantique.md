@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-TEC-P5-CONSO_01
 revision: 2
-titre: SPC-TEC-P5-CONSO_01__AgentMITM_Consolidation_SKOS-RéconciliationSémantique
+titre: Agent MITM & consolidation SKOS (réconciliation sémantique)
 titre_court: agent_mitm_conso_01
 description: Définit le cadre technique de l'Agent MITM et du Moteur de Consolidation SKOS pour la réconciliation sémantique déterministe.
 phase_code: P5

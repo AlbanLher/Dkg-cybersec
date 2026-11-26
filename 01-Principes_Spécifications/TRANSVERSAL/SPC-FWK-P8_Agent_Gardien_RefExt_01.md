@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-FWK-P8-agent_gardien_references_externes_01
 revision: 2
-titre: Agent Gardien des Références Externes (External Reference Steward)
+titre: Agent gardien des références externes (filtrage frugal)
 titre_court: agent_gardien_references_externes
 description: "Supervision, filtrage frugal et validation sémantique des référentiels et flux publics externes (ex: RGPD, DPV)."
 phase_code: P8
