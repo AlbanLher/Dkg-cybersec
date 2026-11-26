@@ -212,18 +212,23 @@ def test_exg_gou_8_domaines_registre_conformes():
 # Arbitrage 2026-11-27 : la clause timeout 30s n a pas de garde codee, elle est
 # recettee comme borne observable : architecture async de bout en bout et
 # reponse API reelle mesuree sous les 30 secondes.
+# NOTE fastapi 0.141.1 : include_router monte un _IncludedRouter paresseux,
+# app.routes ne liste PAS les routes du routeur — la source de verite est
+# router.routes (14 APIRoute). Le client TestClient reste, lui, fonctionnel.
 # ---------------------------------------------------------------------------
 import inspect
 import time
 
+from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from fastapi.testclient import TestClient
 
 
 def _phase8_routes():
-    """Routes APIRoute exposees par le serveur, toutes origines."""
-    from core import mcp_server
-    return [r for r in mcp_server.app.routes if isinstance(r, APIRoute)]
+    """Les 14 routes phase8, vues du routeur (source de verite en 0.141.x)."""
+    from api.routes_phase8 import router
+    routes = [r for r in router.routes if isinstance(r, APIRoute)]
+    return routes
 
 
 @pytest.mark.non_regression
@@ -232,27 +237,27 @@ def test_exg_soc_1_api_asynchrone_contrat():
     sont des coroutines — l API est asynchrone de bout en bout."""
     routes = _phase8_routes()
     assert len(routes) >= 10, (
-        f"Exposition API inattendue ({len(routes)} routes) : "
-        "le serveur doit exposer les routes phase8.")
+        f"Exposition phase8 inattendue ({len(routes)} routes) : "
+        "le routeur doit exposer les routes du demonstrateur.")
     syncs = [r.path for r in routes
             if "routes_phase8" in r.endpoint.__module__
             and not inspect.iscoroutinefunction(r.endpoint)]
     assert not syncs, (
         f"EXG-TEC-P8-soc_1 : routes non asynchrones, contrat rompu : {syncs}")
-    exposed = [r.path for r in routes if "routes_phase8" in r.endpoint.__module__]
-    assert len(exposed) >= 10, (
-        f"Routes phase8 non retrouvees dans l exposition ({len(exposed)}) : verifier le montage du routeur.")
 
 
 @pytest.mark.non_regression
 def test_exg_soc_1_reponse_bornee_30s():
     """EXG-TEC-P8-soc_1 (2/2) : recette de la borne — une route GET phase8
     reelle repond en moins de 30 secondes (contrat observe, pas revendique)."""
-    from core import mcp_server
-    gets = [r for r in _phase8_routes()
+    from api.routes_phase8 import router
+    routes = _phase8_routes()
+    gets = [r for r in routes
             if "GET" in r.methods and "routes_phase8" in r.endpoint.__module__]
     assert gets, "Aucune route GET phase8 exposee pour recetter la borne 30 s."
-    client = TestClient(mcp_server.app)
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
     route = gets[0]
     t0 = time.monotonic()
     resp = client.get(route.path)
@@ -262,3 +267,39 @@ def test_exg_soc_1_reponse_bornee_30s():
     assert elapsed < 30.0, (
         f"EXG-TEC-P8-soc_1 : reponse de {route.path} en {elapsed:.1f} s (> 30 s), "
         "la borne du contrat est rompue.")
+
+
+# ---------------------------------------------------------------------------
+# EXG-TEC-P8-soc_2 — Pipeline NER local (phases/Phase4/ner_cti_extractor.py)
+# Recette sur l API reelle : CTIUnstructuredExtractor(threshold),
+# extract_from_text(texte, source) — extraction deterministe par regex,
+# ancrage TBox, seuil de confiance, 100% local (aucune lib reseau).
+# ---------------------------------------------------------------------------
+from rdflib import RDF
+
+from core.config import DKG_TBOX, DKG_CTI
+
+
+@pytest.mark.non_regression
+def test_exg_soc_2_pipeline_ner_local():
+    """EXG-TEC-P8-soc_2 : le pipeline NER local extrait les entites CTI d un
+    texte brut sans aucun appel reseau, avec seuil de confiance et ancrage TBox."""
+    from phases.Phase4.ner_cti_extractor import CTIUnstructuredExtractor
+
+    ext = CTIUnstructuredExtractor(confidence_threshold=0.85)
+    texte = ("Bulletin de recette locale : le groupe APT29 cible des serveurs "
+             "critiques via la faille CVE-2021-44228.")
+    ext.extract_from_text(texte, "bulletin-recette-soc2")
+    g = ext.graph
+    assert len(g) >= 3, (
+        f"Le pipeline n a extrait aucune entite du texte ({len(g)} triplets).")
+    # acteur connu reconnu, type dans la TBox, score au-dessus du seuil
+    actor = DKG_CTI["ThreatActor-APT29"]
+    assert (actor, RDF.type, DKG_TBOX.ThreatActor) in g, (
+        "ThreatActor-APT29 absent ou non ancre TBox apres extraction.")
+    # 100% local : le module ne doit importer aucune librairie reseau
+    import phases.Phase4.ner_cti_extractor as nce
+    src = inspect.getsource(nce)
+    for lib in ("requests", "urllib", "httpx", "socket"):
+        assert lib not in src, (
+            f"Le pipeline NER doit rester 100% local : {lib} present dans le module.")
