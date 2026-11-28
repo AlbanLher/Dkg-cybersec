@@ -73,6 +73,7 @@ def _ingest(eol_env):
 
 # --- EOL_1 : ingestion offline (recette 1) -----------------------------------
 def test_eol1_ingestion_offline_ecrit_le_volume(eol_env):
+    """Recette : EXG-FWK-P9-EOL_1 — Integration EOL (moteur)."""
     r = _ingest(eol_env)
     vol = settings.ABOX_EXTERNE_EOL_PATH
     assert vol.exists(), "le volume EOL doit etre ecrit dans l ABox Externe"
@@ -83,6 +84,7 @@ def test_eol1_ingestion_offline_ecrit_le_volume(eol_env):
 
 # --- EOL_2 : namespace + TLP par SELECTION SPARQL (jamais regex .ttl) --------
 def test_eol2_namespace_et_marquage_tlp_par_sparql(eol_env):
+    """Recette : EXG-FWK-P9-EOL_2 — Namespace dedie dkg-eol."""
     _ingest(eol_env)
     g = Graph()
     g.parse(str(settings.ABOX_EXTERNE_EOL_PATH), format="turtle")
@@ -102,6 +104,7 @@ def test_eol2_namespace_et_marquage_tlp_par_sparql(eol_env):
 
 # --- EOL_3 : date xsd:date + sourceNote + successeur --------------------------
 def test_eol3_dates_sourcenote_et_successeur(eol_env):
+    """Recette : EXG-FWK-P9-EOL_3 — Date EOL sourcee, propagate, successeur."""
     _ingest(eol_env)
     g = Graph()
     g.parse(str(settings.ABOX_EXTERNE_EOL_PATH), format="turtle")
@@ -125,6 +128,7 @@ def test_eol3_dates_sourcenote_et_successeur(eol_env):
 
 # --- FRG_1 / idempotence : cumul, jamais de doublon ---------------------------
 def test_frg1_cumul_idempotent_double_ingestion(eol_env):
+    """Recette : EXG-FWK-P9-FRG_1 — Pipeline Frugal : cumul idempotent."""
     r1 = _ingest(eol_env)
     r2 = _ingest(eol_env)
     assert r1["eol_records_added"] == 5
@@ -134,6 +138,7 @@ def test_frg1_cumul_idempotent_double_ingestion(eol_env):
 
 # --- GTW_2 : trace M2 au journal unique du sas, UNE seule ingestion ----------
 def test_gtw2_sas_trace_m2_eol_ingest_unique(eol_env):
+    """Recette : EXG-FWK-P9-GTW_2 — Regimes d Ecriture via la passerelle (trace M2)."""
     _ = _ingest(eol_env)
     log = settings.WORKSET_HITL_AUDIT_LOG_PATH.read_text(encoding="utf-8")
     assert "EOL_INGEST regime='M2'" in log
@@ -144,6 +149,7 @@ def test_gtw2_sas_trace_m2_eol_ingest_unique(eol_env):
 
 # --- RES_1 : le fonds (intrant) reste intact ---------------------------------
 def test_res1_fonds_et_seeds_intacts(eol_env):
+    """Recette : EXG-MET-P8-RES_1 — Fonds et seeds intacts."""
     import hashlib
     funds = settings.EOL_FONDS_RECETTE_PATH
     before = hashlib.sha256(funds.read_bytes()).hexdigest()
