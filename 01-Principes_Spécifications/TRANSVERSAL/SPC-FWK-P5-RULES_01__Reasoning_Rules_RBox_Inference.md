@@ -25,6 +25,16 @@ exigences:
     critere: Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe dkg:HighRiskAsset.
     test: Pytest / SPARQL
     recette: auto
+  - id: EXG-FWK-P5-RUL_2
+    code_exigence: EXG-IN-02
+    domaine: IN
+    domaine_nom: Inférence & Graph Analytics
+    core: true
+    phase: P5
+    titre: Matérialisation Cascade
+    critere: La relation dkg:exposesToCascade doit être créée si un hôte pivot mène à un actif CRITICAL.
+    test: Pytest (test_phase5)
+    recette: auto
   - id: EXG-FWK-P5-RUL_3
     code_exigence: EXG-SE-01
     domaine: SE

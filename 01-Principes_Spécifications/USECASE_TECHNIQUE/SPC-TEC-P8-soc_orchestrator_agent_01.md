@@ -23,6 +23,16 @@ exigences:
     critere: Pilotage asynchrone avec timeout de 30s.
     test: PyTest / AsyncIO Suite
     recette: auto
+  - id: EXG-TEC-P8-soc_2
+    code_exigence: EXG-P8-06
+    domaine: TEC
+    domaine_nom: Technique & Core Framework
+    core: true
+    phase: P8
+    titre: Pipeline NER Local
+    critere: Exécution 100% Air-Gapped du pipeline NER (aucune lib réseau importée).
+    test: PyTest (test_dette_gouvernance.py::test_exg_soc_2_pipeline_ner_local)
+    recette: auto
   - id: EXG-TEC-P8-soc_3
     code_exigence: EXG-P8-07
     domaine: TEC

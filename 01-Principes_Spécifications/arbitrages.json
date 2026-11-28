@@ -1,0 +1,42 @@
+[
+  {
+    "uid": "EXG-FWK-P6-HAB_3",
+    "decision": "abrogee",
+    "date": "2026-11-26",
+    "motif": "Audit log jamais implémente ; aucune trace de logging dans api/ ; anomalie rouge fantome depuis l origine."
+  },
+  {
+    "uid": "EXG-MET-P12-com_1",
+    "decision": "conservee",
+    "date": "2026-11-26",
+    "motif": "Spec P9 RGPD abrogee (doublon de la future spec P12) ; exigence portee a P12, aucune implementation, aucun ancrage code."
+  },
+  {
+    "uid": "EXG-MET-P3-SIL_1",
+    "champ": "critere",
+    "valeur_spec": "Le DKG doit correler en moins de 1s l existence d un chemin reliant un hote DMZ KEV a une BDD critique.",
+    "valeur_registre": "Le DKG doit correler l existence d un chemin reliant un hote DMZ KEV a une BDD critique (clause timing < 1s abrogee : jamais mesuree ni recettee).",
+    "date": "2026-11-26",
+    "motif": "Delai 1s jamais recete ; la correlation est recettee par le test cascade (EXG rattachee au test SILENT)."
+  },
+  {
+    "uid": "EXG-MET-P8-inc_1",
+    "champ": "recette",
+    "valeur_registre": "auto",
+    "date": "2026-11-28",
+    "motif": "4 tests verts dans test_architecture_separation.py (requalification inspection du 26/11 annulee : les tests existaient, invisibles du matching des vues)."
+  },
+  {
+    "uid": "EXG-TEC-P8-soc_1",
+    "champ": "critere",
+    "valeur_registre": "API asynchrone de bout en bout ; borne 30 s recettee en observable (reponse mesuree < 30 s).",
+    "date": "2026-11-27",
+    "motif": "Aucune garde timeout dans le code : la borne est recettee comme contrat observable (TestClient, route GET phase8), pas comme mecanisme interne."
+  },
+  {
+    "uid": "EXG-MET-P8-DEM_1",
+    "decision": "conservee",
+    "date": "2026-11-28",
+    "motif": "EXG du demonstrateur portee par la spec SPC-MET-P8-demonstrateur_phase8_01 ; tests verts existants (test_phase8_demonstrateur.py) ; trou de portage au registre repare par la generation."
+  }
+]

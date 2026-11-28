@@ -2,7 +2,7 @@
 type: spec
 reference: SPC-TEC-P07-micro_agents_residential_01
 revision: 3
-titre: Micro-agents residentiels : API agnostique & isolation
+titre: "Micro-agents residentiels : API agnostique & isolation"
 titre_court: micro_agents_residential
 description: Spécification technique de l'orchestrateur, des micro-agents, du découplage d'API et de la robustesse de lecture des propriétés.
 phase_code: P7

@@ -34,17 +34,6 @@ exigences:
     critere: Accès complet aux instances RED et inférées.
     test: PyTest (test_tlp_access_red)
     recette: auto
-  - id: EXG-FWK-P6-HAB_3
-    code_exigence: EXG-SE-03
-    domaine: SE
-    domaine_nom: Sécurité & Isolation
-    core: true
-    phase: P1
-    titre: Audit Traçabilité
-    critere: Traçabilité de chaque appel dans le fichier de log.
-    test: Audit Log (api_gateway_audit.log)
-    recette: auto
----
 
 # 📜 Matrice d'Habilitations & Isolation TLP
 

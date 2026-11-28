@@ -2,9 +2,9 @@
 type: spec
 reference: SPC-FWK-P10-EOL_01
 revision: 1
-titre: Vague EOL P10 : fond structure, imbrication, front
+titre: "Vague EOL P10 : fond structure, imbrication, front"
 titre_court: p10_eol_fond_front_01
-description: Définit le cadre de la vague P10-EOL : record EOL SMBv1 structuré dans le fonds de recette, imbrication composants/actifs dans l'ABox locale, et adaptateur front EOL pur consommateur du contrat findings.
+description: "Définit le cadre de la vague P10-EOL : record EOL SMBv1 structuré dans le fonds de recette, imbrication composants/actifs dans l'ABox locale, et adaptateur front EOL pur consommateur du contrat findings."
 phase_code: P10
 phase_nom: Modélisation Exposition & Métrique — vague EOL
 statut: 📝 DRAFT
