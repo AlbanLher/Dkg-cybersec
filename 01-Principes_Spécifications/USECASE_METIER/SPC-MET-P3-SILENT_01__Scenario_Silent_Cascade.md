@@ -22,7 +22,7 @@ exigences:
     core: true
     phase: P1
     titre: Détection de Cascade
-    critere: Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique.
+    critere: Le DKG doit corréler en  rapidement l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique.
     test: Requête SPARQL / Pytest
     recette: auto
   - id: EXG-MET-P3-SIL_2
@@ -100,7 +100,7 @@ L'exécution des requêtes de corrélation CTI / Topologie ne doit en aucun cas 
 
 | **Identifiant** | UID              | **Domaine** | Core/Non-Core | **Intitulé de l'Exigence** | **Description & Critères d'Acceptation**                                                                | **Mode de Test / Asset** |
 | --------------- | ---------------- | :---------: | :-----------: | -------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------ |
-| **EXG-IN-01**   | EXG-MET-P3-SIL_1 |    `IN`     |     Core      | Détection de Cascade       | Le DKG doit corréler en moins de 1s l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique. | Requête SPARQL / Pytest  |
+| **EXG-IN-01**   | EXG-MET-P3-SIL_1 |    `IN`     |     Core      | Détection de Cascade       | Le DKG doit corréler en  rapidement l'existence d'un chemin reliant un hôte DMZ KEV à une BDD critique. | Requête SPARQL / Pytest  |
 | **EXG-SE-01**   | EXG-MET-P3-SIL_2 |    `SE`     |     Core      | Étanchéité TLP             | L'analyse CTI ne doit jamais révéler publiquement la topologie de l'actif critique (`TLP:RED`).         | Audit Graphe / Pytest    |
 
 

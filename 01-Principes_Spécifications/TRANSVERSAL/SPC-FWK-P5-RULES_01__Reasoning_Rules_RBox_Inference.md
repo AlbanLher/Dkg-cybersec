@@ -20,7 +20,7 @@ exigences:
     domaine: IN
     domaine_nom: Inférence & Graph Analytics
     core: true
-    phase: P1
+    phase: P5
     titre: Inférence HighRiskAsset
     critere: Tout actif possédant une vulnérabilité CISA KEV doit recevoir la classe dkg:HighRiskAsset.
     test: Pytest / SPARQL
@@ -40,7 +40,7 @@ exigences:
     domaine: SE
     domaine_nom: Sécurité & Isolation
     core: true
-    phase: P1
+    phase: P5
     titre: Ségrégation TLP Inférencée
     critere: Les déductions croisées ne doivent jamais être écrites dans la ABox CTI (TLP:CLEAR).
     test: Audit Graphe / Pytest
@@ -50,7 +50,7 @@ exigences:
     domaine: HW
     domaine_nom: Hardware & Infrastructures
     core: true
-    phase: P1
+    phase: P5
     titre: Raisonnement Local Économe
     critere: L'exécution des règles d'inférence doit s'effectuer en $< 5$s sur PC 16 Go RAM.
     test: Benchmark / Pytest
